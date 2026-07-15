@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Complete Customer Profile
+{% endblock %}
+
+{% block content %}
+
+<section class="profile-section">
+
+    <div class="profile-container">
+
+        <h2>Complete Your Profile</h2>
+
+        <p>Please provide your details to continue using DriveShare.</p>
+
+        <form method="POST" enctype="multipart/form-data">
+
+            {% csrf_token %}
+            <div class="form-group">
+
+    <label>Profile Picture</label>
+
+    {{ picture_form.profile_picture }}
+
+</div>
+
+            <div class="form-group">
+                <label>Address</label>
+                {{ form.address }}
+            </div>
+
+            <div class="form-group">
+                <label>Date of Birth</label>
+                {{ form.date_of_birth }}
+            </div>
+
+            <div class="form-group">
+                <label>Aadhaar Number</label>
+                {{ form.aadhaar_number }}
+            </div>
+
+            <div class="form-group">
+                <label>Aadhaar Photo</label>
+                {{ form.aadhaar_photo }}
+            </div>
+
+            <div class="form-group">
+                <label>Driving Licence Number</label>
+                {{ form.driving_license_number }}
+            </div>
+
+            <div class="form-group">
+                <label>Driving Licence Photo</label>
+                {{ form.driving_license_photo }}
+            </div>
+
+            <div class="form-group">
+                <label>Emergency Contact</label>
+                {{ form.emergency_contact }}
+            </div>
+
+            <button type="submit" class="profile-btn">
+                Save Profile
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}

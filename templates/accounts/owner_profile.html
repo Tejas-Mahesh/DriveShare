@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Complete Owner Profile
+{% endblock %}
+
+{% block content %}
+
+<section class="profile-section">
+
+    <div class="profile-container">
+
+        <h2>Complete Owner Profile</h2>
+
+        <p>Please complete your details to start listing your vehicles on DriveShare.</p>
+
+        <form method="POST" enctype="multipart/form-data">
+
+            {% csrf_token %}
+            <div class="form-group">
+
+    <label>Profile Picture</label>
+
+    {{ picture_form.profile_picture }}
+
+</div>
+
+            <div class="form-group">
+                <label>Address</label>
+                {{ form.address }}
+            </div>
+
+            <div class="form-group">
+                <label>Aadhaar Number</label>
+                {{ form.aadhaar_number }}
+            </div>
+
+            <div class="form-group">
+                <label>Aadhaar Photo</label>
+                {{ form.aadhaar_photo }}
+            </div>
+
+            <div class="form-group">
+                <label>Driving Licence Number</label>
+                {{ form.driving_license_number }}
+            </div>
+
+            <div class="form-group">
+                <label>Driving Licence Photo</label>
+                {{ form.driving_license_photo }}
+            </div>
+
+            <div class="form-group">
+                <label>PAN Number</label>
+                {{ form.pan_number }}
+            </div>
+
+            <div class="form-group">
+                <label>Bank Account Number</label>
+                {{ form.bank_account }}
+            </div>
+
+            <div class="form-group">
+                <label>IFSC Code</label>
+                {{ form.ifsc_code }}
+            </div>
+
+            <button type="submit" class="profile-btn">
+
+                Save Profile
+
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}

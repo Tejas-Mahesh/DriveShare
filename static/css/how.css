@@ -1,0 +1,91 @@
+.how-it-works{
+
+    padding:100px 8%;
+
+    background:#f8f9fa;
+
+}
+
+.steps-container{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    margin-top:60px;
+
+    flex-wrap:wrap;
+
+}
+
+.step{
+
+    width:220px;
+
+    text-align:center;
+
+}
+
+.step-icon{
+
+    width:90px;
+
+    height:90px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    background:#ff5a3c;
+
+    color:white;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:35px;
+
+    transition:.4s;
+
+}
+
+.step:hover .step-icon{
+
+    transform:scale(1.1) rotate(10deg);
+
+}
+
+.step h3{
+
+    margin-top:20px;
+
+    margin-bottom:15px;
+
+}
+
+.step p{
+
+    color:#666;
+
+    line-height:1.7;
+
+}
+
+.step-line{
+
+    width:100px;
+
+    height:4px;
+
+    background:#ff5a3c;
+
+    margin:0 10px;
+
+    border-radius:10px;
+
+}

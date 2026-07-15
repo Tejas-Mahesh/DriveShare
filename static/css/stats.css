@@ -1,0 +1,43 @@
+.stats{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:40px;
+
+    padding:80px;
+
+    background:#f7f7f7;
+
+}
+
+.stat-box{
+
+    background:white;
+
+    width:220px;
+
+    text-align:center;
+
+    padding:30px;
+
+    border-radius:15px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+}
+
+.stat-box h2{
+
+    color:#ff5a3c;
+
+    font-size:40px;
+
+}
+
+.stat-box p{
+
+    margin-top:10px;
+
+}

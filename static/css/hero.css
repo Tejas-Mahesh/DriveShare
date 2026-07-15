@@ -1,0 +1,142 @@
+.hero{
+
+    height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    color:white;
+
+    background-size:cover;
+
+    background-position:center;
+
+    transition:1s;
+
+}
+.hero-content{
+
+    max-width:800px;
+
+    animation:fadeUp 1.2s ease;
+
+}
+
+.hero h1{
+
+    font-size:60px;
+
+    margin-bottom:20px;
+
+}
+
+.hero p{
+
+    font-size:22px;
+
+    margin-bottom:40px;
+
+}
+
+.hero-buttons{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:20px;
+
+    margin-bottom:40px;
+
+}
+
+.btn-primary{
+
+    background:#ff5a3c;
+
+    color:white;
+
+    padding:15px 35px;
+
+    border-radius:50px;
+
+}
+
+.btn-secondary{
+
+    border:2px solid white;
+
+    color:white;
+
+    padding:15px 35px;
+
+    border-radius:50px;
+
+}
+
+.search-box{
+
+    display:flex;
+
+    background:white;
+
+    border-radius:50px;
+
+    overflow:hidden;
+
+    width:600px;
+
+    margin:auto;
+
+}
+
+.search-box input{
+
+    flex:1;
+
+    padding:18px;
+
+    border:none;
+
+    outline:none;
+
+}
+
+.search-box button{
+
+    background:#ff5a3c;
+
+    color:white;
+
+    border:none;
+
+    padding:18px 35px;
+
+    cursor:pointer;
+
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(40px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}

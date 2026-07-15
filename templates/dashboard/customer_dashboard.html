@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Customer Dashboard
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard">
+
+    <div class="dashboard-header">
+
+    <div class="profile-header">
+
+        {% if request.user.profile_picture %}
+            <img src="{{ request.user.profile_picture.url }}"
+                 class="profile-image">
+        {% else %}
+            <img src="{% static 'images/default-avatar.png' %}"
+                 class="profile-image">
+        {% endif %}
+
+        <div>
+
+            <h1>Hello, {{ request.user.first_name }} 👋</h1>
+
+            <p>Welcome back to DriveShare.</p>
+
+            <span class="role-badge">
+                Customer
+            </span>
+
+            {% if request.user.customer_profile.verification_status == "Approved" %}
+
+                <span class="verify approved">
+                    🟢 Verified
+                </span>
+
+            {% elif request.user.customer_profile.verification_status == "Pending" %}
+
+                <span class="verify pending">
+                    🟡 Pending
+                </span>
+
+            {% else %}
+
+                <span class="verify rejected">
+                    🔴 Rejected
+                </span>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+<div class="stats-grid">
+
+    <div class="stats-card">
+
+        <i class="fas fa-calendar-check stats-icon"></i>
+
+        <h2>0</h2>
+
+        <p>Total Bookings</p>
+
+    </div>
+
+    <div class="stats-card">
+
+        <i class="fas fa-heart stats-icon"></i>
+
+        <h2>0</h2>
+
+        <p>Favorite Cars</p>
+
+    </div>
+
+    <div class="stats-card">
+
+        <i class="fas fa-bell stats-icon"></i>
+
+        <h2>0</h2>
+
+        <p>Notifications</p>
+
+    </div>
+
+    <div class="stats-card">
+
+        <i class="fas fa-star stats-icon"></i>
+
+        <h2>100%</h2>
+
+        <p>Profile Completion</p>
+
+    </div>
+
+</div>
+
+    <div class="dashboard-card">
+
+    <h2>Profile Status</h2>
+
+    {% if request.user.customer_profile.profile_completed %}
+
+        <p style="color:green; font-weight:600;">
+            ✔ Profile Completed
+        </p>
+
+        <h3>Verification Status</h3>
+
+{% if request.user.customer_profile.verification_status == "Approved" %}
+
+    <span class="status-badge status-approved">
+        🟢 Approved
+    </span>
+
+{% elif request.user.customer_profile.verification_status == "Pending" %}
+
+    <span class="status-badge status-pending">
+        🟡 Pending
+    </span>
+
+{% else %}
+
+    <span class="status-badge status-rejected">
+        🔴 Rejected
+    </span>
+
+{% endif %}
+
+    {% else %}
+
+        <p style="color:red; font-weight:600;">
+            ✖ Profile Incomplete
+        </p>
+
+        <a href="{% url 'customer_profile' %}" class="dashboard-btn">
+            Complete Profile
+        </a>
+
+    {% endif %}
+
+</div>
+
+    <div class="dashboard-grid">
+
+    <div class="dashboard-box">
+
+        <i class="fas fa-car dashboard-icon"></i>
+
+        <h3>Browse Cars</h3>
+
+        <p>Explore available cars for rent.</p>
+
+        <a href="#" class="dashboard-btn">
+            Browse Cars
+        </a>
+
+    </div>
+
+    <div class="dashboard-box">
+
+        <i class="fas fa-calendar-check dashboard-icon"></i>
+
+        <h3>My Bookings</h3>
+
+        <p>View your current and previous bookings.</p>
+
+    </div>
+
+    <div class="dashboard-box">
+
+        <i class="fas fa-bell dashboard-icon"></i>
+
+        <h3>Notifications</h3>
+
+        <p>Stay updated with booking alerts.</p>
+
+    </div>
+
+    <div class="dashboard-box">
+
+        <i class="fas fa-user dashboard-icon"></i>
+
+        <h3>My Profile</h3>
+
+        <p>Manage your personal information.</p>
+
+        <a href="{% url 'customer_profile' %}" class="dashboard-btn">
+            View Profile
+        </a>
+
+    </div>
+
+</div>
+
+    <div class="dashboard-card">
+
+        <h2>Recent Activity</h2>
+
+        <p>No bookings yet.</p>
+
+        <p>Start exploring cars and make your first booking.</p>
+
+    </div>
+
+</section>
+
+{% endblock %}

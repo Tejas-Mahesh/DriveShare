@@ -1,0 +1,511 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+DriveShare
+{% endblock %}
+
+{% block content %}
+
+<section class="hero" data-aos="fade-up">
+
+    <div class="overlay"></div>
+
+    <div class="hero-content">
+
+        <h1>
+            Find Your Perfect Ride
+        </h1>
+
+        <p>
+            Rent trusted vehicles or earn money by listing your own car.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="#" class="btn-primary">
+                Rent a Car
+            </a>
+
+            <a href="#" class="btn-secondary">
+                List Your Car
+            </a>
+
+        </div>
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                placeholder="Search by City">
+
+            <button>
+
+                Search
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section class="stats">
+
+    <div class="stat-box">
+
+        <h2 class="counter" data-target="500">0</h2>
+
+        <p>Cars</p>
+
+    </div>
+
+    <div class="stat-box">
+
+        <h2 class="counter" data-target="1500">0</h2>
+
+        <p>Customers</p>
+
+    </div>
+
+    <div class="stat-box">
+
+        <h2 class="counter" data-target="120">0</h2>
+
+        <p>Cities</p>
+
+    </div>
+
+    <div class="stat-box">
+
+        <h2 class="counter" data-target="49">0</h2>
+
+        <p>Rating (4.9★)</p>
+
+    </div>
+
+</section>
+<!-- Featured Cars -->
+
+<section class="featured" data-aos="fade-up">
+
+    <div class="section-title">
+
+        <h2>Featured Cars</h2>
+
+        <p>Choose from our most popular rental vehicles.</p>
+
+    </div>
+
+    <div class="car-grid">
+
+        <!-- Car 1 -->
+
+        <div class="car-card">
+
+            <div class="car-image">
+
+                <img src="{% static 'images/car1.jpg' %}" alt="BMW X5">
+
+                <span class="price">₹3,500 / Day</span>
+
+            </div>
+
+            <div class="car-details">
+
+                <h3>BMW X5</h3>
+
+                <div class="rating">
+
+                    ★★★★★ <span>(4.9)</span>
+
+                </div>
+
+                <div class="car-info">
+
+                    <span><i class="fas fa-gas-pump"></i> Petrol</span>
+
+                    <span><i class="fas fa-cogs"></i> Automatic</span>
+
+                    <span><i class="fas fa-user-friends"></i> 5 Seats</span>
+
+                </div>
+
+                <a href="#" class="book-btn">Book Now</a>
+
+            </div>
+
+        </div>
+
+        <!-- Car 2 -->
+
+        <div class="car-card">
+
+            <div class="car-image">
+
+                <img src="{% static 'images/car2.jpg' %}" alt="Audi A6">
+
+                <span class="price">₹4,200 / Day</span>
+
+            </div>
+
+            <div class="car-details">
+
+                <h3>Audi A6</h3>
+
+                <div class="rating">
+
+                    ★★★★★ <span>(4.8)</span>
+
+                </div>
+
+                <div class="car-info">
+
+                    <span><i class="fas fa-gas-pump"></i> Diesel</span>
+
+                    <span><i class="fas fa-cogs"></i> Automatic</span>
+
+                    <span><i class="fas fa-user-friends"></i> 5 Seats</span>
+
+                </div>
+
+                <a href="#" class="book-btn">Book Now</a>
+
+            </div>
+
+        </div>
+
+        <!-- Car 3 -->
+
+        <div class="car-card">
+
+            <div class="car-image">
+
+                <img src="{% static 'images/car3.jpg' %}" alt="Mercedes">
+
+                <span class="price">₹5,000 / Day</span>
+
+            </div>
+
+            <div class="car-details">
+
+                <h3>Mercedes C-Class</h3>
+
+                <div class="rating">
+
+                    ★★★★★ <span>(5.0)</span>
+
+                </div>
+
+                <div class="car-info">
+
+                    <span><i class="fas fa-gas-pump"></i> Petrol</span>
+
+                    <span><i class="fas fa-cogs"></i> Automatic</span>
+
+                    <span><i class="fas fa-user-friends"></i> 5 Seats</span>
+
+                </div>
+
+                <a href="#" class="book-btn">Book Now</a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- Why Choose Us -->
+
+<section class="why-choose" data-aos="fade-up">
+
+    <div class="section-title">
+
+        <h2>Why Choose DriveShare?</h2>
+
+        <p>
+            Experience safe, affordable, and reliable car rentals with trusted owners across India.
+        </p>
+
+    </div>
+
+    <div class="why-grid">
+
+        <div class="why-card">
+
+            <i class="fas fa-car-side"></i>
+
+            <h3>Verified Vehicles</h3>
+
+            <p>
+                Every listed vehicle is reviewed and approved by our admin before it becomes available.
+            </p>
+
+        </div>
+
+        <div class="why-card">
+
+            <i class="fas fa-shield-alt"></i>
+
+            <h3>Secure Booking</h3>
+
+            <p>
+                Secure authentication, verified documents, and protected booking process.
+            </p>
+
+        </div>
+
+        <div class="why-card">
+
+            <i class="fas fa-wallet"></i>
+
+            <h3>Affordable Pricing</h3>
+
+            <p>
+                Compare prices from multiple owners and choose the best rental for your budget.
+            </p>
+
+        </div>
+
+        <div class="why-card">
+
+            <i class="fas fa-headset"></i>
+
+            <h3>24×7 Support</h3>
+
+            <p>
+                Dedicated customer support to assist you before, during, and after every booking.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- How It Works -->
+
+<section class="how-it-works" data-aos="fade-up">
+
+    <div class="section-title">
+
+        <h2>How It Works</h2>
+
+        <p>
+            Rent a car in just a few simple steps.
+        </p>
+
+    </div>
+
+    <div class="steps-container">
+
+        <div class="step">
+
+            <div class="step-icon">
+                <i class="fas fa-user-plus"></i>
+            </div>
+
+            <h3>Create Account</h3>
+
+            <p>
+                Sign up securely and verify your profile.
+            </p>
+
+        </div>
+
+        <div class="step-line"></div>
+
+        <div class="step">
+
+            <div class="step-icon">
+                <i class="fas fa-search"></i>
+            </div>
+
+            <h3>Find Your Car</h3>
+
+            <p>
+                Search from hundreds of verified rental cars.
+            </p>
+
+        </div>
+
+        <div class="step-line"></div>
+
+        <div class="step">
+
+            <div class="step-icon">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+
+            <h3>Book Instantly</h3>
+
+            <p>
+                Choose your dates and confirm your booking.
+            </p>
+
+        </div>
+
+        <div class="step-line"></div>
+
+        <div class="step">
+
+            <div class="step-icon">
+                <i class="fas fa-car"></i>
+            </div>
+
+            <h3>Drive & Enjoy</h3>
+
+            <p>
+                Pick up the car and enjoy your journey safely.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- Testimonials -->
+
+<section class="testimonials" data-aos="fade-up">
+
+    <div class="section-title">
+
+        <h2>What Our Customers Say</h2>
+
+        <p>
+            Thousands of happy customers trust DriveShare for their journeys.
+        </p>
+
+    </div>
+
+    <div class="testimonial-grid">
+
+        <!-- Testimonial 1 -->
+
+        <div class="testimonial-card">
+
+            <img src="{% static 'images/user1.jpg' %}" alt="Rahul">
+
+            <h3>Rahul Sharma</h3>
+
+            <span>Bengaluru</span>
+
+            <div class="stars">
+
+                ★★★★★
+
+            </div>
+
+            <p>
+
+                "Booking was quick and simple. The car was clean, well-maintained, and exactly as described."
+
+            </p>
+
+        </div>
+
+        <!-- Testimonial 2 -->
+
+        <div class="testimonial-card">
+
+            <img src="{% static 'images/user2.jpg' %}" alt="Priya">
+
+            <h3>Priya Patel</h3>
+
+            <span>Mumbai</span>
+
+            <div class="stars">
+
+                ★★★★★
+
+            </div>
+
+            <p>
+
+                "The owner was professional and the pickup process was smooth. Highly recommended."
+
+            </p>
+
+        </div>
+
+        <!-- Testimonial 3 -->
+
+        <div class="testimonial-card">
+
+            <img src="{% static 'images/user3.jpg' %}" alt="Arjun">
+
+            <h3>Arjun Reddy</h3>
+
+            <span>Hyderabad</span>
+
+            <div class="stars">
+
+                ★★★★★
+
+            </div>
+
+            <p>
+
+                "Affordable prices, verified vehicles, and excellent customer support throughout my trip."
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- Newsletter Section -->
+
+<section class="newsletter" data-aos="fade-up">
+
+    <div class="newsletter-content">
+
+        <div class="newsletter-left">
+
+            <h2>Stay Updated With DriveShare</h2>
+
+            <p>
+                Subscribe to receive the latest offers, new rental vehicles,
+                travel tips, and exclusive discounts directly to your inbox.
+            </p>
+
+            <form class="newsletter-form">
+
+                <input type="email"
+                       placeholder="Enter your email address">
+
+                <button type="submit">
+                    Subscribe
+                </button>
+
+            </form>
+
+            <div class="app-buttons">
+
+                <a href="#" class="play-store">
+                    <i class="fab fa-google-play"></i>
+                    Google Play
+                </a>
+
+                <a href="#" class="app-store">
+                    <i class="fab fa-apple"></i>
+                    App Store
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="newsletter-right">
+
+            <img src="{% static 'images/mobile-app.png' %}"
+                 alt="DriveShare Mobile App">
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

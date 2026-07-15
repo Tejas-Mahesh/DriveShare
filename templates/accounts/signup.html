@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Sign Up
+{% endblock %}
+
+{% block content %}
+
+<section class="signup-section">
+
+    <div class="signup-container">
+
+        <div class="signup-left">
+
+            <h1>Welcome to DriveShare</h1>
+
+            <p>
+
+                Join India's trusted car rental platform.
+
+            </p>
+
+            <img src="{% static 'images/signup-car1.png' %}" alt="Signup">
+
+        </div>
+
+        <div class="signup-right">
+
+            <h2>Create Your Account</h2>
+
+            <p>Start renting or listing your vehicle.</p>
+
+      <form method="POST" enctype="multipart/form-data">
+
+    {% csrf_token %}
+
+    <div class="form-group">
+        <label>User Type</label>
+        {{ form.user_type }}
+    </div>
+
+    <div class="form-group">
+        <label>Username</label>
+        {{ form.username }}
+        {{ form.username.errors }}
+    </div>
+
+    <div class="form-group">
+        <label>Full Name</label>
+        {{ form.first_name }}
+        {{ form.first_name.errors }}
+    </div>
+
+    <div class="form-group">
+        <label>Email Address</label>
+        {{ form.email }}
+        {{ form.email.errors }}
+    </div>
+
+    <div class="form-group">
+        <label>Phone Number</label>
+        {{ form.phone_number }}
+        {{ form.phone_number.errors }}
+    </div>
+
+    <div class="form-group">
+        <label>Password</label>
+        {{ form.password1 }}
+        {{ form.password1.errors }}
+    </div>
+
+    <div class="form-group">
+        <label>Confirm Password</label>
+        {{ form.password2 }}
+        {{ form.password2.errors }}
+    </div>
+
+    <button type="submit" class="signup-btn">
+        Create Account
+    </button>
+
+</form>
+
+            <div class="login-link">
+
+                Already have an account?
+
+                <a href="{% url 'login' %}">
+
+                    Login
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

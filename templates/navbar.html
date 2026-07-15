@@ -1,0 +1,217 @@
+<nav class="navbar">
+
+    <div class="logo">
+        <a href="/">DriveShare</a>
+    </div>
+
+    <div class="menu-toggle" id="menu-toggle">
+
+    <span></span>
+    <span></span>
+    <span></span>
+
+</div>
+
+    <ul class="nav-links">
+
+    <li>
+    <a href="/"
+       class="{% if request.path == '/' %}active{% endif %}">
+        Home
+    </a>
+</li>
+
+    {% if user.is_authenticated %}
+
+        {% if user.user_type == "customer" %}
+
+            <li>
+    <a href="#"
+       class="{% if '/cars/' in request.path %}active{% endif %}">
+        Rent Cars
+    </a>
+</li>
+
+<li>
+    <a href="#"
+       class="{% if '/bookings/' in request.path %}active{% endif %}">
+        My Bookings
+    </a>
+</li>
+
+<li>
+    <a href="{% url 'customer_dashboard' %}"
+       class="{% if request.path == '/dashboard/customer/' %}active{% endif %}">
+        Dashboard
+    </a>
+</li>
+
+        {% elif user.user_type == "owner" %}
+
+            <li>
+    <a href="#"
+       class="{% if '/cars/add/' in request.path %}active{% endif %}">
+        List Your Car
+    </a>
+</li>
+
+<li>
+    <a href="#"
+       class="{% if '/cars/my/' in request.path %}active{% endif %}">
+        My Cars
+    </a>
+</li>
+
+<li>
+    <a href="{% url 'owner_dashboard' %}"
+       class="{% if request.path == '/dashboard/owner/' %}active{% endif %}">
+        Dashboard
+    </a>
+</li>
+
+        {% endif %}
+
+    {% else %}
+
+        <li><a href="#">Rent Car</a></li>
+
+        <li><a href="#">List Your Car</a></li>
+
+        <li><a href="#">About</a></li>
+
+        <li><a href="#">Contact</a></li>
+
+    {% endif %}
+
+</ul>
+
+   <div class="auth-buttons">
+
+    {% if user.is_authenticated %}
+    <div class="theme-toggle" id="themeToggle">
+
+    <i class="fas fa-moon"></i>
+
+</div>
+    <div class="notification-icon">
+
+    <a href="#" title="Notifications">
+
+        <i class="fas fa-bell"></i>
+
+        <span class="notification-count">0</span>
+
+    </a>
+
+</div>
+
+<div class="user-profile"id="userProfile">
+
+    {% if user.profile_picture %}
+
+        <img src="{{ user.profile_picture.url }}" class="nav-profile-img">
+
+    {% else %}
+
+        {% load static %}
+        <img src="{% static 'images/default-avatar.png' %}" class="nav-profile-img">
+
+    {% endif %}
+    {% if user.user_type == "customer" %}
+
+    {% if user.customer_profile.verification_status == "Approved" %}
+        <span class="status-dot approved"></span>
+
+    {% elif user.customer_profile.verification_status == "Pending" %}
+        <span class="status-dot pending"></span>
+
+    {% else %}
+        <span class="status-dot rejected"></span>
+
+    {% endif %}
+
+{% elif user.user_type == "owner" %}
+
+    {% if user.owner_profile.verification_status == "Approved" %}
+        <span class="status-dot approved"></span>
+
+    {% elif user.owner_profile.verification_status == "Pending" %}
+        <span class="status-dot pending"></span>
+
+    {% else %}
+        <span class="status-dot rejected"></span>
+
+    {% endif %}
+
+{% endif %}
+    <span style="margin-right:15px; font-weight:600; color:#a9a5a5;">
+        {{ user.first_name }}
+    </span>
+
+    <div class="profile-dropdown" id="profileDropdown">
+
+        {% if user.user_type == "customer" %}
+
+            <a href="{% url 'customer_dashboard' %}">
+                Dashboard
+            </a>
+
+            <a href="{% url 'customer_profile' %}">
+                My Profile
+            </a>
+
+        {% else %}
+
+            <a href="{% url 'owner_dashboard' %}">
+                Dashboard
+            </a>
+
+            <a href="{% url 'owner_profile' %}">
+                My Profile
+            </a>
+
+        {% endif %}
+
+        <a href="{% url 'logout' %}">
+            Logout
+        </a>
+
+    </div>
+
+</div>
+
+{% else %}
+
+        <a href="{% url 'login' %}" class="login-btn">
+            Login
+        </a>
+
+        <a href="{% url 'signup' %}" class="signup-btn">
+            Sign Up
+        </a>
+
+    {% endif %}
+
+</div>
+
+</nav>
+{% if messages %}
+
+<div class="messages-container">
+
+    {% for message in messages %}
+
+        <div class="alert {{ message.tags }}">
+
+            {{ message }}
+
+        </div>
+
+    {% endfor %}
+
+</div>
+
+{% endif %}
+
+{% block content %}
+{% endblock %}
