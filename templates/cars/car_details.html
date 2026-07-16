@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+{{ car.title }}
+{% endblock %}
+
+{% block content %}
+
+<section class="car-details-section">
+
+<div class="details-container">
+
+<div class="image-section">
+
+{% if car.images.first %}
+
+<img class="main-image"
+src="{{ car.images.first.image.url }}">
+
+{% endif %}
+
+<div class="thumbnail-gallery">
+
+{% for image in car.images.all %}
+
+<img
+    src="{{ image.image.url }}"
+    width="120"
+    height="90"
+>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+<div class="details-section">
+
+<h1>{{ car.title }}</h1>
+
+<h2>
+₹{{ car.price_per_day }}
+<span>/ day</span>
+</h2>
+
+<div class="spec-grid">
+
+<div>🚗 {{ car.brand }}</div>
+
+<div>📅 {{ car.year }}</div>
+
+<div>⛽ {{ car.fuel_type }}</div>
+
+<div>⚙ {{ car.transmission }}</div>
+
+<div>💺 {{ car.seats }} Seats</div>
+
+<div>📍 {{ car.city }}</div>
+
+</div>
+
+<h3>Description</h3>
+
+<p>
+
+{{ car.description }}
+
+</p>
+
+<hr>
+
+<h3>Owner</h3>
+
+<p>
+
+{{ car.owner.get_full_name }}
+
+</p>
+
+<p>
+
+{{ car.owner.phone_number }}
+
+</p>
+
+<a href="#" class="book-btn">
+
+Book Now
+
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+{% endblock %}

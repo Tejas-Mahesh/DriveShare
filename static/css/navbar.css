@@ -385,8 +385,8 @@
 
 .nav-links a.active{
 
-    color:#ff5a3c;
 
+    
     font-weight:700;
 
     position:relative;
@@ -407,17 +407,13 @@
 
     height:3px;
 
-    background:#ff5a3c;
+    background:#ffffff;
 
     border-radius:5px;
 
 }
 
-.nav-links a:hover{
 
-    color:#ff5a3c;
-
-}
 .menu-toggle.active span:nth-child(1){
 
     transform:rotate(45deg) translate(7px,7px);

@@ -1,0 +1,287 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Browse Cars | DriveShare
+{% endblock %}
+
+{% block content %}
+
+<section class="browse-section">
+
+    <div class="browse-header">
+
+        <h1>Browse Cars</h1>
+
+        <p>Find the perfect car for your next journey.</p>
+
+    </div>
+
+    <!-- Search -->
+
+    <div class="search-box">
+
+        <form method="GET">
+
+            <input
+                type="text"
+                name="search"
+                placeholder="Search by brand, model or city..."
+                value="{{ search|default:'' }}"
+            >
+
+            <button type="submit">
+
+                <i class="fas fa-search"></i>
+                Search
+
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- Filters -->
+
+    <div class="filter-box">
+
+        <form method="GET">
+
+            <input
+                type="hidden"
+                name="search"
+                value="{{ search }}"
+            >
+
+            <select name="fuel">
+
+                <option value="">Fuel Type</option>
+
+                <option value="Petrol" {% if fuel == "Petrol" %}selected{% endif %}>Petrol</option>
+
+                <option value="Diesel" {% if fuel == "Diesel" %}selected{% endif %}>Diesel</option>
+
+                <option value="Electric" {% if fuel == "Electric" %}selected{% endif %}>Electric</option>
+
+                <option value="Hybrid" {% if fuel == "Hybrid" %}selected{% endif %}>Hybrid</option>
+
+            </select>
+
+            <select name="transmission">
+
+                <option value="">Transmission</option>
+
+                <option value="Manual" {% if transmission == "Manual" %}selected{% endif %}>Manual</option>
+
+                <option value="Automatic" {% if transmission == "Automatic" %}selected{% endif %}>Automatic</option>
+
+            </select>
+
+            <select name="seats">
+
+                <option value="">Seats</option>
+
+                <option value="2" {% if seats == "2" %}selected{% endif %}>2</option>
+
+                <option value="4" {% if seats == "4" %}selected{% endif %}>4</option>
+
+                <option value="5" {% if seats == "5" %}selected{% endif %}>5</option>
+
+                <option value="6" {% if seats == "6" %}selected{% endif %}>6</option>
+
+                <option value="7" {% if seats == "7" %}selected{% endif %}>7</option>
+
+            </select>
+
+            <input
+                type="text"
+                name="city"
+                placeholder="City"
+                value="{{ city }}"
+            >
+
+            <input
+                type="number"
+                name="min_price"
+                placeholder="Min Price"
+                value="{{ min_price }}"
+            >
+
+            <input
+                type="number"
+                name="max_price"
+                placeholder="Max Price"
+                value="{{ max_price }}"
+            >
+
+            <select name="sort">
+
+                <option value="">Newest</option>
+
+                <option value="low" {% if sort == "low" %}selected{% endif %}>
+                    Price: Low → High
+                </option>
+
+                <option value="high" {% if sort == "high" %}selected{% endif %}>
+                    Price: High → Low
+                </option>
+
+                <option value="old" {% if sort == "old" %}selected{% endif %}>
+                    Oldest
+                </option>
+
+            </select>
+
+            <button type="submit">
+
+                Apply Filters
+
+            </button>
+
+            <a href="{% url 'browse_cars' %}" class="clear-filter">
+
+                Clear Filters
+
+            </a>
+
+        </form>
+
+    </div>
+
+    <!-- Results Count -->
+
+    {% if page_obj %}
+
+    <div class="results-count">
+
+        <h3>
+
+            {{ page_obj.paginator.count }} Car{{ page_obj.paginator.count|pluralize }} Found
+
+        </h3>
+
+    </div>
+
+    {% endif %}
+
+    <!-- Car Grid -->
+
+    {% if cars %}
+
+    <div class="car-grid">
+
+        {% for car in cars %}
+
+        <div class="car-card">
+
+            {% if car.images.first %}
+
+            <img src="{{ car.images.first.image.url }}" alt="{{ car.title }}">
+
+            {% else %}
+
+            <img src="{% static 'images/default-car.jpg' %}" alt="No Image">
+
+            {% endif %}
+
+            <div class="car-info">
+
+                <h3>{{ car.title }}</h3>
+
+                <p>{{ car.brand }} {{ car.model }} ({{ car.year }})</p>
+
+                <div class="car-tags">
+
+                    <span>{{ car.fuel_type }}</span>
+
+                    <span>{{ car.transmission }}</span>
+
+                    <span>{{ car.seats }} Seats</span>
+
+                </div>
+
+                <h2>₹{{ car.price_per_day }}/day</h2>
+
+                <p class="city">
+
+                    📍 {{ car.city }}
+
+                </p>
+
+                <a href="{% url 'car_details' car.id %}" class="view-btn">
+
+                    View Details
+
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    <!-- Pagination -->
+
+    {% if page_obj.has_other_pages %}
+
+    <div class="pagination">
+
+        {% if page_obj.has_previous %}
+
+        <a href="?page={{ page_obj.previous_page_number }}">
+
+            ← Previous
+
+        </a>
+
+        {% endif %}
+
+        <span>
+
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+
+        </span>
+
+        {% if page_obj.has_next %}
+
+        <a href="?page={{ page_obj.next_page_number }}">
+
+            Next →
+
+        </a>
+
+        {% endif %}
+
+    </div>
+
+    {% endif %}
+
+    {% else %}
+
+    <div class="empty-state">
+
+        <i class="fas fa-car-side"></i>
+
+        <h2>No Cars Found</h2>
+
+        <p>
+
+            We couldn't find any cars matching your search.
+
+        </p>
+
+        <a href="{% url 'browse_cars' %}" class="view-btn">
+
+            Browse All Cars
+
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

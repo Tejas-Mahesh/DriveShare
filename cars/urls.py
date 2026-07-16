@@ -49,4 +49,9 @@ path(
     views.browse_cars,
     name="browse_cars"
 ),
+path(
+    "details/<int:car_id>/",
+    views.car_details,
+    name="car_details"
+),
 ]

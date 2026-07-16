@@ -47,6 +47,8 @@
 <link rel="stylesheet" href="{% static 'css/signup.css' %}">
 <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
 <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+<link rel="stylesheet" href="{% static 'css/browse_cars.css' %}">
+<link rel="stylesheet" href="{% static 'css/car_details.css' %}">
 </head>
 
 <body>
@@ -237,6 +239,25 @@ if(themeToggle){
         }
 
     });
+
+}
+
+</script>
+<script>
+
+function changeImage(image){
+
+    const mainImage = document.getElementById("mainImage");
+
+    mainImage.style.opacity = "0";
+
+    setTimeout(function(){
+
+        mainImage.src = image.src;
+
+        mainImage.style.opacity = "1";
+
+    },150);
 
 }
 
