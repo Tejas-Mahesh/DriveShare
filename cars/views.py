@@ -267,3 +267,17 @@ def reject_car(request, car_id):
             "car": car
         }
     )
+def browse_cars(request):
+
+    cars = Car.objects.filter(
+        approval_status="Approved",
+        is_available=True
+    ).order_by("-created_at")
+
+    return render(
+        request,
+        "cars/browse_cars.html",
+        {
+            "cars": cars
+        }
+    )

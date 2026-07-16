@@ -44,5 +44,9 @@ path(
     views.reject_car,
     name="reject_car"
 ),
-
+path(
+    "browse/",
+    views.browse_cars,
+    name="browse_cars"
+),
 ]
