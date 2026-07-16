@@ -68,7 +68,16 @@
         Dashboard
     </a>
 </li>
-
+{% elif user.user_type == "admin" %}
+<li>
+    <a href="#" class="{% if '/dashboard/admin/' in request.path %}active{% endif %}"></a>
+    Dashboard
+</li>
+<li>
+    <a href="#" class="{% if '/cars/admin/pending/' in request.path %}active{% endif %}"></a>
+    Pending Cars
+    
+</li>
         {% endif %}
 
     {% else %}
@@ -94,15 +103,11 @@
 
 </div>
     <div class="notification-icon">
+        <a href="{% url 'notifications' %}">
+    <i class="fas fa-bell"></i>
+</a>
 
-    <a href="#" title="Notifications">
-
-        <i class="fas fa-bell"></i>
-
-        <span class="notification-count">0</span>
-
-    </a>
-
+    
 </div>
 
 <div class="user-profile"id="userProfile">
@@ -143,6 +148,7 @@
 
     {% endif %}
 
+
 {% endif %}
     <span style="margin-right:15px; font-weight:600; color:#a9a5a5;">
         {{ user.first_name }}
@@ -159,6 +165,19 @@
             <a href="{% url 'customer_profile' %}">
                 My Profile
             </a>
+        {% elif user.user_type == "admin" %}
+
+<li>
+    <a href="{% url 'admin_dashboard' %}">
+        Dashboard
+    </a>
+</li>
+
+<li>
+    <a href="{% url 'admin_car_list' %}">
+        Pending Cars
+    </a>
+</li>
 
         {% else %}
 

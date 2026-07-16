@@ -48,3 +48,44 @@ def owner_dashboard(request):
         request,
         "dashboard/owner_dashboard.html"
     )
+from django.contrib.auth.decorators import login_required
+from accounts.decorators import admin_required
+from cars.models import Car
+from accounts.models import CustomUser
+
+
+@login_required
+@admin_required
+def admin_dashboard(request):
+
+    context = {
+
+        "total_cars": Car.objects.count(),
+
+        "pending_cars": Car.objects.filter(
+            approval_status="Pending"
+        ).count(),
+
+        "approved_cars": Car.objects.filter(
+            approval_status="Approved"
+        ).count(),
+
+        "rejected_cars": Car.objects.filter(
+            approval_status="Rejected"
+        ).count(),
+
+        "total_owners": CustomUser.objects.filter(
+            user_type="owner"
+        ).count(),
+
+        "total_customers": CustomUser.objects.filter(
+            user_type="customer"
+        ).count(),
+
+    }
+
+    return render(
+        request,
+        "dashboard/admin_dashboard.html",
+        context
+    )

@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}
+Add Car
+{% endblock %}
+
+{% block content %}
+
+<section class="add-car-section">
+
+    <div class="add-car-card">
+
+        <div class="page-header">
+
+    <h1>🚗 List Your Car</h1>
+
+    <p>
+        Complete the information below to submit your vehicle for admin approval.
+    </p>
+
+</div>
+        <form method="POST" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <div class="form-grid">
+
+    <div class="form-group">
+        <label>Car Title</label>
+        {{ form.title }}
+    </div>
+
+    <div class="form-group">
+        <label>Brand</label>
+        {{ form.brand }}
+    </div>
+
+    <div class="form-group">
+        <label>Model</label>
+        {{ form.model }}
+    </div>
+
+    <div class="form-group">
+        <label>Year</label>
+        {{ form.year }}
+    </div>
+
+    <div class="form-group">
+        <label>Color</label>
+        {{ form.color }}
+    </div>
+
+    <div class="form-group">
+        <label>Seats</label>
+        {{ form.seats }}
+    </div>
+
+    <div class="form-group">
+        <label>Fuel Type</label>
+        {{ form.fuel_type }}
+    </div>
+
+    <div class="form-group">
+        <label>Transmission</label>
+        {{ form.transmission }}
+    </div>
+
+    <div class="form-group">
+        <label>Price Per Day (₹)</label>
+        {{ form.price_per_day }}
+    </div>
+
+    <div class="form-group">
+        <label>City</label>
+        {{ form.city }}
+    </div>
+
+</div>
+
+<div class="form-group">
+
+    <label>Description</label>
+
+    {{ form.description }}
+
+</div>
+<div class="form-group">
+
+    <label>Car Images</label>
+    <input
+        type="file"
+        name="images"
+        class="form-control"
+        accept="image/*"
+        multiple
+    >
+
+
+<p class="upload-note">
+
+    Select multiple images by holding <strong>Ctrl</strong> (Windows) or <strong>Cmd</strong> (Mac).
+
+</p>
+    <p class="upload-note">
+
+    Upload a clear front-view image of your car.
+
+</p>
+
+</div>
+<button type="submit" class="submit-car-btn">
+
+    <i class="fas fa-car"></i>
+
+    Submit Car For Approval
+
+</button>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}

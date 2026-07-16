@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}
+Admin Dashboard
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard">
+
+<div class="dashboard-header">
+
+<h1>🛠 Admin Dashboard</h1>
+
+<p>DriveShare Platform Overview</p>
+
+</div>
+
+<div class="dashboard-grid">
+
+<div class="dashboard-box">
+<h3>🚗 Total Cars</h3>
+<h2>{{ total_cars }}</h2>
+</div>
+
+<div class="dashboard-box">
+<h3>⏳ Pending Cars</h3>
+<h2>{{ pending_cars }}</h2>
+</div>
+
+<div class="dashboard-box">
+<h3>✅ Approved Cars</h3>
+<h2>{{ approved_cars }}</h2>
+</div>
+
+<div class="dashboard-box">
+<h3>❌ Rejected Cars</h3>
+<h2>{{ rejected_cars }}</h2>
+</div>
+
+<div class="dashboard-box">
+<h3>👤 Owners</h3>
+<h2>{{ total_owners }}</h2>
+</div>
+
+<div class="dashboard-box">
+<h3>👥 Customers</h3>
+<h2>{{ total_customers }}</h2>
+</div>
+
+</div>
+
+</section>
+
+{% endblock %}

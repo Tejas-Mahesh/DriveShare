@@ -147,22 +147,26 @@ Owner Dashboard
 
     <div class="dashboard-box">
 
-        <i class="fas fa-plus-circle dashboard-icon"></i>
+        <a href="{% url 'add_car' %}" class="dashboard-box">
 
-        <h3>Add Car</h3>
+    <i class="fas fa-plus-circle"></i>
 
-        <p>Add your vehicle for rental.</p>
+    <h3>Add Car</h3>
+
+    <p>List a new vehicle for rent.</p>
+
+</a>
 
     </div>
 
     <div class="dashboard-box">
-
+        <a href="{% url 'my_cars' %}" class="dashboard-box">
         <i class="fas fa-car-side dashboard-icon"></i>
 
         <h3>My Cars</h3>
 
-        <p>Manage your listed vehicles.</p>
-
+        <p>View all your listed vehicles.</p>
+    </a>
     </div>
 
     <div class="dashboard-box">

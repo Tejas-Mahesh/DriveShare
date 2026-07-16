@@ -29,6 +29,9 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('accounts/', include('accounts.urls')),
     path("dashboard/", include("dashboard.urls")),
+    path("cars/", include("cars.urls")),
+    path("notifications/",include("notifications.urls")),
+    
 
 ]
 handler403 = "core.views.error_403"

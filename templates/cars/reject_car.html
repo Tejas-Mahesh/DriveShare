@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}
+Reject Car
+{% endblock %}
+
+{% block content %}
+
+<section class="add-car-section">
+
+    <div class="add-car-card">
+
+        <div class="page-header">
+
+            <h1>Reject Car</h1>
+
+            <p>
+                {{ car.brand }} {{ car.model }}
+            </p>
+
+        </div>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <label>Reason for rejection</label>
+
+            <textarea
+                name="reason"
+                class="form-control"
+                rows="6"
+                placeholder="Explain why this car is being rejected..."
+                required
+            ></textarea>
+
+            <br>
+
+            <button
+                class="delete-btn"
+                type="submit"
+            >
+
+                Reject Car
+
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}
+Pending Cars
+{% endblock %}
+
+{% block content %}
+
+<section class="add-car-section">
+
+    <div class="add-car-card">
+
+        <div class="page-header">
+
+            <h1>🚗 Pending Car Approvals</h1>
+
+            <p>
+                Review all cars submitted by owners.
+            </p>
+
+        </div>
+
+        {% if pending_cars %}
+
+        <table class="table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Owner</th>
+
+                    <th>Car</th>
+
+                    <th>City</th>
+
+                    <th>Price / Day</th>
+
+                    <th>Status</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for car in pending_cars %}
+
+                <tr>
+
+                    <td>{{ car.owner.get_full_name }}</td>
+
+                    <td>{{ car.brand }} {{ car.model }}</td>
+
+                    <td>{{ car.city }}</td>
+
+                    <td>₹{{ car.price_per_day }}</td>
+
+                    <td>{{ car.approval_status }}</td>
+
+                    <td>
+
+                        <a href="{% url 'admin_review_car' car.id %}" class="edit-btn">Review</a>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% else %}
+
+        <div class="empty-state">
+
+            <i class="fas fa-check-circle"></i>
+
+            <h3>No Pending Cars</h3>
+
+            <p>
+                All submitted cars have been reviewed.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}

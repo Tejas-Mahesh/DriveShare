@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Cars
+{% endblock %}
+
+{% block content %}
+
+<section class="add-car-section">
+
+    <div class="add-car-card">
+
+        <div class="page-header">
+
+            <h1>🚗 My Cars</h1>
+
+            <p>
+                Manage all the vehicles you've listed on DriveShare.
+            </p>
+
+        </div>
+
+        {% if cars %}
+
+            <table class="table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Title</th>
+                        <th>Brand</th>
+                        <th>City</th>
+                        <th>Price / Day</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for car in cars %}
+
+                    <tr>
+
+                        <td>{{ car.title }}</td>
+
+                        <td>{{ car.brand }} {{ car.model }}</td>
+
+                        <td>{{ car.city }}</td>
+
+                        <td>₹{{ car.price_per_day }}</td>
+
+                        <td>{{ car.approval_status }}</td>
+                        <td>
+
+    {% if car.approval_status == "Pending" %}
+
+        <a href="{% url 'edit_car' car.id %}" class="edit-btn">
+            Edit
+        </a>
+
+        <a href="{% url 'delete_car' car.id %}" class="delete-btn-small">
+            Delete
+        </a>
+
+    {% else %}
+
+        <span class="approved-text">
+            Locked
+        </span>
+
+    {% endif %}
+    {% if car.approval_status == "Rejected" %}
+
+<div style="color:red; margin-top:8px;">
+
+<strong>Reason:</strong>
+
+{{ car.rejection_reason }}
+
+</div>
+
+{% endif %}
+
+</td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        {% else %}
+
+            <div class="empty-state">
+
+                <i class="fas fa-car-crash"></i>
+
+                <h3>No Cars Listed Yet</h3>
+
+                <p>
+                    Start by adding your first vehicle.
+                </p>
+
+                <a href="{% url 'add_car' %}" class="submit-car-btn">
+
+                    Add Your First Car
+
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}
