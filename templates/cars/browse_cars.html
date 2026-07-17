@@ -206,6 +206,21 @@ Browse Cars | DriveShare
             <div class="car-info">
 
                 <h3>{{ car.title }}</h3>
+                <div class="card-rating">
+
+{% if car.average_rating %}
+
+⭐ {{ car.average_rating|floatformat:1 }}
+
+({{ car.total_reviews }} Review{{ car.total_reviews|pluralize }})
+
+{% else %}
+
+⭐ New Car
+
+{% endif %}
+
+</div>
 
                 <p>{{ car.brand }} {{ car.model }} ({{ car.year }})</p>
 
@@ -226,6 +241,17 @@ Browse Cars | DriveShare
                     📍 {{ car.city }}
 
                 </p>
+                <p class="owner-rating">
+
+Owner:
+
+<strong>
+
+{{ car.owner.get_full_name|default:car.owner.username }}
+
+</strong>
+
+</p>
 
                 <a href="{% url 'car_details' car.id %}" class="view-btn">
 

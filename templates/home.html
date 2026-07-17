@@ -181,6 +181,149 @@ DriveShare
     </div>
 
 </section>
+<section class="top-rated-section">
+
+    <div class="section-title">
+
+        <h2>⭐ Top Rated Cars</h2>
+
+        <p>Most loved cars by our customers.</p>
+
+    </div>
+
+    <div class="car-grid">
+
+        {% for car in top_rated_cars %}
+
+        <div class="car-card">
+            {% if car.average_rating and car.average_rating >= 4.5 %}
+
+<div class="top-badge">
+
+    🏆 Top Rated
+
+</div>
+
+{% endif %}
+
+            {% if car.images.first %}
+                <img src="{{ car.images.first.image.url }}">
+            {% else %}
+                <img src="{% static 'images/default-car.jpg' %}">
+            {% endif %}
+
+            <div class="car-info">
+
+                <h3>{{ car.title }}</h3>
+
+                <p>{{ car.brand }} {{ car.model }}</p>
+
+                <div class="card-rating">
+
+                    {% if car.average_rating %}
+                        ⭐ {{ car.average_rating|floatformat:1 }}
+                        ({{ car.review_count }} Reviews)
+                    {% else %}
+                        ⭐ New Car
+                    {% endif %}
+
+                </div>
+
+                <h2>
+
+                    ₹{{ car.price_per_day }}/day
+
+                </h2>
+
+                <a href="{% url 'car_details' car.id %}" class="view-btn">
+
+                    View Details
+
+                </a>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <p>No top-rated cars available yet.</p>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+<section class="recent-reviews">
+
+    <div class="section-title">
+
+        <h2>💬 What Our Customers Say</h2>
+
+        <p>Latest reviews from verified customers.</p>
+
+    </div>
+
+    <div class="review-grid">
+
+        {% for review in recent_reviews %}
+
+        <div class="review-card">
+
+            <div class="review-top">
+
+                <h3>
+
+                    {{ review.customer.get_full_name|default:review.customer.username }}
+
+                </h3>
+                <span class="verified-user">
+
+    ✔ Verified Customer
+
+</span>
+
+                <span>
+
+                    ⭐ {{ review.rating }}/5
+
+                </span>
+
+            </div>
+
+            <h4>
+
+                🚗 {{ review.car.title }}
+
+            </h4>
+
+            <p>
+
+                "{{ review.review }}"
+
+            </p>
+
+            <small>
+
+                {{ review.created_at|date:"d M Y" }}
+
+            </small>
+
+        </div>
+
+        {% empty %}
+
+        <div class="empty-review">
+
+            <h3>No reviews available yet.</h3>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
 <!-- Why Choose Us -->
 
 <section class="why-choose" data-aos="fade-up">

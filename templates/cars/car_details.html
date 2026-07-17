@@ -3,6 +3,7 @@
 
 {% block title %}
 {{ car.title }}
+
 {% endblock %}
 
 {% block content %}
@@ -40,10 +41,39 @@ src="{{ car.images.first.image.url }}">
 
 <h1>{{ car.title }}</h1>
 
+<div class="rating-summary">
+
+<h2>
+
+{% if average_rating %}
+
+⭐ {{ average_rating|floatformat:1 }}
+
+{% else %}
+
+⭐ New Car
+
+{% endif %}
+
+</h2>
+
+<p>
+
+{{ review_count }}
+
+Review{{ review_count|pluralize }}
+
+</p>
+
+</div>
+ <p>{{ car.brand }} {{ car.model }} ({{ car.year }})</p>
 <h2>
 ₹{{ car.price_per_day }}
 <span>/ day</span>
 </h2>
+
+
+<p>{{ car.description }}</p>
 
 <div class="spec-grid">
 
@@ -85,11 +115,15 @@ src="{{ car.images.first.image.url }}">
 
 </p>
 
-<a href="#" class="book-btn">
+{% if user.is_authenticated and user.user_type == "customer" %}
 
-Book Now
+<a href="{% url 'book_car' car.id %}" class="book-btn">
+
+    Book Now
 
 </a>
+
+{% endif %}
 
 </div>
 <div class="owner-card">
@@ -157,6 +191,67 @@ Book Now
 </div>
 
 </div>
+
+</section>
+<section class="reviews-section">
+
+<h2>
+
+Customer Reviews
+
+</h2>
+
+{% if reviews %}
+
+{% for review in reviews %}
+
+<div class="review-card">
+
+    <div class="review-header">
+
+        <h3>
+
+            {{ review.customer.get_full_name|default:review.customer.username }}
+
+        </h3>
+
+        <span>
+
+            ⭐ {{ review.rating }}/5
+
+        </span>
+
+    </div>
+
+    <p>
+
+        {{ review.review }}
+
+    </p>
+
+    <small>
+
+        {{ review.created_at|date:"d M Y" }}
+
+    </small>
+
+</div>
+
+{% endfor %}
+
+{% else %}
+
+<div class="empty-review">
+
+    <h3>
+
+        No reviews yet.
+
+    </h3>
+
+</div>
+
+{% endif %}
 
 </section>
 <section class="similar-section">

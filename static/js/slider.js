@@ -6,7 +6,7 @@ const images = [
 
 "/static/images/hero2.jpg",
 
-"/static/images/hero3.jpg"
+"/static/images/hero3.jpg",
 
 ];
 

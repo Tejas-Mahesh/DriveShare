@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}
+Review
+{% endblock %}
+
+{% block content %}
+
+<section class="review-page">
+
+<div class="review-box">
+
+<h1>Rate Your Experience</h1>
+
+<form method="POST">
+
+{% csrf_token %}
+
+{{ form.as_p }}
+
+<button class="submit-btn">
+
+Submit Review
+
+</button>
+
+</form>
+
+</div>
+
+</section>
+
+{% endblock %}

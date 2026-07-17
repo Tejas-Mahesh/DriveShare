@@ -23,13 +23,15 @@
 
     background:#fff;
 
-    border-radius:15px;
+    border-radius:20px;
 
-    padding:25px;
+    padding:30px;
 
-    margin-bottom:25px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
 
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    transition:.3s;
+
+    min-height:180px;
 
 }
 
@@ -372,5 +374,60 @@ progress{
 section h2{
 
     letter-spacing:.5px;
+
+}
+.owner-reputation{
+
+    margin-top:40px;
+
+}
+
+.reputation-card{
+
+    background:#fff;
+
+    border-radius:20px;
+
+    padding:35px;
+
+    text-align:center;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+}
+
+.reputation-card h1{
+
+    color:#f59e0b;
+
+    font-size:45px;
+
+    margin-bottom:15px;
+
+}
+
+.reputation-card p{
+
+    font-size:18px;
+
+    margin:12px 0;
+
+}
+
+.top-owner{
+
+    margin-top:20px;
+
+    display:inline-block;
+
+    background:#16a34a;
+
+    color:white;
+
+    padding:10px 22px;
+
+    border-radius:30px;
+
+    font-weight:bold;
 
 }

@@ -31,6 +31,7 @@ urlpatterns = [
     path("dashboard/", include("dashboard.urls")),
     path("cars/", include("cars.urls")),
     path("notifications/",include("notifications.urls")),
+    path("bookings/", include("bookings.urls")),
     
 
 ]

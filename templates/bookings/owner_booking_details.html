@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}
+Booking Request
+{% endblock %}
+
+{% block content %}
+
+<section class="booking-details-page">
+
+    <div class="booking-details-container">
+
+        <h1>{{ booking.car.title }}</h1>
+
+        <hr>
+
+        <p><strong>Customer:</strong> {{ booking.customer.get_full_name|default:booking.customer.username }}</p>
+
+        <p><strong>Email:</strong> {{ booking.customer.email }}</p>
+
+        <p><strong>Rental Dates:</strong> {{ booking.start_date }} → {{ booking.end_date }}</p>
+
+        <p><strong>Total Days:</strong> {{ booking.total_days }}</p>
+
+        <p><strong>Total Amount:</strong> ₹{{ booking.total_amount }}</p>
+
+        <p><strong>Status:</strong> {{ booking.booking_status }}</p>
+
+        <p><strong>Customer Message:</strong></p>
+
+        <p>{{ booking.customer_message|default:"No message provided." }}</p>
+
+    </div>
+    {% if booking.booking_status == "Pending" %}
+
+<div class="booking-actions">
+
+    <a href="{% url 'approve_booking' booking.id %}"
+       class="approve-btn"
+       onclick="return confirm('Approve this booking?');">
+
+        Approve Booking
+
+    </a>
+
+    <a href="{% url 'reject_booking' booking.id %}"
+       class="reject-btn"
+       onclick="return confirm('Reject this booking?');">
+
+        Reject Booking
+
+    </a>
+    {% if booking.booking_status == "Approved" %}
+
+<a href="{% url 'complete_booking' booking.id %}"
+   class="complete-btn">
+
+    <i class="fas fa-flag-checkered"></i>
+
+    Mark as Completed
+
+</a>
+
+{% endif %}
+
+</div>
+
+{% endif %}
+
+</section>
+
+{% endblock %}

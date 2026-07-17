@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block title %}
+Book Car
+{% endblock %}
+
+{% block content %}
+
+<section class="booking-section">
+
+    <div class="booking-container">
+
+        <h2>Book {{ car.title }}</h2>
+
+        <h3>₹{{ car.price_per_day }}/day</h3>
+<form method="POST">
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <div class="booking-summary">
+
+        <h3>Booking Summary</h3>
+
+        <div class="summary-row">
+            <span>Price / Day</span>
+            <strong>₹{{ car.price_per_day }}</strong>
+        </div>
+
+        <div class="summary-row">
+            <span>Total Days</span>
+            <strong id="total-days">0</strong>
+        </div>
+
+        <div class="summary-row total">
+
+            <span>Total Amount</span>
+
+            <strong>
+
+                ₹<span id="total-price">0</span>
+
+            </strong>
+
+        </div>
+
+    </div>
+    <div class="booked-dates">
+
+    <h3>Unavailable Dates</h3>
+
+    {% if approved_bookings %}
+
+        <ul>
+
+            {% for booking in approved_bookings %}
+
+                <li>
+
+                    {{ booking.start_date }} → {{ booking.end_date }}
+
+                </li>
+
+            {% endfor %}
+
+        </ul>
+
+    {% else %}
+
+        <p>No booked dates yet.</p>
+
+    {% endif %}
+
+</div>
+
+    <button class="book-btn">
+
+        Submit Booking Request
+
+    </button>
+
+</form>
+
+    </div>
+
+</section>
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const startDate = document.getElementById("id_start_date");
+    const endDate = document.getElementById("id_end_date");
+
+    const totalDays = document.getElementById("total-days");
+    const totalPrice = document.getElementById("total-price");
+
+    const price = Number("{{ car.price_per_day }}");
+    const today = new Date().toISOString().split("T")[0];
+
+    startDate.min = today;
+    endDate.min = today;
+
+    function calculateBooking() {
+
+        if (!startDate.value || !endDate.value) {
+            totalDays.textContent = "0";
+            totalPrice.textContent = "0";
+            return;
+        }
+        endDate.min = startDate.value;
+
+        const start = new Date(startDate.value);
+        const end = new Date(endDate.value);
+
+        const diff = end - start;
+
+        const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+
+        if (days > 0) {
+
+            totalDays.textContent = days;
+            totalPrice.textContent = (days * price).toFixed(2);
+
+        } else {
+
+            totalDays.textContent = "0";
+            totalPrice.textContent = "0";
+
+        }
+
+    }
+
+    startDate.addEventListener("change", calculateBooking);
+    endDate.addEventListener("change", calculateBooking);
+
+});
+
+</script>
+
+{% endblock %}

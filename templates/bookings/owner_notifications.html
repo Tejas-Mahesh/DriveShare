@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}
+Notifications
+{% endblock %}
+
+{% block content %}
+
+<section class="notifications-page">
+
+    <div class="page-header">
+
+        <h1>Notifications</h1>
+
+        <p>Latest activity for your bookings.</p>
+
+    </div>
+
+    {% if notifications %}
+
+        {% for booking in notifications %}
+
+        <div class="notification-card">
+
+            {% if booking.booking_status == "Pending" %}
+
+                <i class="fas fa-bell text-warning"></i>
+
+                <div>
+
+                    <h3>New Booking Request</h3>
+
+                    <p>
+
+                        <strong>{{ booking.customer.get_full_name|default:booking.customer.username }}</strong>
+
+                        requested
+
+                        <strong>{{ booking.car.title }}</strong>
+
+                    </p>
+
+                </div>
+
+            {% elif booking.booking_status == "Approved" %}
+
+                <i class="fas fa-check-circle text-success"></i>
+
+                <div>
+
+                    <h3>Booking Approved</h3>
+
+                    <p>
+
+                        {{ booking.car.title }} booking has been approved.
+
+                    </p>
+
+                </div>
+
+            {% elif booking.booking_status == "Rejected" %}
+
+                <i class="fas fa-times-circle text-danger"></i>
+
+                <div>
+
+                    <h3>Booking Rejected</h3>
+
+                    <p>
+
+                        Booking for {{ booking.car.title }} was rejected.
+
+                    </p>
+
+                </div>
+
+            {% elif booking.booking_status == "Cancelled" %}
+
+                <i class="fas fa-ban text-danger"></i>
+
+                <div>
+
+                    <h3>Booking Cancelled</h3>
+
+                    <p>
+
+                        Customer cancelled booking for
+
+                        {{ booking.car.title }}
+
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+            <small>
+
+                {{ booking.booked_at|timesince }} ago
+
+            </small>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="empty-booking">
+
+            <h2>No notifications yet.</h2>
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

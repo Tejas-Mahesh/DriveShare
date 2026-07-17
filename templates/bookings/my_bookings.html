@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+My Bookings
+{% endblock %}
+
+{% block content %}
+
+<section class="my-bookings">
+
+    <div class="page-header">
+
+        <h1>My Bookings</h1>
+
+        <p>Track all your car rental bookings.</p>
+
+    </div>
+    <div class="booking-filter">
+
+    <form method="GET">
+
+        <input
+            type="text"
+            name="search"
+            placeholder="Search by car..."
+            value="{{ search|default:'' }}"
+        >
+
+        <select name="status">
+
+            <option value="">All Status</option>
+
+            <option value="Pending"
+                {% if status == "Pending" %}selected{% endif %}>
+                Pending
+            </option>
+
+            <option value="Approved"
+                {% if status == "Approved" %}selected{% endif %}>
+                Approved
+            </option>
+
+            <option value="Rejected"
+                {% if status == "Rejected" %}selected{% endif %}>
+                Rejected
+            </option>
+
+            <option value="Cancelled"
+                {% if status == "Cancelled" %}selected{% endif %}>
+                Cancelled
+            </option>
+
+            <option value="Completed"
+                {% if status == "Completed" %}selected{% endif %}>
+                Completed
+            </option>
+
+        </select>
+
+        <button type="submit">
+
+            Search
+
+        </button>
+
+    </form>
+
+</div>
+
+    {% if bookings %}
+
+    <div class="booking-grid">
+
+        {% for booking in bookings %}
+
+        <div class="booking-card">
+
+    <div class="booking-image">
+
+        {% if booking.car.images.first %}
+
+            <img src="{{ booking.car.images.first.image.url }}" alt="{{ booking.car.title }}">
+
+        {% else %}
+
+            <img src="{% static 'images/default-car.jpg' %}" alt="Car">
+
+        {% endif %}
+
+    </div>
+
+    <div class="booking-info">
+
+        <h2>{{ booking.car.title }}</h2>
+
+        <p>
+            <strong>{{ booking.car.brand }}</strong>
+            •
+            {{ booking.car.model }}
+        </p>
+
+        <p>
+            📅 {{ booking.start_date }} → {{ booking.end_date }}
+        </p>
+
+        <p>
+            ⏳ {{ booking.total_days }} Days
+        </p>
+
+        <p>
+            💰 ₹{{ booking.total_amount }}
+        </p>
+
+        <p>
+            📝 Booked On:
+            {{ booking.booked_at|date:"d M Y" }}
+        </p>
+
+        <span class="status
+        {% if booking.booking_status == 'Approved' %}
+            approved
+        {% elif booking.booking_status == 'Pending' %}
+            pending
+        {% elif booking.booking_status == 'Rejected' %}
+            rejected
+        {% elif booking.booking_status == 'Cancelled' %}
+            cancelled
+        {% else %}
+            completed
+        {% endif %}
+        ">
+
+            {{ booking.booking_status }}
+
+        </span>
+
+        <div class="booking-actions">
+
+    <a href="{% url 'booking_details' booking.id %}" class="view-btn">
+
+        View Details
+
+    </a>
+
+    {% if booking.booking_status == "Pending" %}
+
+    <a href="{% url 'cancel_booking' booking.id %}"
+       class="cancel-btn"
+       onclick="return confirm('Are you sure you want to cancel this booking?');">
+
+        Cancel Booking
+
+    </a>
+    {% if booking.booking_status == "Completed" and not booking.review %}
+
+<a href="{% url 'add_review' booking.id %}" class="view-btn">
+
+⭐ Rate This Car
+
+</a>
+
+{% endif %}
+
+    {% endif %}
+
+
+</div>
+
+    </div>
+
+</div>
+
+
+        {% endfor %}
+
+    </div>
+    <div class="pagination">
+
+    {% if bookings.has_previous %}
+
+        <a href="?page={{ bookings.previous_page_number }}&search={{ search }}&status={{ status }}">
+
+            Previous
+
+        </a>
+
+    {% endif %}
+
+    <span>
+
+        Page {{ bookings.number }} of {{ bookings.paginator.num_pages }}
+
+    </span>
+
+    {% if bookings.has_next %}
+
+        <a href="?page={{ bookings.next_page_number }}&search={{ search }}&status={{ status }}">
+
+            Next
+
+        </a>
+
+    {% endif %}
+
+</div>
+
+    {% else %}
+
+    <div class="empty-booking">
+
+        <h2>No bookings yet.</h2>
+
+        <a href="{% url 'browse_cars' %}" class="view-btn">
+
+            Browse Cars
+
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

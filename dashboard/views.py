@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from accounts.decorators import profile_complete_required
-
+from django.db.models import Avg, Count
+from bookings.models import Review, Booking
 @login_required(login_url='login')
 def customer_dashboard(request):
 
@@ -43,10 +44,30 @@ def owner_dashboard(request):
 
     if request.user.user_type != "owner":
         return redirect("home")
+    owner_reviews = Review.objects.filter(
+    car__owner=request.user
+)
+
+    owner_rating = owner_reviews.aggregate(
+    Avg("rating")
+)["rating__avg"]
+
+    owner_review_count = owner_reviews.count()
+
+    completed_rentals = Booking.objects.filter(
+    car__owner=request.user,
+    booking_status="Completed"
+).count()
 
     return render(
         request,
-        "dashboard/owner_dashboard.html"
+        "dashboard/owner_dashboard.html",{
+             "owner_rating": owner_rating,
+        "owner_review_count": owner_review_count,
+        "completed_rentals": completed_rentals,
+
+
+        }
     )
 from django.contrib.auth.decorators import login_required
 from accounts.decorators import admin_required
@@ -89,3 +110,4 @@ def admin_dashboard(request):
         "dashboard/admin_dashboard.html",
         context
     )
+

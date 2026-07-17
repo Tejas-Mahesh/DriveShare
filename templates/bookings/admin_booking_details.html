@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Booking Details
+{% endblock %}
+
+{% block content %}
+
+<section class="booking-details-page">
+
+    <div class="booking-details-container">
+
+        <h1>Booking Details</h1>
+
+        <hr>
+
+        {% if booking.car.images.first %}
+            <img src="{{ booking.car.images.first.image.url }}" class="booking-car-image">
+        {% else %}
+            <img src="{% static 'images/default-car.jpg' %}" class="booking-car-image">
+        {% endif %}
+
+        <div class="details-grid">
+
+            <div class="detail-item">
+                <strong>Car</strong>
+                <span>{{ booking.car.title }}</span>
+            </div>
+
+            <div class="detail-item">
+                <strong>Brand</strong>
+                <span>{{ booking.car.brand }}</span>
+            </div>
+
+            <div class="detail-item">
+                <strong>Customer</strong>
+                <span>{{ booking.customer.get_full_name|default:booking.customer.username }}</span>
+            </div>
+
+            <div class="detail-item">
+                <strong>Owner</strong>
+                <span>{{ booking.car.owner.get_full_name|default:booking.car.owner.username }}</span>
+            </div>
+
+            <div class="detail-item">
+                <strong>Start Date</strong>
+                <span>{{ booking.start_date }}</span>
+            </div>
+
+            <div class="detail-item">
+                <strong>End Date</strong>
+                <span>{{ booking.end_date }}</span>
+            </div>
+
+            <div class="detail-item">
+                <strong>Total Days</strong>
+                <span>{{ booking.total_days }}</span>
+            </div>
+
+            <div class="detail-item">
+                <strong>Total Amount</strong>
+                <span>₹{{ booking.total_amount }}</span>
+            </div>
+
+            <div class="detail-item">
+                <strong>Status</strong>
+
+                <span class="status
+                {% if booking.booking_status == 'Approved' %}
+                    approved
+                {% elif booking.booking_status == 'Pending' %}
+                    pending
+                {% elif booking.booking_status == 'Rejected' %}
+                    rejected
+                {% elif booking.booking_status == 'Cancelled' %}
+                    cancelled
+                {% else %}
+                    completed
+                {% endif %}
+                ">
+                    {{ booking.booking_status }}
+                </span>
+
+            </div>
+
+            <div class="detail-item">
+                <strong>Booked On</strong>
+                <span>{{ booking.booked_at }}</span>
+            </div>
+
+        </div>
+
+        <div class="message-box">
+
+            <h3>Customer Message</h3>
+
+            <p>{{ booking.customer_message|default:"No message provided." }}</p>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -9,6 +9,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
 from accounts.decorators import customer_required
 from .models import Wishlist
+from django.db.models import Avg, Count
 @login_required
 @owner_required
 def add_car(request):
@@ -350,6 +351,10 @@ def browse_cars(request):
             "car_id",
             flat=True
         )
+    cars = cars.annotate(
+    average_rating=Avg("reviews__rating"),
+    total_reviews=Count("reviews")
+)
 
     return render(
         request,
@@ -402,6 +407,15 @@ def car_details(request, car_id):
     owner=owner,
     approval_status="Approved"
 ).count()
+    reviews = car.reviews.select_related(
+    "customer"
+).order_by("-created_at")
+
+    average_rating = reviews.aggregate(
+    Avg("rating")
+)["rating__avg"]
+
+    review_count = reviews.count()
 
     return render(
     request,
@@ -411,6 +425,9 @@ def car_details(request, car_id):
         "similar_cars": similar_cars,
         "owner": owner,
         "owner_total_cars": owner_total_cars,
+        "reviews": reviews,
+        "average_rating": average_rating,
+        "review_count": review_count,
     }
 )
 

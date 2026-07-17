@@ -47,6 +47,22 @@ Admin Dashboard
 <h3>👥 Customers</h3>
 <h2>{{ total_customers }}</h2>
 </div>
+<a href="{% url 'admin_bookings' %}" class="dashboard-card">
+
+    <i class="fas fa-calendar-check"></i>
+
+    <h3>Manage Bookings</h3>
+
+</a>
+<a href="{% url 'admin_reviews' %}" class="dashboard-card">
+
+<i class="fas fa-star"></i>
+
+<h3>Customer Reviews</h3>
+
+<p>Moderate platform reviews</p>
+
+</a>
 
 </div>
 

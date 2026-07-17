@@ -33,10 +33,11 @@
 </li>
 
 <li>
-    <a href="#"
+    <a href="{% url 'my_bookings' %}"
        class="{% if '/bookings/' in request.path %}active{% endif %}">
         My Bookings
     </a>
+    
 </li>
 
 <li>
@@ -47,7 +48,7 @@
 </li>
 <li>
 
-    <a href="{% url 'wishlist' %}">
+    <a href="{% url 'wishlist' %}" >
 
         <i class="fas fa-heart"></i>
 
@@ -70,14 +71,14 @@
         {% elif user.user_type == "owner" %}
 
             <li>
-    <a href="#"
+    <a href="{% url 'add_car' %}"
        class="{% if '/cars/add/' in request.path %}active{% endif %}">
         List Your Car
     </a>
 </li>
 
 <li>
-    <a href="#"
+    <a href="{% url 'my_cars' %}"
        class="{% if '/cars/my/' in request.path %}active{% endif %}">
         My Cars
     </a>
@@ -87,6 +88,12 @@
     <a href="{% url 'owner_dashboard' %}"
        class="{% if request.path == '/dashboard/owner/' %}active{% endif %}">
         Dashboard
+    </a>
+</li>
+<li>
+    <a href="{% url 'owner_bookings' %}"
+       class="{% if request.path == '/bookings/owner-bookings/' %}active{% endif %}">
+        Booking request
     </a>
 </li>
 
@@ -183,10 +190,14 @@
             <a href="{% url 'customer_dashboard' %}">
                 Dashboard
             </a>
+            
 
             <a href="{% url 'customer_profile' %}">
                 My Profile
             </a>
+            <a href="{% url 'my_bookings' %}">
+    My Bookings
+</a>
         {% elif user.user_type == "admin" %}
 
 <li>
@@ -210,6 +221,12 @@
             <a href="{% url 'owner_profile' %}">
                 My Profile
             </a>
+            <a href="{% url 'owner_bookings' %}">
+    Booking Requests
+</a>
+<a href="{% url 'owner_notifications' %}">
+    Notifications
+</a>
 
         {% endif %}
 

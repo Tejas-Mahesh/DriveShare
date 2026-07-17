@@ -98,6 +98,17 @@ Owner Dashboard
     </div>
 
 </div>
+<div class="owner-reputation">
+
+    <h2>
+
+        Owner Reputation
+
+    </h2>
+
+
+
+</div>
     <div class="dashboard-card">
 
         <h2>Verification Status</h2>
@@ -142,6 +153,50 @@ Owner Dashboard
         {% endif %}
 
     </div>
+        <div class="reputation-card">
+
+        <h1>
+
+            {% if owner_rating %}
+
+                ⭐ {{ owner_rating|floatformat:1 }}
+
+            {% else %}
+
+                ⭐ New Owner
+
+            {% endif %}
+
+        </h1>
+
+        <p>
+
+            {{ owner_review_count }}
+
+            Review{{ owner_review_count|pluralize }}
+
+        </p>
+
+        <p>
+
+            🚗
+
+            {{ completed_rentals }}
+
+            Completed Rentals
+
+        </p>
+
+    </div>
+    {% if owner_rating and owner_rating >= 4.5 %}
+
+<div class="top-owner">
+
+    🏆 Top Rated Owner
+
+</div>
+
+{% endif %}
 
     <div class="dashboard-grid">
 
@@ -171,7 +226,8 @@ Owner Dashboard
 
     <div class="dashboard-box">
 
-        <i class="fas fa-book dashboard-icon"></i>
+        <a href="{% url 'owner_bookings' %}" class="dashboard-box">
+        <i class="fas fa-car-side dashboard-icon"></i>
 
         <h3>Booking Requests</h3>
 

@@ -155,7 +155,7 @@ Customer Dashboard
 
         <p>Explore available cars for rent.</p>
 
-        <a href="#" class="dashboard-btn">
+        <a href="{% url 'browse_cars' %}" class="dashboard-btn">
             Browse Cars
         </a>
 
@@ -168,6 +168,9 @@ Customer Dashboard
         <h3>My Bookings</h3>
 
         <p>View your current and previous bookings.</p>
+        <a href="{% url 'my_bookings' %}" class="dashboard-btn">
+            My Bookings
+        </a>
 
     </div>
 

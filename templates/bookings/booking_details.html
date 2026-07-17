@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Booking Details
+{% endblock %}
+
+{% block content %}
+
+<section class="booking-details-page">
+
+    <div class="booking-details-container">
+
+        <div class="booking-left">
+
+            {% if booking.car.images.first %}
+                <img src="{{ booking.car.images.first.image.url }}" alt="{{ booking.car.title }}">
+            {% else %}
+                <img src="{% static 'images/default-car.jpg' %}" alt="Car">
+            {% endif %}
+
+        </div>
+
+        <div class="booking-right">
+
+            <h1>{{ booking.car.title }}</h1>
+
+            <span class="status
+                {% if booking.booking_status == 'Approved' %}
+                    approved
+                {% elif booking.booking_status == 'Pending' %}
+                    pending
+                {% elif booking.booking_status == 'Rejected' %}
+                    rejected
+                {% elif booking.booking_status == 'Cancelled' %}
+                    cancelled
+                {% else %}
+                    completed
+                {% endif %}
+            ">
+                {{ booking.booking_status }}
+            </span>
+
+            <hr>
+
+            <h3>Car Information</h3>
+
+            <p><strong>Brand:</strong> {{ booking.car.brand }}</p>
+            <p><strong>Model:</strong> {{ booking.car.model }}</p>
+            <p><strong>Year:</strong> {{ booking.car.year }}</p>
+            <p><strong>Fuel:</strong> {{ booking.car.fuel_type }}</p>
+            <p><strong>Transmission:</strong> {{ booking.car.transmission }}</p>
+            <p><strong>Seats:</strong> {{ booking.car.seats }}</p>
+
+            <hr>
+
+            <h3>Booking Information</h3>
+
+            <p><strong>Start Date:</strong> {{ booking.start_date }}</p>
+            <p><strong>End Date:</strong> {{ booking.end_date }}</p>
+            <p><strong>Total Days:</strong> {{ booking.total_days }}</p>
+            <p><strong>Total Amount:</strong> ₹{{ booking.total_amount }}</p>
+
+            <hr>
+
+            <h3>Owner Information</h3>
+
+            <p><strong>Name:</strong> {{ booking.car.owner.get_full_name|default:booking.car.owner.username }}</p>
+            <p><strong>City:</strong> {{ booking.car.city }}</p>
+
+            <hr>
+
+            <h3>Your Message</h3>
+
+            <p>{{ booking.customer_message|default:"No message added." }}</p>
+
+        </div>
+
+    </div>
+
+</section>
+<hr>
+
+<h3>Booking Timeline</h3>
+
+<div class="booking-timeline">
+
+    <div class="timeline-item active">
+
+        <div class="circle"></div>
+
+        <div class="content">
+
+            <h4>Booking Submitted</h4>
+
+            <small>{{ booking.booked_at|date:"d M Y H:i" }}</small>
+
+        </div>
+
+    </div>
+
+    <div class="timeline-item
+        {% if booking.booking_status == 'Approved' or booking.booking_status == 'Completed' %}
+            active
+        {% endif %}
+    ">
+
+        <div class="circle"></div>
+
+        <div class="content">
+
+            <h4>Booking Approved</h4>
+
+        </div>
+
+    </div>
+
+    <div class="timeline-item
+        {% if booking.booking_status == 'Completed' %}
+            active
+        {% endif %}
+    ">
+
+        <div class="circle"></div>
+
+        <div class="content">
+
+            <h4>Rental Completed</h4>
+
+        </div>
+
+    </div>
+
+    {% if booking.booking_status == "Cancelled" %}
+
+    <div class="timeline-item cancelled">
+
+        <div class="circle"></div>
+
+        <div class="content">
+
+            <h4>Booking Cancelled</h4>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
