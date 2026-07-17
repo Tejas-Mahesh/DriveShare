@@ -395,3 +395,98 @@
     font-weight:600;
 
 }
+.car-image{
+    position: relative;
+    overflow: hidden;
+}
+
+.car-image img{
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    display: block;
+}
+
+.wishlist-btn{
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    box-shadow: 0 5px 15px rgba(0,0,0,.2);
+    z-index: 100;
+    transition: .3s;
+}
+
+.wishlist-btn i{
+
+    font-size:22px;
+
+    transition:.3s;
+
+}
+
+.wishlist-btn .fas{
+
+    color:#ff3b5c;
+
+}
+
+.wishlist-btn .far{
+
+    color:#555;
+
+}
+.wishlist-btn:hover{
+    background: #ff4d4d;
+    transform: scale(1.1);
+}
+
+.wishlist-btn:hover i{
+    color: white;
+}
+.card-buttons{
+
+    display:flex;
+
+    gap:10px;
+
+    margin-top:20px;
+
+}
+
+.card-buttons a{
+
+    flex:1;
+
+    text-align:center;
+
+}
+
+.remove-btn{
+
+    background:#ef4444;
+
+    color:white;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    text-decoration:none;
+
+    transition:.3s;
+
+}
+
+.remove-btn:hover{
+
+    background:#dc2626;
+
+}

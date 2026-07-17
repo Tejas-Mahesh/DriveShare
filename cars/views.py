@@ -6,6 +6,9 @@ from .models import Car,CarImage
 from accounts.decorators import owner_required
 from notifications.models import Notification
 from django.core.paginator import Paginator
+from django.shortcuts import get_object_or_404
+from accounts.decorators import customer_required
+from .models import Wishlist
 @login_required
 @owner_required
 def add_car(request):
@@ -79,7 +82,6 @@ def my_cars(request):
         }
     )
 
-from django.shortcuts import get_object_or_404
 
 
 @login_required
@@ -324,11 +326,39 @@ def browse_cars(request):
     else:
         cars = cars.order_by("-created_at")
 
+    # -------------------------
+    # Pagination
+    # -------------------------
+
+    paginator = Paginator(cars, 9)
+
+    page_number = request.GET.get("page")
+
+    page_obj = paginator.get_page(page_number)
+
+    # -------------------------
+    # Wishlist
+    # -------------------------
+
+    wishlist_ids = []
+
+    if request.user.is_authenticated and request.user.user_type == "customer":
+
+        wishlist_ids = Wishlist.objects.filter(
+            customer=request.user
+        ).values_list(
+            "car_id",
+            flat=True
+        )
+
     return render(
         request,
         "cars/browse_cars.html",
         {
-            "cars": cars,
+            "cars": page_obj,
+            "page_obj": page_obj,
+            "wishlist_ids": wishlist_ids,
+
             "search": search,
             "fuel": fuel,
             "transmission": transmission,
@@ -339,9 +369,6 @@ def browse_cars(request):
             "sort": sort,
         }
     )
-from django.shortcuts import get_object_or_404
-
-
 def car_details(request, car_id):
 
     car = get_object_or_404(
@@ -349,11 +376,94 @@ def car_details(request, car_id):
         id=car_id,
         approval_status="Approved"
     )
+    similar_cars = Car.objects.filter(
+    approval_status="Approved",
+    is_available=True
+).exclude(
+    id=car.id
+).filter(
+    brand=car.brand
+)[:4]
+    
+
+    if similar_cars.count() < 4:
+        additional = Car.objects.filter(
+        approval_status="Approved",
+        is_available=True,
+        fuel_type=car.fuel_type
+    ).exclude(
+        id__in=[c.id for c in similar_cars] + [car.id]
+    )[:4 - similar_cars.count()]
+
+    similar_cars = list(similar_cars) + list(additional)
+    owner = car.owner
+
+    owner_total_cars = Car.objects.filter(
+    owner=owner,
+    approval_status="Approved"
+).count()
+
+    return render(
+    request,
+    "cars/car_details.html",
+    {
+        "car": car,
+        "similar_cars": similar_cars,
+        "owner": owner,
+        "owner_total_cars": owner_total_cars,
+    }
+)
+
+@login_required
+@customer_required
+def toggle_wishlist(request, car_id):
+
+    car = get_object_or_404(
+        Car,
+        id=car_id,
+        approval_status="Approved"
+    )
+
+    wishlist_item = Wishlist.objects.filter(
+        customer=request.user,
+        car=car
+    ).first()
+
+    if wishlist_item:
+
+        wishlist_item.delete()
+
+        messages.success(
+            request,
+            "Car removed from your wishlist."
+        )
+
+    else:
+
+        Wishlist.objects.create(
+            customer=request.user,
+            car=car
+        )
+
+        messages.success(
+            request,
+            "Car added to your wishlist."
+        )
+
+    return redirect(request.META.get("HTTP_REFERER", "browse_cars"))
+@login_required
+@customer_required
+def wishlist(request):
+
+    wishlist_items = Wishlist.objects.filter(
+        customer=request.user
+    ).select_related("car").prefetch_related("car__images")
+    
 
     return render(
         request,
-        "cars/car_details.html",
+        "cars/wishlist.html",
         {
-            "car": car
+            "wishlist_items": wishlist_items
         }
     )

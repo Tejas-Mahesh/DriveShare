@@ -92,8 +92,114 @@ Book Now
 </a>
 
 </div>
+<div class="owner-card">
+
+    <div class="owner-header">
+
+        {% if owner.profile_picture %}
+
+        <img src="{{ owner.profile_picture.url }}" alt="Owner">
+
+        {% else %}
+
+        <img src="{% static 'images/default-avatar.png' %}" alt="Owner">
+
+        {% endif %}
+
+        <div>
+
+            <h3>{{ owner.get_full_name|default:owner.username }}</h3>
+
+            <span class="verified">
+
+                {% if owner.owner_profile.verification_status == "Approved" %}
+
+                    ✅ Verified Owner
+
+                {% elif owner.owner_profile.verification_status == "Pending" %}
+
+                    🟡 Verification Pending
+
+                {% else %}
+
+                    ❌ Not Verified
+
+                {% endif %}
+
+            </span>
+
+        </div>
+
+    </div>
+
+    <div class="owner-details">
+
+        <p>
+
+            📱 {{ owner.phone_number }}
+
+        </p>
+
+        <p>
+
+            🚗 {{ owner_total_cars }} Cars Listed
+
+        </p>
+
+        <p>
+
+            📅 Member Since {{ owner.date_joined|date:"F Y" }}
+
+        </p>
+
+    </div>
 
 </div>
+
+</div>
+
+</section>
+<section class="similar-section">
+
+    <h2>🚗 Similar Cars</h2>
+
+    <div class="similar-grid">
+
+        {% for similar in similar_cars %}
+
+        <div class="similar-card">
+
+            {% if similar.images.first %}
+                <img src="{{ similar.images.first.image.url }}">
+            {% else %}
+                <img src="{% static 'images/default-car.jpg' %}">
+            {% endif %}
+
+            <div class="similar-info">
+
+                <h3>{{ similar.title }}</h3>
+
+                <p>{{ similar.brand }} {{ similar.model }}</p>
+
+                <h4>₹{{ similar.price_per_day }}/day</h4>
+
+                <a href="{% url 'car_details' similar.id %}" class="view-btn">
+
+                    View Details
+
+                </a>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <p>No similar cars available.</p>
+
+        {% endfor %}
+
+    </div>
 
 </section>
 

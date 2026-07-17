@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+My Wishlist
+{% endblock %}
+
+{% block content %}
+
+<section class="browse-section">
+
+    <div class="browse-header">
+
+        <h1>❤️ My Wishlist</h1>
+
+        <p>Your favourite cars in one place.</p>
+
+    </div>
+
+    {% if wishlist_items %}
+
+    <div class="car-grid">
+
+        {% for item in wishlist_items %}
+
+        {% with car=item.car %}
+
+        <div class="car-card">
+
+            <div class="car-image">
+
+                {% if car.images.first %}
+                    <img src="{{ car.images.first.image.url }}">
+                {% else %}
+                    <img src="{% static 'images/default-car.jpg' %}">
+                {% endif %}
+
+            </div>
+
+            <div class="car-info">
+
+                <h3>{{ car.title }}</h3>
+
+                <p>{{ car.brand }} {{ car.model }}</p>
+
+                <h2>₹{{ car.price_per_day }}/day</h2>
+
+                <p>📍 {{ car.city }}</p>
+
+                <div class="card-buttons">
+
+                    <a href="{% url 'car_details' car.id %}" class="view-btn">
+
+                        View Details
+
+                    </a>
+
+                    <a href="{% url 'toggle_wishlist' car.id %}"
+                       class="remove-btn">
+
+                        Remove
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endwith %}
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="empty-state">
+
+        <i class="fas fa-heart-broken"></i>
+
+        <h2>No Favourite Cars</h2>
+
+        <p>
+
+            Start exploring and save the cars you love.
+
+        </p>
+
+        <a href="{% url 'browse_cars' %}" class="view-btn">
+
+            Browse Cars
+
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

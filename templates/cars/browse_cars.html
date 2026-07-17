@@ -173,16 +173,35 @@ Browse Cars | DriveShare
         {% for car in cars %}
 
         <div class="car-card">
+                <div class="car-image">
 
-            {% if car.images.first %}
-
+        {% if car.images.first %}
             <img src="{{ car.images.first.image.url }}" alt="{{ car.title }}">
-
-            {% else %}
-
+        {% else %}
             <img src="{% static 'images/default-car.jpg' %}" alt="No Image">
+        {% endif %}
 
-            {% endif %}
+        {% if user.is_authenticated and user.user_type == "customer" %}
+        <a href="{% url 'toggle_wishlist' car.id %}" class="wishlist-btn">
+
+    {% if car.id in wishlist_ids %}
+
+        <i class="fas fa-heart"></i>
+
+    {% else %}
+
+        <i class="far fa-heart"></i>
+
+    {% endif %}
+
+</a>
+        {% endif %}
+
+    </div>
+            
+
+            
+
 
             <div class="car-info">
 

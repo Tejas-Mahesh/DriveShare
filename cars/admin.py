@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Car, CarImage
-
+from .models import Wishlist
 @admin.register(Car)
 class CarAdmin(admin.ModelAdmin):
 
@@ -52,4 +52,17 @@ class CarImageAdmin(admin.ModelAdmin):
 
     list_filter = (
         "is_primary",
+    )
+@admin.register(Wishlist)
+class WishlistAdmin(admin.ModelAdmin):
+
+    list_display = (
+        "customer",
+        "car",
+        "created_at",
+    )
+
+    search_fields = (
+        "customer__username",
+        "car__title",
     )

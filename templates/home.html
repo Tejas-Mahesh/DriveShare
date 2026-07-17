@@ -50,6 +50,7 @@ DriveShare
 
 </section>
 
+
 <section class="stats">
 
     <div class="stat-box">
@@ -86,6 +87,7 @@ DriveShare
 
 </section>
 <!-- Featured Cars -->
+ 
 
 <section class="featured" data-aos="fade-up">
 
@@ -99,119 +101,82 @@ DriveShare
 
     <div class="car-grid">
 
-        <!-- Car 1 -->
+        {% for car in featured_cars %}
 
-        <div class="car-card">
+<div class="car-card">
 
-            <div class="car-image">
+    <div class="car-image">
 
-                <img src="{% static 'images/car1.jpg' %}" alt="BMW X5">
+        {% if car.images.first %}
 
-                <span class="price">₹3,500 / Day</span>
+            <img src="{{ car.images.first.image.url }}" alt="{{ car.title }}">
 
-            </div>
+        {% else %}
 
-            <div class="car-details">
+            <img src="{% static 'images/default-car.jpg' %}" alt="Car">
 
-                <h3>BMW X5</h3>
+        {% endif %}
 
-                <div class="rating">
+        <span class="price">
 
-                    ★★★★★ <span>(4.9)</span>
+            ₹{{ car.price_per_day }} / Day
 
-                </div>
+        </span>
 
-                <div class="car-info">
+    </div>
 
-                    <span><i class="fas fa-gas-pump"></i> Petrol</span>
+    <div class="car-details">
 
-                    <span><i class="fas fa-cogs"></i> Automatic</span>
+        <h3>{{ car.title }}</h3>
 
-                    <span><i class="fas fa-user-friends"></i> 5 Seats</span>
+        <div class="rating">
 
-                </div>
-
-                <a href="#" class="book-btn">Book Now</a>
-
-            </div>
+            ★★★★★ <span>Featured</span>
 
         </div>
 
-        <!-- Car 2 -->
+        <div class="car-info">
 
-        <div class="car-card">
+            <span>
+                <i class="fas fa-gas-pump"></i>
+                {{ car.fuel_type }}
+            </span>
 
-            <div class="car-image">
+            <span>
+                <i class="fas fa-cogs"></i>
+                {{ car.transmission }}
+            </span>
 
-                <img src="{% static 'images/car2.jpg' %}" alt="Audi A6">
-
-                <span class="price">₹4,200 / Day</span>
-
-            </div>
-
-            <div class="car-details">
-
-                <h3>Audi A6</h3>
-
-                <div class="rating">
-
-                    ★★★★★ <span>(4.8)</span>
-
-                </div>
-
-                <div class="car-info">
-
-                    <span><i class="fas fa-gas-pump"></i> Diesel</span>
-
-                    <span><i class="fas fa-cogs"></i> Automatic</span>
-
-                    <span><i class="fas fa-user-friends"></i> 5 Seats</span>
-
-                </div>
-
-                <a href="#" class="book-btn">Book Now</a>
-
-            </div>
+            <span>
+                <i class="fas fa-user-friends"></i>
+                {{ car.seats }} Seats
+            </span>
 
         </div>
 
-        <!-- Car 3 -->
+        <a href="{% url 'car_details' car.id %}" class="book-btn">
 
-        <div class="car-card">
+            View Details
 
-            <div class="car-image">
+        </a>
 
-                <img src="{% static 'images/car3.jpg' %}" alt="Mercedes">
+    </div>
 
-                <span class="price">₹5,000 / Day</span>
+</div>
 
-            </div>
+{% empty %}
 
-            <div class="car-details">
+<div class="no-cars">
 
-                <h3>Mercedes C-Class</h3>
+    <h3>No Featured Cars Available</h3>
 
-                <div class="rating">
+    <p>Please check back later.</p>
 
-                    ★★★★★ <span>(5.0)</span>
+</div>
 
-                </div>
+{% endfor %}
 
-                <div class="car-info">
-
-                    <span><i class="fas fa-gas-pump"></i> Petrol</span>
-
-                    <span><i class="fas fa-cogs"></i> Automatic</span>
-
-                    <span><i class="fas fa-user-friends"></i> 5 Seats</span>
-
-                </div>
-
-                <a href="#" class="book-btn">Book Now</a>
-
-            </div>
-
-        </div>
+        
 
     </div>
 

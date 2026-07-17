@@ -45,6 +45,27 @@
         Dashboard
     </a>
 </li>
+<li>
+
+    <a href="{% url 'wishlist' %}">
+
+        <i class="fas fa-heart"></i>
+
+        Wishlist
+
+{% if user.is_authenticated and user.user_type == "customer" %}
+
+<span class="wishlist-count">
+
+{{ user.wishlist_items.count }}
+
+</span>
+
+{% endif %}
+
+    </a>
+
+</li>
 
         {% elif user.user_type == "owner" %}
 
@@ -68,6 +89,7 @@
         Dashboard
     </a>
 </li>
+
 {% elif user.user_type == "admin" %}
 <li>
     <a href="#" class="{% if '/dashboard/admin/' in request.path %}active{% endif %}"></a>

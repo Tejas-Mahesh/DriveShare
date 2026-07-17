@@ -46,7 +46,7 @@
 
 .nav-links a{
 
-    color:#fff;
+    color:aliceblue;
     font-size:16px;
     font-weight:600;
     text-decoration:none;
@@ -386,7 +386,7 @@
 .nav-links a.active{
 
 
-    
+    color: #ec5708;
     font-weight:700;
 
     position:relative;
@@ -407,7 +407,7 @@
 
     height:3px;
 
-    background:#ffffff;
+    background:#f5f5f5;
 
     border-radius:5px;
 
@@ -482,5 +482,22 @@
     background:#ff5a3c;
 
     transform:rotate(180deg);
+
+}
+.wishlist-count{
+
+    margin-left:6px;
+
+    background:#ff3b5c;
+
+    color:white;
+
+    padding:2px 8px;
+
+    border-radius:50px;
+
+    font-size:12px;
+
+    font-weight:600;
 
 }

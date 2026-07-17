@@ -54,4 +54,14 @@ path(
     views.car_details,
     name="car_details"
 ),
+path(
+    "wishlist/<int:car_id>/",
+    views.toggle_wishlist,
+    name="toggle_wishlist"
+),
+path(
+    "wishlist/",
+    views.wishlist,
+    name="wishlist"
+),
 ]

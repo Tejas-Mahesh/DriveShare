@@ -106,3 +106,27 @@ class CarImage(models.Model):
     def __str__(self):
 
         return f"{self.car.title} Image"
+
+class Wishlist(models.Model):
+
+    customer = models.ForeignKey(
+        "accounts.CustomUser",
+        on_delete=models.CASCADE,
+        related_name="wishlist_items"
+    )
+
+    car = models.ForeignKey(
+        Car,
+        on_delete=models.CASCADE,
+        related_name="wishlisted_by"
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    class Meta:
+        unique_together = ("customer", "car")
+
+    def __str__(self):
+        return f"{self.customer.username} - {self.car.title}"
