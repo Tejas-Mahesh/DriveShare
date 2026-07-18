@@ -50,20 +50,25 @@ Booking Request
         Reject Booking
 
     </a>
-    {% if booking.booking_status == "Approved" %}
 
-<a href="{% url 'complete_booking' booking.id %}"
-   class="complete-btn">
-
-    <i class="fas fa-flag-checkered"></i>
-
-    Mark as Completed
-
-</a>
-
-{% endif %}
 
 </div>
+
+{% endif %}
+{% if booking.booking_status == "Approved" %}
+
+<a
+href="{% url 'complete_booking' booking.id %}"
+
+class="complete-btn"
+
+onclick="return confirm('Mark this booking as completed?')">
+
+<i class="fas fa-check-circle"></i>
+
+Complete Booking
+
+</a>
 
 {% endif %}
 

@@ -11,6 +11,7 @@ Booking Details
 
     <div class="booking-details-container">
 
+        <!-- LEFT -->
         <div class="booking-left">
 
             {% if booking.car.images.first %}
@@ -19,8 +20,137 @@ Booking Details
                 <img src="{% static 'images/default-car.jpg' %}" alt="Car">
             {% endif %}
 
+               <hr>
+
+    <h2>Booking Timeline</h2>
+
+    <div class="booking-timeline">
+
+        <!-- Submitted -->
+
+        <div class="timeline-item active">
+
+            <div class="circle"></div>
+
+            <div class="content">
+
+                <h4>Booking Submitted</h4>
+
+                <small>
+
+                    {{ booking.booked_at|date:"d M Y H:i" }}
+
+                </small>
+
+            </div>
+
         </div>
 
+        <!-- Approved -->
+
+        <div class="timeline-item {% if booking.approved_at %}active{% endif %}">
+
+            <div class="circle"></div>
+
+            <div class="content">
+
+                <h4>Booking Approved</h4>
+
+                {% if booking.approved_at %}
+
+                    <small>
+
+                        {{ booking.approved_at|date:"d M Y H:i" }}
+
+                    </small>
+
+                {% else %}
+
+                    <small>
+
+                        Waiting for owner approval
+
+                    </small>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        <!-- Completed -->
+
+        <div class="timeline-item {% if booking.completed_at %}active{% endif %}">
+
+            <div class="circle"></div>
+
+            <div class="content">
+
+                <h4>Rental Completed</h4>
+
+                {% if booking.completed_at %}
+
+                    <small>
+
+                        {{ booking.completed_at|date:"d M Y H:i" }}
+
+                    </small>
+
+                {% else %}
+
+                    <small>
+
+                        Rental is still active
+
+                    </small>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        <!-- Cancelled -->
+
+        {% if booking.booking_status == "Cancelled" %}
+
+        <div class="timeline-item cancelled">
+
+            <div class="circle"></div>
+
+            <div class="content">
+
+                <h4>Booking Cancelled</h4>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+    <!-- Review Button -->
+
+    {% if booking.booking_status == "Completed" %}
+
+    <div style="margin-top:35px;">
+
+        <a href="{% url 'add_review' booking.id %}" class="review-btn">
+
+            <i class="fas fa-star"></i>
+
+            Rate This Car
+
+        </a>
+
+    </div>
+
+    {% endif %}
+
+        </div>
+
+        <!-- RIGHT -->
         <div class="booking-right">
 
             <h1>{{ booking.car.title }}</h1>
@@ -65,88 +195,30 @@ Booking Details
 
             <h3>Owner Information</h3>
 
-            <p><strong>Name:</strong> {{ booking.car.owner.get_full_name|default:booking.car.owner.username }}</p>
-            <p><strong>City:</strong> {{ booking.car.city }}</p>
+            <p>
+                <strong>Name:</strong>
+                {{ booking.car.owner.get_full_name|default:booking.car.owner.username }}
+            </p>
+
+            <p>
+                <strong>City:</strong>
+                {{ booking.car.city }}
+            </p>
 
             <hr>
 
             <h3>Your Message</h3>
 
-            <p>{{ booking.customer_message|default:"No message added." }}</p>
+            <p>
+                {{ booking.customer_message|default:"No message added." }}
+            </p>
 
         </div>
 
     </div>
+
+ 
 
 </section>
-<hr>
-
-<h3>Booking Timeline</h3>
-
-<div class="booking-timeline">
-
-    <div class="timeline-item active">
-
-        <div class="circle"></div>
-
-        <div class="content">
-
-            <h4>Booking Submitted</h4>
-
-            <small>{{ booking.booked_at|date:"d M Y H:i" }}</small>
-
-        </div>
-
-    </div>
-
-    <div class="timeline-item
-        {% if booking.booking_status == 'Approved' or booking.booking_status == 'Completed' %}
-            active
-        {% endif %}
-    ">
-
-        <div class="circle"></div>
-
-        <div class="content">
-
-            <h4>Booking Approved</h4>
-
-        </div>
-
-    </div>
-
-    <div class="timeline-item
-        {% if booking.booking_status == 'Completed' %}
-            active
-        {% endif %}
-    ">
-
-        <div class="circle"></div>
-
-        <div class="content">
-
-            <h4>Rental Completed</h4>
-
-        </div>
-
-    </div>
-
-    {% if booking.booking_status == "Cancelled" %}
-
-    <div class="timeline-item cancelled">
-
-        <div class="circle"></div>
-
-        <div class="content">
-
-            <h4>Booking Cancelled</h4>
-
-        </div>
-
-    </div>
-
-    {% endif %}
-
-</div>
 
 {% endblock %}

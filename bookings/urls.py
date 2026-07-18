@@ -85,4 +85,9 @@ path(
     views.delete_review,
     name="delete_review",
 ),
+path(
+    "complete-booking/<int:booking_id>/",
+    views.complete_booking,
+    name="complete_booking",
+),
 ]

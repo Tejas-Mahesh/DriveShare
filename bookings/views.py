@@ -3,7 +3,7 @@ from decimal import Decimal
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
-
+from django.utils import timezone
 from accounts.decorators import customer_required
 from cars.models import Car
 from .forms import BookingForm
@@ -344,6 +344,7 @@ def approve_booking(request, booking_id):
         id=booking_id,
         car__owner=request.user
     )
+    
 
     if booking.booking_status != "Pending":
 
@@ -359,6 +360,8 @@ def approve_booking(request, booking_id):
         car=booking.car,
 
         booking_status="Approved",
+
+       
 
         start_date__lte=booking.end_date,
 
@@ -383,8 +386,10 @@ def approve_booking(request, booking_id):
         )
 
     booking.booking_status = "Approved"
-
+    booking.approved_at = timezone.now()
     booking.save()
+
+    
 
     messages.success(
         request,
@@ -849,4 +854,40 @@ def delete_review(request, review_id):
 
     return redirect(
         "admin_reviews"
+    )
+
+@login_required
+@owner_required
+def complete_booking(request, booking_id):
+
+    booking = get_object_or_404(
+        Booking,
+        id=booking_id,
+        car__owner=request.user
+    )
+
+    if booking.booking_status != "Approved":
+
+        messages.error(
+            request,
+            "Only approved bookings can be completed."
+        )
+
+        return redirect(
+            "owner_booking_details",
+            booking.id
+        )
+
+    booking.booking_status = "Completed"
+    booking.completed_at = timezone.now()
+    booking.save()
+
+    messages.success(
+        request,
+        "Booking marked as completed successfully."
+    )
+
+    return redirect(
+        "owner_booking_details",
+        booking.id
     )

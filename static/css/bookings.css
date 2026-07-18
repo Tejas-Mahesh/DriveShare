@@ -188,9 +188,9 @@
 
     display:grid;
 
-    grid-template-columns:repeat(auto-fit,minmax(450px,1fr));
+    grid-template-columns:repeat(3, 1fr);
 
-    gap:30px;
+    gap:25px;
 
     margin-top:40px;
 
@@ -198,19 +198,34 @@
 
 .booking-card{
 
-    background:#fff;
+    width:100%;
 
     border-radius:18px;
 
     overflow:hidden;
 
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    background:#fff;
 
-    transition:.3s;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
 
-    display:flex;
+}
+@media (max-width:1200px){
 
-    flex-direction:column;
+    .booking-grid{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+}
+
+@media (max-width:768px){
+
+    .booking-grid{
+
+        grid-template-columns:1fr;
+
+    }
 
 }
 .booking-card:hover{
@@ -1146,5 +1161,71 @@
 .rating-row:last-child{
 
     border-bottom:none;
+
+}
+.complete-btn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    background:#16a34a;
+
+    color:white;
+
+    padding:14px 24px;
+
+    border-radius:10px;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+    transition:.3s;
+
+    margin-top:15px;
+
+}
+
+.complete-btn:hover{
+
+    background:#15803d;
+
+    transform:translateY(-2px);
+
+}
+.review-btn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:12px 22px;
+
+    margin-top:20px;
+
+    background:#f59e0b;
+
+    color:#fff;
+
+    border-radius:10px;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.review-btn:hover{
+
+    background:#d97706;
+
+    transform:translateY(-2px);
 
 }

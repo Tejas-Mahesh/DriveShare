@@ -57,6 +57,15 @@ class Booking(models.Model):
     updated_at = models.DateTimeField(
         auto_now=True
     )
+    approved_at = models.DateTimeField(
+    null=True,
+    blank=True
+)
+
+    completed_at = models.DateTimeField(
+    null=True,
+    blank=True
+)
 
     def __str__(self):
         return f"{self.customer.username} - {self.car.title}"

@@ -99,14 +99,19 @@
 
 {% elif user.user_type == "admin" %}
 <li>
-    <a href="#" class="{% if '/dashboard/admin/' in request.path %}active{% endif %}"></a>
-    Dashboard
+    <a href="{% url 'admin_dashboard' %}"
+       class="{% if request.path == '/dashboard/admin/' %}active{% endif %}">
+        Dashboard
+    </a>
 </li>
 <li>
-    <a href="#" class="{% if '/cars/admin/pending/' in request.path %}active{% endif %}"></a>
-    Pending Cars
-    
+    <a href="{% url  'admin_car_list'  %}"
+       class="{% if request.path == '/cars/admin/pending/' %}active{% endif %}">
+        Pending Cars
+    </a>
 </li>
+
+
         {% endif %}
 
     {% else %}
