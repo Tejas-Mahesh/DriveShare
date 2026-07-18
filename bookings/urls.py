@@ -90,4 +90,39 @@ path(
     views.complete_booking,
     name="complete_booking",
 ),
+path(
+    "payment/<int:booking_id>/",
+    views.payment_page,
+    name="payment_page",
+),
+path(
+    "payment-success/<int:booking_id>/",
+    views.payment_success,
+    name="payment_success",
+),
+path(
+    "payment-failed/<int:booking_id>/",
+    views.payment_failed,
+    name="payment_failed",
+),
+path(
+    "payments/",
+    views.payment_history,
+    name="payment_history",
+),
+path(
+    "receipt/<int:payment_id>/",
+    views.download_receipt,
+    name="download_receipt",
+),
+path(
+    "wallet/",
+    views.wallet,
+    name="wallet",
+),
+path(
+    "wallet-payment/<int:booking_id>/",
+    views.wallet_payment,
+    name="wallet_payment",
+),
 ]

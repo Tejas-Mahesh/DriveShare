@@ -97,6 +97,7 @@
     </a>
 </li>
 
+
 {% elif user.user_type == "admin" %}
 <li>
     <a href="{% url 'admin_dashboard' %}"
@@ -110,6 +111,7 @@
         Pending Cars
     </a>
 </li>
+
 
 
         {% endif %}
@@ -203,6 +205,17 @@
             <a href="{% url 'my_bookings' %}">
     My Bookings
 </a>
+<a href="{% url 'payment_history' %}">
+
+    <i class="fas fa-credit-card"></i>
+
+    Payment History
+
+</a>
+<a href="{% url 'wallet' %}">
+    <i class="fas fa-wallet"></i>
+    My Wallet
+</a>
         {% elif user.user_type == "admin" %}
 
 <li>
@@ -216,6 +229,9 @@
         Pending Cars
     </a>
 </li>
+
+
+
 
         {% else %}
 
@@ -232,6 +248,7 @@
 <a href="{% url 'owner_notifications' %}">
     Notifications
 </a>
+
 
         {% endif %}
 

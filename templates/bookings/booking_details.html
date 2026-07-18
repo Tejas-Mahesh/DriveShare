@@ -127,8 +127,49 @@ Booking Details
         </div>
 
         {% endif %}
+        <p>
+
+<strong>Payment Status:</strong>
+
+
+{% if booking.payment.payment_status == "Paid" %}
+
+<span class="status paid">
+
+✅ Paid
+
+</span>
+
+{% elif booking.payment.payment_status == "Pending" %}
+
+<span class="status pending">
+
+🟡 Pending
+
+</span>
+
+{% elif booking.payment.payment_status == "Failed" %}
+
+<span class="status rejected">
+
+❌ Failed
+
+</span>
+
+{% elif booking.payment.payment_status == "Refunded" %}
+
+<span class="status completed">
+
+💸 Refunded
+
+</span>
+
+{% endif %}
+
+</p>
 
     </div>
+
 
     <!-- Review Button -->
 
@@ -190,6 +231,7 @@ Booking Details
             <p><strong>End Date:</strong> {{ booking.end_date }}</p>
             <p><strong>Total Days:</strong> {{ booking.total_days }}</p>
             <p><strong>Total Amount:</strong> ₹{{ booking.total_amount }}</p>
+           
 
             <hr>
 

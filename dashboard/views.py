@@ -3,15 +3,22 @@ from django.contrib.auth.decorators import login_required
 from accounts.decorators import profile_complete_required
 from django.db.models import Avg, Count
 from bookings.models import Review, Booking
+from bookings.models import Wallet
 @login_required(login_url='login')
 def customer_dashboard(request):
 
     if request.user.user_type != "customer":
         return redirect("home")
+    wallet, created = Wallet.objects.get_or_create(
+    customer=request.user
+)
 
     return render(
         request,
-        "dashboard/customer_dashboard.html"
+        "dashboard/customer_dashboard.html",{
+            "wallet":wallet,
+
+        }
     )
 
 

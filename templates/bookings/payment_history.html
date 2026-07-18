@@ -1,0 +1,265 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Payment History
+
+{% endblock %}
+
+{% block content %}
+
+<section class="payment-history">
+
+    <div class="page-header">
+
+        <h1>Payment History</h1>
+
+        <p>
+
+            View all your payment transactions.
+
+        </p>
+
+    </div>
+    <div class="stats-grid">
+
+    <div class="stat-card">
+
+        <h3>{{ total_payments }}</h3>
+
+        <p>Total Payments</p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h3>{{ paid_payments }}</h3>
+
+        <p>Successful</p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h3>{{ failed_payments }}</h3>
+
+        <p>Failed</p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h3>₹{{ total_amount }}</h3>
+
+        <p>Total Paid</p>
+
+    </div>
+
+</div>
+    <div class="payment-filter">
+
+    <form method="GET">
+
+        <input
+            type="text"
+            name="search"
+            placeholder="Search by car or transaction ID..."
+            value="{{ search|default:'' }}"
+        >
+
+        <select name="status">
+
+            <option value="">All Payments</option>
+
+            <option value="Pending"
+                {% if status == "Pending" %}selected{% endif %}>
+                Pending
+            </option>
+
+            <option value="Paid"
+                {% if status == "Paid" %}selected{% endif %}>
+                Paid
+            </option>
+
+            <option value="Failed"
+                {% if status == "Failed" %}selected{% endif %}>
+                Failed
+            </option>
+
+            <option value="Refunded"
+                {% if status == "Refunded" %}selected{% endif %}>
+                Refunded
+            </option>
+
+        </select>
+
+        <button type="submit">
+
+            <i class="fas fa-search"></i>
+
+            Search
+
+        </button>
+
+        <a href="{% url 'payment_history' %}" class="clear-filter">
+
+            Clear
+
+        </a>
+
+    </form>
+
+</div>
+
+    {% if payments %}
+
+    <div class="payment-grid">
+
+        {% for payment in payments %}
+
+        <div class="payment-card">
+
+    <div class="payment-top">
+
+        <h2>
+
+            {{ payment.booking.car.title }}
+
+        </h2>
+
+        {% if payment.payment_status == "Paid" %}
+
+            <span class="status paid">
+
+                Paid
+
+            </span>
+
+        {% elif payment.payment_status == "Pending" %}
+
+            <span class="status pending">
+
+                Pending
+
+            </span>
+
+        {% elif payment.payment_status == "Failed" %}
+
+            <span class="status rejected">
+
+                Failed
+
+            </span>
+
+        {% else %}
+
+            <span class="status completed">
+
+                Refunded
+
+            </span>
+
+        {% endif %}
+
+    </div>
+
+    <p>
+
+        <strong>Amount:</strong>
+
+        ₹{{ payment.amount }}
+
+    </p>
+
+    <p>
+
+        <strong>Method:</strong>
+
+        {{ payment.payment_method|default:"-" }}
+
+    </p>
+
+    <p>
+
+        <strong>Transaction ID:</strong>
+
+        {{ payment.transaction_id|default:"-" }}
+
+    </p>
+
+    <p>
+
+        <strong>Date:</strong>
+
+        {{ payment.created_at|date:"d M Y, h:i A" }}
+
+    </p>
+    {% if payment.payment_status == "Paid" %}
+
+<a href="{% url 'download_receipt' payment.id %}"
+   class="receipt-btn">
+
+    <i class="fas fa-file-pdf"></i>
+
+    Download Receipt
+
+</a>
+
+{% endif %}
+
+</div>
+        {% endfor %}
+
+        <div class="pagination">
+
+    {% if payments.has_previous %}
+
+        <a href="?page={{ payments.previous_page_number }}&search={{ search }}&status={{ status }}">
+
+            Previous
+
+        </a>
+
+    {% endif %}
+
+    <span>
+
+        Page {{ payments.number }}
+
+        of
+
+        {{ payments.paginator.num_pages }}
+
+    </span>
+
+    {% if payments.has_next %}
+
+        <a href="?page={{ payments.next_page_number }}&search={{ search }}&status={{ status }}">
+
+            Next
+
+        </a>
+
+    {% endif %}
+
+</div>
+
+    </div>
+
+    {% else %}
+
+    <div class="empty-state">
+
+        <h2>
+
+            No Payments Found
+
+        </h2>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

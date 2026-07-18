@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'core',
 'accounts',
 'cars',
-'bookings',
+'bookings.apps.BookingsConfig',
 'dashboard',
 'notifications',
 ]
@@ -139,3 +139,7 @@ LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "home"
 
 LOGOUT_REDIRECT_URL = "home"
+
+RAZORPAY_KEY_ID = "rzp_test_TErOA357pSBs10"
+
+RAZORPAY_KEY_SECRET = "PlD9SgcNx930CLjnaxhXxviC"

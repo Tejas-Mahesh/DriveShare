@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="payment-result failed">
+
+    <i class="fas fa-times-circle"></i>
+
+    <h1>Payment Failed</h1>
+
+    <p>
+
+        Your payment could not be completed.
+
+    </p>
+
+    <a href="{% url 'payment_page' booking.id %}" class="retry-btn">
+
+        Retry Payment
+
+    </a>
+
+    <a href="{% url 'booking_details' booking.id %}" class="back-btn">
+
+        Back to Booking
+
+    </a>
+
+</div>
+
+{% endblock %}

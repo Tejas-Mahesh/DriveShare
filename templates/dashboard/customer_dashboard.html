@@ -96,6 +96,7 @@ Customer Dashboard
         <p>Profile Completion</p>
 
     </div>
+    
 
 </div>
 
@@ -198,6 +199,24 @@ Customer Dashboard
 
     </div>
 
+
+
+    <a href="{% url 'wallet' %}" class="dashboard-card">
+
+    <div class="card-icon">
+        💰
+    </div>
+
+    <h3>Wallet Balance</h3>
+
+    <h2>₹{{ wallet.balance }}</h2>
+
+    <p>View Transactions</p>
+
+</a>
+
+    
+
 </div>
 
     <div class="dashboard-card">
@@ -209,6 +228,7 @@ Customer Dashboard
         <p>Start exploring cars and make your first booking.</p>
 
     </div>
+
 
 </section>
 

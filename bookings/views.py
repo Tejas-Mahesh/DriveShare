@@ -17,7 +17,26 @@ from .forms import ReviewForm
 from django.db.models import Avg, Count
 from cars.models import Car
 from accounts.models import CustomUser
-
+from .models import Payment
+import razorpay
+from django.conf import settings
+from reportlab.platypus import (
+    SimpleDocTemplate,
+    Table,
+    TableStyle,
+    Paragraph,
+    Spacer,
+)
+from .models import Booking, Review, Payment, Wallet, WalletTransaction
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.units import inch
+from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+from accounts.decorators import customer_required
+from django.core.paginator import Paginator
+from django.db.models import Q
+from django.http import JsonResponse
 @login_required
 @customer_required
 def book_car(request, car_id):
@@ -27,6 +46,11 @@ def book_car(request, car_id):
         id=car_id,
         approval_status="Approved",
         is_available=True,
+    )
+
+    approved_bookings = Booking.objects.filter(
+        car=car,
+        booking_status="Approved",
     )
 
     if request.method == "POST":
@@ -56,7 +80,8 @@ def book_car(request, car_id):
                     {
                         "form": form,
                         "car": car,
-                    }
+                        "approved_bookings": approved_bookings,
+                    },
                 )
 
             if end <= start:
@@ -72,30 +97,35 @@ def book_car(request, car_id):
                     {
                         "form": form,
                         "car": car,
-                    }
+                        "approved_bookings": approved_bookings,
+                    },
                 )
+
             existing_booking = Booking.objects.filter(
-    car=car,
-    booking_status="Approved"
-).filter(
-    Q(start_date__lte=end) &
-    Q(end_date__gte=start)
-).exists()
+                car=car,
+                booking_status="Approved",
+            ).filter(
+                Q(start_date__lte=end)
+                &
+                Q(end_date__gte=start)
+            ).exists()
 
             if existing_booking:
+
                 messages.error(
-        request,
-        "This car is already booked for the selected dates."
-    )
+                    request,
+                    "This car is already booked for the selected dates.",
+                )
 
                 return render(
-        request,
-        "bookings/book_car.html",
-        {
-            "form": form,
-            "car": car,
-        }
-    )
+                    request,
+                    "bookings/book_car.html",
+                    {
+                        "form": form,
+                        "car": car,
+                        "approved_bookings": approved_bookings,
+                    },
+                )
 
             booking.total_days = (end - start).days
 
@@ -103,41 +133,46 @@ def book_car(request, car_id):
                 booking.total_days * car.price_per_day
             )
 
+            booking.discount_amount = Decimal("0.00")
+            booking.final_amount = booking.total_amount
+
+            
+
+
             booking.save()
+
+            Payment.objects.get_or_create(
+                booking=booking,
+                defaults={
+                    "customer": request.user,
+                    "amount": booking.final_amount,
+                    "payment_status": "Pending",
+                },
+            )
 
             messages.success(
                 request,
-                "Booking request submitted successfully."
+                "Booking request submitted successfully.",
             )
 
-            return redirect("customer_dashboard")
+            return redirect(
+                "payment_page",
+                booking.id,
+            )
 
     else:
 
         form = BookingForm()
-    approved_bookings = Booking.objects.filter(
-        car=car,
-        booking_status="Approved"
-    )
-
 
     return render(
-    request,
-    "bookings/book_car.html",
-    {
-        "form": form,
-        "car": car,
-        "approved_bookings": approved_bookings,
-    }
-)
-from django.contrib.auth.decorators import login_required
-from accounts.decorators import customer_required
-from .models import Booking
-
-
-from django.core.paginator import Paginator
-from django.db.models import Q
-
+        request,
+        "bookings/book_car.html",
+        {
+            "form": form,
+            "car": car,
+            "approved_bookings": approved_bookings,
+        },
+    )
 
 @login_required
 @customer_required
@@ -220,12 +255,39 @@ def cancel_booking(request, booking_id):
         return redirect("my_bookings")
 
     booking.booking_status = "Cancelled"
-
     booking.save()
+
+    if hasattr(booking, "payment"):
+        payment = booking.payment
+
+        if payment.payment_status == "Paid":
+            wallet, created = Wallet.objects.get_or_create(
+            customer=request.user
+        )
+
+            wallet.balance += payment.amount
+            wallet.save()
+
+            WalletTransaction.objects.create(
+
+            wallet=wallet,
+
+            amount=payment.amount,
+
+            transaction_type="Credit",
+
+            description=(
+                f"Refund for Booking #{booking.id}"
+            ),
+
+        )
+
+            payment.payment_status = "Refunded"
+            payment.save()
 
     messages.success(
         request,
-        "Your booking has been cancelled successfully."
+        "Booking cancelled successfully. Refund has been added to your wallet."
     )
 
     return redirect("my_bookings")
@@ -635,31 +697,7 @@ def export_bookings_csv(request):
         ])
 
     return response
-@login_required
-@owner_required
-def complete_booking(request, booking_id):
 
-    booking = get_object_or_404(
-        Booking,
-        id=booking_id,
-        car__owner=request.user
-    )
-
-    if booking.booking_status == "Approved":
-
-        booking.booking_status = "Completed"
-
-        booking.save()
-
-        messages.success(
-            request,
-            "Booking marked as completed."
-        )
-
-    return redirect(
-        "owner_booking_details",
-        booking.id
-    )
 
 @login_required
 def add_review(request, booking_id):
@@ -890,4 +928,561 @@ def complete_booking(request, booking_id):
     return redirect(
         "owner_booking_details",
         booking.id
+    )
+
+from decimal import Decimal
+
+@login_required
+@customer_required
+def payment_page(request, booking_id):
+
+    booking = get_object_or_404(
+        Booking,
+        id=booking_id,
+        customer=request.user
+    )
+
+    payment = booking.payment
+
+    wallet, created = Wallet.objects.get_or_create(
+        customer=request.user
+    )
+
+    wallet_balance = wallet.balance
+
+    remaining_amount = max(
+        Decimal("0.00"),
+        payment.amount - wallet_balance
+    )
+
+    order_id = None
+
+    if remaining_amount > 0:
+
+        client = razorpay.Client(
+            auth=(
+                settings.RAZORPAY_KEY_ID,
+                settings.RAZORPAY_KEY_SECRET,
+            )
+        )
+
+        razorpay_order = client.order.create({
+
+            "amount": int(remaining_amount * 100),
+
+            "currency": "INR",
+
+            "payment_capture": 1,
+
+        })
+
+        order_id = razorpay_order["id"]
+
+        payment.transaction_id = order_id
+
+        payment.save()
+
+    context = {
+
+        "booking": booking,
+
+        "payment": payment,
+
+        "wallet": wallet,
+
+        "wallet_balance": wallet_balance,
+
+        "remaining_amount": remaining_amount,
+
+        "wallet_used": min(wallet_balance, payment.amount),
+
+        "razorpay_key": settings.RAZORPAY_KEY_ID,
+
+        "order_id": order_id,
+
+        "amount_paise": int(remaining_amount * 100),
+
+    }
+
+    return render(
+
+        request,
+
+        "bookings/payment.html",
+
+        context,
+
+    )
+@login_required
+@customer_required
+def payment_success(request, booking_id):
+
+    booking = get_object_or_404(
+        Booking,
+        id=booking_id,
+        customer=request.user
+    )
+
+    payment = booking.payment
+
+    if request.method == "POST":
+
+        client = razorpay.Client(
+            auth=(
+                settings.RAZORPAY_KEY_ID,
+                settings.RAZORPAY_KEY_SECRET,
+            )
+        )
+
+        params = {
+            "razorpay_order_id": request.POST.get(
+                "razorpay_order_id"
+            ),
+            "razorpay_payment_id": request.POST.get(
+                "razorpay_payment_id"
+            ),
+            "razorpay_signature": request.POST.get(
+                "razorpay_signature"
+            ),
+        }
+
+        try:
+
+            client.utility.verify_payment_signature(params)
+
+            wallet, created = Wallet.objects.get_or_create(
+                customer=request.user
+            )
+
+            wallet_used = min(
+                wallet.balance,
+                payment.amount
+            )
+
+            if wallet_used > Decimal("0.00"):
+
+                wallet.balance -= wallet_used
+                wallet.save()
+
+                WalletTransaction.objects.create(
+                    wallet=wallet,
+                    amount=wallet_used,
+                    transaction_type="Debit",
+                    description=f"Wallet used for Booking #{booking.id}",
+                )
+
+            payment.payment_status = "Paid"
+
+            if wallet_used == Decimal("0.00"):
+
+                payment.payment_method = "Razorpay"
+
+            elif wallet_used == payment.amount:
+
+                payment.payment_method = "Wallet"
+
+            else:
+
+                payment.payment_method = "Wallet + Razorpay"
+
+            payment.transaction_id = params["razorpay_payment_id"]
+
+            payment.paid_at = timezone.now()
+
+            payment.save()
+
+            messages.success(
+                request,
+                "Payment Successful."
+            )
+
+        except Exception:
+
+            payment.payment_status = "Failed"
+
+            payment.save()
+
+            messages.error(
+                request,
+                "Payment Verification Failed."
+            )
+
+    return redirect(
+        "booking_details",
+        booking.id
+    )
+@login_required
+@customer_required
+def payment_failed(request, booking_id):
+
+    booking = get_object_or_404(
+        Booking,
+        id=booking_id,
+        customer=request.user
+    )
+
+    payment = booking.payment
+
+    payment.payment_status = "Failed"
+
+    payment.save()
+
+    messages.error(
+        request,
+        "Payment was cancelled or failed."
+    )
+
+    return render(
+        request,
+        "bookings/payment_failed.html",
+        {
+            "booking": booking,
+            "payment": payment,
+        }
+    )
+@login_required
+@customer_required
+def wallet_payment(request, booking_id):
+
+    booking = get_object_or_404(
+        Booking,
+        id=booking_id,
+        customer=request.user,
+    )
+
+    wallet = get_object_or_404(
+        Wallet,
+        customer=request.user,
+    )
+
+    payment = booking.payment
+
+    if payment.payment_status == "Paid":
+
+        messages.info(
+            request,
+            "This booking has already been paid."
+        )
+
+        return redirect(
+            "booking_details",
+            booking.id,
+        )
+
+    if wallet.balance < payment.amount:
+
+        messages.error(
+            request,
+            "Insufficient wallet balance."
+        )
+
+        return redirect(
+            "payment_page",
+            booking.id,
+        )
+
+    wallet.balance -= payment.amount
+    wallet.save()
+
+    WalletTransaction.objects.create(
+
+        wallet=wallet,
+
+        amount=payment.amount,
+
+        transaction_type="Debit",
+
+        description=f"Payment for Booking #{booking.id}",
+
+    )
+
+    payment.payment_status = "Paid"
+    payment.payment_method = "Wallet"
+    payment.paid_at = timezone.now()
+    payment.save()
+
+    messages.success(
+        request,
+        "Payment completed using your wallet."
+    )
+
+    return redirect(
+        "booking_details",
+        booking.id,
+    )
+@login_required
+@customer_required
+def payment_history(request):
+
+    payments = Payment.objects.filter(
+        customer=request.user
+    ).select_related(
+        "booking",
+        "booking__car"
+    ).order_by("-created_at")
+
+    search = request.GET.get("search")
+    status = request.GET.get("status")
+
+    if search:
+
+        payments = payments.filter(
+
+            Q(booking__car__title__icontains=search) |
+
+            Q(transaction_id__icontains=search)
+
+        )
+
+    if status:
+
+        payments = payments.filter(
+            payment_status=status
+        )
+
+    paginator = Paginator(payments, 8)
+
+    page = request.GET.get("page")
+
+    payments = paginator.get_page(page)
+    total_payments = Payment.objects.filter(
+    customer=request.user
+).count()
+
+    paid_payments = Payment.objects.filter(
+    customer=request.user,
+    payment_status="Paid"
+).count()
+
+    failed_payments = Payment.objects.filter(
+    customer=request.user,
+    payment_status="Failed"
+).count()
+
+    total_amount = Payment.objects.filter(
+    customer=request.user,
+    payment_status="Paid"
+).aggregate(
+    total=Sum("amount")
+)["total"] or 0
+
+    return render(
+        request,
+        "bookings/payment_history.html",
+        {
+            "payments": payments,
+            "search": search,
+            "status": status,
+            "total_payments": total_payments,
+"paid_payments": paid_payments,
+"failed_payments": failed_payments,
+"total_amount": total_amount,
+        }
+    )
+@login_required
+@customer_required
+def download_receipt(request, payment_id):
+
+    payment = get_object_or_404(
+        Payment,
+        id=payment_id,
+        customer=request.user,
+    )
+
+    response = HttpResponse(
+        content_type="application/pdf"
+    )
+
+    response["Content-Disposition"] = (
+        f'attachment; filename="Receipt_{payment.id}.pdf"'
+    )
+
+    doc = SimpleDocTemplate(response)
+
+    styles = getSampleStyleSheet()
+    invoice_number = f"DS-{payment.id:06d}"
+
+    generated_date = timezone.now().strftime(
+    "%d %B %Y %I:%M %p"
+)
+
+    commission = payment.amount * Decimal("0.10")
+
+    owner_amount = payment.amount - commission
+
+    story = []
+
+    story.append(
+
+    Paragraph(
+
+        "<font color='#2563EB'><b>DriveShare</b></font>",
+
+        styles["Title"],
+
+    )
+
+)
+
+    story.append(
+        Paragraph(
+            "Payment Receipt",
+            styles["Heading2"],
+        )
+    )
+
+    story.append(Spacer(1, 0.3 * inch))
+
+    data = [
+
+    ["Invoice No", invoice_number],
+
+    ["Generated On", generated_date],
+
+    ["Receipt No", payment.id],
+
+    [
+        "Customer",
+        payment.customer.get_full_name()
+        or payment.customer.username,
+    ],
+
+    [
+        "Owner",
+        payment.booking.car.owner.get_full_name()
+        or payment.booking.car.owner.username,
+    ],
+
+    [
+        "Car",
+        payment.booking.car.title,
+    ],
+
+    [
+        "Booking Dates",
+        f"{payment.booking.start_date} → {payment.booking.end_date}",
+    ],
+
+    [
+        "Transaction ID",
+        payment.transaction_id or "-",
+    ],
+
+    [
+        "Payment Method",
+        payment.payment_method or "-",
+    ],
+
+    [
+        "Amount Paid",
+        f"₹{payment.amount}",
+    ],
+
+    [
+        "Platform Commission",
+        f"₹{commission}",
+    ],
+
+    [
+        "Owner Earnings",
+        f"₹{owner_amount}",
+    ],
+
+    [
+        "Status",
+        payment.payment_status,
+    ],
+
+]
+    table = Table(
+    data,
+    colWidths=[2.2 * inch, 4 * inch]
+)
+
+    table.setStyle(
+
+        TableStyle(
+
+            [
+
+                ("BACKGROUND", (0, 0), (-1, 0), colors.lightgrey),
+
+                ("GRID", (0, 0), (-1, -1), 1, colors.grey),
+
+                ("BACKGROUND", (0, 0), (0, -1), colors.whitesmoke),
+
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 10),
+
+                ("TOPPADDING", (0, 0), (-1, -1), 10),
+
+                ("FONTNAME", (0, 0), (-1, -1), "Helvetica"),
+
+            ]
+
+        )
+
+    )
+
+    story.append(table)
+
+    story.append(Spacer(1, 0.4 * inch))
+    story.append(
+
+    Paragraph(
+
+        "<b>Thank you for choosing DriveShare.</b>",
+
+        styles["Heading3"],
+
+    )
+
+)
+
+    story.append(
+
+    Paragraph(
+
+        "This is a computer-generated receipt and does not require a signature.",
+
+        styles["Normal"],
+
+    )
+
+)
+
+    doc.build(story)
+
+    return response
+
+
+
+@login_required
+@customer_required
+def wallet(request):
+
+    wallet = get_object_or_404(
+        Wallet,
+        customer=request.user
+    )
+
+    transactions = wallet.transactions.all().order_by(
+        "-created_at"
+    )
+
+    paginator = Paginator(
+        transactions,
+        10
+    )
+
+    page = request.GET.get("page")
+
+    transactions = paginator.get_page(page)
+
+    return render(
+        request,
+        "bookings/wallet.html",
+        {
+            "wallet": wallet,
+            "transactions": transactions,
+        }
     )

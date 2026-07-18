@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Wallet
+{% endblock %}
+
+{% block content %}
+
+<section class="wallet-page">
+
+    <div class="wallet-header">
+
+        <h1>💰 My Wallet</h1>
+
+        <h2>₹{{ wallet.balance }}</h2>
+
+        <p>Available Balance</p>
+
+    </div>
+
+    <div class="wallet-history">
+
+        <h2>Transaction History</h2>
+
+        {% if transactions %}
+        <div class="wallet-summary">
+
+    <div class="summary-card">
+
+        <h3>Current Balance</h3>
+
+        <h2>₹{{ wallet.balance }}</h2>
+
+    </div>
+
+</div>
+
+        <table class="wallet-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for transaction in transactions %}
+
+                <tr>
+
+                    <td>{{ transaction.created_at|date:"d M Y" }}</td>
+
+                    <td>
+
+                        {% if transaction.transaction_type == "Credit" %}
+
+                            <span class="credit">
+
+                                Credit
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="debit">
+
+                                Debit
+
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>{{ transaction.description }}</td>
+
+                    <td>
+
+                        ₹{{ transaction.amount }}
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% else %}
+
+        <p>No wallet transactions yet.</p>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}

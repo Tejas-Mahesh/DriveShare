@@ -1,7 +1,6 @@
 from django.contrib import admin
 from .models import Booking
 
-
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
 
@@ -22,3 +21,11 @@ class BookingAdmin(admin.ModelAdmin):
         "customer__username",
         "car__title",
     )
+from .models import Payment
+
+admin.site.register(Payment)
+from .models import Wallet
+from .models import WalletTransaction
+
+admin.site.register(Wallet)
+admin.site.register(WalletTransaction)

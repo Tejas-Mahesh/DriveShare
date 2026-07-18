@@ -1,8 +1,25 @@
 from django import forms
 from .models import Booking
-
+from .models import Booking, Review
 
 class BookingForm(forms.ModelForm):
+    coupon_code = forms.CharField(
+
+    required=False,
+
+    max_length=30,
+
+    widget=forms.TextInput(
+
+        attrs={
+
+            "placeholder":"Enter Coupon Code"
+
+        }
+
+    )
+
+)
 
     class Meta:
 
