@@ -354,7 +354,25 @@ def browse_cars(request):
     cars = cars.annotate(
     average_rating=Avg("reviews__rating"),
     total_reviews=Count("reviews")
+
+)    
+    search = request.GET.get("search")
+
+    cars = Car.objects.filter(
+    approval_status="Approved",
+    is_available=True,
 )
+
+    if search:
+        cars = cars.filter(
+        Q(city__icontains=search)
+        |
+        Q(title__icontains=search)
+        |
+        Q(brand__icontains=search)
+        |
+        Q(model__icontains=search)
+    )
 
     return render(
         request,

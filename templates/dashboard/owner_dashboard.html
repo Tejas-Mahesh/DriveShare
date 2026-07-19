@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block title %}
 Owner Dashboard
 {% endblock %}
@@ -8,45 +9,198 @@ Owner Dashboard
 
 <section class="dashboard">
 
-   <div class="dashboard-header">
+    <!-- Header -->
+    <div class="dashboard-header">
 
-    <div class="profile-header">
+        <div class="profile-header">
 
-        {% if request.user.profile_picture %}
-            <img src="{{ request.user.profile_picture.url }}"
-                 class="profile-image">
-        {% else %}
-            <img src="{% static 'images/default-avatar.png' %}"
-                 class="profile-image">
-        {% endif %}
+            {% if request.user.profile_picture %}
+                <img src="{{ request.user.profile_picture.url }}"
+                     class="profile-image">
+            {% else %}
+                <img src="{% static 'images/default-avatar.png' %}"
+                     class="profile-image">
+            {% endif %}
 
-        <div>
+            <div>
 
-            <h1>Hello, {{ request.user.first_name }} 👋</h1>
+                <h1>Hello, {{ request.user.first_name }} 👋</h1>
 
-            <p>Welcome back to DriveShare.</p>
+                <p>Welcome back to DriveShare.</p>
 
-            <span class="role-badge">
-                Owner
-            </span>
-
-            {% if request.user.customer_profile.verification_status == "Approved" %}
-
-                <span class="verify approved">
-                    🟢 Verified
+                <span class="role-badge">
+                    Owner
                 </span>
 
-            {% elif request.user.customer_profile.verification_status == "Pending" %}
+                {% if request.user.owner_profile.verification_status == "Approved" %}
 
-                <span class="verify pending">
+                    <span class="verify approved">
+                        🟢 Verified
+                    </span>
+
+                {% elif request.user.owner_profile.verification_status == "Pending" %}
+
+                    <span class="verify pending">
+                        🟡 Pending
+                    </span>
+
+                {% else %}
+
+                    <span class="verify rejected">
+                        🔴 Rejected
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Statistics -->
+
+    <div class="stats-grid">
+
+        <div class="stats-card">
+
+            <i class="fas fa-car stats-icon"></i>
+
+            <h2>{{ total_cars|default:"0" }}</h2>
+
+            <p>Total Cars</p>
+
+        </div>
+
+        <div class="stats-card">
+
+            <i class="fas fa-book stats-icon"></i>
+
+            <h2>{{ total_bookings|default:"0" }}</h2>
+
+            <p>Total Bookings</p>
+
+        </div>
+
+        <div class="stats-card">
+
+            <i class="fas fa-wallet stats-icon"></i>
+
+            <h2>₹{{ total_earnings|default:"0" }}</h2>
+
+            <p>Total Earnings</p>
+
+        </div>
+
+        <div class="stats-card">
+
+            <i class="fas fa-star stats-icon"></i>
+
+            <h2>
+
+                {% if owner_rating %}
+                    {{ owner_rating|floatformat:1 }}
+                {% else %}
+                    0.0
+                {% endif %}
+
+            </h2>
+
+            <p>Average Rating</p>
+
+        </div>
+
+    </div>
+
+    <!-- Verification -->
+
+    <div class="dashboard-card">
+
+        <h2>Verification Status</h2>
+
+        {% if request.user.owner_profile.profile_completed %}
+
+            <p style="color:green;font-weight:600;">
+                ✔ Profile Completed
+            </p>
+
+            {% if request.user.owner_profile.verification_status == "Approved" %}
+
+                <span class="status-badge status-approved">
+                    🟢 Approved
+                </span>
+
+            {% elif request.user.owner_profile.verification_status == "Pending" %}
+
+                <span class="status-badge status-pending">
                     🟡 Pending
                 </span>
 
             {% else %}
 
-                <span class="verify rejected">
+                <span class="status-badge status-rejected">
                     🔴 Rejected
                 </span>
+
+            {% endif %}
+
+        {% else %}
+
+            <p style="color:red;font-weight:600;">
+                ✖ Profile Incomplete
+            </p>
+
+            <a href="{% url 'owner_profile' %}" class="dashboard-btn">
+
+                Complete Profile
+
+            </a>
+
+        {% endif %}
+
+    </div>
+
+    <!-- Reputation -->
+
+    <div class="owner-reputation">
+
+        <h2>Owner Reputation</h2>
+
+        <div class="reputation-card">
+
+            <h1>
+
+                {% if owner_rating %}
+                    ⭐ {{ owner_rating|floatformat:1 }}
+                {% else %}
+                    ⭐ New Owner
+                {% endif %}
+
+            </h1>
+
+            <p>
+
+                {{ owner_review_count }}
+
+                Review{{ owner_review_count|pluralize }}
+
+            </p>
+
+            <p>
+
+                🚗 {{ completed_rentals }}
+
+                Completed Rentals
+
+            </p>
+
+            {% if owner_rating and owner_rating >= 4.5 %}
+
+                <div class="top-owner">
+
+                    🏆 Top Rated Owner
+
+                </div>
 
             {% endif %}
 
@@ -54,200 +208,55 @@ Owner Dashboard
 
     </div>
 
-</div>
-<div class="stats-grid">
-
-    <div class="stats-card">
-
-        <i class="fas fa-car stats-icon"></i>
-
-        <h2>0</h2>
-
-        <p>Total Cars</p>
-
-    </div>
-
-    <div class="stats-card">
-
-        <i class="fas fa-book stats-icon"></i>
-
-        <h2>0</h2>
-
-        <p>Total Bookings</p>
-
-    </div>
-
-    <div class="stats-card">
-
-        <i class="fas fa-wallet stats-icon"></i>
-
-        <h2>₹0</h2>
-
-        <p>Total Earnings</p>
-
-    </div>
-
-    <div class="stats-card">
-
-        <i class="fas fa-star stats-icon"></i>
-
-        <h2>0.0</h2>
-
-        <p>Average Rating</p>
-
-    </div>
-
-</div>
-<div class="owner-reputation">
-
-    <h2>
-
-        Owner Reputation
-
-    </h2>
-
-
-
-</div>
-    <div class="dashboard-card">
-
-        <h2>Verification Status</h2>
-
-        {% if request.user.owner_profile.profile_completed %}
-
-            <p style="color:green; font-weight:600;">
-                ✔ Profile Completed
-            </p>
-
-          <h3>Verification Status</h3>
-
-{% if request.user.owner_profile.verification_status == "Approved" %}
-
-    <span class="status-badge status-approved">
-        🟢 Approved
-    </span>
-
-{% elif request.user.owner_profile.verification_status == "Pending" %}
-
-    <span class="status-badge status-pending">
-        🟡 Pending
-    </span>
-
-{% else %}
-
-    <span class="status-badge status-rejected">
-        🔴 Rejected
-    </span>
-
-{% endif %}
-        {% else %}
-
-            <p style="color:red; font-weight:600;">
-                ✖ Profile Incomplete
-            </p>
-
-            <a href="{% url 'owner_profile' %}" class="dashboard-btn">
-                Complete Profile
-            </a>
-
-        {% endif %}
-
-    </div>
-        <div class="reputation-card">
-
-        <h1>
-
-            {% if owner_rating %}
-
-                ⭐ {{ owner_rating|floatformat:1 }}
-
-            {% else %}
-
-                ⭐ New Owner
-
-            {% endif %}
-
-        </h1>
-
-        <p>
-
-            {{ owner_review_count }}
-
-            Review{{ owner_review_count|pluralize }}
-
-        </p>
-
-        <p>
-
-            🚗
-
-            {{ completed_rentals }}
-
-            Completed Rentals
-
-        </p>
-
-    </div>
-    {% if owner_rating and owner_rating >= 4.5 %}
-
-<div class="top-owner">
-
-    🏆 Top Rated Owner
-
-</div>
-
-{% endif %}
+    <!-- Dashboard Cards -->
 
     <div class="dashboard-grid">
 
-    <div class="dashboard-box">
-
         <a href="{% url 'add_car' %}" class="dashboard-box">
 
-    <i class="fas fa-plus-circle"></i>
+            <i class="fas fa-plus-circle dashboard-icon"></i>
 
-    <h3>Add Car</h3>
+            <h3>Add Car</h3>
 
-    <p>List a new vehicle for rent.</p>
+            <p>List a new vehicle for rent.</p>
 
-</a>
+        </a>
 
-    </div>
-
-    <div class="dashboard-box">
         <a href="{% url 'my_cars' %}" class="dashboard-box">
-        <i class="fas fa-car-side dashboard-icon"></i>
 
-        <h3>My Cars</h3>
+            <i class="fas fa-car-side dashboard-icon"></i>
 
-        <p>View all your listed vehicles.</p>
-    </a>
-    </div>
+            <h3>My Cars</h3>
 
-    <div class="dashboard-box">
+            <p>View all your listed vehicles.</p>
+
+        </a>
 
         <a href="{% url 'owner_bookings' %}" class="dashboard-box">
-        <i class="fas fa-car-side dashboard-icon"></i>
 
-        <h3>Booking Requests</h3>
+            <i class="fas fa-calendar-check dashboard-icon"></i>
 
-        <p>Check incoming booking requests.</p>
+            <h3>Booking Requests</h3>
+
+            <p>Check incoming booking requests.</p>
+
+        </a>
+
+        <a href="{% url 'wallet' %}" class="dashboard-box">
+
+            <i class="fas fa-wallet dashboard-icon"></i>
+
+            <h3>Earnings</h3>
+
+            <p>Track your rental income.</p>
+
+        </a>
 
     </div>
 
-    <div class="dashboard-box">
+    <!-- Recent Activity -->
 
-        <i class="fas fa-wallet dashboard-icon"></i>
-
-        <h3>Earnings</h3>
-
-        <p>Track your rental income.</p>
-
-    </div>
-
-</div>
-
-    <div class="dashboard-card">
+    <div class="dashboard-card recent-activity">
 
         <h2>Recent Activity</h2>
 

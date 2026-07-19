@@ -61,7 +61,7 @@ Customer Dashboard
 
         <i class="fas fa-calendar-check stats-icon"></i>
 
-        <h2>0</h2>
+        <h2>{{ total_bookings }}</h2>
 
         <p>Total Bookings</p>
 
@@ -71,7 +71,7 @@ Customer Dashboard
 
         <i class="fas fa-heart stats-icon"></i>
 
-        <h2>0</h2>
+        <h2>{{ total_favorites }}</h2>
 
         <p>Favorite Cars</p>
 
@@ -81,7 +81,7 @@ Customer Dashboard
 
         <i class="fas fa-bell stats-icon"></i>
 
-        <h2>0</h2>
+        <h2>{{ total_notifications }}</h2>
 
         <p>Notifications</p>
 
@@ -91,7 +91,7 @@ Customer Dashboard
 
         <i class="fas fa-star stats-icon"></i>
 
-        <h2>100%</h2>
+        <h2>{{ profile_completion }}%</h2>
 
         <p>Profile Completion</p>
 
@@ -99,6 +99,7 @@ Customer Dashboard
     
 
 </div>
+
 
     <div class="dashboard-card">
 
@@ -182,6 +183,10 @@ Customer Dashboard
         <h3>Notifications</h3>
 
         <p>Stay updated with booking alerts.</p>
+         <a href="{% url 'notifications' %}" class="dashboard-btn">
+            View Notification
+        </a>
+        
 
     </div>
 
@@ -198,10 +203,9 @@ Customer Dashboard
         </a>
 
     </div>
+ <div class="dashboard-box">
 
-
-
-    <a href="{% url 'wallet' %}" class="dashboard-card">
+       <a href="{% url 'wallet' %}" class="dashboard-card">
 
     <div class="card-icon">
         💰
@@ -215,6 +219,10 @@ Customer Dashboard
 
 </a>
 
+    </div>
+
+
+    
     
 
 </div>

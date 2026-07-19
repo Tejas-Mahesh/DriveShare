@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}
 Admin Dashboard
@@ -8,64 +9,128 @@ Admin Dashboard
 
 <section class="dashboard">
 
-<div class="dashboard-header">
+    <div class="dashboard-header">
 
-<h1>🛠 Admin Dashboard</h1>
+        <h1>🛠 Admin Dashboard</h1>
 
-<p>DriveShare Platform Overview</p>
+        <p>DriveShare Platform Overview</p>
 
-</div>
+    </div>
 
-<div class="dashboard-grid">
+    <div class="dashboard-grid">
 
-<div class="dashboard-box">
-<h3>🚗 Total Cars</h3>
-<h2>{{ total_cars }}</h2>
-</div>
+        <div class="dashboard-box">
+            <h3>🚗 Total Cars</h3>
+            <h2>{{ total_cars }}</h2>
+        </div>
 
-<div class="dashboard-box">
-<h3>⏳ Pending Cars</h3>
-<h2>{{ pending_cars }}</h2>
-</div>
+        <div class="dashboard-box">
+            <h3>⏳ Pending Cars</h3>
+            <h2>{{ pending_cars }}</h2>
+        </div>
 
-<div class="dashboard-box">
-<h3>✅ Approved Cars</h3>
-<h2>{{ approved_cars }}</h2>
-</div>
+        <div class="dashboard-box">
+            <h3>✅ Approved Cars</h3>
+            <h2>{{ approved_cars }}</h2>
+        </div>
 
-<div class="dashboard-box">
-<h3>❌ Rejected Cars</h3>
-<h2>{{ rejected_cars }}</h2>
-</div>
+        <div class="dashboard-box">
+            <h3>❌ Rejected Cars</h3>
+            <h2>{{ rejected_cars }}</h2>
+        </div>
 
-<div class="dashboard-box">
-<h3>👤 Owners</h3>
-<h2>{{ total_owners }}</h2>
-</div>
+        <div class="dashboard-box">
+            <h3>👤 Owners</h3>
+            <h2>{{ total_owners }}</h2>
+        </div>
 
-<div class="dashboard-box">
-<h3>👥 Customers</h3>
-<h2>{{ total_customers }}</h2>
-</div>
-<a href="{% url 'admin_bookings' %}" class="dashboard-card">
+        <div class="dashboard-box">
+            <h3>👥 Customers</h3>
+            <h2>{{ total_customers }}</h2>
+        </div>
+        <div class="dashboard-box">
+             <a href="{% url 'admin_bookings' %}">
 
-    <i class="fas fa-calendar-check"></i>
+            <i class="fas fa-calendar-check"></i>
 
-    <h3>Manage Bookings</h3>
+            <h3>Manage Bookings</h3>
 
-</a>
-<a href="{% url 'admin_reviews' %}" class="dashboard-card">
+        </a>
+        </div>
+        <div class="dashboard-box">
+             <a href="{% url 'admin_reviews' %}">
 
-<i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
 
-<h3>Customer Reviews</h3>
+            <h3>Customer Reviews</h3>
 
-<p>Moderate platform reviews</p>
+            <p>Moderate platform reviews</p>
 
-</a>
+        </a>
+        </div>
+       
+
+       
+
+    </div>
+
+    
+
+
+    <!-- Monthly Booking Chart -->
+
+    <div class="analytics-section">
+
+    <div class="analytics-row">
+
+        <div class="analytics-card">
+            <h3>📈 Monthly Bookings</h3>
+
+            <div class="chart-box">
+                <canvas id="bookingChart"></canvas>
+            </div>
+        </div>
+
+        <div class="analytics-card">
+            <h3>💰 Monthly Revenue</h3>
+
+            <div class="chart-box">
+                <canvas id="revenueChart"></canvas>
+            </div>
+        </div>
+        
 
 </div>
 
 </section>
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+{{ booking_labels|json_script:"booking-labels" }}
+{{ booking_counts|json_script:"booking-counts" }}
+{{ revenue_labels|json_script:"revenue-labels" }}
+{{ revenue_values|json_script:"revenue-values" }}
+{{ payment_status_labels|json_script:"payment-status-labels" }}
+
+{{ payment_status_data|json_script:"payment-status-data" }}
+<script>
+
+const paymentStatusLabels = JSON.parse(
+    document.getElementById("payment-status-labels").textContent
+);
+
+const paymentStatusData = JSON.parse(
+    document.getElementById("payment-status-data").textContent
+);
+
+</script>
+
+<script src="{% static 'js/admin_dashboard.js' %}"></script>
 
 {% endblock %}

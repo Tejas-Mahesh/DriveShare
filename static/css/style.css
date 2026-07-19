@@ -1098,3 +1098,24 @@ grid-template-columns:1fr;
     font-weight:600;
 
 }
+
+
+.delete-btn{
+
+    color:#ef4444;
+
+    float:right;
+
+    font-size:18px;
+
+    transition:.3s;
+
+}
+
+.delete-btn:hover{
+
+    color:#dc2626;
+
+    transform:scale(1.15);
+
+}

@@ -62,13 +62,10 @@
 
 
 .auth-buttons{
-
     display:flex;
-
     align-items:center;
-
     gap:18px;
-
+    flex-shrink:0;
 }
 
 .login-btn{
@@ -315,62 +312,52 @@
 =========================== */
 
 .notification-icon{
-
-    font-size:22px;
-
-    color:white;
-
-    cursor:pointer;
-
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
 .notification-icon a{
-
-    color:white;
-
+    color:#fff;
     font-size:22px;
-
     text-decoration:none;
-
-    transition:.3s;
-
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
+.notification-icon i{
+    transition:.3s;
+}
+
+.notification-icon:hover i{
+    color:#ff5a3c;
+}
+
+.notification-badge{
+    position:absolute;
+    top:-7px;
+    right:-8px;
+    width:18px;
+    height:18px;
+    border-radius:50%;
+    background:#ff3b5c;
+    color:#fff;
+    font-size:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+}
 .notification-icon a:hover{
 
     color:#ff5a3c;
 
 }
 
-.notification-count{
 
-    position:absolute;
-
-    top:-8px;
-
-    right:-10px;
-
-    width:18px;
-
-    height:18px;
-
-    background:#ff3b30;
-
-    color:white;
-
-    border-radius:50%;
-
-    font-size:11px;
-
-    font-weight:bold;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-}
 /* ===========================
    Verification Status Dot
 =========================== */
@@ -488,40 +475,34 @@
 
 }
 
-.notification-icon:hover i{
 
-    color:#ff5a3c;
-
-    transform:rotate(20deg);
-
-}
 /* ===========================
    Theme Toggle
 =========================== */
 
 .theme-toggle{
-
     width:42px;
-
     height:42px;
-
-    border-radius:50%;
-
     display:flex;
-
-    justify-content:center;
-
     align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    cursor:pointer;
+    transition:.3s;
+}
 
+.theme-toggle i{
+    transition:.3s;
 }
 
 .theme-toggle:hover{
-
     background:#ff5a3c;
-
-    transform:rotate(180deg);
-
 }
+
+.theme-toggle:hover i{
+    transform:rotate(180deg);
+}
+
 .wishlist-count{
 
     margin-left:6px;
@@ -537,5 +518,94 @@
     font-size:12px;
 
     font-weight:600;
+
+}
+
+
+@keyframes pulse{
+
+    0%{
+
+        transform:scale(1);
+
+    }
+
+    50%{
+
+        transform:scale(1.15);
+
+    }
+
+    100%{
+
+        transform:scale(1);
+
+    }
+
+}
+.notification-card{
+    display:flex;
+    align-items:flex-start;
+    gap:20px;
+    background:#fff;
+    border-radius:12px;
+    padding:20px;
+    margin-bottom:20px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.notification-card:hover{
+    transform:translateY(-3px);
+}
+
+
+
+.notification-content{
+    flex:1;
+}
+
+.notification-content h3{
+    margin:0;
+    font-size:20px;
+}
+
+.notification-content p{
+    margin:8px 0;
+    color:#666;
+}
+
+.notification-content small{
+    color:#999;
+}
+
+.booking-icon{
+    color:#2563eb;
+}
+
+.payment-icon{
+    color:#16a34a;
+}
+
+.wallet-icon{
+    color:#f59e0b;
+}
+
+.coupon-icon{
+    color:#9333ea;
+}
+
+.system-icon{
+    color:#64748b;
+}
+.notification-actions{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:15px;
+
+    margin-bottom:25px;
 
 }

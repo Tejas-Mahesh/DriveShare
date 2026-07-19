@@ -22,29 +22,79 @@ DriveShare
 
         <div class="hero-buttons">
 
-            <a href="#" class="btn-primary">
+    {% if user.is_authenticated %}
+
+        {% if user.user_type == "customer" %}
+
+            <a href="{% url 'browse_cars' %}" class="btn-primary">
                 Rent a Car
             </a>
 
-            <a href="#" class="btn-secondary">
+        {% elif user.user_type == "owner" %}
+
+            <a href="{% url 'browse_cars' %}" class="btn-primary">
+                Rent a Car
+            </a>
+
+        {% else %}
+
+            <a href="{% url 'browse_cars' %}" class="btn-primary">
+                Rent a Car
+            </a>
+
+        {% endif %}
+
+    {% else %}
+
+        <a href="{% url 'signup' %}" class="btn-primary">
+            Rent a Car
+        </a>
+
+    {% endif %}
+
+
+    {% if user.is_authenticated %}
+
+        {% if user.user_type == "owner" %}
+
+            <a href="{% url 'add_car' %}" class="btn-secondary">
                 List Your Car
             </a>
 
-        </div>
+        {% elif user.user_type == "customer" %}
 
-        <div class="search-box">
+            <a href="{% url 'signup' %}" class="btn-secondary">
+                Become an Owner
+            </a>
 
-            <input
-                type="text"
-                placeholder="Search by City">
+        {% endif %}
 
-            <button>
+    {% else %}
 
-                Search
+        <a href="{% url 'signup' %}" class="btn-secondary">
+            List Your Car
+        </a>
 
-            </button>
+    {% endif %}
 
-        </div>
+</div>
+
+        <form action="{% url 'browse_cars' %}" method="GET" class="search-box">
+
+    <input
+        type="text"
+        name="search"
+        placeholder="Search by Cars"
+        value="{{ request.GET.search }}"
+    >
+
+    <button type="submit">
+
+        Search
+
+    </button>
+
+</form>
 
     </div>
 
@@ -254,76 +304,7 @@ DriveShare
     </div>
 
 </section>
-<section class="recent-reviews">
 
-    <div class="section-title">
-
-        <h2>💬 What Our Customers Say</h2>
-
-        <p>Latest reviews from verified customers.</p>
-
-    </div>
-
-    <div class="review-grid">
-
-        {% for review in recent_reviews %}
-
-        <div class="review-card">
-
-            <div class="review-top">
-
-                <h3>
-
-                    {{ review.customer.get_full_name|default:review.customer.username }}
-
-                </h3>
-                <span class="verified-user">
-
-    ✔ Verified Customer
-
-</span>
-
-                <span>
-
-                    ⭐ {{ review.rating }}/5
-
-                </span>
-
-            </div>
-
-            <h4>
-
-                🚗 {{ review.car.title }}
-
-            </h4>
-
-            <p>
-
-                "{{ review.review }}"
-
-            </p>
-
-            <small>
-
-                {{ review.created_at|date:"d M Y" }}
-
-            </small>
-
-        </div>
-
-        {% empty %}
-
-        <div class="empty-review">
-
-            <h3>No reviews available yet.</h3>
-
-        </div>
-
-        {% endfor %}
-
-    </div>
-
-</section>
 <!-- Why Choose Us -->
 
 <section class="why-choose" data-aos="fade-up">
@@ -474,146 +455,80 @@ DriveShare
 </section>
 <!-- Testimonials -->
 
-<section class="testimonials" data-aos="fade-up">
+<section class="recent-reviews">
 
     <div class="section-title">
 
-        <h2>What Our Customers Say</h2>
+        <h2>💬 What Our Customers Say</h2>
 
-        <p>
-            Thousands of happy customers trust DriveShare for their journeys.
-        </p>
+        <p>Latest reviews from verified customers.</p>
 
     </div>
 
-    <div class="testimonial-grid">
+    <div class="review-grid">
 
-        <!-- Testimonial 1 -->
+        {% for review in recent_reviews %}
 
-        <div class="testimonial-card">
+        <div class="review-card">
 
-            <img src="{% static 'images/user1.jpg' %}" alt="Rahul">
+            <div class="review-top">
 
-            <h3>Rahul Sharma</h3>
+                <h3>
 
-            <span>Bengaluru</span>
+                    {{ review.customer.get_full_name|default:review.customer.username }}
 
-            <div class="stars">
+                </h3>
+                <span class="verified-user">
 
-                ★★★★★
+    ✔ Verified Customer
 
-            </div>
+</span>
 
-            <p>
+                <span>
 
-                "Booking was quick and simple. The car was clean, well-maintained, and exactly as described."
+                    ⭐ {{ review.rating }}/5
 
-            </p>
-
-        </div>
-
-        <!-- Testimonial 2 -->
-
-        <div class="testimonial-card">
-
-            <img src="{% static 'images/user2.jpg' %}" alt="Priya">
-
-            <h3>Priya Patel</h3>
-
-            <span>Mumbai</span>
-
-            <div class="stars">
-
-                ★★★★★
+                </span>
 
             </div>
 
-            <p>
+            <h4>
 
-                "The owner was professional and the pickup process was smooth. Highly recommended."
+                🚗 {{ review.car.title }}
 
-            </p>
-
-        </div>
-
-        <!-- Testimonial 3 -->
-
-        <div class="testimonial-card">
-
-            <img src="{% static 'images/user3.jpg' %}" alt="Arjun">
-
-            <h3>Arjun Reddy</h3>
-
-            <span>Hyderabad</span>
-
-            <div class="stars">
-
-                ★★★★★
-
-            </div>
+            </h4>
 
             <p>
 
-                "Affordable prices, verified vehicles, and excellent customer support throughout my trip."
+                "{{ review.review }}"
 
             </p>
 
+            <small>
+
+                {{ review.created_at|date:"d M Y" }}
+
+            </small>
+
         </div>
+
+        {% empty %}
+
+        <div class="empty-review">
+
+            <h3>No reviews available yet.</h3>
+
+        </div>
+
+        {% endfor %}
 
     </div>
 
 </section>
-<!-- Newsletter Section -->
 
-<section class="newsletter" data-aos="fade-up">
 
-    <div class="newsletter-content">
 
-        <div class="newsletter-left">
 
-            <h2>Stay Updated With DriveShare</h2>
 
-            <p>
-                Subscribe to receive the latest offers, new rental vehicles,
-                travel tips, and exclusive discounts directly to your inbox.
-            </p>
-
-            <form class="newsletter-form">
-
-                <input type="email"
-                       placeholder="Enter your email address">
-
-                <button type="submit">
-                    Subscribe
-                </button>
-
-            </form>
-
-            <div class="app-buttons">
-
-                <a href="#" class="play-store">
-                    <i class="fab fa-google-play"></i>
-                    Google Play
-                </a>
-
-                <a href="#" class="app-store">
-                    <i class="fab fa-apple"></i>
-                    App Store
-                </a>
-
-            </div>
-
-        </div>
-
-        <div class="newsletter-right">
-
-            <img src="{% static 'images/mobile-app.png' %}"
-                 alt="DriveShare Mobile App">
-
-        </div>
-
-    </div>
-
-</section>
 
 {% endblock %}

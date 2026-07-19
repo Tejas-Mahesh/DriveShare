@@ -27,6 +27,7 @@ from reportlab.platypus import (
     Paragraph,
     Spacer,
 )
+from notifications.utils import create_notification
 from .models import Booking, Review, Payment, Wallet, WalletTransaction
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
@@ -140,6 +141,13 @@ def book_car(request, car_id):
 
 
             booking.save()
+            create_notification(
+    user=car.owner,
+    title="New Booking Request",
+    message=f"{request.user.get_full_name() or request.user.username} requested to book {car.title}.",
+    notification_type="Booking",
+    redirect_url="/bookings/owner-bookings/",
+)
 
             Payment.objects.get_or_create(
                 booking=booking,
@@ -256,6 +264,13 @@ def cancel_booking(request, booking_id):
 
     booking.booking_status = "Cancelled"
     booking.save()
+    create_notification(
+    user=booking.car.owner,
+    title="Booking Cancelled",
+    message=f"{booking.customer.get_full_name() or booking.customer.username} cancelled the booking for {booking.car.title}.",
+    notification_type="Booking",
+    redirect_url="/bookings/owner-bookings/",
+)
 
     if hasattr(booking, "payment"):
         payment = booking.payment
@@ -397,6 +412,7 @@ def owner_booking_details(request, booking_id):
             "booking": booking,
         }
     )
+from notifications.models import Notification
 @login_required
 @owner_required
 def approve_booking(request, booking_id):
@@ -450,6 +466,20 @@ def approve_booking(request, booking_id):
     booking.booking_status = "Approved"
     booking.approved_at = timezone.now()
     booking.save()
+    Notification.objects.create(
+    user=booking.customer,
+    title="Booking Approved",
+    message=f"Your booking for {booking.car.title} has been approved.",
+    notification_type="Booking",
+)
+    
+    create_notification(
+    user=booking.customer,
+    title="Booking Approved",
+    message=f"Your booking for {booking.car.title} has been approved.",
+    notification_type="Booking",
+    redirect_url=f"/bookings/details/{booking.id}/",
+)
 
     
 
@@ -484,6 +514,19 @@ def reject_booking(request, booking_id):
     booking.booking_status = "Rejected"
 
     booking.save()
+    Notification.objects.create(
+    user=booking.customer,
+    title="Booking Rejected",
+    message=f"Your booking for {booking.car.title} has been rejected.",
+    notification_type="Booking",
+)
+    create_notification(
+    user=booking.customer,
+    title="Booking Rejected",
+    message=f"Your booking for {booking.car.title} has been rejected.",
+    notification_type="Booking",
+    redirect_url=f"/bookings/details/{booking.id}/",
+)
 
     messages.success(
         request,
@@ -919,6 +962,13 @@ def complete_booking(request, booking_id):
     booking.booking_status = "Completed"
     booking.completed_at = timezone.now()
     booking.save()
+    create_notification(
+    user=booking.customer,
+    title="Trip Completed",
+    message=f"Your trip with {booking.car.title} has been completed. Please leave a review.",
+    notification_type="Booking",
+    redirect_url=f"/bookings/details/{booking.id}/",
+)
 
     messages.success(
         request,
@@ -1090,6 +1140,19 @@ def payment_success(request, booking_id):
             payment.paid_at = timezone.now()
 
             payment.save()
+            Notification.objects.create(
+    user=request.user,
+    title="Payment Successful",
+    message=f"Payment of ₹{payment.amount} completed successfully.",
+    notification_type="Payment",
+)
+            create_notification(
+    user=request.user,
+    title="Payment Successful",
+    message=f"Payment of ₹{payment.amount} was completed successfully.",
+    notification_type="Payment",
+    redirect_url="/bookings/payment-history/",
+)
 
             messages.success(
                 request,
@@ -1126,6 +1189,13 @@ def payment_failed(request, booking_id):
     payment.payment_status = "Failed"
 
     payment.save()
+    create_notification(
+    user=request.user,
+    title="Payment Failed",
+    message=f"Payment of ₹{payment.amount} could not be completed.",
+    notification_type="Payment",
+    redirect_url="/bookings/payment-history/",
+)
 
     messages.error(
         request,
@@ -1181,25 +1251,48 @@ def wallet_payment(request, booking_id):
             booking.id,
         )
 
+    # Deduct wallet balance
     wallet.balance -= payment.amount
     wallet.save()
 
     WalletTransaction.objects.create(
-
         wallet=wallet,
-
         amount=payment.amount,
-
         transaction_type="Debit",
-
         description=f"Payment for Booking #{booking.id}",
+    )
 
+    # Wallet Notification
+    create_notification(
+        user=request.user,
+        title="Wallet Debited",
+        message=f"₹{payment.amount} has been deducted from your wallet for Booking #{booking.id}.",
+        notification_type="Wallet",
+        redirect_url="/bookings/wallet/",
     )
 
     payment.payment_status = "Paid"
     payment.payment_method = "Wallet"
     payment.paid_at = timezone.now()
     payment.save()
+
+    # Customer Notification
+    create_notification(
+        user=request.user,
+        title="Payment Successful",
+        message=f"Payment of ₹{payment.amount} was completed using Wallet.",
+        notification_type="Payment",
+        redirect_url="/bookings/payment-history/",
+    )
+
+    # NEW: Owner Notification
+    create_notification(
+        user=booking.car.owner,
+        title="Booking Payment Received",
+        message=f"{booking.customer.get_full_name() or booking.customer.username} paid ₹{payment.amount} for {booking.car.title}.",
+        notification_type="Payment",
+        redirect_url="/bookings/owner-bookings/",
+    )
 
     messages.success(
         request,
@@ -1477,6 +1570,7 @@ def wallet(request):
     page = request.GET.get("page")
 
     transactions = paginator.get_page(page)
+    
 
     return render(
         request,

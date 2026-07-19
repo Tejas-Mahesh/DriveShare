@@ -8,37 +8,108 @@ Notifications
 
 <section class="dashboard">
 
-<div class="dashboard-header">
+    <div class="dashboard-header">
 
-<h1>Notifications</h1>
+        <h1>Notifications</h1>
 
-<p>Your latest updates</p>
+        <p>Your latest updates</p>
 
+    </div>
+
+    <!-- Action Buttons -->
+
+    <div class="notification-actions">
+
+        <a href="{% url 'mark_all_notifications_read' %}"
+           class="btn btn-primary">
+
+            <i class="fas fa-check-double"></i>
+
+            Mark All Read
+
+        </a>
+        <div class="notification-delete">
+        <a href="{% url 'clear_notifications' %}"
+           class="btn delete-btn"
+           onclick="return confirm('Clear all notifications?')">
+
+            <i class="fas fa-trash"></i>
+
+            Clear All
+
+        </a>
 </div>
+    </div>
 
-{% for notification in notifications %}
+    {% for notification in notifications %}
 
-<div class="dashboard-box" style="margin-bottom:20px;">
+    <div class="notification-card {% if not notification.is_read %}unread{% endif %}">
 
-<h3>{{ notification.title }}</h3>
+        <div class="notification-icon">
 
-<p>{{ notification.message }}</p>
+            {% if notification.notification_type == "Booking" %}
 
-<small>{{ notification.created_at }}</small>
+                <i class="fas fa-calendar-check booking-icon"></i>
 
-</div>
+            {% elif notification.notification_type == "Payment" %}
 
-{% empty %}
+                <i class="fas fa-credit-card payment-icon"></i>
 
-<div class="dashboard-box">
+            {% elif notification.notification_type == "Wallet" %}
 
-<h3>No Notifications</h3>
+                <i class="fas fa-wallet wallet-icon"></i>
 
-<p>You don't have any notifications yet.</p>
+            {% elif notification.notification_type == "Coupon" %}
 
-</div>
+                <i class="fas fa-tags coupon-icon"></i>
 
-{% endfor %}
+            {% else %}
+
+                <i class="fas fa-bell system-icon"></i>
+
+            {% endif %}
+
+        </div>
+
+        <div class="notification-content">
+
+            <h3>{{ notification.title }}</h3>
+
+            <p>{{ notification.message }}</p>
+
+            <small>
+
+                {{ notification.created_at|timesince }} ago
+
+            </small>
+
+        </div>
+
+        <div class="notification-delete">
+
+            <a href="{% url 'delete_notification' notification.id %}"
+               class="delete-btn"
+               onclick="return confirm('Delete this notification?')">
+
+                <i class="fas fa-trash"></i>
+
+            </a>
+
+        </div>
+
+    </div>
+
+    {% empty %}
+
+    <div class="dashboard-box">
+
+        <h3>No Notifications</h3>
+
+        <p>You don't have any notifications yet.</p>
+
+    </div>
+
+    {% endfor %}
 
 </section>
 
