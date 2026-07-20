@@ -6,13 +6,11 @@ class CustomUser(AbstractUser):
 
     USER_TYPES = (
 
-        ('customer', 'Customer'),
+    ("customer", "Customer"),
 
-        ('owner', 'Car Owner'),
+    ("owner", "Car Owner"),
 
-        ('admin', 'Admin'),
-
-    )
+)
 
     user_type = models.CharField(
         max_length=20,

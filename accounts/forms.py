@@ -33,6 +33,13 @@ class SignUpForm(UserCreationForm):
             'password2',
 
         )
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields["user_type"].choices = [
+            ("customer", "Customer"),
+            ("owner", "Car Owner"),
+        ]
 from django import forms
 from .models import CustomerProfile, OwnerProfile
 

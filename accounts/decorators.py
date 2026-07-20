@@ -112,19 +112,25 @@ def owner_required(view_func):
     return wrapper
 
 
+from functools import wraps
+from django.shortcuts import redirect
+from django.contrib import messages
+from django.core.exceptions import PermissionDenied
+
+
 def admin_required(view_func):
 
     @wraps(view_func)
     def wrapper(request, *args, **kwargs):
 
         if not request.user.is_authenticated:
-
             return redirect("login")
 
-        if request.user.user_type != "admin":
-
-            messages.error(request, "Access denied.")
-
+        if not request.user.is_superuser:
+            messages.error(
+                request,
+                "You don't have permission to access this page."
+            )
             raise PermissionDenied
 
         return view_func(request, *args, **kwargs)

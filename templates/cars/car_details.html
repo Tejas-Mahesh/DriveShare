@@ -35,6 +35,7 @@ src="{{ car.images.first.image.url }}">
 
 </div>
 
+
 </div>
 
 <div class="details-section">
@@ -193,67 +194,7 @@ Review{{ review_count|pluralize }}
 </div>
 
 </section>
-<section class="reviews-section">
 
-<h2>
-
-Customer Reviews
-
-</h2>
-
-{% if reviews %}
-
-{% for review in reviews %}
-
-<div class="review-card">
-
-    <div class="review-header">
-
-        <h3>
-
-            {{ review.customer.get_full_name|default:review.customer.username }}
-
-        </h3>
-
-        <span>
-
-            ⭐ {{ review.rating }}/5
-
-        </span>
-
-    </div>
-
-    <p>
-
-        {{ review.review }}
-
-    </p>
-
-    <small>
-
-        {{ review.created_at|date:"d M Y" }}
-
-    </small>
-
-</div>
-
-{% endfor %}
-
-{% else %}
-
-<div class="empty-review">
-
-    <h3>
-
-        No reviews yet.
-
-    </h3>
-
-</div>
-
-{% endif %}
-
-</section>
 <section class="similar-section">
 
     <h2>🚗 Similar Cars</h2>

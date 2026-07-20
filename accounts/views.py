@@ -21,16 +21,16 @@ from .decorators import customer_required, owner_required, admin_required
 def signup(request):
 
     if request.user.is_authenticated:
+        if request.user.is_superuser:
+            return redirect("admin_dashboard")
 
-        if request.user.user_type == "customer":
+        elif request.user.user_type == "customer":
             return redirect("customer_dashboard")
 
         elif request.user.user_type == "owner":
             return redirect("owner_dashboard")
 
-        else:
-            return redirect("/admin/")
-
+        return redirect("home")
     if request.method == "POST":
 
         form = SignUpForm(request.POST)
@@ -73,14 +73,14 @@ def login_view(request):
 
     if request.user.is_authenticated:
 
-        if request.user.user_type == "customer":
+        if request.user.is_superuser:
+            return redirect("admin_dashboard")
+
+        elif request.user.user_type == "customer":
             return redirect("customer_dashboard")
 
         elif request.user.user_type == "owner":
             return redirect("owner_dashboard")
-
-        else:
-            return redirect("/admin/")
 
     if request.method == "POST":
 
@@ -97,24 +97,19 @@ def login_view(request):
 
             login(request, user)
 
-            if user.user_type == "customer":
+            if user.is_superuser:
+                return redirect("admin_dashboard")
+
+            elif user.user_type == "customer":
                 return redirect("customer_dashboard")
 
             elif user.user_type == "owner":
                 return redirect("owner_dashboard")
 
-            else:
-                return redirect("/admin/")
-
         else:
-
-            messages.error(
-                request,
-                "Invalid username or password."
-            )
+            messages.error(request, "Invalid username or password.")
 
     return render(request, "accounts/login.html")
-
 
 # ==========================
 # Logout

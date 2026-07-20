@@ -6,10 +6,9 @@
     position:relative;
     padding:100px 20px;
     text-align:center;
-    background:linear-gradient(135deg,#de4007,#de4007);
+    background:linear-gradient(135deg,#c03a22,#ff5a3c);
     color:#fff;
-    overflow:hidden;
-}
+    overflow:hi#ff5a3c
 
 .page-banner::before{
     content:"";
@@ -113,7 +112,7 @@
 
 .info-card i{
     font-size:45px;
-    color:#de4007;
+    color:#ff5a3c;
     margin-bottom:20px;
 }
 
@@ -167,7 +166,7 @@
 
 .stat-card h2{
     font-size:42px;
-    color:#de4007;
+    color:#ff5a3c;
     margin-bottom:10px;
 }
 
@@ -260,7 +259,7 @@
     display:flex;
     justify-content:center;
     align-items:center;
-    background:#de4007;
+    background:#ff5a3c;
     color:#fff;
 }
 
@@ -294,7 +293,7 @@
 
 .contact-form input:focus,
 .contact-form textarea:focus{
-    border-color:#de4007;
+    border-color:#ff5a3c;
 }
 
 .contact-form button{
@@ -381,4 +380,5 @@ padding:25px;
 
 }
 
+}
 }
