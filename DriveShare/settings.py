@@ -143,6 +143,7 @@ LOGOUT_REDIRECT_URL = "home"
 
 RAZORPAY_KEY_ID = "rzp_test_TErOA357pSBs10"
 
+
 RAZORPAY_KEY_SECRET = "PlD9SgcNx930CLjnaxhXxviC"
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
@@ -158,3 +159,4 @@ EMAIL_HOST_USER = "tejasmanjulakg@gmail.com"
 EMAIL_HOST_PASSWORD = "qmxadkjdtepnhjto"
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
