@@ -137,7 +137,7 @@ My Bookings
 
         <div class="booking-actions">
 
-    <a href="{% url 'booking_details' booking.id %}" class="view-btn">
+    <a href="{% url 'booking_details'  booking.id %}" class="view-btn">
 
         View Details
 
@@ -145,7 +145,7 @@ My Bookings
 
     {% if booking.booking_status == "Pending" %}
 
-    <a href="{% url 'cancel_booking' booking.id %}"
+    <a href="{% url 'cancel_booking'  booking.id %}"
        class="cancel-btn"
        onclick="return confirm('Are you sure you want to cancel this booking?');">
 
@@ -154,7 +154,7 @@ My Bookings
     </a>
     {% if booking.booking_status == "Completed" and not booking.review %}
 
-<a href="{% url 'add_review' booking.id %}" class="view-btn">
+<a href="{% url 'add_review'  booking.id %}" class="view-btn">
 
 ⭐ Rate This Web and Car
 
@@ -163,6 +163,7 @@ My Bookings
 {% endif %}
 
     {% endif %}
+    
 
 
 </div>

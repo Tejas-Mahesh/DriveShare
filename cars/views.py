@@ -70,6 +70,14 @@ def add_car(request):
 @login_required
 @owner_required
 def my_cars(request):
+    cars = Car.objects.filter(owner=request.user)
+
+    for car in cars:
+        has_booking = Booking.objects.filter(
+        car=car
+    ).exists()
+
+        car.can_delete = not has_booking
 
     cars = Car.objects.filter(
         owner=request.user
@@ -502,3 +510,50 @@ def wishlist(request):
             "wishlist_items": wishlist_items
         }
     )
+
+from bookings.models import Booking
+
+
+
+@login_required
+def delete_car(request, car_id):
+
+    car = get_object_or_404(
+
+        Car,
+
+        id=car_id,
+
+        owner=request.user
+
+    )
+
+    has_booking = Booking.objects.filter(
+
+        car=car
+
+    ).exists()
+
+    if has_booking:
+
+        messages.error(
+
+            request,
+
+            "This car cannot be deleted because booking records exist."
+
+        )
+
+        return redirect("my_cars")
+
+    car.delete()
+
+    messages.success(
+
+        request,
+
+        "Car deleted successfully."
+
+    )
+
+    return redirect("my_cars")

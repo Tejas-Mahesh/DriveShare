@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-
+from .email_service import send_signup_email
 from .forms import (
     SignUpForm,
     CustomerProfileForm,
@@ -44,6 +44,8 @@ def signup(request):
 
             elif user.user_type == "owner":
                 OwnerProfile.objects.create(user=user)
+            
+            send_signup_email(user)
 
             messages.success(
                 request,

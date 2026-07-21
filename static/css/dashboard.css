@@ -581,3 +581,182 @@ section h2{
 }
 
 }
+
+/* ===========================
+   REFUND REQUESTS PAGE
+=========================== */
+
+.refund-section{
+
+    max-width:1300px;
+    margin:120px auto;
+    padding:20px;
+
+}
+
+.refund-title{
+
+    font-size:38px;
+    font-weight:700;
+    color:#222;
+    margin-bottom:35px;
+    text-align:center;
+
+}
+
+.refund-table{
+
+    width:100%;
+    border-collapse:collapse;
+    background:#fff;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+
+}
+
+.refund-table thead{
+
+    background:#2563eb;
+    color:#fff;
+
+}
+
+.refund-table th{
+
+    padding:18px;
+    font-size:16px;
+    text-align:center;
+    font-weight:600;
+
+}
+
+.refund-table td{
+
+    padding:18px;
+    text-align:center;
+    border-bottom:1px solid #eee;
+    font-size:15px;
+
+}
+
+.refund-table tbody tr{
+
+    transition:.3s;
+
+}
+
+.refund-table tbody tr:hover{
+
+    background:#f8fbff;
+
+}
+
+/* Status */
+
+.status{
+
+    padding:7px 18px;
+    border-radius:30px;
+    color:#fff;
+    font-size:14px;
+    font-weight:600;
+
+}
+
+.status.pending{
+
+    background:#f59e0b;
+
+}
+
+.status.approved{
+
+    background:#22c55e;
+
+}
+
+.status.rejected{
+
+    background:#ef4444;
+
+}
+
+/* Buttons */
+
+.action-btn{
+
+    display:inline-block;
+    padding:9px 18px;
+    border-radius:8px;
+    text-decoration:none;
+    color:#fff;
+    font-size:14px;
+    font-weight:600;
+    transition:.3s;
+    margin:3px;
+
+}
+
+.approve-btn{
+
+    background:#22c55e;
+
+}
+
+.approve-btn:hover{
+
+    background:#16a34a;
+    transform:translateY(-2px);
+
+}
+
+.reject-btn{
+
+    background:#ef4444;
+
+}
+
+.reject-btn:hover{
+
+    background:#dc2626;
+    transform:translateY(-2px);
+
+}
+
+/* Empty */
+
+.no-refund{
+
+    background:#fff;
+    padding:60px;
+    text-align:center;
+    border-radius:18px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+
+}
+
+.no-refund h3{
+
+    color:#777;
+
+}
+
+/* Mobile */
+
+@media(max-width:900px){
+
+.refund-table{
+
+    display:block;
+    overflow-x:auto;
+
+}
+
+.refund-title{
+
+    font-size:30px;
+
+}
+
+}

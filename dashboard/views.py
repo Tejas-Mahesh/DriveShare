@@ -12,6 +12,11 @@ from bookings.models import Payment
 from bookings.models import Booking
 from notifications.models import Notification
 from cars.models import Wishlist
+from django.db.models import Sum
+from django.utils import timezone
+from datetime import timedelta
+from bookings.models import Payment
+from decimal import Decimal
 @login_required(login_url='login')
 def customer_dashboard(request):
 
@@ -64,36 +69,86 @@ def customer_dashboard(request):
 
 
 
+from django.db.models import Avg, Sum
+from decimal import Decimal
+
 @login_required(login_url="login")
 @profile_complete_required
 def owner_dashboard(request):
 
     if request.user.user_type != "owner":
         return redirect("home")
+
+    # ============================
+    # Cars
+    # ============================
+
+    total_cars = Car.objects.filter(
+        owner=request.user
+    ).count()
+
+    # ============================
+    # Bookings
+    # ============================
+
+    total_bookings = Booking.objects.filter(
+        car__owner=request.user
+    ).count()
+
+    completed_rentals = Booking.objects.filter(
+        car__owner=request.user,
+        booking_status="Completed"
+    ).count()
+
+    # ============================
+    # Reviews
+    # ============================
+
     owner_reviews = Review.objects.filter(
-    car__owner=request.user
-)
+        car__owner=request.user
+    )
 
     owner_rating = owner_reviews.aggregate(
-    Avg("rating")
-)["rating__avg"]
+        Avg("rating")
+    )["rating__avg"]
 
     owner_review_count = owner_reviews.count()
 
-    completed_rentals = Booking.objects.filter(
-    car__owner=request.user,
-    booking_status="Completed"
-).count()
+    # ============================
+    # Earnings
+    # ============================
+
+    total_earnings = Payment.objects.filter(
+        booking__car__owner=request.user,
+        payment_status="Paid"
+    ).aggregate(
+        total=Sum("owner_amount")
+    )["total"] or Decimal("0.00")
+
+    # ============================
+    # Context
+    # ============================
+
+    context = {
+
+        "total_cars": total_cars,
+
+        "total_bookings": total_bookings,
+
+        "total_earnings": total_earnings,
+
+        "owner_rating": owner_rating,
+
+        "owner_review_count": owner_review_count,
+
+        "completed_rentals": completed_rentals,
+
+    }
 
     return render(
         request,
-        "dashboard/owner_dashboard.html",{
-             "owner_rating": owner_rating,
-        "owner_review_count": owner_review_count,
-        "completed_rentals": completed_rentals,
-
-
-        }
+        "dashboard/owner_dashboard.html",
+        context,
     )
 from django.contrib.auth.decorators import login_required
 from accounts.decorators import admin_required
@@ -298,4 +353,55 @@ Message:
     return render(
         request,
         "core/contact.html"
+    )
+
+@login_required
+def revenue_report(request):
+
+    if not request.user.is_superuser:
+        return redirect("home")
+
+    today = timezone.now().date()
+
+    daily_revenue = (
+        Payment.objects.filter(
+            payment_status="Paid",
+            paid_at__date=today
+        ).aggregate(
+            total=Sum("amount")
+        )["total"] or 0
+    )
+
+    monthly_revenue = (
+        Payment.objects.filter(
+            payment_status="Paid",
+            paid_at__year=today.year,
+            paid_at__month=today.month
+        ).aggregate(
+            total=Sum("amount")
+        )["total"] or 0
+    )
+
+    yearly_revenue = (
+        Payment.objects.filter(
+            payment_status="Paid",
+            paid_at__year=today.year
+        ).aggregate(
+            total=Sum("amount")
+        )["total"] or 0
+    )
+
+    commission = yearly_revenue * Decimal(0.10)
+
+    context = {
+        "daily_revenue": daily_revenue,
+        "monthly_revenue": monthly_revenue,
+        "yearly_revenue": yearly_revenue,
+        "commission": commission,
+    }
+
+    return render(
+        request,
+        "dashboard/revenue_report.html",
+        context,
     )

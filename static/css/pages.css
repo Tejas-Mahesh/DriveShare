@@ -8,8 +8,8 @@
     text-align:center;
     background:linear-gradient(135deg,#c03a22,#ff5a3c);
     color:#fff;
-    overflow:hi#ff5a3c
-
+    overflow:hidden;
+}
 .page-banner::before{
     content:"";
     position:absolute;
@@ -380,5 +380,4 @@ padding:25px;
 
 }
 
-}
 }

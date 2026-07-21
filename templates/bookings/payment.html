@@ -32,7 +32,7 @@
 <button id="pay-btn" class="pay-btn">
     Pay ₹{{ remaining_amount }}
 </button>
-<form method="POST" action="{% url 'wallet_payment' booking.id %}">
+<form method="POST" action="{% url 'wallet_payment'  booking.id %}">
 
     {% csrf_token %}
 
@@ -70,7 +70,7 @@ var options = {
 
         form.method = "POST";
 
-        form.action = "{% url 'payment_success' booking.id %}";
+        form.action = "{% url 'payment_success'  booking.id %}";
 
         var csrf = document.createElement("input");
 
@@ -123,7 +123,7 @@ var options = {
         ondismiss: function () {
 
             window.location.href =
-            "{% url 'payment_failed' booking.id %}";
+            "{% url 'payment_failed'  booking.id %}";
 
         }
 

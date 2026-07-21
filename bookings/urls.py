@@ -125,4 +125,11 @@ path(
     views.wallet_payment,
     name="wallet_payment",
 ),
+path(
+    "owner/earnings/",
+    views.owner_earnings,
+    name="owner_earnings",
+),
+
+
 ]

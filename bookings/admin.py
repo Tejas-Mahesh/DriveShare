@@ -5,6 +5,7 @@ from .models import Booking
 class BookingAdmin(admin.ModelAdmin):
 
     list_display = (
+        "invoice_number",
         "customer",
         "car",
         "start_date",

@@ -11,7 +11,7 @@
         <span></span>
     </div>
 
-    <ul class="nav-links">
+    <ul class="nav-links" id="nav-links">
 
         <li>
             <a href="/" class="{% if request.path == '/' %}active{% endif %}">
@@ -41,6 +41,11 @@
                     <a href="/admin/">
                         Django Admin
                     </a>
+                </li>
+                <li>
+                    <a href="{% url 'revenue_report'  %}" class="{% if request.resolver_match.url_name == 'revenue_report' %}active{% endif %}">
+                     Revenue Report
+                        </a>
                 </li>
 
             <!-- ================= CUSTOMER ================= -->
@@ -218,6 +223,9 @@
 
                         <a href="/admin/">
                             Django Admin
+                        </a>
+                        <a href="{% url 'revenue_report' %}">
+                            Revenue Report
                         </a>
 
                     <!-- CUSTOMER -->

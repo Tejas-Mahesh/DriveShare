@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}
+Revenue Report
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard">
+
+    <h1>Revenue Report</h1>
+
+    <div class="stats-grid">
+
+        <div class="stats-card">
+            <h2>₹{{ daily_revenue }}</h2>
+            <p>Today's Revenue</p>
+        </div>
+
+        <div class="stats-card">
+            <h2>₹{{ monthly_revenue }}</h2>
+            <p>This Month</p>
+        </div>
+
+        <div class="stats-card">
+            <h2>₹{{ yearly_revenue }}</h2>
+            <p>This Year</p>
+        </div>
+
+        <div class="stats-card">
+            <h2>₹{{ commission }}</h2>
+            <p>Platform Commission (10%)</p>
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

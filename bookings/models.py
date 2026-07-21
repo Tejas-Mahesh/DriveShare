@@ -2,7 +2,9 @@ from django.db import models
 from accounts.models import CustomUser
 from cars.models import Car
 
-
+from django.utils import timezone
+from django.db import models
+from decimal import Decimal
 class Booking(models.Model):
 
     STATUS_CHOICES = (
@@ -35,7 +37,6 @@ class Booking(models.Model):
         max_digits=10,
         decimal_places=2
     )
-    
 
     booking_status = models.CharField(
         max_length=20,
@@ -58,15 +59,40 @@ class Booking(models.Model):
     updated_at = models.DateTimeField(
         auto_now=True
     )
+
     approved_at = models.DateTimeField(
-    null=True,
-    blank=True
-)
+        null=True,
+        blank=True
+    )
 
     completed_at = models.DateTimeField(
-    null=True,
-    blank=True
+        null=True,
+        blank=True
+    )
+
+    invoice_number = models.CharField(
+    max_length=20,
+    unique=True,
+    blank=True,
+    null=True
 )
+
+    def save(self, *args, **kwargs):
+
+        if not self.invoice_number:
+
+            year = timezone.now().year
+
+            last_booking = Booking.objects.order_by("-id").first()
+
+            if last_booking:
+                number = last_booking.id + 1
+            else:
+                number = 1
+
+            self.invoice_number = f"DS{year}{number:05d}"
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.customer.username} - {self.car.title}"
@@ -166,7 +192,28 @@ class Payment(models.Model):
     created_at = models.DateTimeField(
         auto_now_add=True
     )
+    commission = models.DecimalField(
+    max_digits=10,
+    decimal_places=2,
+    default=0
+)
 
+    owner_amount = models.DecimalField(
+    max_digits=10,
+    decimal_places=2,
+    default=0
+)
+    def save(self, *args, **kwargs):
+        if self.amount:
+            self.commission = (
+                self.amount * Decimal("0.10")
+            ).quantize(Decimal("0.01"))
+
+            self.owner_amount = (
+                self.amount - self.commission
+            ).quantize(Decimal("0.01"))
+
+        super().save(*args, **kwargs)
     def __str__(self):
 
         return f"{self.booking.id} - {self.payment_status}"
@@ -229,3 +276,4 @@ class WalletTransaction(models.Model):
     def __str__(self):
 
         return f"{self.wallet.customer.username} - {self.transaction_type}"
+    

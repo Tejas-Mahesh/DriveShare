@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+
+{% block title %}
+Owner Earnings
+{% endblock %}
+
+{% block content %}
+
+<section class="earnings-page">
+
+    <h1>Owner Earnings</h1>
+
+    <div class="earning-cards">
+
+        <div class="earning-card">
+
+            <h3>Total Earnings</h3>
+
+            <h2>₹{{ gross_earnings }}</h2>
+
+        </div>
+
+        <div class="earning-card">
+
+            <h3>Platform Commission</h3>
+
+            <h2>₹{{ commission }}</h2>
+
+        </div>
+
+        <div class="earning-card">
+
+            <h3>Withdrawable</h3>
+
+            <h2>₹{{ withdrawable }}</h2>
+
+        </div>
+        <div class="earning-card">
+
+            <h3>Completed Rentals</h3>
+
+            <h2>{{ completed_rentals }}</h2>
+
+        </div>
+
+    </div>
+
+    <table class="earning-table">
+
+        <thead>
+
+            <tr>
+
+                <th>Invoice</th>
+
+                <th>Car</th>
+
+                <th>Customer</th>
+
+                <th>Amount</th>
+
+                <th>Status</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+        {% for payment in payments %}
+
+            <tr>
+
+                <td>{{ payment.id }}</td>
+
+                <td>{{ payment.booking.car.title }}</td>
+
+                <td>{{ payment.booking.customer.first_name }}</td>
+
+                <td>₹{{ payment.amount }}</td>
+
+                <td>{{ payment.payment_status }}</td>
+
+            </tr>
+
+        {% empty %}
+
+            <tr>
+
+                <td colspan="5">
+
+                    No earnings yet.
+
+                </td>
+
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <div class="transactions-section">
+
+    <h2>Recent Transactions</h2>
+
+    {% if recent_transactions %}
+
+    <table class="transactions-table">
+
+        <thead>
+
+            <tr>
+
+                <th>Invoice</th>
+
+                <th>Car</th>
+
+                <th>Customer</th>
+
+                <th>Amount</th>
+
+                <th>Commission</th>
+
+                <th>Owner Gets</th>
+
+                <th>Date</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+        {% for payment in recent_transactions %}
+
+            <tr>
+
+                <td>{{ payment.booking.invoice_number }}</td>
+
+                <td>{{ payment.booking.car.title }}</td>
+
+                <td>{{ payment.booking.customer.get_full_name }}</td>
+
+                <td>₹{{ payment.amount }}</td>
+
+                <td>₹{{ payment.commission }}</td>
+
+                <td>
+
+                    ₹{{ payment.owner_amount }}
+
+                </td>
+
+                <td>{{ payment.paid_at|date:"d M Y" }}</td>
+
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    {% else %}
+
+        <p>No transactions available.</p>
+
+    {% endif %}
+
+</div>
+
+</section>
+
+{% endblock %}

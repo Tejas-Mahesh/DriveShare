@@ -27,6 +27,7 @@ from reportlab.platypus import (
     Paragraph,
     Spacer,
 )
+import json
 from notifications.utils import create_notification
 from .models import Booking, Review, Payment, Wallet, WalletTransaction
 from reportlab.lib import colors
@@ -1124,11 +1125,9 @@ def payment_success(request, booking_id):
             payment.payment_status = "Paid"
 
             if wallet_used == Decimal("0.00"):
-
                 payment.payment_method = "Razorpay"
 
             elif wallet_used == payment.amount:
-
                 payment.payment_method = "Wallet"
 
             else:
@@ -1138,6 +1137,16 @@ def payment_success(request, booking_id):
             payment.transaction_id = params["razorpay_payment_id"]
 
             payment.paid_at = timezone.now()
+
+# Platform commission (10%)
+            payment.commission = (
+    payment.amount * Decimal("10")
+) / Decimal("100")
+
+# Owner amount
+            payment.owner_amount = (
+    payment.amount - payment.commission
+)
 
             payment.save()
             Notification.objects.create(
@@ -1270,12 +1279,20 @@ def wallet_payment(request, booking_id):
         notification_type="Wallet",
         redirect_url="/bookings/wallet/",
     )
-
     payment.payment_status = "Paid"
     payment.payment_method = "Wallet"
     payment.paid_at = timezone.now()
-    payment.save()
 
+# Platform commission (10%)
+    payment.commission = (
+    payment.amount * Decimal("10")
+) / Decimal("100")
+
+# Owner receives remaining amount
+    payment.owner_amount = (
+    payment.amount - payment.commission
+)
+    payment.save()
     # Customer Notification
     create_notification(
         user=request.user,
@@ -1358,7 +1375,6 @@ def payment_history(request):
 ).aggregate(
     total=Sum("amount")
 )["total"] or 0
-
     return render(
         request,
         "bookings/payment_history.html",
@@ -1580,3 +1596,141 @@ def wallet(request):
             "transactions": transactions,
         }
     )
+
+from decimal import Decimal
+from django.contrib.auth.decorators import login_required
+from django.db.models import Sum
+from bookings.models import Payment
+
+
+@login_required
+def owner_earnings(request):
+
+    payments = Payment.objects.filter(
+        booking__car__owner=request.user,
+        payment_status="Paid"
+    ).select_related("booking", "booking__car")
+
+    gross_earnings = payments.aggregate(
+        total=Sum("amount")
+    )["total"] or Decimal("0.00")
+
+    commission = gross_earnings * Decimal("0.10")      # 10%
+
+    withdrawable = gross_earnings - commission
+
+    context = {
+
+        "payments": payments,
+
+        "gross_earnings": gross_earnings,
+
+        "commission": commission,
+
+        "withdrawable": withdrawable,
+
+    }
+
+    return render(
+        request,
+        "bookings/owner_earnings.html",
+        context,
+    )
+
+
+from decimal import Decimal
+from django.db.models import Sum
+from django.db.models.functions import TruncMonth
+@login_required
+def owner_earnings(request):
+
+    if request.user.user_type != "owner":
+        return redirect("home")
+
+    COMMISSION_PERCENT = Decimal("10")
+
+    payments = Payment.objects.filter(
+        booking__car__owner=request.user,
+        payment_status="Paid",
+    ).select_related(
+        "booking",
+        "booking__car",
+        "booking__customer",
+    )
+
+    gross_earnings = (
+        payments.aggregate(
+            total=Sum("amount")
+        )["total"] or Decimal("0.00")
+    )
+
+    commission = (
+        gross_earnings * COMMISSION_PERCENT
+    ) / Decimal("100")
+
+    withdrawable = gross_earnings - commission
+
+    completed_rentals = Booking.objects.filter(
+        car__owner=request.user,
+        booking_status="Completed"
+    ).count()
+
+    recent_transactions = payments.order_by("-paid_at")
+    monthly_earnings = (
+
+    payments
+
+    .annotate(
+        month=TruncMonth("paid_at")
+    )
+
+    .values("month")
+
+    .annotate(
+        total=Sum("owner_amount")
+    )
+
+    .order_by("month")
+
+)   
+    chart_labels = [
+
+    item["month"].strftime("%b %Y")
+
+    for item in monthly_earnings
+
+]     
+    chart_values = [
+
+    float(item["total"])
+
+    for item in monthly_earnings
+
+]
+
+    context = {
+
+        "payments": payments,
+
+        "gross_earnings": gross_earnings,
+
+        "commission": commission,
+
+        "withdrawable": withdrawable,
+
+        "completed_rentals": completed_rentals,
+        "recent_transactions": recent_transactions,
+        "chart_labels": json.dumps(chart_labels),
+"chart_values": json.dumps(chart_values),
+
+
+    }
+
+    return render(
+        request,
+        "bookings/owner_earnings.html",
+        context,
+    )
+
+from django.db.models.functions import TruncMonth
+from django.db.models import Sum

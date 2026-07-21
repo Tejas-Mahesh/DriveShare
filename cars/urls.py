@@ -64,4 +64,9 @@ path(
     views.wishlist,
     name="wishlist"
 ),
+path(
+    "delete/<int:car_id>/",
+    views.delete_car,
+    name="delete_car",
+),
 ]

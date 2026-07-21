@@ -23,4 +23,10 @@ urlpatterns = [
     path("about/", views.about, name="about"),
 
 path("contact/", views.contact, name="contact"),
+path(
+    "dashboard/revenue/",
+    views.revenue_report,
+    name="revenue_report",
+),
+
 ]
