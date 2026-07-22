@@ -84,15 +84,7 @@ My Cars
 </div>
 
 {% endif %}
-{% if car.can_delete %}
-<a href="{% url 'delete_car' car.id %}" class="delete-btn">
-    Delete Car
-</a>
-{% else %}
-<button class="delete-btn disabled" disabled>
-    Cannot Delete
-</button>
-{% endif %}
+
 
 </td>
 

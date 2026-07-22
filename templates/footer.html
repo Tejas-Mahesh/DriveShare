@@ -35,14 +35,19 @@
             <ul>
 
                 <li><a href="/">Home</a></li>
+ {% if user.user_type == "customer" %}
+                <li><a href="{% url 'browse_cars' %}">Rent Cars</a></li>
+                {% else %}
+                <li><a href="{% url 'signup' %}">Rent Cars</a></li>
+                {% endif %}
+               {% if user.user_type == "owner" %}
+                <li><a href="{% url 'add_car' %}">List Your Car</a></li>
+                {% else %}
+                <li><a href="{% url 'signup' %}">List Your Car</a></li>
+                {% endif %}
+                <li><a href="{% url 'about' %}">About</a></li>
 
-                <li><a href="#">Rent Cars</a></li>
-
-                <li><a href="#">List Your Car</a></li>
-
-                <li><a href="#">About</a></li>
-
-                <li><a href="#">Contact</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
 
             </ul>
 
@@ -79,7 +84,7 @@
 
                 <li><i class="fas fa-phone"></i> +91 80734 84727</li>
 
-                <li><i class="fas fa-envelope"></i> support@driveshare.com</li>
+                <li><i class="fas fa-envelope"></i> </li>
 
                 <li><i class="fas fa-clock"></i> 24×7 Customer Support</li>
 

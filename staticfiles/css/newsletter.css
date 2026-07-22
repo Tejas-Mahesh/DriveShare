@@ -1,0 +1,137 @@
+.newsletter{
+
+    padding:100px 8%;
+
+    background:linear-gradient(135deg,#ff5a3c,#ff8a65);
+
+    color:white;
+
+}
+
+.newsletter-content{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:60px;
+
+    flex-wrap:wrap;
+
+}
+
+.newsletter-left{
+
+    flex:1;
+
+}
+
+.newsletter-left h2{
+
+    font-size:42px;
+
+    margin-bottom:20px;
+
+}
+
+.newsletter-left p{
+
+    line-height:1.8;
+
+    margin-bottom:35px;
+
+}
+
+.newsletter-form{
+
+    display:flex;
+
+    background:white;
+
+    border-radius:50px;
+
+    overflow:hidden;
+
+    margin-bottom:35px;
+
+}
+
+.newsletter-form input{
+
+    flex:1;
+
+    border:none;
+
+    outline:none;
+
+    padding:18px;
+
+    font-size:16px;
+
+}
+
+.newsletter-form button{
+
+    background:#222;
+
+    color:white;
+
+    border:none;
+
+    padding:18px 35px;
+
+    cursor:pointer;
+
+}
+
+.app-buttons{
+
+    display:flex;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+
+}
+
+.app-buttons a{
+
+    text-decoration:none;
+
+    background:white;
+
+    color:#222;
+
+    padding:15px 25px;
+
+    border-radius:50px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.app-buttons a:hover{
+
+    transform:translateY(-5px);
+
+}
+
+.newsletter-right{
+
+    flex:1;
+
+    text-align:center;
+
+}
+
+.newsletter-right img{
+
+    width:100%;
+
+    max-width:420px;
+
+}

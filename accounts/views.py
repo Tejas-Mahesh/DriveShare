@@ -12,8 +12,8 @@ from .forms import (
 
 from .models import CustomerProfile, OwnerProfile
 from .decorators import customer_required, owner_required, admin_required
-
-
+from django.core.mail import send_mail
+from django.conf import settings
 # ==========================
 # Signup
 # ==========================
