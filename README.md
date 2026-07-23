@@ -173,115 +173,6 @@ DriveShare/
 
 ---
 
-# 🚀 Installation
-
-Clone the repository
-
-```bash
-git clone https://github.com/Tejas-Mahesh/DriveShare.git
-```
-
-Move inside project
-
-```bash
-cd DriveShare
-```
-
-Create Virtual Environment
-
-```bash
-python -m venv venv
-```
-
-Activate Environment
-
-### Windows
-
-```bash
-venv\Scripts\activate
-```
-
-### Linux / Mac
-
-```bash
-source venv/bin/activate
-```
-
-Install Requirements
-
-```bash
-pip install -r requirements.txt
-```
-
-Run Migrations
-
-```bash
-python manage.py migrate
-```
-
-Collect Static Files
-
-```bash
-python manage.py collectstatic
-```
-
-Run Server
-
-```bash
-python manage.py runserver
-```
-
-Open
-
-```
-http://127.0.0.1:8000
-```
-
----
-
-# ⚙ Environment Variables
-
-Create a `.env` file in the project root.
-
-```env
-SECRET_KEY=your_secret_key
-
-DEBUG=True
-
-ALLOWED_HOSTS=127.0.0.1,localhost
-
-EMAIL_HOST_USER=your_email
-
-EMAIL_HOST_PASSWORD=your_password
-
-RAZORPAY_KEY_ID=your_key
-
-RAZORPAY_KEY_SECRET=your_secret
-
-CLOUDINARY_CLOUD_NAME=your_cloud
-
-CLOUDINARY_API_KEY=your_api_key
-
-CLOUDINARY_API_SECRET=your_api_secret
-```
-
----
-
-# 📸 Screenshots
-
-Add screenshots here after deployment.
-
-- Home Page
-- Login
-- Signup
-- Customer Dashboard
-- Owner Dashboard
-- Admin Dashboard
-- Booking Page
-- Payment Page
-
----
-
 # Future Enhancements
 
 - AI Car Recommendation
@@ -299,9 +190,8 @@ Add screenshots here after deployment.
 
 # 👨‍💻 Developer
 
-**Pavan Kumar M**
+**Tejas M**
 
-Python Full Stack Developer
 
 GitHub
 
