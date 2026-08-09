@@ -1,5 +1,5 @@
-from django.core.mail import send_mail
-from django.conf import settings
+import os
+import resend
 
 
 def send_signup_email(user):
@@ -18,10 +18,11 @@ Thank you,
 DriveShare Team
 """
 
-    send_mail(
-        subject,
-        message,
-        settings.DEFAULT_FROM_EMAIL,
-        [user.email],
-        fail_silently=False,
-    )
+    resend.api_key = os.environ.get("RESEND_API_KEY")
+
+    resend.Emails.send({
+        "from": "DriveShare <onboarding@resend.dev>",
+        "to": [user.email],
+        "subject": subject,
+        "text": message,
+    })
