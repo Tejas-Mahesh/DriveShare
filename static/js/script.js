@@ -1,73 +1,100 @@
+// =========================
+// Back To Top Button
+// =========================
+
 const backToTop = document.getElementById("backToTop");
 
-window.addEventListener("scroll", () => {
+if (backToTop) {
 
-    if(window.scrollY > 400){
+    window.addEventListener("scroll", () => {
 
-        backToTop.classList.add("show");
+        if (window.scrollY > 400) {
+            backToTop.classList.add("show");
+        } else {
+            backToTop.classList.remove("show");
+        }
 
-    }else{
+    });
 
-        backToTop.classList.remove("show");
+    backToTop.addEventListener("click", () => {
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    });
+
+}
+
+
+// =========================
+// Loader
+// =========================
+
+window.addEventListener("load", function () {
+
+    const loader = document.getElementById("loader");
+
+    if (loader) {
+
+        setTimeout(function () {
+
+            loader.classList.add("loader-hidden");
+
+        }, 1800);
 
     }
 
 });
 
-backToTop.addEventListener("click", () => {
 
-    window.scrollTo({
-
-        top:0,
-
-        behavior:"smooth"
-
-    });
-
-});
-/* =========================
-   Loader
-========================= */
-
-window.addEventListener("load", function(){
-
-    const loader = document.getElementById("loader");
-
-    setTimeout(function(){
-
-        loader.classList.add("loader-hidden");
-
-    },1800);
-
-});
-/* Mobile Menu */
+// =========================
+// Mobile Menu
+// =========================
 
 const menuToggle = document.getElementById("menu-toggle");
 const navLinks = document.getElementById("nav-links");
 
-menuToggle.addEventListener("click", function () {
+if (menuToggle && navLinks) {
 
-    menuToggle.classList.toggle("active");
-    navLinks.classList.toggle("active");
+    menuToggle.addEventListener("click", function () {
 
-});
-window.addEventListener("scroll",function(){
+        menuToggle.classList.toggle("active");
+        navLinks.classList.toggle("active");
 
-    const navbar=document.querySelector(".navbar");
+    });
 
-    if(window.scrollY>80){
+}
+
+
+// =========================
+// Navbar Scroll Effect
+// =========================
+
+window.addEventListener("scroll", function () {
+
+    const navbar = document.querySelector(".navbar");
+
+    if (!navbar) return;
+
+    if (window.scrollY > 80) {
 
         navbar.classList.add("scrolled");
 
-    }
-
-    else{
+    } else {
 
         navbar.classList.remove("scrolled");
 
     }
 
 });
+
+
+// =========================
+// Dashboard / Home Counters
+// =========================
+
 const counters = document.querySelectorAll(".counter");
 
 counters.forEach(counter => {
@@ -78,9 +105,9 @@ counters.forEach(counter => {
 
     const increment = target / 100;
 
-    function updateCounter(){
+    function updateCounter() {
 
-        if(current < target){
+        if (current < target) {
 
             current += increment;
 
@@ -88,13 +115,13 @@ counters.forEach(counter => {
 
             requestAnimationFrame(updateCounter);
 
-        }else{
+        } else {
 
-            if(target === 49){
+            if (target === 49) {
 
                 counter.innerText = "4.9★";
 
-            }else{
+            } else {
 
                 counter.innerText = target + "+";
 
@@ -107,15 +134,3 @@ counters.forEach(counter => {
     updateCounter();
 
 });
-
-
-if(menuToggle){
-
-    menuToggle.addEventListener("click",function(){
-
-        menuToggle.classList.toggle("active");
-        navLinks.classList.toggle("active");
-
-    });
-
-}

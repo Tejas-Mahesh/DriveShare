@@ -14,13 +14,13 @@
 
     </p>
 
-    <a href="{% url 'payment_page' booking.id %}" class="retry-btn">
+    <a href="{% url 'payment_page'  booking.invoice_number %}" class="retry-btn">
 
         Retry Payment
 
     </a>
 
-    <a href="{% url 'booking_details' booking.id %}" class="back-btn">
+    <a href="{% url 'booking_details'  booking.invoice_number %}" class="back-btn">
 
         Back to Booking
 

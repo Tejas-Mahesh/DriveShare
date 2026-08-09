@@ -35,7 +35,7 @@ Booking Request
 
 <div class="booking-actions">
 
-    <a href="{% url 'approve_booking' booking.id %}"
+    <a href="{% url 'approve_booking'  booking.invoice_number %}"
        class="approve-btn"
        onclick="return confirm('Approve this booking?');">
 
@@ -43,7 +43,7 @@ Booking Request
 
     </a>
 
-    <a href="{% url 'reject_booking' booking.id %}"
+    <a href="{% url 'reject_booking'  booking.invoice_number %}"
        class="reject-btn"
        onclick="return confirm('Reject this booking?');">
 
@@ -58,7 +58,7 @@ Booking Request
 {% if booking.booking_status == "Approved" %}
 
 <a
-href="{% url 'complete_booking' booking.id %}"
+href="{% url 'complete_booking'  booking.invoice_number %}"
 
 class="complete-btn"
 
