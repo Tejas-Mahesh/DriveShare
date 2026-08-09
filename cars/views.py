@@ -17,54 +17,50 @@ def add_car(request):
     if request.method == "POST":
 
         form = CarForm(
-    request.POST,
-    request.FILES
-)
-
-        
+            request.POST,
+            request.FILES
+        )
 
         if form.is_valid():
 
             car = form.save(commit=False)
-
             car.owner = request.user
-
             car.save()
 
+            # Get all uploaded images
             images = request.FILES.getlist("images")
 
             for index, image in enumerate(images):
+
                 CarImage.objects.create(
-
-                     car=car,
-
+                    car=car,
                     image=image,
-
                     is_primary=(index == 0)
-
-                    )
+                )
 
             messages.success(
-    request,
-    f"{car.brand} {car.model} has been submitted for admin approval."
-)
+                request,
+                f"{car.brand} {car.model} has been submitted for admin approval."
+            )
 
             return redirect("owner_dashboard")
+
+        else:
+            # IMPORTANT: show validation errors
+            messages.error(
+                request,
+                "Please correct the errors below."
+            )
 
     else:
 
         form = CarForm()
 
-        
-
     return render(
         request,
         "cars/add_car.html",
         {
-            
-          "form": form,
-    
-
+            "form": form,
         }
     )
 @login_required
