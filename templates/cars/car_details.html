@@ -1,237 +1,478 @@
+```html
 {% extends "base.html" %}
 {% load static %}
 
 {% block title %}
-{{ car.title }}
-
+    {{ car.title }}
 {% endblock %}
 
 {% block content %}
 
 <section class="car-details-section">
 
-<div class="details-container">
-
-<div class="image-section">
-
-{% if car.images.first %}
-
-<img class="main-image"
-src="{{ car.images.first.image.url }}">
-
-{% endif %}
-
-<div class="thumbnail-gallery">
-
-{% for image in car.images.all %}
-
-<img
-    src="{{ image.image.url }}"
-    width="120"
-    height="90"
->
-
-{% endfor %}
-
-</div>
-
-
-</div>
-
-<div class="details-section">
-
-<h1>{{ car.title }}</h1>
-
-<div class="rating-summary">
-
-<h2>
-
-{% if average_rating %}
-
-⭐ {{ average_rating|floatformat:1 }}
-
-{% else %}
-
-⭐ New Car
-
-{% endif %}
-
-</h2>
-
-<p>
-
-{{ review_count }}
-
-Review{{ review_count|pluralize }}
-
-</p>
-
-</div>
- <p>{{ car.brand }} {{ car.model }} ({{ car.year }})</p>
-<h2>
-₹{{ car.price_per_day }}
-<span>/ day</span>
-</h2>
-
-
-<p>{{ car.description }}</p>
-
-<div class="spec-grid">
-
-<div>🚗 {{ car.brand }}</div>
-
-<div>📅 {{ car.year }}</div>
-
-<div>⛽ {{ car.fuel_type }}</div>
-
-<div>⚙ {{ car.transmission }}</div>
-
-<div>💺 {{ car.seats }} Seats</div>
-
-<div>📍 {{ car.city }}</div>
-
-</div>
-
-<h3>Description</h3>
-
-<p>
-
-{{ car.description }}
-
-</p>
-
-<hr>
-
-<h3>Owner</h3>
-
-<p>
-
-{{ car.owner.get_full_name }}
-
-</p>
-
-<p>
-
-{{ car.owner.phone_number }}
-
-</p>
-
-{% if user.is_authenticated and user.user_type == "customer" %}
-
-<a href="{% url 'book_car' car.id %}" class="book-btn">
-
-    Book Now
-
-</a>
-
-{% endif %}
-
-</div>
-<div class="owner-card">
-
-    <div class="owner-header">
-
-        {% if owner.profile_picture %}
-
-        <img src="{{ owner.profile_picture.url }}" alt="Owner">
-
-        {% else %}
-
-        <img src="{% static 'images/default-avatar.png' %}" alt="Owner">
-
-        {% endif %}
-
-        <div>
-
-            <h3>{{ owner.get_full_name|default:owner.username }}</h3>
-
-            <span class="verified">
-
-                {% if owner.owner_profile.verification_status == "Approved" %}
-
-                    ✅ Verified Owner
-
-                {% elif owner.owner_profile.verification_status == "Pending" %}
-
-                    🟡 Verification Pending
-
+    <div class="details-container">
+
+        <!-- ================= IMAGE SIDE ================= -->
+        <div class="image-section">
+
+            <div class="main-image-wrapper">
+                {% if car.images.first %}
+                    <img
+                        class="main-image"
+                        id="mainCarImage"
+                        src="{{ car.images.first.image.url }}"
+                        alt="{{ car.title }}"
+                    >
                 {% else %}
-
-                    ❌ Not Verified
-
+                    <img
+                        class="main-image"
+                        src="{% static 'images/default-car.jpg' %}"
+                        alt="Car"
+                    >
                 {% endif %}
+            </div>
 
-            </span>
+            <div class="thumbnail-gallery">
 
-        </div>
-
-    </div>
-
-    <div class="owner-details">
-
-        <p>
-
-            📱 {{ owner.phone_number }}
-
-        </p>
-
-        <p>
-
-            🚗 {{ owner_total_cars }} Cars Listed
-
-        </p>
-
-        <p>
-
-            📅 Member Since {{ owner.date_joined|date:"F Y" }}
-
-        </p>
-
-    </div>
-
-</div>
-
-</div>
-
-</section>
-
-<section class="similar-section">
-
-    <h2>🚗 Similar Cars</h2>
-
-    <div class="similar-grid">
-
-        {% for similar in similar_cars %}
-
-        <div class="similar-card">
-
-            {% if similar.images.first %}
-                <img src="{{ similar.images.first.image.url }}">
-            {% else %}
-                <img src="{% static 'images/default-car.jpg' %}">
-            {% endif %}
-
-            <div class="similar-info">
-
-                <h3>{{ similar.title }}</h3>
-
-                <p>{{ similar.brand }} {{ similar.model }}</p>
-
-                <h4>₹{{ similar.price_per_day }}/day</h4>
-
-                <a href="{% url 'car_details' similar.id %}" class="view-btn">
-
-                    View Details
-
-                </a>
+                {% for image in car.images.all %}
+                    <img
+                        class="thumbnail"
+                        src="{{ image.image.url }}"
+                        alt="{{ car.title }}"
+                        onclick="changeMainImage(this)"
+                    >
+                {% endfor %}
 
             </div>
 
         </div>
 
+
+        <!-- ================= DETAILS SIDE ================= -->
+        <div class="details-section">
+
+            <div class="car-heading">
+
+                <div>
+                    <span class="car-category">CAR FOR RENT</span>
+
+                    <h1>{{ car.title }}</h1>
+
+                    <p class="car-subtitle">
+                        {{ car.brand }} {{ car.model }} · {{ car.year }}
+                    </p>
+                </div>
+
+                <div class="rating-summary">
+
+                    {% if average_rating %}
+                        <div class="rating-number">
+                            ⭐ {{ average_rating|floatformat:1 }}
+                        </div>
+                    {% else %}
+                        <div class="rating-number">
+                            ⭐ New
+                        </div>
+                    {% endif %}
+
+                    <div class="review-count">
+                        {{ review_count }}
+                        Review{{ review_count|pluralize }}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PRICE -->
+            <div class="price-box">
+
+                <span class="price-label">Rental Price</span>
+
+                <h2>
+                    ₹{{ car.price_per_day }}
+                    <span>/ day</span>
+                </h2>
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+            <div class="description-box">
+
+                <h3>About This Car</h3>
+
+                <p>
+                    {{ car.description }}
+                </p>
+
+            </div>
+
+
+            <!-- SPECIFICATIONS -->
+            <div class="specifications">
+
+                <h3>Car Specifications</h3>
+
+                <div class="spec-grid">
+
+                    <div class="spec-item">
+                        <span class="spec-icon">🚗</span>
+                        <div>
+                            <small>Brand</small>
+                            <strong>{{ car.brand }}</strong>
+                        </div>
+                    </div>
+
+                    <div class="spec-item">
+                        <span class="spec-icon">📅</span>
+                        <div>
+                            <small>Year</small>
+                            <strong>{{ car.year }}</strong>
+                        </div>
+                    </div>
+
+                    <div class="spec-item">
+                        <span class="spec-icon">⛽</span>
+                        <div>
+                            <small>Fuel Type</small>
+                            <strong>{{ car.fuel_type }}</strong>
+                        </div>
+                    </div>
+
+                    <div class="spec-item">
+                        <span class="spec-icon">⚙️</span>
+                        <div>
+                            <small>Transmission</small>
+                            <strong>{{ car.transmission }}</strong>
+                        </div>
+                    </div>
+
+                    <div class="spec-item">
+                        <span class="spec-icon">💺</span>
+                        <div>
+                            <small>Seats</small>
+                            <strong>{{ car.seats }} Seats</strong>
+                        </div>
+                    </div>
+
+                    <div class="spec-item">
+                        <span class="spec-icon">📍</span>
+                        <div>
+                            <small>Location</small>
+                            <strong>{{ car.city }}</strong>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- OWNER CARD -->
+            <div class="owner-card">
+
+                <div class="owner-header">
+
+                    {% if owner.profile_picture %}
+                        <img
+                            src="{{ owner.profile_picture.url }}"
+                            alt="Owner"
+                        >
+                    {% else %}
+                        <img
+                            src="{% static 'images/default-avatar.png' %}"
+                            alt="Owner"
+                        >
+                    {% endif %}
+
+                    <div class="owner-info">
+
+                        <span class="owner-label">
+                            CAR OWNER
+                        </span>
+
+                        <h3>
+                            {{ owner.get_full_name|default:owner.username }}
+                        </h3>
+
+                        {% if owner.owner_profile.verification_status == "Approved" %}
+
+                            <span class="verified approved">
+                                ✓ Verified Owner
+                            </span>
+
+                        {% elif owner.owner_profile.verification_status == "Pending" %}
+
+                            <span class="verified pending">
+                                🟡 Verification Pending
+                            </span>
+
+                        {% else %}
+
+                            <span class="verified rejected">
+                                ✕ Not Verified
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <div class="owner-details">
+
+                    <div>
+                        <span>📱</span>
+                        <p>
+                            <small>Phone</small>
+                            {{ owner.phone_number }}
+                        </p>
+                    </div>
+
+                    <div>
+                        <span>🚗</span>
+                        <p>
+                            <small>Cars Listed</small>
+                            {{ owner_total_cars }} Cars
+                        </p>
+                    </div>
+
+                    <div>
+                        <span>📅</span>
+                        <p>
+                            <small>Member Since</small>
+                            {{ owner.date_joined|date:"F Y" }}
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- BOOK BUTTON -->
+            {% if user.is_authenticated and user.user_type == "customer" %}
+
+                <a
+                    href="{% url 'book_car' car.id %}"
+                    class="book-btn"
+                >
+                    <span>Book This Car</span>
+                    <span>→</span>
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= REVIEWS ================= -->
+
+<section class="reviews-section">
+
+    <h2>Customer Reviews</h2>
+
+    {% if reviews %}
+
+        {% for review in reviews %}
+
+            <div class="review-card">
+
+                <div class="review-header">
+
+                    <div>
+                        <h3>
+                            {{ review.user.get_full_name|default:review.user.username }}
+                        </h3>
+
+                        <small>
+                            {{ review.created_at|date:"d M Y" }}
+                        </small>
+                    </div>
+
+                    <span>
+                        ⭐ {{ review.rating }}
+                    </span>
+
+                </div>
+
+                <p>
+                    {{ review.comment }}
+                </p>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="empty-review">
+
+            <h3>No reviews yet</h3>
+
+            <p>
+                Be the first customer to review this car.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+
+<!-- ================= SIMILAR CARS ================= -->
+
+<section class="similar-section">
+
+    <div class="similar-heading">
+        <div>
+            <span>YOU MAY ALSO LIKE</span>
+            <h2>Explore Similar Cars</h2>
+        </div>
+
+        <p>
+            Find more cars that match your preference
+        </p>
+    </div>
+
+
+    <div class="similar-grid">
+
+        {% for similar in similar_cars %}
+
+        <article class="similar-card">
+
+            <!-- IMAGE -->
+            <div class="similar-image">
+
+                {% if similar.images.first %}
+
+                    <img
+                        src="{{ similar.images.first.image.url }}"
+                        alt="{{ similar.title }}"
+                    >
+
+                {% else %}
+
+                    <img
+                        src="{% static 'images/default-car.jpg' %}"
+                        alt="Car"
+                    >
+
+                {% endif %}
+
+
+                <!-- TOP BADGES -->
+                <div class="similar-badges">
+
+                    <span class="car-type">
+                        🚗 Available
+                    </span>
+
+                    {% if similar.year %}
+                        <span class="year-badge">
+                            {{ similar.year }}
+                        </span>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- HEART -->
+                <button class="favorite-btn" type="button">
+                    ♡
+                </button>
+
+            </div>
+
+
+            <!-- CARD CONTENT -->
+            <div class="similar-content">
+
+                <div class="similar-title-row">
+
+                    <div>
+                        <h3>{{ similar.title }}</h3>
+
+                        <p class="car-model">
+                            {{ similar.brand }} {{ similar.model }}
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <!-- CAR SPECS -->
+                <div class="similar-specs">
+
+                    <span>⛽ {{ similar.fuel_type }}</span>
+
+                    <span>⚙ {{ similar.transmission }}</span>
+
+                    <span>💺 {{ similar.seats }}</span>
+
+                </div>
+
+
+                <!-- LOCATION -->
+                <div class="similar-location">
+                    📍 {{ similar.city }}
+                </div>
+
+
+                <!-- PRICE + BUTTON -->
+                <div class="similar-footer">
+
+                    <div class="similar-price">
+
+                        <strong>
+                            ₹{{ similar.price_per_day }}
+                        </strong>
+
+                        <span>
+                            / day
+                        </span>
+
+                    </div>
+
+
+                    <a
+                        href="{% url 'car_details' similar.id %}"
+                        class="similar-view-btn"
+                    >
+                        View Car
+                        <span>→</span>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
         {% empty %}
 
-        <p>No similar cars available.</p>
+        <div class="no-similar">
+
+            <div class="no-similar-icon">
+                🚗
+            </div>
+
+            <h3>No Similar Cars Found</h3>
+
+            <p>
+                We couldn't find any cars similar to this one.
+            </p>
+
+        </div>
 
         {% endfor %}
 
@@ -239,4 +480,26 @@ Review{{ review_count|pluralize }}
 
 </section>
 
+
+
+<script>
+
+function changeMainImage(image) {
+
+    const mainImage = document.getElementById("mainCarImage");
+
+    if (mainImage) {
+        mainImage.src = image.src;
+    }
+
+    document.querySelectorAll(".thumbnail").forEach(function(img) {
+        img.classList.remove("active");
+    });
+
+    image.classList.add("active");
+}
+
+</script>
+
 {% endblock %}
+```

@@ -1,76 +1,673 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block title %}
 Booking Request
 {% endblock %}
 
 {% block content %}
 
-<section class="booking-details-page">
+<section class="owner-booking-details">
 
-    <div class="booking-details-container">
+    <div class="owner-booking-container">
 
-        <h1>{{ booking.car.title }}</h1>
+        <!-- ================= HEADER ================= -->
 
-        <hr>
+        <div class="booking-request-header">
 
-        <p><strong>Customer:</strong> {{ booking.customer.get_full_name|default:booking.customer.username }}</p>
+            <div>
+                <span class="small-label">
+                    BOOKING REQUEST
+                </span>
 
-        <p><strong>Email:</strong> {{ booking.customer.email }}</p>
+                <h1>
+                    {{ booking.car.title }}
+                </h1>
 
-        <p><strong>Rental Dates:</strong> {{ booking.start_date }} → {{ booking.end_date }}</p>
+                <p class="booking-id">
+                    Booking #{{ booking.id }}
+                    {% if booking.invoice_number %}
+                        · {{ booking.invoice_number }}
+                    {% endif %}
+                </p>
+            </div>
 
-        <p><strong>Total Days:</strong> {{ booking.total_days }}</p>
+            <span class="large-status
+                {% if booking.booking_status == 'Pending' %}
+                    status-pending
+                {% elif booking.booking_status == 'Approved' %}
+                    status-approved
+                {% elif booking.booking_status == 'Rejected' %}
+                    status-rejected
+                {% elif booking.booking_status == 'Cancelled' %}
+                    status-cancelled
+                {% elif booking.booking_status == 'Completed' %}
+                    status-completed
+                {% endif %}
+            ">
+                {{ booking.booking_status }}
+            </span>
 
-        <p><strong>Total Amount:</strong> ₹{{ booking.total_amount }}</p>
+        </div>
 
-        <p><strong>Status:</strong> {{ booking.booking_status }}</p>
 
-        <p><strong>Customer Message:</strong></p>
+        <!-- ================= TOP GRID ================= -->
 
-        <p>{{ booking.customer_message|default:"No message provided." }}</p>
+        <div class="booking-main-grid">
+
+
+            <!-- ================= CAR ================= -->
+
+            <div class="booking-car-panel">
+
+                {% if booking.car.images.first %}
+
+                    <img
+                        src="{{ booking.car.images.first.image.url }}"
+                        alt="{{ booking.car.title }}"
+                        class="owner-booking-car-image"
+                    >
+
+                {% else %}
+
+                    <img
+                        src="{% static 'images/default-car.jpg' %}"
+                        alt="No car image"
+                        class="owner-booking-car-image"
+                    >
+
+                {% endif %}
+
+
+                <div class="car-panel-content">
+
+                    <h2>
+                        {{ booking.car.title }}
+                    </h2>
+
+                    <p class="car-brand">
+                        {{ booking.car.brand }}
+                        {{ booking.car.model }}
+                    </p>
+
+                    <div class="car-details">
+
+                        <span>
+                            📍 {{ booking.car.city }}
+                        </span>
+
+                        <span>
+                            👥 {{ booking.car.seats }} Seats
+                        </span>
+
+                        <span>
+                            ⛽ {{ booking.car.fuel_type }}
+                        </span>
+
+                        <span>
+                            ⚙️ {{ booking.car.transmission }}
+                        </span>
+
+                    </div>
+
+                    <div class="car-price">
+
+                        <strong>
+                            ₹{{ booking.car.price_per_day }}
+                        </strong>
+
+                        <span>
+                            / day
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= CUSTOMER + BOOKING ================= -->
+
+            <div class="booking-information">
+
+
+                <!-- CUSTOMER -->
+
+                <div class="information-section">
+
+                    <div class="section-title">
+
+                        <span class="section-icon">
+                            👤
+                        </span>
+
+                        <div>
+                            <h2>Customer Information</h2>
+                            <p>Customer who requested this vehicle</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="information-grid">
+
+                        <div class="information-item">
+
+                            <span>Name</span>
+
+                            <strong>
+                                {{ booking.customer.get_full_name|default:booking.customer.username }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="information-item">
+
+                            <span>Username</span>
+
+                            <strong>
+                                {{ booking.customer.username }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="information-item">
+
+                            <span>Email</span>
+
+                            <strong>
+                                {{ booking.customer.email }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BOOKING -->
+
+                <div class="information-section">
+
+                    <div class="section-title">
+
+                        <span class="section-icon">
+                            📅
+                        </span>
+
+                        <div>
+                            <h2>Booking Information</h2>
+                            <p>Rental schedule and pricing</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="information-grid">
+
+                        <div class="information-item">
+
+                            <span>Start Date</span>
+
+                            <strong>
+                                {{ booking.start_date }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="information-item">
+
+                            <span>End Date</span>
+
+                            <strong>
+                                {{ booking.end_date }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="information-item">
+
+                            <span>Total Days</span>
+
+                            <strong>
+                                {{ booking.total_days }} days
+                            </strong>
+
+                        </div>
+
+
+                        <div class="information-item amount-item">
+
+                            <span>Total Amount</span>
+
+                            <strong>
+                                ₹{{ booking.total_amount }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= CUSTOMER MESSAGE ================= -->
+
+        <div class="owner-detail-card">
+
+            <div class="section-title">
+
+                <span class="section-icon">
+                    💬
+                </span>
+
+                <div>
+                    <h2>Customer Message</h2>
+                    <p>Message submitted with the booking request</p>
+                </div>
+
+            </div>
+
+
+            <div class="customer-message">
+
+                {% if booking.customer_message %}
+
+                    <p>
+                        "{{ booking.customer_message }}"
+                    </p>
+
+                {% else %}
+
+                    <p class="no-message">
+                        No message provided by the customer.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= PAYMENT ================= -->
+
+        <div class="owner-detail-card">
+
+            <div class="section-title">
+
+                <span class="section-icon">
+                    💳
+                </span>
+
+                <div>
+                    <h2>Payment Information</h2>
+                    <p>Payment details submitted by the customer</p>
+                </div>
+
+            </div>
+
+
+            {% if payment %}
+
+                <div class="payment-information-grid">
+
+
+                    <div class="payment-detail">
+
+                        <span>Payment Status</span>
+
+                        {% if payment.payment_status == "Paid" %}
+
+                            <span class="payment-status payment-paid">
+                                ✓ Paid
+                            </span>
+
+                        {% elif payment.payment_status == "Pending" %}
+
+                            <span class="payment-status payment-pending">
+                                ⏳ Pending
+                            </span>
+
+                        {% elif payment.payment_status == "Failed" %}
+
+                            <span class="payment-status payment-failed">
+                                ✕ Failed
+                            </span>
+
+                        {% elif payment.payment_status == "Refunded" %}
+
+                            <span class="payment-status payment-refunded">
+                                ↩ Refunded
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="payment-detail">
+
+                        <span>Amount</span>
+
+                        <strong>
+                            ₹{{ payment.amount }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="payment-detail">
+
+                        <span>Payment Method</span>
+
+                        <strong>
+                            {{ payment.payment_method|default:"Not provided" }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="payment-detail">
+
+                        <span>Transaction ID</span>
+
+                        <strong class="transaction-id">
+                            {{ payment.transaction_id|default:"Not provided" }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PAYMENT SCREENSHOT -->
+
+                {% if payment.payment_screenshot %}
+
+                    <div class="payment-proof-section">
+
+                        <h3>
+                            Payment Screenshot
+                        </h3>
+
+                        <a
+                            href="{{ payment.payment_screenshot.url }}"
+                            target="_blank"
+                        >
+
+                            <img
+                                src="{{ payment.payment_screenshot.url }}"
+                                alt="Payment Screenshot"
+                                class="payment-proof-image"
+                            >
+
+                        </a>
+
+                        <p>
+                            Click the image to view full size.
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+
+            {% else %}
+
+                <div class="no-payment">
+
+                    <span>💳</span>
+
+                    <h3>No Payment Record</h3>
+
+                    <p>
+                        No payment has been submitted for this booking yet.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- ================= OWNER ACTIONS ================= -->
+
+        {% if booking.booking_status == "Pending" %}
+
+            <div class="owner-action-card">
+
+                <div>
+
+                    <h2>
+                        Booking Decision
+                    </h2>
+
+                    <p>
+                        Review the booking details before accepting or rejecting this request.
+                    </p>
+
+                </div>
+
+
+                <div class="owner-action-buttons">
+
+                    <a
+                        href="{% url 'approve_booking' booking.id %}"
+                        class="owner-approve-btn"
+                        onclick="return confirm('Approve this booking?');"
+                    >
+                        ✓ Approve Booking
+                    </a>
+
+
+                    <a
+                        href="{% url 'reject_booking' booking.id %}"
+                        class="owner-reject-btn"
+                        onclick="return confirm('Reject this booking?');"
+                    >
+                        ✕ Reject Booking
+                    </a>
+
+                </div>
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- ================= PAYMENT VERIFICATION ================= -->
+
+        {% if booking.booking_status == "Approved" %}
+
+            {% if payment %}
+
+                {% if payment.payment_status == "Pending" %}
+
+                    {% if payment.payment_method == "UPI" %}
+
+                        {% if payment.payment_screenshot %}
+
+                            <div class="verification-card">
+
+                                <div class="verification-icon">
+                                    💳
+                                </div>
+
+                                <div class="verification-content">
+
+                                    <h2>
+                                        Payment Verification Required
+                                    </h2>
+
+                                    <p>
+                                        The customer has submitted payment proof.
+                                        Please verify the transaction before completing the rental.
+                                    </p>
+
+                                </div>
+
+
+                                <div class="verification-actions">
+
+                                    <form
+                                        method="POST"
+                                        action="{% url 'verify_payment' booking.id %}"
+                                    >
+
+                                        {% csrf_token %}
+
+                                        <button
+                                            type="submit"
+                                            class="verify-payment-btn"
+                                            onclick="return confirm('Verify this payment?');"
+                                        >
+                                            ✓ Verify Payment
+                                        </button>
+
+                                    </form>
+
+
+                                    <form
+                                        method="POST"
+                                        action="{% url 'reject_payment' booking.id %}"
+                                    >
+
+                                        {% csrf_token %}
+
+                                        <button
+                                            type="submit"
+                                            class="reject-payment-btn"
+                                            onclick="return confirm('Reject this payment proof?');"
+                                        >
+                                            ✕ Reject Payment
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+                        {% endif %}
+
+                    {% endif %}
+
+                {% endif %}
+
+            {% endif %}
+
+        {% endif %}
+
+
+        <!-- ================= RENTAL ================= -->
+
+        {% if booking.booking_status == "Approved" %}
+
+            {% if payment %}
+
+                {% if payment.payment_status == "Paid" %}
+
+                    <div class="rental-status-card">
+
+                        <div class="rental-icon">
+                            🚗
+                        </div>
+
+                        <div>
+
+                            <h2>
+                                Rental Ready
+                            </h2>
+
+                            <p>
+                                Payment has been successfully verified.
+                            </p>
+
+                            <div class="rental-dates">
+
+                                <span>
+                                    <strong>Start:</strong>
+                                    {{ booking.start_date }}
+                                </span>
+
+                                <span>
+                                    <strong>End:</strong>
+                                    {{ booking.end_date }}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <a
+                            href="{% url 'complete_booking' booking.id %}"
+                            class="complete-rental-btn"
+                            onclick="return confirm('Mark this rental as completed?');"
+                        >
+                            ✓ Complete Rental
+                        </a>
+
+                    </div>
+
+                {% endif %}
+
+            {% endif %}
+
+        {% endif %}
+
+
+        <!-- ================= COMPLETED ================= -->
+
+        {% if booking.booking_status == "Completed" %}
+
+            <div class="completed-booking-card">
+
+                <div class="completed-icon">
+                    ✓
+                </div>
+
+                <div>
+
+                    <h2>
+                        Rental Completed
+                    </h2>
+
+                    <p>
+                        This booking has been successfully completed.
+                    </p>
+
+                </div>
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- ================= BACK ================= -->
+
+        <div class="back-to-bookings">
+
+            <a href="{% url 'owner_bookings' %}">
+                ← Back to Booking Requests
+            </a>
+
+        </div>
 
     </div>
-    {% if booking.booking_status == "Pending" %}
-
-<div class="booking-actions">
-
-    <a href="{% url 'approve_booking'  booking.invoice_number %}"
-       class="approve-btn"
-       onclick="return confirm('Approve this booking?');">
-
-        Approve Booking
-
-    </a>
-
-    <a href="{% url 'reject_booking'  booking.invoice_number %}"
-       class="reject-btn"
-       onclick="return confirm('Reject this booking?');">
-
-        Reject Booking
-
-    </a>
-
-
-</div>
-
-{% endif %}
-{% if booking.booking_status == "Approved" %}
-
-<a
-href="{% url 'complete_booking'  booking.invoice_number %}"
-
-class="complete-btn"
-
-onclick="return confirm('Mark this booking as completed?')">
-
-<i class="fas fa-check-circle"></i>
-
-Complete Booking
-
-</a>
-
-{% endif %}
 
 </section>
 

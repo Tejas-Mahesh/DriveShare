@@ -39,21 +39,68 @@ from accounts.decorators import customer_required
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.utils import timezone
+from django.db import transaction
+from decimal import Decimal
+from datetime import timedelta
+
+from cars.models import Car
+from .models import Booking, Payment
+
+import base64
+import qrcode
+
+from io import BytesIO
+from urllib.parse import urlencode
+from decimal import Decimal
+
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
+from django.utils import timezone
+
+from accounts.decorators import customer_required
+from accounts.models import CustomUser, OwnerProfile
+
+from .models import (
+    Booking,
+    Payment,
+    Wallet,
+    WalletTransaction,
+)
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.utils import timezone
+
+from .models import Booking
+from .forms import BookingForm
+from cars.models import Car
+import qrcode
+from io import BytesIO
+from django.core.files.base import ContentFile
+from urllib.parse import urlencode
+
+from django.db import transaction
+
 @login_required
-@customer_required
 def book_car(request, car_id):
 
     car = get_object_or_404(
         Car,
         id=car_id,
         approval_status="Approved",
-        is_available=True,
+        is_available=True
     )
 
+    # Existing approved bookings
     approved_bookings = Booking.objects.filter(
         car=car,
-        booking_status="Approved",
-    )
+        booking_status="Approved"
+    ).order_by("start_date")
 
     if request.method == "POST":
 
@@ -61,113 +108,69 @@ def book_car(request, car_id):
 
         if form.is_valid():
 
-            booking = form.save(commit=False)
+            start_date = form.cleaned_data["start_date"]
+            end_date = form.cleaned_data["end_date"]
 
-            booking.customer = request.user
-            booking.car = car
+            # Check that start date isn't in the past
+            if start_date < timezone.localdate():
 
-            start = booking.start_date
-            end = booking.end_date
-
-            if start < date.today():
-
-                messages.error(
-                    request,
+                form.add_error(
+                    "start_date",
                     "Start date cannot be in the past."
                 )
 
-                return render(
-                    request,
-                    "bookings/book_car.html",
-                    {
-                        "form": form,
-                        "car": car,
-                        "approved_bookings": approved_bookings,
-                    },
-                )
+            else:
 
-            if end <= start:
+                # Check date overlap
+                overlapping_booking = Booking.objects.filter(
+                    car=car,
+                    booking_status="Approved",
+                    start_date__lt=end_date,
+                    end_date__gt=start_date
+                ).exists()
 
-                messages.error(
-                    request,
-                    "End date must be after the start date."
-                )
+                if overlapping_booking:
 
-                return render(
-                    request,
-                    "bookings/book_car.html",
-                    {
-                        "form": form,
-                        "car": car,
-                        "approved_bookings": approved_bookings,
-                    },
-                )
+                    form.add_error(
+                        None,
+                        "The selected dates are already booked."
+                    )
 
-            existing_booking = Booking.objects.filter(
-                car=car,
-                booking_status="Approved",
-            ).filter(
-                Q(start_date__lte=end)
-                &
-                Q(end_date__gte=start)
-            ).exists()
+                else:
 
-            if existing_booking:
+                    total_days = (
+                        end_date - start_date
+                    ).days
 
-                messages.error(
-                    request,
-                    "This car is already booked for the selected dates.",
-                )
+                    total_amount = (
+                        total_days * car.price_per_day
+                    )
 
-                return render(
-                    request,
-                    "bookings/book_car.html",
-                    {
-                        "form": form,
-                        "car": car,
-                        "approved_bookings": approved_bookings,
-                    },
-                )
+                    with transaction.atomic():
+                        booking = form.save(commit=False)
+                        booking.customer = request.user
+                        booking.car = car
+                        booking.total_days = total_days
+                        booking.total_amount = total_amount
+                        booking.booking_status = "Pending"
+                        booking.save()
 
-            booking.total_days = (end - start).days
+                        Payment.objects.create(
+                            booking=booking,
+                            customer=request.user,
+                            amount=total_amount,
+                            payment_status="Pending"
+                        )
 
-            booking.total_amount = (
-                booking.total_days * car.price_per_day
-            )
+                    messages.success(
+                        request,
+                        "Booking request submitted successfully."
+                    )
 
-            booking.discount_amount = Decimal("0.00")
-            booking.final_amount = booking.total_amount
-
-            
-
-
-            booking.save()
-            create_notification(
-    user=car.owner,
-    title="New Booking Request",
-    message=f"{request.user.get_full_name() or request.user.username} requested to book {car.title}.",
-    notification_type="Booking",
-    redirect_url="/bookings/owner-bookings/",
-)
-
-            Payment.objects.get_or_create(
-                booking=booking,
-                defaults={
-                    "customer": request.user,
-                    "amount": booking.final_amount,
-                    "payment_status": "Pending",
-                },
-            )
-
-            messages.success(
-                request,
-                "Booking request submitted successfully.",
-            )
-
-            return redirect(
-                "payment_page",
-                booking.id,
-            )
+                    return redirect(
+                        "booking_details",
+                        booking_id=booking.id
+                    )
 
     else:
 
@@ -180,9 +183,8 @@ def book_car(request, car_id):
             "form": form,
             "car": car,
             "approved_bookings": approved_bookings,
-        },
+        }
     )
-
 @login_required
 @customer_required
 def my_bookings(request):
@@ -227,14 +229,89 @@ def my_bookings(request):
             "status": status,
         }
     )
+from django.utils import timezone
+from django.shortcuts import get_object_or_404, render
+
 @login_required
 @customer_required
 def booking_details(request, booking_id):
 
     booking = get_object_or_404(
-        Booking,
+        Booking.objects.select_related(
+            "car",
+            "car__owner",
+            "customer",
+        ),
         id=booking_id,
-        customer=request.user
+        customer=request.user,
+    )
+
+    today = timezone.localdate()
+
+    payment = getattr(
+        booking,
+        "payment",
+        None
+    )
+
+    # ---------------------------------------------
+    # AUTOMATIC RENTAL START
+    # ---------------------------------------------
+
+    rental_started = False
+
+    if (
+        booking.booking_status in [
+            "Approved",
+            "Completed"
+        ]
+        and payment
+        and payment.payment_status == "Paid"
+        and booking.start_date <= today
+    ):
+        rental_started = True
+
+    # ---------------------------------------------
+    # AUTOMATIC RENTAL COMPLETION
+    # ---------------------------------------------
+
+    if (
+        booking.booking_status == "Approved"
+        and payment
+        and payment.payment_status == "Paid"
+        and booking.end_date < today
+    ):
+
+        booking.booking_status = "Completed"
+
+        if not booking.completed_at:
+            booking.completed_at = timezone.now()
+
+        booking.save(
+            update_fields=[
+                "booking_status",
+                "completed_at",
+                "updated_at",
+            ]
+        )
+
+    # ---------------------------------------------
+    # PAYMENT STATE
+    # ---------------------------------------------
+
+    payment_paid = (
+        payment
+        and payment.payment_status == "Paid"
+    )
+
+    payment_pending = (
+        payment
+        and payment.payment_status == "Pending"
+    )
+
+    payment_failed = (
+        payment
+        and payment.payment_status == "Failed"
     )
 
     return render(
@@ -242,7 +319,13 @@ def booking_details(request, booking_id):
         "bookings/booking_details.html",
         {
             "booking": booking,
-        }
+            "payment": payment,
+            "payment_paid": payment_paid,
+            "payment_pending": payment_pending,
+            "payment_failed": payment_failed,
+            "rental_started": rental_started,
+            "today": today,
+        },
     )
 @login_required
 @customer_required
@@ -251,62 +334,55 @@ def cancel_booking(request, booking_id):
     booking = get_object_or_404(
         Booking,
         id=booking_id,
-        customer=request.user
+        customer=request.user,
     )
+
+    # ---------------------------------------------
+    # ONLY PENDING BOOKING CAN BE CANCELLED
+    # ---------------------------------------------
 
     if booking.booking_status != "Pending":
 
         messages.error(
             request,
-            "Only pending bookings can be cancelled."
+            "This booking cannot be cancelled."
         )
 
-        return redirect("my_bookings")
+        return redirect(
+            "booking_details",
+            booking.id
+        )
 
     booking.booking_status = "Cancelled"
-    booking.save()
+
+    booking.save(
+        update_fields=[
+            "booking_status",
+            "updated_at",
+        ]
+    )
+
     create_notification(
-    user=booking.car.owner,
-    title="Booking Cancelled",
-    message=f"{booking.customer.get_full_name() or booking.customer.username} cancelled the booking for {booking.car.title}.",
-    notification_type="Booking",
-    redirect_url="/bookings/owner-bookings/",
-)
-
-    if hasattr(booking, "payment"):
-        payment = booking.payment
-
-        if payment.payment_status == "Paid":
-            wallet, created = Wallet.objects.get_or_create(
-            customer=request.user
-        )
-
-            wallet.balance += payment.amount
-            wallet.save()
-
-            WalletTransaction.objects.create(
-
-            wallet=wallet,
-
-            amount=payment.amount,
-
-            transaction_type="Credit",
-
-            description=(
-                f"Refund for Booking #{booking.id}"
-            ),
-
-        )
-
-            payment.payment_status = "Refunded"
-            payment.save()
+        user=booking.car.owner,
+        title="Booking Cancelled",
+        message=(
+            f"{booking.customer.get_full_name()} "
+            f"or {booking.customer.username} "
+            f"cancelled the booking for "
+            f"{booking.car.title}."
+        ),
+        notification_type="Booking",
+        redirect_url="/bookings/owner-bookings/",
+    )
 
     messages.success(
         request,
-        "Booking cancelled successfully. Refund has been added to your wallet."
+        "Booking cancelled successfully."
     )
 
-    return redirect("my_bookings")
+    return redirect(
+        "my_bookings"
+    )
 from django.shortcuts import get_object_or_404
 from accounts.decorators import owner_required
 
@@ -380,6 +456,11 @@ def owner_bookings(request):
     booking.total_amount
     for booking in approved_amount
 )
+    payment_pending_count = Booking.objects.filter(
+    car__owner=request.user,
+    booking_status="Approved",
+    payment__payment_status="Pending"
+).count()
 
     return render(
     request,
@@ -401,9 +482,20 @@ def owner_bookings(request):
 def owner_booking_details(request, booking_id):
 
     booking = get_object_or_404(
-        Booking,
+        Booking.objects.select_related(
+            "customer",
+            "car",
+            "car__owner",
+            "payment",
+        ),
         id=booking_id,
-        car__owner=request.user
+        car__owner=request.user,
+    )
+
+    payment = getattr(
+        booking,
+        "payment",
+        None
     )
 
     return render(
@@ -411,6 +503,7 @@ def owner_booking_details(request, booking_id):
         "bookings/owner_booking_details.html",
         {
             "booking": booking,
+            "payment": payment,
         }
     )
 from notifications.models import Notification
@@ -423,7 +516,6 @@ def approve_booking(request, booking_id):
         id=booking_id,
         car__owner=request.user
     )
-    
 
     if booking.booking_status != "Pending":
 
@@ -432,31 +524,25 @@ def approve_booking(request, booking_id):
             "Only pending bookings can be approved."
         )
 
-        return redirect("owner_bookings")
+        return redirect(
+            "owner_booking_details",
+            booking.id
+        )
 
     conflict = Booking.objects.filter(
-
         car=booking.car,
-
         booking_status="Approved",
-
-       
-
-        start_date__lte=booking.end_date,
-
-        end_date__gte=booking.start_date,
-
+        start_date__lt=booking.end_date,
+        end_date__gt=booking.start_date,
     ).exclude(
-
         id=booking.id
-
     ).exists()
 
     if conflict:
 
         messages.error(
             request,
-            "This car is already booked for the selected dates."
+            "This car is already booked for these dates."
         )
 
         return redirect(
@@ -466,23 +552,28 @@ def approve_booking(request, booking_id):
 
     booking.booking_status = "Approved"
     booking.approved_at = timezone.now()
-    booking.save()
-    Notification.objects.create(
-    user=booking.customer,
-    title="Booking Approved",
-    message=f"Your booking for {booking.car.title} has been approved.",
-    notification_type="Booking",
-)
-    
-    create_notification(
-    user=booking.customer,
-    title="Booking Approved",
-    message=f"Your booking for {booking.car.title} has been approved.",
-    notification_type="Booking",
-    redirect_url=f"/bookings/details/{booking.id}/",
-)
 
-    
+    booking.save(
+        update_fields=[
+            "booking_status",
+            "approved_at",
+            "updated_at",
+        ]
+    )
+
+    create_notification(
+        user=booking.customer,
+        title="Booking Approved",
+        message=(
+            f"Your booking for "
+            f"{booking.car.title} has been approved. "
+            f"You can now make the payment."
+        ),
+        notification_type="Booking",
+        redirect_url=(
+            f"/bookings/details/{booking.id}/"
+        ),
+    )
 
     messages.success(
         request,
@@ -510,31 +601,41 @@ def reject_booking(request, booking_id):
             "Only pending bookings can be rejected."
         )
 
-        return redirect("owner_bookings")
+        return redirect(
+            "owner_bookings"
+        )
 
     booking.booking_status = "Rejected"
 
-    booking.save()
-    Notification.objects.create(
-    user=booking.customer,
-    title="Booking Rejected",
-    message=f"Your booking for {booking.car.title} has been rejected.",
-    notification_type="Booking",
-)
+    booking.save(
+        update_fields=[
+            "booking_status",
+            "updated_at",
+        ]
+    )
+
     create_notification(
-    user=booking.customer,
-    title="Booking Rejected",
-    message=f"Your booking for {booking.car.title} has been rejected.",
-    notification_type="Booking",
-    redirect_url=f"/bookings/details/{booking.id}/",
-)
+        user=booking.customer,
+        title="Booking Rejected",
+        message=(
+            f"Your booking for "
+            f"{booking.car.title} has been rejected."
+        ),
+        notification_type="Booking",
+        redirect_url=(
+            f"/bookings/details/{booking.id}/"
+        ),
+    )
 
     messages.success(
         request,
         "Booking rejected successfully."
     )
 
-    return redirect("owner_booking_details", booking.id)
+    return redirect(
+        "owner_booking_details",
+        booking.id
+    )
 @login_required
 @owner_required
 def owner_notifications(request):
@@ -945,8 +1046,10 @@ def complete_booking(request, booking_id):
     booking = get_object_or_404(
         Booking,
         id=booking_id,
-        car__owner=request.user
+        car__owner=request.user,
     )
+
+    today = timezone.localdate()
 
     if booking.booking_status != "Approved":
 
@@ -960,20 +1063,63 @@ def complete_booking(request, booking_id):
             booking.id
         )
 
+    payment = getattr(
+        booking,
+        "payment",
+        None
+    )
+
+    if not payment or payment.payment_status != "Paid":
+
+        messages.error(
+            request,
+            "Booking cannot be completed until payment is verified."
+        )
+
+        return redirect(
+            "owner_booking_details",
+            booking.id
+        )
+
+    if booking.end_date >= today:
+
+        messages.error(
+            request,
+            "Rental can only be completed after the end date."
+        )
+
+        return redirect(
+            "owner_booking_details",
+            booking.id
+        )
+
     booking.booking_status = "Completed"
     booking.completed_at = timezone.now()
-    booking.save()
+
+    booking.save(
+        update_fields=[
+            "booking_status",
+            "completed_at",
+            "updated_at",
+        ]
+    )
+
     create_notification(
-    user=booking.customer,
-    title="Trip Completed",
-    message=f"Your trip with {booking.car.title} has been completed. Please leave a review.",
-    notification_type="Booking",
-    redirect_url=f"/bookings/details/{booking.id}/",
-)
+        user=booking.customer,
+        title="Rental Completed",
+        message=(
+            f"Your rental of "
+            f"{booking.car.title} has been completed."
+        ),
+        notification_type="Booking",
+        redirect_url=(
+            f"/bookings/details/{booking.id}/"
+        ),
+    )
 
     messages.success(
         request,
-        "Booking marked as completed successfully."
+        "Rental completed successfully."
     )
 
     return redirect(
@@ -982,6 +1128,12 @@ def complete_booking(request, booking_id):
     )
 
 from decimal import Decimal
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404
+
+from .models import Booking, Payment
+
 
 @login_required
 @customer_required
@@ -993,196 +1145,135 @@ def payment_page(request, booking_id):
         customer=request.user
     )
 
-    payment = booking.payment
+    if booking.booking_status != "Approved":
 
-    wallet, created = Wallet.objects.get_or_create(
-        customer=request.user
-    )
-
-    wallet_balance = wallet.balance
-
-    remaining_amount = max(
-        Decimal("0.00"),
-        payment.amount - wallet_balance
-    )
-
-    order_id = None
-
-    if remaining_amount > 0:
-
-        client = razorpay.Client(
-            auth=(
-                settings.RAZORPAY_KEY_ID,
-                settings.RAZORPAY_KEY_SECRET,
-            )
+        messages.error(
+            request,
+            "Payment is available only after owner approval."
         )
 
-        razorpay_order = client.order.create({
+        return redirect(
+            "booking_details",
+            booking.id
+        )
 
-            "amount": int(remaining_amount * 100),
+    payment, created = Payment.objects.get_or_create(
+        booking=booking,
+        defaults={
+            "customer": request.user,
+            "amount": booking.total_amount,
+            "payment_status": "Pending",
+        }
+    )
 
-            "currency": "INR",
+    if payment.payment_status == "Paid":
 
-            "payment_capture": 1,
+        messages.info(
+            request,
+            "This booking has already been paid."
+        )
 
-        })
+        return redirect(
+            "booking_details",
+            booking.id
+        )
 
-        order_id = razorpay_order["id"]
+    car = booking.car
+    owner = car.owner
 
-        payment.transaction_id = order_id
+    try:
+        owner_profile = owner.owner_profile
+    except OwnerProfile.DoesNotExist:
 
-        payment.save()
+        messages.error(
+            request,
+            "Owner payment details are not available."
+        )
 
-    context = {
+        return redirect(
+            "booking_details",
+            booking.id
+        )
 
-        "booking": booking,
+    if not owner_profile.upi_id:
 
-        "payment": payment,
+        messages.error(
+            request,
+            "Owner has not added a UPI ID."
+        )
 
-        "wallet": wallet,
+        return redirect(
+            "booking_details",
+            booking.id
+        )
 
-        "wallet_balance": wallet_balance,
+    upi_id = owner_profile.upi_id.strip()
 
-        "remaining_amount": remaining_amount,
+    owner_name = (
+        owner.get_full_name()
+        or owner.username
+    )
 
-        "wallet_used": min(wallet_balance, payment.amount),
+    amount = payment.amount
 
-        "razorpay_key": settings.RAZORPAY_KEY_ID,
-
-        "order_id": order_id,
-
-        "amount_paise": int(remaining_amount * 100),
-
+    upi_params = {
+        "pa": upi_id,
+        "pn": owner_name,
+        "am": f"{amount:.2f}",
+        "cu": "INR",
+        "tn": (
+            f"DriveShare Booking "
+            f"{booking.invoice_number}"
+        ),
     }
 
+    upi_url = (
+        "upi://pay?"
+        + urlencode(upi_params)
+    )
+
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_M,
+        box_size=10,
+        border=4,
+    )
+
+    qr.add_data(upi_url)
+    qr.make(fit=True)
+
+    qr_image = qr.make_image(
+        fill_color="black",
+        back_color="white"
+    )
+
+    buffer = BytesIO()
+
+    qr_image.save(
+        buffer,
+        format="PNG"
+    )
+
+    qr_image_base64 = base64.b64encode(
+        buffer.getvalue()
+    ).decode("utf-8")
+
     return render(
-
         request,
-
         "bookings/payment.html",
-
-        context,
-
-    )
-@login_required
-@customer_required
-def payment_success(request, booking_id):
-
-    booking = get_object_or_404(
-        Booking,
-        id=booking_id,
-        customer=request.user
-    )
-
-    payment = booking.payment
-
-    if request.method == "POST":
-
-        client = razorpay.Client(
-            auth=(
-                settings.RAZORPAY_KEY_ID,
-                settings.RAZORPAY_KEY_SECRET,
-            )
-        )
-
-        params = {
-            "razorpay_order_id": request.POST.get(
-                "razorpay_order_id"
-            ),
-            "razorpay_payment_id": request.POST.get(
-                "razorpay_payment_id"
-            ),
-            "razorpay_signature": request.POST.get(
-                "razorpay_signature"
-            ),
+        {
+            "booking": booking,
+            "car": car,
+            "owner": owner,
+            "owner_profile": owner_profile,
+            "payment": payment,
+            "upi_id": upi_id,
+            "owner_name": owner_name,
+            "upi_url": upi_url,
+            "qr_image": qr_image_base64,
         }
-
-        try:
-
-            client.utility.verify_payment_signature(params)
-
-            wallet, created = Wallet.objects.get_or_create(
-                customer=request.user
-            )
-
-            wallet_used = min(
-                wallet.balance,
-                payment.amount
-            )
-
-            if wallet_used > Decimal("0.00"):
-
-                wallet.balance -= wallet_used
-                wallet.save()
-
-                WalletTransaction.objects.create(
-                    wallet=wallet,
-                    amount=wallet_used,
-                    transaction_type="Debit",
-                    description=f"Wallet used for Booking #{booking.id}",
-                )
-
-            payment.payment_status = "Paid"
-
-            if wallet_used == Decimal("0.00"):
-                payment.payment_method = "Razorpay"
-
-            elif wallet_used == payment.amount:
-                payment.payment_method = "Wallet"
-
-            else:
-
-                payment.payment_method = "Wallet + Razorpay"
-
-            payment.transaction_id = params["razorpay_payment_id"]
-
-            payment.paid_at = timezone.now()
-
-# Platform commission (10%)
-            payment.commission = (
-    payment.amount * Decimal("10")
-) / Decimal("100")
-
-# Owner amount
-            payment.owner_amount = (
-    payment.amount - payment.commission
-)
-
-            payment.save()
-            Notification.objects.create(
-    user=request.user,
-    title="Payment Successful",
-    message=f"Payment of ₹{payment.amount} completed successfully.",
-    notification_type="Payment",
-)
-            create_notification(
-    user=request.user,
-    title="Payment Successful",
-    message=f"Payment of ₹{payment.amount} was completed successfully.",
-    notification_type="Payment",
-    redirect_url="/bookings/payment-history/",
-)
-
-            messages.success(
-                request,
-                "Payment Successful."
-            )
-
-        except Exception:
-
-            payment.payment_status = "Failed"
-
-            payment.save()
-
-            messages.error(
-                request,
-                "Payment Verification Failed."
-            )
-
-    return redirect(
-        "booking_details",
-        booking.id
     )
+
 @login_required
 @customer_required
 def payment_failed(request, booking_id):
@@ -1219,6 +1310,9 @@ def payment_failed(request, booking_id):
             "payment": payment,
         }
     )
+from django.db import transaction
+
+
 @login_required
 @customer_required
 def wallet_payment(request, booking_id):
@@ -1226,15 +1320,26 @@ def wallet_payment(request, booking_id):
     booking = get_object_or_404(
         Booking,
         id=booking_id,
-        customer=request.user,
+        customer=request.user
     )
 
-    wallet = get_object_or_404(
-        Wallet,
-        customer=request.user,
-    )
+    if booking.booking_status != "Approved":
 
-    payment = booking.payment
+        messages.error(
+            request,
+            "Payment is available only after owner approval."
+        )
+
+        return redirect(
+            "booking_details",
+            booking.id
+        )
+
+    payment = get_object_or_404(
+        Payment,
+        booking=booking,
+        customer=request.user
+    )
 
     if payment.payment_status == "Paid":
 
@@ -1245,7 +1350,25 @@ def wallet_payment(request, booking_id):
 
         return redirect(
             "booking_details",
-            booking.id,
+            booking.id
+        )
+
+    try:
+
+        wallet = Wallet.objects.get(
+            customer=request.user
+        )
+
+    except Wallet.DoesNotExist:
+
+        messages.error(
+            request,
+            "Wallet not found."
+        )
+
+        return redirect(
+            "payment_page",
+            booking.id
         )
 
     if wallet.balance < payment.amount:
@@ -1257,58 +1380,71 @@ def wallet_payment(request, booking_id):
 
         return redirect(
             "payment_page",
-            booking.id,
+            booking.id
         )
 
-    # Deduct wallet balance
-    wallet.balance -= payment.amount
-    wallet.save()
+    with transaction.atomic():
 
-    WalletTransaction.objects.create(
-        wallet=wallet,
-        amount=payment.amount,
-        transaction_type="Debit",
-        description=f"Payment for Booking #{booking.id}",
-    )
+        wallet.balance -= payment.amount
 
-    # Wallet Notification
+        wallet.save(
+            update_fields=[
+                "balance",
+                "updated_at",
+            ]
+        )
+
+        WalletTransaction.objects.create(
+            wallet=wallet,
+            amount=payment.amount,
+            transaction_type="Debit",
+            description=(
+                f"Payment for Booking #{booking.id}"
+            ),
+        )
+
+        payment.payment_status = "Paid"
+        payment.payment_method = "Wallet"
+        payment.paid_at = timezone.now()
+        payment.verified_at = timezone.now()
+        payment.verified_by = None
+
+        payment.commission = (
+            payment.amount * Decimal("10")
+        ) / Decimal("100")
+
+        payment.owner_amount = (
+            payment.amount
+            - payment.commission
+        )
+
+        payment.save()
+
     create_notification(
         user=request.user,
-        title="Wallet Debited",
-        message=f"₹{payment.amount} has been deducted from your wallet for Booking #{booking.id}.",
+        title="Wallet Payment Successful",
+        message=(
+            f"₹{payment.amount} was deducted "
+            f"from your wallet for Booking "
+            f"#{booking.id}."
+        ),
         notification_type="Wallet",
         redirect_url="/bookings/wallet/",
     )
-    payment.payment_status = "Paid"
-    payment.payment_method = "Wallet"
-    payment.paid_at = timezone.now()
 
-# Platform commission (10%)
-    payment.commission = (
-    payment.amount * Decimal("10")
-) / Decimal("100")
-
-# Owner receives remaining amount
-    payment.owner_amount = (
-    payment.amount - payment.commission
-)
-    payment.save()
-    # Customer Notification
-    create_notification(
-        user=request.user,
-        title="Payment Successful",
-        message=f"Payment of ₹{payment.amount} was completed using Wallet.",
-        notification_type="Payment",
-        redirect_url="/bookings/payment-history/",
-    )
-
-    # NEW: Owner Notification
     create_notification(
         user=booking.car.owner,
         title="Booking Payment Received",
-        message=f"{booking.customer.get_full_name() or booking.customer.username} paid ₹{payment.amount} for {booking.car.title}.",
+        message=(
+            f"{booking.customer.get_full_name()} "
+            f"or {booking.customer.username}"
+            f"paid ₹{payment.amount} using wallet "
+            f"for {booking.car.title}."
+        ),
         notification_type="Payment",
-        redirect_url="/bookings/owner-bookings/",
+        redirect_url=(
+            f"/bookings/owner/details/{booking.id}/"
+        ),
     )
 
     messages.success(
@@ -1318,7 +1454,7 @@ def wallet_payment(request, booking_id):
 
     return redirect(
         "booking_details",
-        booking.id,
+        booking.id
     )
 @login_required
 @customer_required
@@ -1603,44 +1739,20 @@ from django.db.models import Sum
 from bookings.models import Payment
 
 
-@login_required
-def owner_earnings(request):
 
-    payments = Payment.objects.filter(
-        booking__car__owner=request.user,
-        payment_status="Paid"
-    ).select_related("booking", "booking__car")
-
-    gross_earnings = payments.aggregate(
-        total=Sum("amount")
-    )["total"] or Decimal("0.00")
-
-    commission = gross_earnings * Decimal("0.10")      # 10%
-
-    withdrawable = gross_earnings - commission
-
-    context = {
-
-        "payments": payments,
-
-        "gross_earnings": gross_earnings,
-
-        "commission": commission,
-
-        "withdrawable": withdrawable,
-
-    }
-
-    return render(
-        request,
-        "bookings/owner_earnings.html",
-        context,
-    )
 
 
 from decimal import Decimal
 from django.db.models import Sum
 from django.db.models.functions import TruncMonth
+from decimal import Decimal
+from django.contrib.auth.decorators import login_required
+from django.db.models import Sum
+from django.db.models.functions import TruncMonth
+
+from .models import Payment, Booking
+
+
 @login_required
 def owner_earnings(request):
 
@@ -1661,55 +1773,51 @@ def owner_earnings(request):
     gross_earnings = (
         payments.aggregate(
             total=Sum("amount")
-        )["total"] or Decimal("0.00")
+        )["total"]
+        or Decimal("0.00")
     )
 
     commission = (
         gross_earnings * COMMISSION_PERCENT
     ) / Decimal("100")
 
-    withdrawable = gross_earnings - commission
+    withdrawable = (
+        gross_earnings - commission
+    )
 
     completed_rentals = Booking.objects.filter(
         car__owner=request.user,
         booking_status="Completed"
     ).count()
 
-    recent_transactions = payments.order_by("-paid_at")
+    recent_transactions = payments.order_by(
+        "-paid_at"
+    )
+
     monthly_earnings = (
-
-    payments
-
-    .annotate(
-        month=TruncMonth("paid_at")
+        payments
+        .annotate(
+            month=TruncMonth("paid_at")
+        )
+        .values("month")
+        .annotate(
+            total=Sum("owner_amount")
+        )
+        .order_by("month")
     )
 
-    .values("month")
-
-    .annotate(
-        total=Sum("owner_amount")
-    )
-
-    .order_by("month")
-
-)   
     chart_labels = [
+        item["month"].strftime("%b %Y")
+        for item in monthly_earnings
+        if item["month"]
+    ]
 
-    item["month"].strftime("%b %Y")
-
-    for item in monthly_earnings
-
-]     
     chart_values = [
-
-    float(item["total"])
-
-    for item in monthly_earnings
-
-]
+        float(item["total"] or 0)
+        for item in monthly_earnings
+    ]
 
     context = {
-
         "payments": payments,
 
         "gross_earnings": gross_earnings,
@@ -1719,11 +1827,12 @@ def owner_earnings(request):
         "withdrawable": withdrawable,
 
         "completed_rentals": completed_rentals,
+
         "recent_transactions": recent_transactions,
+
         "chart_labels": json.dumps(chart_labels),
-"chart_values": json.dumps(chart_values),
 
-
+        "chart_values": json.dumps(chart_values),
     }
 
     return render(
@@ -1731,6 +1840,336 @@ def owner_earnings(request):
         "bookings/owner_earnings.html",
         context,
     )
-
 from django.db.models.functions import TruncMonth
 from django.db.models import Sum
+@login_required
+@customer_required
+def submit_payment(request, booking_id):
+
+    booking = get_object_or_404(
+        Booking,
+        id=booking_id,
+        customer=request.user
+    )
+
+    if booking.booking_status != "Approved":
+
+        messages.error(
+            request,
+            "Payment is available only for approved bookings."
+        )
+
+        return redirect(
+            "booking_details",
+            booking.id
+        )
+
+    payment = get_object_or_404(
+        Payment,
+        booking=booking,
+        customer=request.user
+    )
+
+    if payment.payment_status == "Paid":
+
+        messages.info(
+            request,
+            "This booking has already been paid."
+        )
+
+        return redirect(
+            "booking_details",
+            booking.id
+        )
+
+    if request.method != "POST":
+
+        return redirect(
+            "payment_page",
+            booking.id
+        )
+
+    transaction_id = request.POST.get(
+        "transaction_id",
+        ""
+    ).strip()
+
+    screenshot = request.FILES.get(
+        "payment_screenshot"
+    )
+
+    if not transaction_id:
+
+        messages.error(
+            request,
+            "Please enter the UTR / transaction ID."
+        )
+
+        return redirect(
+            "payment_page",
+            booking.id
+        )
+
+    if not screenshot:
+
+        messages.error(
+            request,
+            "Please upload your payment screenshot."
+        )
+
+        return redirect(
+            "payment_page",
+            booking.id
+        )
+
+    payment.transaction_id = transaction_id
+    payment.payment_method = "UPI"
+    payment.payment_screenshot = screenshot
+
+    # IMPORTANT
+    # Still waiting for owner verification.
+    payment.payment_status = "Pending"
+
+    payment.save()
+
+    create_notification(
+        user=booking.customer,
+        title="Payment Proof Submitted",
+        message=(
+            f"Payment proof for "
+            f"{booking.car.title} has been submitted. "
+            f"Waiting for owner verification."
+        ),
+        notification_type="Payment",
+        redirect_url=(
+            f"/bookings/details/{booking.id}/"
+        ),
+    )
+
+    create_notification(
+        user=booking.car.owner,
+        title="Payment Verification Required",
+        message=(
+            f"{booking.customer.get_full_name()} "
+            f"or {booking.customer.username} "
+            f"submitted payment proof for "
+            f"{booking.car.title}. "
+            f"UTR: {transaction_id}"
+        ),
+        notification_type="Payment",
+        redirect_url=(
+            f"/bookings/owner/details/{booking.id}/"
+        ),
+    )
+
+    messages.success(
+        request,
+        "Payment proof submitted. "
+        "Waiting for owner verification."
+    )
+
+    return redirect(
+        "booking_details",
+        booking.id
+    )
+
+@login_required
+@owner_required
+def verify_payment(request, booking_id):
+
+    booking = get_object_or_404(
+        Booking,
+        id=booking_id,
+        car__owner=request.user
+    )
+
+    payment = get_object_or_404(
+        Payment,
+        booking=booking
+    )
+
+    if payment.payment_status == "Paid":
+
+        messages.info(
+            request,
+            "Payment has already been verified."
+        )
+
+        return redirect(
+            "owner_booking_details",
+            booking.id
+        )
+
+    if booking.booking_status != "Approved":
+
+        messages.error(
+            request,
+            "Only approved bookings can have payments verified."
+        )
+
+        return redirect(
+            "owner_booking_details",
+            booking.id
+        )
+
+    if payment.payment_method != "UPI":
+
+        messages.error(
+            request,
+            "This payment does not require manual UPI verification."
+        )
+
+        return redirect(
+            "owner_booking_details",
+            booking.id
+        )
+
+    if not payment.transaction_id:
+
+        messages.error(
+            request,
+            "Transaction ID is missing."
+        )
+
+        return redirect(
+            "owner_booking_details",
+            booking.id
+        )
+
+    if not payment.payment_screenshot:
+
+        messages.error(
+            request,
+            "Payment screenshot is missing."
+        )
+
+        return redirect(
+            "owner_booking_details",
+            booking.id
+        )
+
+    if request.method != "POST":
+
+        messages.error(
+            request,
+            "Invalid request."
+        )
+
+        return redirect(
+            "owner_booking_details",
+            booking.id
+        )
+
+    # ---------------------------------------------
+    # VERIFY PAYMENT
+    # ---------------------------------------------
+
+    payment.payment_status = "Paid"
+    payment.verified_at = timezone.now()
+    payment.verified_by = request.user
+    payment.paid_at = timezone.now()
+
+    payment.commission = (
+        payment.amount * Decimal("10")
+    ) / Decimal("100")
+
+    payment.owner_amount = (
+        payment.amount
+        - payment.commission
+    )
+
+    payment.save()
+
+    # ---------------------------------------------
+    # CUSTOMER NOTIFICATION
+    # ---------------------------------------------
+
+    create_notification(
+        user=booking.customer,
+        title="Payment Verified",
+        message=(
+            f"Your payment of ₹{payment.amount} "
+            f"for {booking.car.title} "
+            f"has been verified successfully."
+        ),
+        notification_type="Payment",
+        redirect_url=(
+            f"/bookings/details/{booking.id}/"
+        ),
+    )
+
+    messages.success(
+        request,
+        "Payment verified successfully."
+    )
+
+    return redirect(
+        "owner_booking_details",
+        booking.id
+    )
+@login_required
+@owner_required
+def reject_payment(request, booking_id):
+
+    booking = get_object_or_404(
+        Booking,
+        id=booking_id,
+        car__owner=request.user
+    )
+
+    payment = get_object_or_404(
+        Payment,
+        booking=booking
+    )
+
+    if payment.payment_status == "Paid":
+
+        messages.error(
+            request,
+            "A paid payment cannot be rejected."
+        )
+
+        return redirect(
+            "owner_booking_details",
+            booking.id
+        )
+
+    if request.method != "POST":
+
+        return redirect(
+            "owner_booking_details",
+            booking.id
+        )
+
+    payment.payment_status = "Failed"
+
+    payment.save(
+        update_fields=[
+            "payment_status",
+        ]
+    )
+
+    create_notification(
+        user=booking.customer,
+        title="Payment Proof Rejected",
+        message=(
+            f"Your payment proof for "
+            f"{booking.car.title} was rejected. "
+            f"Please check your UTR and screenshot "
+            f"and submit the payment proof again."
+        ),
+        notification_type="Payment",
+        redirect_url=(
+            f"/bookings/details/{booking.id}/"
+        ),
+    )
+
+    messages.warning(
+        request,
+        "Payment proof rejected."
+    )
+
+    return redirect(
+        "owner_booking_details",
+        booking.id
+    )

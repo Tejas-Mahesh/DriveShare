@@ -6,30 +6,167 @@ Revenue Report
 
 {% block content %}
 
-<section class="dashboard">
+<section class="revenue-page">
 
-    <h1>Revenue Report</h1>
+    <!-- Page Header -->
+    <div class="revenue-header">
 
-    <div class="stats-grid">
+        <div>
+            <span class="report-label">ADMIN ANALYTICS</span>
 
-        <div class="stats-card">
-            <h2>₹{{ daily_revenue }}</h2>
-            <p>Today's Revenue</p>
+            <h1>Revenue Report</h1>
+
+            <p>
+                Track your platform revenue, earnings and commission.
+            </p>
         </div>
 
-        <div class="stats-card">
-            <h2>₹{{ monthly_revenue }}</h2>
-            <p>This Month</p>
+        <div class="report-icon">
+            💰
         </div>
 
-        <div class="stats-card">
-            <h2>₹{{ yearly_revenue }}</h2>
-            <p>This Year</p>
+    </div>
+
+
+    <!-- Revenue Cards -->
+    <div class="revenue-grid">
+
+        <!-- Daily Revenue -->
+        <div class="revenue-card daily">
+
+            <div class="card-top">
+                <div class="revenue-icon">
+                    📅
+                </div>
+
+                <span class="card-period">
+                    TODAY
+                </span>
+            </div>
+
+            <p class="card-title">
+                Today's Revenue
+            </p>
+
+            <h2>
+                ₹{{ daily_revenue }}
+            </h2>
+
+            <div class="card-line"></div>
+
+            <span class="card-description">
+                Revenue generated today
+            </span>
+
         </div>
 
-        <div class="stats-card">
-            <h2>₹{{ commission }}</h2>
-            <p>Platform Commission (10%)</p>
+
+        <!-- Monthly Revenue -->
+        <div class="revenue-card monthly">
+
+            <div class="card-top">
+                <div class="revenue-icon">
+                    📊
+                </div>
+
+                <span class="card-period">
+                    MONTH
+                </span>
+            </div>
+
+            <p class="card-title">
+                This Month
+            </p>
+
+            <h2>
+                ₹{{ monthly_revenue }}
+            </h2>
+
+            <div class="card-line"></div>
+
+            <span class="card-description">
+                Revenue generated this month
+            </span>
+
+        </div>
+
+
+        <!-- Yearly Revenue -->
+        <div class="revenue-card yearly">
+
+            <div class="card-top">
+                <div class="revenue-icon">
+                    📈
+                </div>
+
+                <span class="card-period">
+                    YEAR
+                </span>
+            </div>
+
+            <p class="card-title">
+                This Year
+            </p>
+
+            <h2>
+                ₹{{ yearly_revenue }}
+            </h2>
+
+            <div class="card-line"></div>
+
+            <span class="card-description">
+                Total revenue this year
+            </span>
+
+        </div>
+
+
+        <!-- Commission -->
+        <div class="revenue-card commission">
+
+            <div class="card-top">
+                <div class="revenue-icon">
+                    💎
+                </div>
+
+                <span class="card-period">
+                    10%
+                </span>
+            </div>
+
+            <p class="card-title">
+                Platform Commission
+            </p>
+
+            <h2>
+                ₹{{ commission }}
+            </h2>
+
+            <div class="card-line"></div>
+
+            <span class="card-description">
+                Platform commission earned
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- Bottom Summary -->
+    <div class="revenue-summary">
+
+        <div class="summary-icon">
+            💰
+        </div>
+
+        <div>
+            <h3>Platform Revenue Overview</h3>
+
+            <p>
+                Your platform earnings are calculated from completed
+                bookings and the applicable commission rate.
+            </p>
         </div>
 
     </div>

@@ -57,12 +57,12 @@
                         Rent Cars
                     </a>
                 </li>
-
-                <li>
-                    <a href="{% url 'my_bookings' %}" class="{% if request.resolver_match.url_name == 'my-bookings' %}active{% endif %}">
-                        My Bookings
-                    </a>
-                </li>
+<li>
+    <a href="{% url 'my_bookings' %}"
+       class="{% if request.resolver_match.url_name == 'my_bookings' %}active{% endif %}">
+        My Bookings
+    </a>
+</li>
 
                 <li>
                     <a href="{% url 'customer_dashboard' %}" class="{% if request.resolver_match.url_name == 'customer_dashboard' %}active{% endif %}">
@@ -248,9 +248,7 @@
                             Payment History
                         </a>
 
-                        <a href="{% url 'wallet' %}">
-                            My Wallet
-                        </a>
+                        
 
                         <a href="{% url 'contact' %}">
                             Contact

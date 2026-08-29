@@ -70,6 +70,11 @@ Booking Requests
             <p>Expected Earnings</p>
 
         </div>
+        <div class="analytics-card">
+    <i class="fas fa-money-check-alt"></i>
+    <h2>{{ payment_pending_count }}</h2>
+    <p>Payments to Verify</p>
+</div>
 
     </div>
 
@@ -184,11 +189,9 @@ Booking Requests
 
                 <div class="booking-actions">
 
-                    <a href="{% url 'owner_booking_details'  booking.invoice_number %}" class="view-btn">
-
-                        View Request
-
-                    </a>
+                    <a href="{% url 'owner_booking_details' booking.id %}" class="view-btn">
+    View Request
+</a>
 
                 </div>
 

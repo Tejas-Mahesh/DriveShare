@@ -1114,3 +1114,2337 @@ grid-template-columns:1fr;
     cursor:not-allowed;
 
 }
+/* ==========================================================
+   ADMIN REVIEWS - NEW STRUCTURE
+   Everything is scoped to .admin-review-page
+========================================================== */
+
+.admin-review-page {
+    max-width: 1350px;
+    margin: 110px auto 70px;
+    padding: 0 30px;
+}
+
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.admin-review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 30px 35px;
+    margin-bottom: 25px;
+
+    background: linear-gradient(
+        135deg,
+        #ffffff,
+        #fff8f5
+    );
+
+    border: 1px solid #eceff3;
+    border-radius: 22px;
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,.06);
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.header-icon {
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #fff1ec;
+    border-radius: 16px;
+
+    font-size: 28px;
+}
+
+.header-label {
+    color: #ff5a3c;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.admin-review-header h1 {
+    margin: 4px 0 5px;
+
+    font-size: 34px;
+    color: #172033;
+}
+
+.admin-review-header p {
+    margin: 0;
+
+    color: #7b8491;
+    font-size: 14px;
+}
+
+.header-stat {
+    text-align: right;
+}
+
+.header-stat strong {
+    display: block;
+
+    color: #ff5a3c;
+
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.header-stat span {
+    color: #8b94a1;
+    font-size: 12px;
+}
+
+
+/* ==========================================================
+   ANALYTICS
+========================================================== */
+
+.review-analytics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 18px;
+
+    margin-bottom: 25px;
+}
+
+.review-stat-card {
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 22px;
+
+    background: #ffffff;
+
+    border: 1px solid #edf0f4;
+    border-radius: 18px;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.05);
+
+    transition: .3s ease;
+}
+
+.review-stat-card:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.09);
+}
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 13px;
+
+    font-size: 21px;
+}
+
+.rating-icon {
+    background: #fff4dc;
+}
+
+.review-icon {
+    background: #eaf3ff;
+}
+
+.five-icon {
+    background: #fff0e9;
+}
+
+.four-icon {
+    background: #eaf8ef;
+}
+
+.stat-content span {
+    display: block;
+
+    color: #8a93a0;
+
+    font-size: 12px;
+}
+
+.stat-content strong {
+    display: block;
+
+    margin: 3px 0;
+
+    color: #1b2432;
+
+    font-size: 27px;
+}
+
+.stat-content small {
+    color: #a1a8b2;
+    font-size: 10px;
+}
+
+
+/* ==========================================================
+   COMMON SECTION TITLE
+========================================================== */
+
+.admin-review-page .section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    margin-bottom: 22px;
+}
+
+.admin-review-page .section-title span,
+.filter-heading span,
+.reviews-list-header span {
+    color: #ff5a3c;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+}
+
+.admin-review-page .section-title h2,
+.filter-heading h2,
+.reviews-list-header h2 {
+    margin: 5px 0 0;
+
+    color: #1c2533;
+
+    font-size: 24px;
+}
+
+.admin-review-page .section-title p {
+    margin: 0;
+
+    color: #9299a4;
+
+    font-size: 13px;
+}
+
+
+/* ==========================================================
+   RATING OVERVIEW
+========================================================== */
+
+.rating-overview {
+    padding: 27px 30px;
+
+    margin-bottom: 25px;
+
+    background: #ffffff;
+
+    border: 1px solid #edf0f4;
+    border-radius: 20px;
+
+    box-shadow:
+        0 8px 28px rgba(0,0,0,.05);
+}
+
+.rating-list {
+    display: grid;
+
+    gap: 13px;
+}
+
+.rating-item {
+    display: grid;
+
+    grid-template-columns: 125px 1fr 45px;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+.rating-label {
+    color: #f59e0b;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.rating-label span {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 23px;
+    height: 23px;
+
+    margin-right: 5px;
+
+    background: #fff7e5;
+
+    border-radius: 6px;
+
+    color: #d88900;
+
+    font-size: 11px;
+}
+
+.rating-bar {
+    height: 9px;
+
+    overflow: hidden;
+
+    background: #f0f2f5;
+
+    border-radius: 20px;
+}
+
+.rating-fill {
+    height: 100%;
+
+    border-radius: 20px;
+
+    min-width: 0;
+
+    transition: width .8s ease;
+}
+
+.five-fill {
+    background: #f59e0b;
+}
+
+.four-fill {
+    background: #f7b84b;
+}
+
+.three-fill {
+    background: #f5c96a;
+}
+
+.two-fill {
+    background: #f6d994;
+}
+
+.one-fill {
+    background: #e7e7e7;
+}
+
+.rating-item > strong {
+    text-align: right;
+
+    color: #4d5663;
+
+    font-size: 13px;
+}
+
+
+/* ==========================================================
+   PERFORMANCE
+========================================================== */
+
+.performance-section {
+    margin-bottom: 25px;
+}
+
+.performance-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 20px;
+}
+
+.performance-card {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    gap: 18px;
+
+    padding: 25px;
+
+    overflow: hidden;
+
+    background: linear-gradient(
+        135deg,
+        #ffffff,
+        #fafbfc
+    );
+
+    border: 1px solid #e8edf2;
+    border-radius: 20px;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.05);
+
+    transition: .3s ease;
+}
+
+.performance-card:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.09);
+}
+
+.performance-icon {
+    width: 58px;
+    height: 58px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #fff3eb;
+
+    border-radius: 16px;
+
+    font-size: 27px;
+}
+
+.owner-performance-icon {
+    background: #edf5ff;
+}
+
+.performance-info {
+    flex: 1;
+}
+
+.performance-info > span {
+    color: #929aa6;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 1px;
+}
+
+.performance-info h3 {
+    margin: 5px 0 7px;
+
+    color: #202938;
+
+    font-size: 19px;
+}
+
+.performance-info p {
+    margin: 0;
+
+    color: #999;
+
+    font-size: 13px;
+}
+
+.performance-rating {
+    color: #f59e0b;
+
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.performance-rating small {
+    color: #999;
+
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.performance-badge {
+    position: absolute;
+
+    top: 15px;
+    right: 18px;
+
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #fff5dd;
+
+    border-radius: 50%;
+
+    color: #d88b00;
+
+    font-size: 11px;
+    font-weight: 800;
+}
+
+
+/* ==========================================================
+   FILTER
+========================================================== */
+
+.review-filter {
+    padding: 24px;
+
+    margin-bottom: 25px;
+
+    background: #ffffff;
+
+    border: 1px solid #e9edf2;
+    border-radius: 20px;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.05);
+}
+
+.filter-heading {
+    margin-bottom: 18px;
+}
+
+.filter-form {
+    display: grid;
+
+    grid-template-columns: 1fr 180px 110px 90px;
+
+    gap: 10px;
+}
+
+.search-box {
+    position: relative;
+}
+
+.search-box span {
+    position: absolute;
+
+    left: 15px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    font-size: 15px;
+}
+
+.search-box input,
+.filter-form select {
+    width: 100%;
+    height: 46px;
+
+    padding: 0 14px;
+
+    border: 1px solid #e0e5ea;
+
+    border-radius: 10px;
+
+    background: #fafbfc;
+
+    font-size: 13px;
+
+    outline: none;
+}
+
+.search-box input {
+    padding-left: 42px;
+}
+
+.search-box input:focus,
+.filter-form select:focus {
+    border-color: #ff5a3c;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 3px rgba(255,90,60,.08);
+}
+
+.filter-btn {
+    height: 46px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #ff5a3c;
+
+    color: #ffffff;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.filter-btn:hover {
+    background: #e84d31;
+}
+
+.clear-filter {
+    height: 46px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #f1f3f5;
+
+    border-radius: 10px;
+
+    color: #555;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.clear-filter:hover {
+    background: #e4e7ea;
+    color: #222;
+}
+
+
+/* ==========================================================
+   REVIEW LIST
+========================================================== */
+
+.reviews-container {
+    margin-top: 25px;
+}
+
+.reviews-list-header {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: flex-end;
+
+    margin-bottom: 18px;
+}
+
+.review-count-badge {
+    padding: 8px 13px;
+
+    background: #fff2ed;
+
+    border-radius: 20px;
+
+    color: #ff5a3c !important;
+
+    font-size: 11px !important;
+    font-weight: 700 !important;
+
+    letter-spacing: 0 !important;
+}
+
+
+/* ==========================================================
+   INDIVIDUAL REVIEW
+========================================================== */
+
+.admin-review-card {
+    display: grid;
+
+    grid-template-columns: 210px 1fr auto;
+
+    gap: 25px;
+
+    align-items: center;
+
+    padding: 25px;
+
+    margin-bottom: 16px;
+
+    background: #ffffff;
+
+    border: 1px solid #e9edf2;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 7px 24px rgba(0,0,0,.05);
+
+    transition: .3s ease;
+}
+
+.admin-review-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 14px 32px rgba(0,0,0,.08);
+}
+
+
+/* CUSTOMER */
+
+.review-customer {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+.customer-avatar {
+    width: 50px;
+    height: 50px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #fff1ec;
+
+    color: #ff5a3c;
+
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.review-customer h3 {
+    margin: 0 0 4px;
+
+    color: #222b38;
+
+    font-size: 15px;
+}
+
+.review-customer span {
+    color: #999;
+
+    font-size: 11px;
+}
+
+
+/* REVIEW CONTENT */
+
+.review-content {
+    min-width: 0;
+}
+
+.review-car {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-bottom: 9px;
+
+    color: #4f5967;
+
+    font-size: 13px;
+}
+
+.review-rating {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-left: 12px;
+
+    color: #f59e0b;
+
+    font-size: 13px;
+}
+
+.review-rating strong {
+    color: #777;
+
+    font-size: 11px;
+}
+
+.review-message {
+    position: relative;
+
+    display: flex;
+
+    gap: 8px;
+
+    margin: 5px 0 10px;
+
+    padding: 12px 15px;
+
+    background: #f8fafc;
+
+    border-radius: 10px;
+
+    border-left: 3px solid #ff5a3c;
+}
+
+.quote-icon {
+    color: #ff5a3c;
+
+    font-size: 22px;
+
+    line-height: 1;
+}
+
+.review-message p {
+    margin: 0;
+
+    color: #606a77;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+}
+
+.review-date {
+    color: #a0a7b0;
+
+    font-size: 10px;
+}
+
+
+/* ==========================================================
+   DELETE
+========================================================== */
+
+.review-action {
+    align-self: center;
+}
+
+.review-delete {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding: 9px 13px;
+
+    background: #fff1f1;
+
+    border-radius: 9px;
+
+    color: #dc2626;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+.review-delete:hover {
+    background: #dc2626;
+
+    color: #ffffff;
+
+    transform: translateY(-2px);
+}
+
+
+/* ==========================================================
+   EMPTY
+========================================================== */
+
+.empty-review-state {
+    padding: 70px 20px;
+
+    text-align: center;
+
+    background: #ffffff;
+
+    border: 1px solid #e9edf2;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.05);
+}
+
+.empty-icon {
+    font-size: 45px;
+
+    margin-bottom: 15px;
+}
+
+.empty-review-state h2 {
+    margin: 0 0 8px;
+
+    color: #3d4652;
+
+    font-size: 22px;
+}
+
+.empty-review-state p {
+    margin: 0 0 20px;
+
+    color: #999;
+
+    font-size: 13px;
+}
+
+.empty-clear-btn {
+    display: inline-block;
+
+    padding: 10px 18px;
+
+    background: #ff5a3c;
+
+    border-radius: 9px;
+
+    color: #ffffff;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+
+/* ==========================================================
+   PAGINATION
+========================================================== */
+
+.review-pagination {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 15px;
+
+    margin-top: 30px;
+}
+
+.pagination-btn {
+    padding: 10px 17px;
+
+    background: #ffffff;
+
+    border: 1px solid #e1e5ea;
+
+    border-radius: 9px;
+
+    color: #555;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.pagination-btn:hover {
+    background: #ff5a3c;
+
+    border-color: #ff5a3c;
+
+    color: #ffffff;
+}
+
+.pagination-current {
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    color: #999;
+
+    font-size: 12px;
+}
+
+.pagination-current strong {
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #172033;
+
+    border-radius: 8px;
+
+    color: #ffffff;
+}
+
+
+/* ==========================================================
+   TABLET
+========================================================== */
+
+@media (max-width: 1100px) {
+
+    .review-analytics {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .filter-form {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .admin-review-card {
+        grid-template-columns: 180px 1fr;
+    }
+
+    .review-action {
+        grid-column: 2;
+    }
+
+}
+
+
+/* ==========================================================
+   MOBILE
+========================================================== */
+
+@media (max-width: 700px) {
+
+    .admin-review-page {
+        margin-top: 90px;
+        padding: 0 15px;
+    }
+
+    .admin-review-header {
+        padding: 24px;
+
+        align-items: flex-start;
+    }
+
+    .header-content {
+        align-items: flex-start;
+    }
+
+    .header-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 21px;
+    }
+
+    .admin-review-header h1 {
+        font-size: 26px;
+    }
+
+    .header-stat {
+        display: none;
+    }
+
+    .review-analytics {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-review-page .section-title {
+        display: block;
+    }
+
+    .admin-review-page .section-title p {
+        margin-top: 7px;
+    }
+
+    .performance-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-form {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-review-card {
+        grid-template-columns: 1fr;
+
+        gap: 15px;
+
+        padding: 20px;
+    }
+
+    .review-action {
+        grid-column: auto;
+    }
+
+    .review-delete {
+        width: 100%;
+
+        justify-content: center;
+    }
+
+    .review-rating {
+        margin-left: 0;
+    }
+
+    .rating-item {
+        grid-template-columns: 90px 1fr 30px;
+
+        gap: 8px;
+    }
+
+    .rating-label {
+        font-size: 11px;
+    }
+
+    .review-pagination {
+        flex-wrap: wrap;
+    }
+
+}
+
+
+@media (max-width: 420px) {
+
+    .admin-review-header {
+        padding: 20px;
+    }
+
+    .admin-review-header h1 {
+        font-size: 23px;
+    }
+
+    .rating-overview,
+    .review-filter {
+        padding: 20px;
+    }
+
+    .performance-card {
+        padding: 20px;
+    }
+
+}
+
+
+
+/* =========================================================
+   DRIVSHARE - CAR REVIEW / APPROVAL PAGE
+   All styles are scoped to .car-review-page
+========================================================= */
+
+.car-review-page {
+    max-width: 1350px;
+    margin: 110px auto 70px;
+    padding: 0 30px;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.car-review-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 28px 32px;
+    margin-bottom: 25px;
+
+    background: #ffffff;
+
+    border: 1px solid #e9edf2;
+    border-radius: 22px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .05);
+}
+
+.review-heading {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.review-heading-icon {
+    width: 60px;
+    height: 60px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #fff1ec;
+
+    border-radius: 16px;
+
+    font-size: 28px;
+}
+
+.review-heading span {
+    color: #ff5a3c;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+}
+
+.review-heading h1 {
+    margin: 5px 0;
+
+    color: #182230;
+
+    font-size: 32px;
+}
+
+.review-heading p {
+    margin: 0;
+
+    color: #89929e;
+
+    font-size: 13px;
+}
+
+.approval-status {
+    text-align: right;
+}
+
+.approval-status span {
+    display: block;
+
+    color: #929aa5;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+}
+
+.approval-status strong {
+    display: inline-block;
+
+    margin-top: 6px;
+    padding: 8px 15px;
+
+    background: #fff5df;
+
+    border-radius: 20px;
+
+    color: #d58a00;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   MAIN LAYOUT
+========================================================= */
+
+.car-review-layout {
+    display: grid;
+
+    grid-template-columns: minmax(0, 1fr) 360px;
+
+    gap: 25px;
+
+    align-items: start;
+}
+
+.car-review-main {
+    display: grid;
+    gap: 25px;
+}
+
+.car-review-sidebar {
+    display: grid;
+    gap: 20px;
+
+    position: sticky;
+    top: 100px;
+}
+
+
+/* =========================================================
+   COMMON CARD
+========================================================= */
+
+.vehicle-gallery-card,
+.vehicle-information-card,
+.owner-review-card,
+.approval-card {
+    background: #ffffff;
+
+    border: 1px solid #e9edf2;
+
+    border-radius: 20px;
+
+    box-shadow: 0 8px 28px rgba(0, 0, 0, .05);
+}
+
+.vehicle-gallery-card,
+.vehicle-information-card,
+.owner-review-card,
+.approval-card {
+    padding: 27px;
+}
+
+.card-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 22px;
+}
+
+.card-heading span:first-child {
+    color: #ff5a3c;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 1.4px;
+}
+
+.card-heading h2 {
+    margin: 5px 0 0;
+
+    color: #202a38;
+
+    font-size: 23px;
+}
+
+.photo-count {
+    padding: 7px 12px;
+
+    background: #f4f6f8;
+
+    border-radius: 20px;
+
+    color: #6e7782;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   IMAGE GALLERY
+========================================================= */
+
+.vehicle-gallery {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 14px;
+}
+
+.vehicle-image {
+    position: relative;
+
+    height: 220px;
+
+    overflow: hidden;
+
+    border-radius: 14px;
+
+    background: #f2f4f6;
+}
+
+.vehicle-image:first-child {
+    grid-column: span 2;
+
+    height: 300px;
+}
+
+.vehicle-image img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    transition: transform .5s ease;
+}
+
+.vehicle-image:hover img {
+    transform: scale(1.06);
+}
+
+.image-number {
+    position: absolute;
+
+    left: 12px;
+    bottom: 12px;
+
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 0, 0, .65);
+
+    border-radius: 8px;
+
+    color: #ffffff;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.no-images {
+    min-height: 180px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #f7f8fa;
+
+    border: 2px dashed #dce1e6;
+
+    border-radius: 15px;
+
+    color: #9ba2aa;
+
+    font-size: 35px;
+}
+
+.no-images p {
+    margin: 8px 0 0;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   VEHICLE INFORMATION
+========================================================= */
+
+.vehicle-basic {
+    padding: 18px;
+
+    margin-bottom: 20px;
+
+    background: #f8fafc;
+
+    border-radius: 13px;
+}
+
+.vehicle-basic h3 {
+    margin: 0 0 5px;
+
+    color: #202938;
+
+    font-size: 21px;
+}
+
+.vehicle-basic p {
+    margin: 0;
+
+    color: #7c8692;
+
+    font-size: 13px;
+}
+
+.vehicle-year {
+    padding: 8px 13px;
+
+    background: #edf5ff;
+
+    border-radius: 8px;
+
+    color: #2563eb;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   SPECIFICATIONS
+========================================================= */
+
+.vehicle-specifications {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 12px;
+
+    padding-bottom: 25px;
+
+    border-bottom: 1px solid #edf0f3;
+}
+
+.vehicle-spec {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 14px;
+
+    background: #fafbfc;
+
+    border: 1px solid #eef1f4;
+
+    border-radius: 12px;
+
+    transition: .25s ease;
+}
+
+.vehicle-spec:hover {
+    background: #ffffff;
+
+    border-color: #ffddd5;
+
+    transform: translateY(-2px);
+}
+
+.spec-icon {
+    width: 35px;
+    height: 35px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #fff1ec;
+
+    border-radius: 9px;
+
+    font-size: 16px;
+}
+
+.vehicle-spec small {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: #999fa8;
+
+    font-size: 9px;
+
+    text-transform: uppercase;
+}
+
+.vehicle-spec strong {
+    display: block;
+
+    color: #343d49;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.vehicle-description {
+    padding-top: 25px;
+}
+
+.vehicle-description h3 {
+    margin: 0 0 10px;
+
+    color: #27313f;
+
+    font-size: 18px;
+}
+
+.vehicle-description p {
+    margin: 0;
+
+    color: #6e7782;
+
+    font-size: 14px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   PRICE
+========================================================= */
+
+.price-card {
+    padding: 25px;
+
+    background: linear-gradient(
+        135deg,
+        #ff5a3c,
+        #e9472c
+    );
+
+    border-radius: 20px;
+
+    color: #ffffff;
+
+    box-shadow: 0 12px 30px rgba(255, 90, 60, .22);
+}
+
+.price-card > span {
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.3px;
+
+    opacity: .8;
+}
+
+.pricee {
+    margin-top: 8px;
+
+    font-size: 34px;
+
+    font-weight: 800;
+}
+
+.price small {
+    font-size: 13px;
+
+    font-weight: 500;
+
+    opacity: .8;
+}
+
+.price-card p {
+    margin: 6px 0 0;
+
+    font-size: 11px;
+
+    opacity: .75;
+}
+
+
+/* =========================================================
+   OWNER
+========================================================= */
+
+.owner-review-card .card-heading {
+    margin-bottom: 17px;
+}
+
+.owner-avatar {
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #edf5ff;
+
+    border-radius: 50%;
+
+    color: #2563eb;
+
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.owner-name {
+    padding-bottom: 18px;
+
+    border-bottom: 1px solid #edf0f3;
+}
+
+.owner-name h3 {
+    margin: 0 0 4px;
+
+    color: #252e3b;
+
+    font-size: 17px;
+}
+
+.owner-name span {
+    color: #999fa8;
+
+    font-size: 11px;
+}
+
+.owner-info {
+    display: grid;
+
+    gap: 14px;
+
+    padding-top: 18px;
+}
+
+.owner-info > div {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+.owner-info > div > span {
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #f6f8fa;
+
+    border-radius: 9px;
+
+    font-size: 15px;
+}
+
+.owner-info small {
+    display: block;
+
+    color: #9da4ad;
+
+    font-size: 9px;
+
+    text-transform: uppercase;
+}
+
+.owner-info strong {
+    display: block;
+
+    margin-top: 2px;
+
+    color: #4b5563;
+
+    font-size: 12px;
+
+    word-break: break-word;
+}
+
+
+/* =========================================================
+   APPROVAL
+========================================================= */
+
+.approval-card {
+    border: 1px solid #ffe1da;
+}
+
+.approval-card-header {
+    display: flex;
+
+    gap: 12px;
+
+    align-items: flex-start;
+
+    margin-bottom: 18px;
+}
+
+.approval-icon {
+    width: 40px;
+    height: 40px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #eaf8ef;
+
+    border-radius: 10px;
+
+    color: #16a34a;
+
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.approval-card-header h3 {
+    margin: 0 0 5px;
+
+    color: #293240;
+
+    font-size: 16px;
+}
+
+.approval-card-header p {
+    margin: 0;
+
+    color: #8c949e;
+
+    font-size: 11px;
+
+    line-height: 1.5;
+}
+
+.approval-warning {
+    display: flex;
+
+    gap: 9px;
+
+    align-items: flex-start;
+
+    padding: 12px;
+
+    margin-bottom: 18px;
+
+    background: #fff9eb;
+
+    border-radius: 10px;
+
+    color: #a36c00;
+
+    font-size: 10px;
+
+    line-height: 1.5;
+}
+
+.approval-actions {
+    display: grid;
+
+    gap: 9px;
+}
+
+.approve-car-btn,
+.reject-car-btn {
+    min-height: 45px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    border-radius: 10px;
+
+    text-decoration: none;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    transition: .25s ease;
+}
+
+.approve-car-btn {
+    background: #16a34a;
+
+    color: #ffffff;
+}
+
+.approve-car-btn:hover {
+    background: #12813a;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 8px 18px rgba(22, 163, 74, .2);
+}
+
+.reject-car-btn {
+    background: #fff1f1;
+
+    color: #dc2626;
+}
+
+.reject-car-btn:hover {
+    background: #dc2626;
+
+    color: #ffffff;
+
+    transform: translateY(-2px);
+}
+
+.approve-car-btn span,
+.reject-car-btn span {
+    font-size: 17px;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .car-review-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .car-review-sidebar {
+        position: static;
+
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .price-card {
+        grid-column: span 2;
+    }
+
+    .vehicle-specifications {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .car-review-page {
+        margin-top: 90px;
+
+        padding: 0 15px;
+    }
+
+    .car-review-header {
+        padding: 20px;
+
+        align-items: flex-start;
+    }
+
+    .review-heading {
+        gap: 12px;
+    }
+
+    .review-heading-icon {
+        width: 45px;
+        height: 45px;
+
+        font-size: 21px;
+    }
+
+    .review-heading h1 {
+        font-size: 25px;
+    }
+
+    .review-heading p {
+        font-size: 11px;
+    }
+
+    .approval-status {
+        display: none;
+    }
+
+    .vehicle-gallery-card,
+    .vehicle-information-card,
+    .owner-review-card,
+    .approval-card {
+        padding: 20px;
+    }
+
+    .vehicle-gallery {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .vehicle-image:first-child {
+        grid-column: span 2;
+
+        height: 240px;
+    }
+
+    .vehicle-image {
+        height: 150px;
+    }
+
+    .vehicle-specifications {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .car-review-sidebar {
+        grid-template-columns: 1fr;
+    }
+
+    .price-card {
+        grid-column: auto;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 430px) {
+
+    .vehicle-gallery {
+        grid-template-columns: 1fr;
+    }
+
+    .vehicle-image:first-child {
+        grid-column: auto;
+
+        height: 230px;
+    }
+
+    .vehicle-image {
+        height: 190px;
+    }
+
+    .vehicle-specifications {
+        grid-template-columns: 1fr;
+    }
+
+    .card-heading h2 {
+        font-size: 19px;
+    }
+
+}
+
+
+
+/* ==========================================
+   REVENUE REPORT
+========================================== */
+
+.revenue-page {
+    max-width: 1250px;
+    margin: 110px auto 60px;
+    padding: 0 25px;
+}
+
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.revenue-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 40px;
+    padding: 30px 35px;
+
+    background: #ffffff;
+
+    border-radius: 20px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+}
+
+.report-label {
+    display: inline-block;
+
+    margin-bottom: 8px;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    color: #2563eb;
+}
+
+.revenue-header h1 {
+    margin: 0;
+
+    font-size: 38px;
+
+    color: #1f2937;
+}
+
+.revenue-header p {
+    margin: 8px 0 0;
+
+    color: #6b7280;
+
+    font-size: 16px;
+}
+
+.report-icon {
+    width: 70px;
+    height: 70px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 32px;
+
+    background: #eff6ff;
+
+    border-radius: 18px;
+}
+
+
+/* ==========================================
+   REVENUE GRID
+========================================== */
+
+.revenue-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 22px;
+}
+
+
+/* ==========================================
+   REVENUE CARD
+========================================== */
+
+.revenue-card {
+    position: relative;
+
+    padding: 25px;
+
+    min-height: 230px;
+
+    background: #ffffff;
+
+    border-radius: 18px;
+
+    border: 1px solid #edf0f4;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+
+    overflow: hidden;
+
+    transition: 0.3s ease;
+}
+
+.revenue-card:hover {
+    transform: translateY(-7px);
+
+    box-shadow: 0 18px 35px rgba(0, 0, 0, 0.11);
+}
+
+
+/* Top row */
+
+.card-top {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 25px;
+}
+
+
+/* Icon */
+
+.revenue-icon {
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 23px;
+
+    background: #f1f5f9;
+
+    border-radius: 13px;
+}
+
+
+/* Period */
+
+.card-period {
+    padding: 6px 10px;
+
+    border-radius: 20px;
+
+    background: #f8fafc;
+
+    color: #64748b;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+}
+
+
+/* Title */
+
+.card-title {
+    margin: 0 0 8px;
+
+    color: #64748b;
+
+    font-size: 15px;
+
+    font-weight: 600;
+}
+
+
+/* Amount */
+
+.revenue-card h2 {
+    margin: 0;
+
+    font-size: 31px;
+
+    color: #1e293b;
+
+    font-weight: 800;
+}
+
+
+/* Line */
+
+.card-line {
+    width: 45px;
+    height: 3px;
+
+    margin: 18px 0 12px;
+
+    border-radius: 5px;
+
+    background: #2563eb;
+}
+
+
+/* Description */
+
+.card-description {
+    color: #94a3b8;
+
+    font-size: 13px;
+}
+
+
+/* ==========================================
+   CARD VARIATIONS
+========================================== */
+
+.revenue-card.daily .card-line {
+    background: #2563eb;
+}
+
+.revenue-card.monthly .card-line {
+    background: #7c3aed;
+}
+
+.revenue-card.yearly .card-line {
+    background: #16a34a;
+}
+
+.revenue-card.commission .card-line {
+    background: #f59e0b;
+}
+
+
+/* ==========================================
+   SUMMARY
+========================================== */
+
+.revenue-summary {
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    margin-top: 30px;
+
+    padding: 25px 30px;
+
+    background: #ffffff;
+
+    border-radius: 18px;
+
+    border: 1px solid #edf0f4;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.summary-icon {
+    width: 55px;
+    height: 55px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 14px;
+
+    background: #fef3c7;
+
+    font-size: 25px;
+}
+
+.revenue-summary h3 {
+    margin: 0 0 5px;
+
+    font-size: 18px;
+
+    color: #1f2937;
+}
+
+.revenue-summary p {
+    margin: 0;
+
+    color: #6b7280;
+
+    line-height: 1.6;
+
+    font-size: 14px;
+}
+
+
+/* ==========================================
+   TABLET
+========================================== */
+
+@media (max-width: 1000px) {
+
+    .revenue-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 600px) {
+
+    .revenue-page {
+        margin-top: 90px;
+
+        padding: 0 15px;
+    }
+
+    .revenue-header {
+        padding: 25px;
+
+        align-items: flex-start;
+    }
+
+    .revenue-header h1 {
+        font-size: 28px;
+    }
+
+    .report-icon {
+        width: 55px;
+        height: 55px;
+
+        font-size: 25px;
+    }
+
+    .revenue-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .revenue-card {
+        min-height: auto;
+    }
+
+    .revenue-summary {
+        align-items: flex-start;
+
+        padding: 20px;
+    }
+
+}

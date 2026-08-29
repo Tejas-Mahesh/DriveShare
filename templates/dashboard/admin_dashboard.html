@@ -24,9 +24,19 @@ Admin Dashboard
             <h2>{{ total_cars }}</h2>
         </div>
 
+        
+
         <div class="dashboard-box">
+            <a href="{% url 'admin_car_list' %}"class="{% if request.resolver_match.url_name == 'admin_car_list' %}active{% endif %}">
+            <div class="revieww">
+             
+
             <h3>⏳ Pending Cars</h3>
             <h2>{{ pending_cars }}</h2>
+            
+        
+        </div>
+        </a>
         </div>
 
         <div class="dashboard-box">
@@ -49,15 +59,19 @@ Admin Dashboard
             <h2>{{ total_customers }}</h2>
         </div>
         <div class="dashboard-box">
+            <div class="revieww">
              <a href="{% url 'admin_bookings' %}">
 
             <i class="fas fa-calendar-check"></i>
 
             <h3>Manage Bookings</h3>
+            
 
         </a>
         </div>
+        </div>
         <div class="dashboard-box">
+            <div class="revieww">
              <a href="{% url 'admin_reviews' %}">
 
             <i class="fas fa-star"></i>
@@ -65,8 +79,9 @@ Admin Dashboard
             <h3>Customer Reviews</h3>
 
             <p>Moderate platform reviews</p>
-
+            
         </a>
+        </div>
         </div>
        
 

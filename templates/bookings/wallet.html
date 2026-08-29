@@ -1,109 +1,131 @@
 {% extends "base.html" %}
 
 {% block title %}
-My Wallet
+Payment - DriveShare
 {% endblock %}
 
 {% block content %}
 
-<section class="wallet-page">
+<div class="payment-container">
 
-    <div class="wallet-header">
+    <h1>💳 Complete Your Payment</h1>
 
-        <h1>💰 My Wallet</h1>
+    <div class="booking-summary">
 
-        <h2>₹{{ wallet.balance }}</h2>
+        <h2>{{ car.title }}</h2>
 
-        <p>Available Balance</p>
+        <p>
+            <strong>Booking ID:</strong>
+            {{ booking.invoice_number }}
+        </p>
+
+        <p>
+            <strong>Start Date:</strong>
+            {{ booking.start_date }}
+        </p>
+
+        <p>
+            <strong>End Date:</strong>
+            {{ booking.end_date }}
+        </p>
+
+        <p>
+            <strong>Total Days:</strong>
+            {{ booking.total_days }}
+        </p>
+
+        <h2>
+            ₹{{ booking.total_amount }}
+        </h2>
 
     </div>
 
-    <div class="wallet-history">
 
-        <h2>Transaction History</h2>
+    <div class="upi-payment">
 
-        {% if transactions %}
-        <div class="wallet-summary">
+        <h2>📱 Pay using UPI</h2>
 
-    <div class="summary-card">
+        <p>
+            Pay the amount to the car owner's UPI ID.
+        </p>
 
-        <h3>Current Balance</h3>
+        <div class="upi-box">
 
-        <h2>₹{{ wallet.balance }}</h2>
+            <p>
+                <strong>Owner:</strong>
+                {{ owner.first_name }}
+            </p>
+
+            <p>
+                <strong>UPI ID:</strong>
+                {{ owner_profile.upi_id }}
+            </p>
+
+            <p>
+                <strong>Amount:</strong>
+                ₹{{ booking.total_amount }}
+            </p>
+
+        </div>
+
+        <a
+            href="upi://pay?pa={{ owner_profile.upi_id }}&pn={{ owner.first_name }}&am={{ booking.total_amount }}&cu=INR"
+            class="upi-button"
+        >
+            📱 Pay with UPI App
+        </a>
 
     </div>
+
+
+    <div class="payment-instruction">
+
+        <h3>After completing the payment</h3>
+
+        <ol>
+            <li>Pay using your UPI app.</li>
+            <li>Copy the UPI transaction/reference ID.</li>
+            <li>Enter it below.</li>
+            <li>Submit the payment confirmation.</li>
+            <li>The owner/admin will verify your payment.</li>
+        </ol>
+
+    </div>
+
+
+    <form
+        method="POST"
+        action="{% url 'payment_confirmation' booking.id %}"
+    >
+
+        {% csrf_token %}
+
+        <div class="form-group">
+
+            <label>
+                UPI Transaction / Reference ID
+            </label>
+
+            <input
+                type="text"
+                name="transaction_id"
+                class="form-control"
+                placeholder="Enter UPI transaction ID"
+                required
+            >
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="payment-btn"
+        >
+            ✅ Submit Payment Confirmation
+        </button>
+
+    </form>
 
 </div>
-
-        <table class="wallet-table">
-
-            <thead>
-
-                <tr>
-
-                    <th>Date</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                    <th>Amount</th>
-
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                {% for transaction in transactions %}
-
-                <tr>
-
-                    <td>{{ transaction.created_at|date:"d M Y" }}</td>
-
-                    <td>
-
-                        {% if transaction.transaction_type == "Credit" %}
-
-                            <span class="credit">
-
-                                Credit
-
-                            </span>
-
-                        {% else %}
-
-                            <span class="debit">
-
-                                Debit
-
-                            </span>
-
-                        {% endif %}
-
-                    </td>
-
-                    <td>{{ transaction.description }}</td>
-
-                    <td>
-
-                        ₹{{ transaction.amount }}
-
-                    </td>
-
-                </tr>
-
-                {% endfor %}
-
-            </tbody>
-
-        </table>
-
-        {% else %}
-
-        <p>No wallet transactions yet.</p>
-
-        {% endif %}
-
-    </div>
-
-</section>
 
 {% endblock %}

@@ -125,6 +125,7 @@ class OwnerProfileForm(forms.ModelForm):
             "pan_number",
             "bank_account",
             "ifsc_code",
+            "upi_id",              # NEW
         ]
 
         widgets = {
@@ -166,43 +167,16 @@ class OwnerProfileForm(forms.ModelForm):
                 }
             ),
 
+            # NEW
+            "upi_id": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "example@oksbi"
+                }
+            ),
         }
 
-    def clean_aadhaar_number(self):
-
-        aadhaar = self.cleaned_data["aadhaar_number"]
-
-        if len(aadhaar) != 12 or not aadhaar.isdigit():
-
-            raise forms.ValidationError(
-                "Aadhaar number must contain exactly 12 digits."
-            )
-
-        return aadhaar
-
-    def clean_pan_number(self):
-
-        pan = self.cleaned_data["pan_number"]
-
-        if len(pan) != 10:
-
-            raise forms.ValidationError(
-                "PAN number must contain 10 characters."
-            )
-
-        return pan.upper()
-
-    def clean_ifsc_code(self):
-
-        ifsc = self.cleaned_data["ifsc_code"]
-
-        if len(ifsc) != 11:
-
-            raise forms.ValidationError(
-                "IFSC Code must contain 11 characters."
-            )
-
-        return ifsc.upper()
+    # your existing validation methods...
 from .models import CustomUser
 
 

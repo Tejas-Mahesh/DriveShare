@@ -66,18 +66,18 @@ def add_car(request):
 @login_required
 @owner_required
 def my_cars(request):
-    cars = Car.objects.filter(owner=request.user)
-
-    for car in cars:
-        has_booking = Booking.objects.filter(
-        car=car
-    ).exists()
-
-        car.can_delete = not has_booking
 
     cars = Car.objects.filter(
         owner=request.user
     ).order_by("-created_at")
+
+    for car in cars:
+
+        car.has_booking = Booking.objects.filter(
+            car=car
+        ).exists()
+
+        car.can_delete = not car.has_booking
 
     return render(
         request,
@@ -139,43 +139,7 @@ def edit_car(request, car_id):
             "car": car
         }
     )
-@login_required
-@owner_required
-def delete_car(request, car_id):
 
-    car = get_object_or_404(
-        Car,
-        id=car_id,
-        owner=request.user
-    )
-
-    if car.approval_status == "Approved":
-
-        messages.error(
-            request,
-            "Approved cars cannot be deleted."
-        )
-
-        return redirect("my_cars")
-
-    if request.method == "POST":
-
-        car.delete()
-
-        messages.success(
-            request,
-            "Car deleted successfully."
-        )
-
-        return redirect("my_cars")
-
-    return render(
-        request,
-        "cars/delete_car.html",
-        {
-            "car": car
-        }
-    )
 
 from accounts.decorators import admin_required
 
@@ -512,44 +476,43 @@ from bookings.models import Booking
 
 
 @login_required
+@owner_required
 def delete_car(request, car_id):
 
     car = get_object_or_404(
-
         Car,
-
         id=car_id,
-
         owner=request.user
-
     )
 
     has_booking = Booking.objects.filter(
-
         car=car
-
     ).exists()
 
     if has_booking:
 
         messages.error(
-
             request,
-
             "This car cannot be deleted because booking records exist."
-
         )
 
         return redirect("my_cars")
 
-    car.delete()
+    if request.method == "POST":
 
-    messages.success(
+        car.delete()
 
+        messages.success(
+            request,
+            "Car deleted successfully."
+        )
+
+        return redirect("my_cars")
+
+    return render(
         request,
-
-        "Car deleted successfully."
-
+        "cars/delete_car.html",
+        {
+            "car": car
+        }
     )
-
-    return redirect("my_cars")

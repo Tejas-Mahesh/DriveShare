@@ -2,24 +2,61 @@ from django import forms
 from .models import Booking
 from .models import Booking, Review
 
+from django import forms
+from .models import Booking
+
+
 class BookingForm(forms.ModelForm):
-    coupon_code = forms.CharField(
 
-    required=False,
+    class Meta:
+        model = Booking
 
-    max_length=30,
+        fields = [
+            "start_date",
+            "end_date",
+            "customer_message",
+        ]
 
-    widget=forms.TextInput(
+        widgets = {
 
-        attrs={
+            "start_date": forms.DateInput(
+                attrs={
+                    "type": "date",
+                    "class": "form-control",
+                }
+            ),
 
-            "placeholder":"Enter Coupon Code"
+            "end_date": forms.DateInput(
+                attrs={
+                    "type": "date",
+                    "class": "form-control",
+                }
+            ),
 
+            "customer_message": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "rows": 4,
+                    "placeholder": "Any message for the car owner..."
+                }
+            ),
         }
 
-    )
+    def clean(self):
 
-)
+        cleaned_data = super().clean()
+
+        start_date = cleaned_data.get("start_date")
+        end_date = cleaned_data.get("end_date")
+
+        if start_date and end_date:
+
+            if end_date <= start_date:
+                raise forms.ValidationError(
+                    "End date must be after the start date."
+                )
+
+        return cleaned_data
 
     class Meta:
 

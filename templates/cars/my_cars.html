@@ -45,48 +45,89 @@ My Cars
 
                     <tr>
 
-                        <td>{{ car.title }}</td>
+                        <td>
+                            {{ car.title }}
+                        </td>
 
-                        <td>{{ car.brand }} {{ car.model }}</td>
+                        <td>
+                            {{ car.brand }} {{ car.model }}
+                        </td>
 
-                        <td>{{ car.city }}</td>
+                        <td>
+                            {{ car.city }}
+                        </td>
 
-                        <td>₹{{ car.price_per_day }}</td>
+                        <td>
+                            ₹{{ car.price_per_day }}
+                        </td>
 
-                        <td>{{ car.approval_status }}</td>
+                        <td>
+                            {{ car.approval_status }}
+                        </td>
+
                         <td>
 
-    {% if car.approval_status == "Pending" %}
+                            {% if car.approval_status == "Pending" %}
 
-        <a href="{% url 'edit_car' car.id %}" class="edit-btn">
-            Edit
-        </a>
+                                <a
+                                    href="{% url 'edit_car' car.id %}"
+                                    class="edit-btn"
+                                >
+                                    Edit
+                                </a>
 
-        <a href="{% url 'delete_car' car.id %}" class="delete-btn-small">
-            Delete
-        </a>
+                                {% if car.can_delete %}
 
-    {% else %}
+                                    <a
+                                        href="{% url 'delete_car' car.id %}"
+                                        class="delete-btn-small"
+                                    >
+                                        Delete
+                                    </a>
 
-        <span class="approved-text">
-            Locked
-        </span>
+                                {% else %}
 
-    {% endif %}
-    {% if car.approval_status == "Rejected" %}
+                                    <span
+                                        class="approved-text"
+                                        title="This car has booking records"
+                                    >
+                                        Delete Locked
+                                    </span>
 
-<div style="color:red; margin-top:8px;">
+                                {% endif %}
 
-<strong>Reason:</strong>
+                            {% else %}
 
-{{ car.rejection_reason }}
+                                <span class="approved-text">
+                                    Locked
+                                </span>
 
-</div>
+                                {% if car.can_delete %}
 
-{% endif %}
+                                    <a
+                                        href="{% url 'delete_car' car.id %}"
+                                        class="delete-btn-small"
+                                    >
+                                        Delete
+                                    </a>
 
+                                {% endif %}
 
-</td>
+                            {% endif %}
+
+                            {% if car.approval_status == "Rejected" %}
+
+                                <div style="color:red; margin-top:8px;">
+
+                                    <strong>Reason:</strong>
+
+                                    {{ car.rejection_reason }}
+
+                                </div>
+
+                            {% endif %}
+
+                        </td>
 
                     </tr>
 
@@ -108,10 +149,11 @@ My Cars
                     Start by adding your first vehicle.
                 </p>
 
-                <a href="{% url 'add_car' %}" class="submit-car-btn">
-
+                <a
+                    href="{% url 'add_car' %}"
+                    class="submit-car-btn"
+                >
                     Add Your First Car
-
                 </a>
 
             </div>

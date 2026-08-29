@@ -139,6 +139,13 @@ class OwnerProfile(models.Model):
         blank=True
     )
 
+    # NEW
+    upi_id = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="Example: yourname@oksbi"
+    )
+
     verification_status = models.CharField(
         max_length=20,
         choices=[

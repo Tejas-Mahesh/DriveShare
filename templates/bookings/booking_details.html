@@ -9,258 +9,2107 @@ Booking Details
 
 <section class="booking-details-page">
 
-    <div class="booking-details-container">
+    <div class="booking-container">
 
-        <!-- LEFT -->
-        <div class="booking-left">
+        <!-- =========================
+             PAGE HEADER
+        ========================== -->
 
-            {% if booking.car.images.first %}
-                <img src="{{ booking.car.images.first.image.url }}" alt="{{ booking.car.title }}">
-            {% else %}
-                <img src="{% static 'images/default-car.jpg' %}" alt="Car">
-            {% endif %}
+        <div class="booking-page-header">
 
-               <hr>
+            <div>
+                <span class="page-label">
+                    DRIVESHARE BOOKING
+                </span>
 
-    <h2>Booking Timeline</h2>
+                <h1>
+                    {{ booking.car.title }}
+                </h1>
 
-    <div class="booking-timeline">
-
-        <!-- Submitted -->
-
-        <div class="timeline-item active">
-
-            <div class="circle"></div>
-
-            <div class="content">
-
-                <h4>Booking Submitted</h4>
-
-                <small>
-
-                    {{ booking.booked_at|date:"d M Y H:i" }}
-
-                </small>
-
+                <p>
+                    Booking ID:
+                    <strong>
+                        {{ booking.invoice_number }}
+                    </strong>
+                </p>
             </div>
 
-        </div>
-
-        <!-- Approved -->
-
-        <div class="timeline-item {% if booking.approved_at %}active{% endif %}">
-
-            <div class="circle"></div>
-
-            <div class="content">
-
-                <h4>Booking Approved</h4>
-
-                {% if booking.approved_at %}
-
-                    <small>
-
-                        {{ booking.approved_at|date:"d M Y H:i" }}
-
-                    </small>
-
-                {% else %}
-
-                    <small>
-
-                        Waiting for owner approval
-
-                    </small>
-
-                {% endif %}
-
-            </div>
-
-        </div>
-
-        <!-- Completed -->
-
-        <div class="timeline-item {% if booking.completed_at %}active{% endif %}">
-
-            <div class="circle"></div>
-
-            <div class="content">
-
-                <h4>Rental Completed</h4>
-
-                {% if booking.completed_at %}
-
-                    <small>
-
-                        {{ booking.completed_at|date:"d M Y H:i" }}
-
-                    </small>
-
-                {% else %}
-
-                    <small>
-
-                        Rental is still active
-
-                    </small>
-
-                {% endif %}
-
-            </div>
-
-        </div>
-
-        <!-- Cancelled -->
-
-        {% if booking.booking_status == "Cancelled" %}
-
-        <div class="timeline-item cancelled">
-
-            <div class="circle"></div>
-
-            <div class="content">
-
-                <h4>Booking Cancelled</h4>
-
-            </div>
-
-        </div>
-
-        {% endif %}
-        <p>
-
-<strong>Payment Status:</strong>
-
-
-{% if booking.payment.payment_status == "Paid" %}
-
-<span class="status paid">
-
-✅ Paid
-
-</span>
-
-{% elif booking.payment.payment_status == "Pending" %}
-
-<span class="status pending">
-
-🟡 Pending
-
-</span>
-
-{% elif booking.payment.payment_status == "Failed" %}
-
-<span class="status rejected">
-
-❌ Failed
-
-</span>
-
-{% elif booking.payment.payment_status == "Refunded" %}
-
-<span class="status completed">
-
-💸 Refunded
-
-</span>
-
-{% endif %}
-
-</p>
-
-    </div>
-
-
-    <!-- Review Button -->
-
-    {% if booking.booking_status == "Completed" %}
-
-    <div style="margin-top:35px;">
-
-        <a href="{% url 'add_review'  booking.invoice_number %}" class="review-btn">
-
-            <i class="fas fa-star"></i>
-
-            Rate This Car
-
-        </a>
-
-    </div>
-
-    {% endif %}
-
-        </div>
-
-        <!-- RIGHT -->
-        <div class="booking-right">
-
-            <h1>{{ booking.car.title }}</h1>
-
-            <span class="status
-                {% if booking.booking_status == 'Approved' %}
-                    approved
-                {% elif booking.booking_status == 'Pending' %}
+            <div class="booking-status-badge
+                {% if booking.booking_status == 'Pending' %}
                     pending
+                {% elif booking.booking_status == 'Approved' %}
+                    approved
+                {% elif booking.booking_status == 'Completed' %}
+                    completed
                 {% elif booking.booking_status == 'Rejected' %}
                     rejected
                 {% elif booking.booking_status == 'Cancelled' %}
                     cancelled
-                {% else %}
-                    completed
                 {% endif %}
             ">
                 {{ booking.booking_status }}
-            </span>
+            </div>
 
-            <hr>
+        </div>
 
-            <h3>Car Information</h3>
 
-            <p><strong>Brand:</strong> {{ booking.car.brand }}</p>
-            <p><strong>Model:</strong> {{ booking.car.model }}</p>
-            <p><strong>Year:</strong> {{ booking.car.year }}</p>
-            <p><strong>Fuel:</strong> {{ booking.car.fuel_type }}</p>
-            <p><strong>Transmission:</strong> {{ booking.car.transmission }}</p>
-            <p><strong>Seats:</strong> {{ booking.car.seats }}</p>
+        <!-- =========================
+             MAIN GRID
+        ========================== -->
 
-            <hr>
+        <div class="booking-grid">
 
-            <h3>Booking Information</h3>
+            <!-- =========================
+                 LEFT SIDE
+            ========================== -->
 
-            <p><strong>Start Date:</strong> {{ booking.start_date }}</p>
-            <p><strong>End Date:</strong> {{ booking.end_date }}</p>
-            <p><strong>Total Days:</strong> {{ booking.total_days }}</p>
-            <p><strong>Total Amount:</strong> ₹{{ booking.total_amount }}</p>
-           
+            <main class="booking-main">
 
-            <hr>
+                <!-- CAR IMAGE -->
 
-            <h3>Owner Information</h3>
+                <div class="car-image-card">
 
-            <p>
-                <strong>Name:</strong>
-                {{ booking.car.owner.get_full_name|default:booking.car.owner.username }}
-            </p>
+                    {% if booking.car.images.first %}
 
-            <p>
-                <strong>City:</strong>
-                {{ booking.car.city }}
-            </p>
+                        <img
+                            src="{{ booking.car.images.first.image.url }}"
+                            alt="{{ booking.car.title }}"
+                        >
 
-            <hr>
+                    {% else %}
 
-            <h3>Your Message</h3>
+                        <img
+                            src="{% static 'images/default-car.jpg' %}"
+                            alt="Car"
+                        >
 
-            <p>
-                {{ booking.customer_message|default:"No message added." }}
-            </p>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- =========================
+                     BOOKING TIMELINE
+                ========================== -->
+
+                <div class="booking-card timeline-card">
+
+                    <div class="section-heading">
+
+                        <span class="section-label">
+                            BOOKING PROGRESS
+                        </span>
+
+                        <h2>
+                            Your Rental Journey
+                        </h2>
+
+                    </div>
+
+
+                    <div class="booking-timeline">
+
+                        <!-- 1. BOOKING SUBMITTED -->
+
+                        <div class="timeline-item active">
+
+                            <div class="circle">
+                                ✓
+                            </div>
+
+                            <div class="timeline-content">
+
+                                <h4>
+                                    Booking Submitted
+                                </h4>
+
+                                <small>
+                                    {{ booking.booked_at|date:"d M Y, H:i" }}
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- 2. BOOKING APPROVED -->
+
+                        <div class="timeline-item
+                            {% if booking.approved_at %}
+                                active
+                            {% endif %}
+                        ">
+
+                            <div class="circle">
+
+                                {% if booking.approved_at %}
+                                    ✓
+                                {% else %}
+                                    2
+                                {% endif %}
+
+                            </div>
+
+                            <div class="timeline-content">
+
+                                <h4>
+                                    Booking Approved
+                                </h4>
+
+                                {% if booking.approved_at %}
+
+                                    <small>
+                                        {{ booking.approved_at|date:"d M Y, H:i" }}
+                                    </small>
+
+                                {% else %}
+
+                                    <small>
+                                        Waiting for owner approval
+                                    </small>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- 3. PAYMENT -->
+
+                        <div class="timeline-item
+                            {% if payment_paid %}
+                                active
+                            {% endif %}
+                        ">
+
+                            <div class="circle">
+
+                                {% if payment_paid %}
+                                    ✓
+                                {% else %}
+                                    3
+                                {% endif %}
+
+                            </div>
+
+                            <div class="timeline-content">
+
+                                <h4>
+                                    Payment
+                                </h4>
+
+                                {% if payment_paid %}
+
+                                    <small class="success-text">
+                                        Payment verified
+                                    </small>
+
+                                {% elif payment_pending %}
+
+                                    <small class="warning-text">
+
+                                        {% if payment.transaction_id %}
+
+                                            Payment proof submitted —
+                                            waiting for owner verification
+
+                                        {% else %}
+
+                                            Payment pending
+
+                                        {% endif %}
+
+                                    </small>
+
+                                {% else %}
+
+                                    <small>
+                                        Complete payment after approval
+                                    </small>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- 4. RENTAL STARTED -->
+
+                        <div class="timeline-item
+                            {% if rental_started %}
+                                active
+                            {% endif %}
+                        ">
+
+                            <div class="circle">
+
+                                {% if rental_started %}
+                                    ✓
+                                {% else %}
+                                    4
+                                {% endif %}
+
+                            </div>
+
+                            <div class="timeline-content">
+
+                                <h4>
+                                    Rental Started
+                                </h4>
+
+                                {% if rental_started %}
+
+                                    <small class="success-text">
+                                        {{ booking.start_date|date:"d M Y" }}
+                                    </small>
+
+                                {% else %}
+
+                                    <small>
+                                        Rental starts on
+                                        {{ booking.start_date|date:"d M Y" }}
+                                    </small>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- 5. RENTAL COMPLETED -->
+
+                        <div class="timeline-item
+                            {% if booking.booking_status == 'Completed' %}
+                                active
+                            {% endif %}
+                        ">
+
+                            <div class="circle">
+
+                                {% if booking.booking_status == "Completed" %}
+                                    ✓
+                                {% else %}
+                                    5
+                                {% endif %}
+
+                            </div>
+
+                            <div class="timeline-content">
+
+                                <h4>
+                                    Rental Completed
+                                </h4>
+
+                                {% if booking.booking_status == "Completed" %}
+
+                                    <small class="success-text">
+                                        {{ booking.completed_at|date:"d M Y, H:i" }}
+                                    </small>
+
+                                {% else %}
+
+                                    <small>
+                                        Rental completes after
+                                        {{ booking.end_date|date:"d M Y" }}
+                                    </small>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     PAYMENT
+                ========================== -->
+
+                <div class="booking-card payment-section">
+
+                    <div class="section-heading">
+
+                        <span class="section-label">
+                            PAYMENT
+                        </span>
+
+                        <h2>
+                            Payment Information
+                        </h2>
+
+                    </div>
+
+
+                    {% if payment %}
+
+                        <!-- PAYMENT PAID -->
+
+                        {% if payment.payment_status == "Paid" %}
+
+                            <div class="payment-completed">
+
+                                <div class="payment-icon">
+                                    ✓
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        Payment Completed
+                                    </strong>
+
+                                    <p>
+                                        ₹{{ payment.amount }}
+                                        •
+                                        {{ payment.payment_method }}
+                                    </p>
+
+                                    {% if payment.transaction_id %}
+
+                                        <small>
+                                            Transaction ID:
+                                            {{ payment.transaction_id }}
+                                        </small>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+
+                        <!-- APPROVED -->
+
+                        {% elif booking.booking_status == "Approved" %}
+
+                            {% if payment.transaction_id %}
+
+                                <div class="payment-pending">
+
+                                    <div class="payment-icon">
+                                        !
+                                    </div>
+
+                                    <div>
+
+                                        <strong>
+                                            Payment Proof Submitted
+                                        </strong>
+
+                                        <p>
+                                            Your payment is waiting
+                                            for owner verification.
+                                        </p>
+
+                                        <p>
+                                            UTR:
+                                            <strong>
+                                                {{ payment.transaction_id }}
+                                            </strong>
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            {% else %}
+
+                                <div class="pay-box">
+
+                                    <div>
+
+                                        <strong>
+                                            Payment Required
+                                        </strong>
+
+                                        <p>
+                                            Your booking has been approved.
+                                            Complete the payment to continue.
+                                        </p>
+
+                                    </div>
+
+                                    <a
+                                        href="{% url 'payment_page' booking.id %}"
+                                        class="pay-btn"
+                                    >
+                                        💳 Pay Now
+                                        ₹{{ booking.total_amount }}
+                                    </a>
+
+                                </div>
+
+                            {% endif %}
+
+
+                        <!-- NOT APPROVED -->
+
+                        {% else %}
+
+                            <div class="payment-waiting">
+
+                                <div class="waiting-icon">
+                                    🕐
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        Payment Not Available Yet
+                                    </strong>
+
+                                    <p>
+                                        Payment will be available
+                                        after owner approval.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        {% endif %}
+
+
+                    {% else %}
+
+                        <!-- NO PAYMENT RECORD -->
+
+                        {% if booking.booking_status == "Approved" %}
+
+                            <div class="pay-box">
+
+                                <div>
+
+                                    <strong>
+                                        Payment Required
+                                    </strong>
+
+                                    <p>
+                                        Your booking has been approved.
+                                        Complete your payment.
+                                    </p>
+
+                                </div>
+
+                                <a
+                                    href="{% url 'payment_page' booking.id %}"
+                                    class="pay-btn"
+                                >
+                                    💳 Pay Now
+                                    ₹{{ booking.total_amount }}
+                                </a>
+
+                            </div>
+
+                        {% else %}
+
+                            <div class="payment-waiting">
+
+                                <div class="waiting-icon">
+                                    🕐
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        Payment Not Available Yet
+                                    </strong>
+
+                                    <p>
+                                        Payment will be available
+                                        after owner approval.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        {% endif %}
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- =========================
+                     REVIEW
+                ========================== -->
+
+                {% if booking.booking_status == "Completed" %}
+
+                    {% if not booking.review %}
+
+                        <div class="review-card">
+
+                            <div class="review-content">
+
+                                <div class="review-icon">
+                                    ★
+                                </div>
+
+                                <div>
+
+                                    <h3>
+                                        How was your experience?
+                                    </h3>
+
+                                    <p>
+                                        Share your experience
+                                        with this car.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <a
+                                href="{% url 'add_review' booking.id %}"
+                            >
+                                ⭐ Rate This Car
+                            </a>
+
+                        </div>
+
+                    {% endif %}
+
+                {% endif %}
+
+            </main>
+
+
+            <!-- =========================
+                 RIGHT SIDEBAR
+            ========================== -->
+
+            <aside class="booking-sidebar">
+
+                <!-- RENTAL SUMMARY -->
+
+                <div class="booking-card">
+
+                    <div class="section-heading">
+
+                        <span class="section-label">
+                            BOOKING
+                        </span>
+
+                        <h2>
+                            Rental Summary
+                        </h2>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            Start Date
+                        </span>
+
+                        <strong>
+                            {{ booking.start_date|date:"d M Y" }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            End Date
+                        </span>
+
+                        <strong>
+                            {{ booking.end_date|date:"d M Y" }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            Total Days
+                        </span>
+
+                        <strong>
+                            {{ booking.total_days }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-row amount-summary">
+
+                        <span>
+                            Total Amount
+                        </span>
+
+                        <strong>
+                            ₹{{ booking.total_amount }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CAR INFORMATION -->
+
+                <div class="booking-card">
+
+                    <div class="section-heading">
+
+                        <span class="section-label">
+                            VEHICLE
+                        </span>
+
+                        <h2>
+                            Car Information
+                        </h2>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span>
+                            Brand
+                        </span>
+
+                        <strong>
+                            {{ booking.car.brand }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span>
+                            Model
+                        </span>
+
+                        <strong>
+                            {{ booking.car.model }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span>
+                            Year
+                        </span>
+
+                        <strong>
+                            {{ booking.car.year }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span>
+                            Fuel
+                        </span>
+
+                        <strong>
+                            {{ booking.car.fuel_type }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span>
+                            Transmission
+                        </span>
+
+                        <strong>
+                            {{ booking.car.transmission }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span>
+                            Seats
+                        </span>
+
+                        <strong>
+                            {{ booking.car.seats }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- OWNER INFORMATION -->
+
+                <div class="booking-card">
+
+                    <div class="section-heading">
+
+                        <span class="section-label">
+                            OWNER
+                        </span>
+
+                        <h2>
+                            Owner Information
+                        </h2>
+
+                    </div>
+
+
+                    <div class="owner-info">
+
+                        <div class="owner-avatar">
+
+                            {{ booking.car.owner.username|first|upper }}
+
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+
+                                {{ booking.car.owner.get_full_name|default:booking.car.owner.username }}
+
+                            </strong>
+
+                            <span>
+                                {{ booking.car.city }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CUSTOMER MESSAGE -->
+
+                {% if booking.customer_message %}
+
+                    <div class="booking-card">
+
+                        <div class="section-heading">
+
+                            <span class="section-label">
+                                MESSAGE
+                            </span>
+
+                            <h2>
+                                Your Message
+                            </h2>
+
+                        </div>
+
+
+                        <p class="customer-message">
+                            {{ booking.customer_message }}
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- PAYMENT NOTICE -->
+
+                {% if payment_paid %}
+
+                    <div class="no-refund-notice">
+
+                        <div class="notice-icon">
+                            ✓
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Payment Completed
+                            </strong>
+
+                            <p>
+                                Your payment has been successfully
+                                recorded. Paid bookings are not refundable.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+            </aside>
 
         </div>
 
     </div>
 
- 
-
 </section>
+
+
+<style>
+
+/* =========================================
+   RESET
+========================================= */
+
+.booking-details-page *,
+.booking-details-page *::before,
+.booking-details-page *::after {
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   PAGE
+========================================= */
+
+.booking-details-page {
+
+    min-height: 100vh;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f8fafc,
+            #eef4ff
+        );
+
+    padding: 45px 20px 70px;
+
+    color: #172033;
+
+}
+
+
+.booking-container {
+
+    width: 100%;
+
+    max-width: 1180px;
+
+    margin: auto;
+
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.booking-page-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 25px;
+
+    margin-bottom: 30px;
+
+}
+
+
+.page-label,
+.section-label {
+
+    display: block;
+
+    color: #2563eb;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+
+    margin-bottom: 7px;
+
+}
+
+
+.booking-page-header h1 {
+
+    margin: 0;
+
+    font-size: 34px;
+
+    line-height: 1.2;
+
+    font-weight: 800;
+
+}
+
+
+.booking-page-header p {
+
+    margin: 8px 0 0;
+
+    color: #718096;
+
+    font-size: 14px;
+
+}
+
+
+.booking-page-header p strong {
+
+    color: #172033;
+
+}
+
+
+/* =========================================
+   STATUS
+========================================= */
+
+.booking-status-badge {
+
+    padding: 11px 20px;
+
+    border-radius: 50px;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    white-space: nowrap;
+
+    border: 1px solid transparent;
+
+}
+
+
+.booking-status-badge.pending {
+
+    background: #fff7ed;
+
+    color: #c2410c;
+
+    border-color: #fed7aa;
+
+}
+
+
+.booking-status-badge.approved {
+
+    background: #ecfdf5;
+
+    color: #047857;
+
+    border-color: #a7f3d0;
+
+}
+
+
+.booking-status-badge.completed {
+
+    background: #eff6ff;
+
+    color: #1d4ed8;
+
+    border-color: #bfdbfe;
+
+}
+
+
+.booking-status-badge.rejected,
+.booking-status-badge.cancelled {
+
+    background: #fef2f2;
+
+    color: #b91c1c;
+
+    border-color: #fecaca;
+
+}
+
+
+/* =========================================
+   GRID
+========================================= */
+
+.booking-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        350px;
+
+    gap: 25px;
+
+    align-items: start;
+
+}
+
+
+.booking-main {
+
+    min-width: 0;
+
+}
+
+
+.booking-sidebar {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 20px;
+
+}
+
+
+/* =========================================
+   CAR IMAGE
+========================================= */
+
+.car-image-card {
+
+    background: white;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    margin-bottom: 20px;
+
+    box-shadow:
+        0 10px 35px
+        rgba(15, 23, 42, 0.08);
+
+}
+
+
+.car-image-card img {
+
+    display: block;
+
+    width: 100%;
+
+    height: 340px;
+
+    object-fit: cover;
+
+    transition: transform .5s ease;
+
+}
+
+
+.car-image-card:hover img {
+
+    transform: scale(1.025);
+
+}
+
+
+/* =========================================
+   CARDS
+========================================= */
+
+.booking-card {
+
+    background: rgba(255, 255, 255, .96);
+
+    border: 1px solid #edf1f7;
+
+    border-radius: 18px;
+
+    padding: 25px;
+
+    margin-bottom: 20px;
+
+    box-shadow:
+        0 10px 35px
+        rgba(15, 23, 42, .06);
+
+}
+
+
+.booking-sidebar .booking-card {
+
+    margin-bottom: 0;
+
+}
+
+
+.section-heading {
+
+    margin-bottom: 22px;
+
+}
+
+
+.section-heading h2 {
+
+    margin: 0;
+
+    font-size: 20px;
+
+    font-weight: 800;
+
+}
+
+
+/* =========================================
+   TIMELINE
+========================================= */
+
+.booking-timeline {
+
+    position: relative;
+
+}
+
+
+.timeline-item {
+
+    display: flex;
+
+    gap: 16px;
+
+    position: relative;
+
+    min-height: 82px;
+
+}
+
+
+.timeline-item:not(:last-child)::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 19px;
+
+    top: 42px;
+
+    width: 2px;
+
+    height: 65px;
+
+    background: #e2e8f0;
+
+}
+
+
+.timeline-item.active:not(:last-child)::after {
+
+    background: #2563eb;
+
+}
+
+
+.circle {
+
+    width: 40px;
+
+    height: 40px;
+
+    min-width: 40px;
+
+    border-radius: 50%;
+
+    background: #f1f5f9;
+
+    color: #94a3b8;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    position: relative;
+
+    z-index: 2;
+
+    border: 3px solid white;
+
+    box-shadow:
+        0 0 0 1px #dce3ec;
+
+    transition: .3s ease;
+
+}
+
+
+.timeline-item.active .circle {
+
+    background: #2563eb;
+
+    color: white;
+
+    box-shadow:
+        0 0 0 1px #2563eb,
+        0 5px 15px rgba(37, 99, 235, .25);
+
+}
+
+
+.timeline-content {
+
+    padding-bottom: 18px;
+
+}
+
+
+.timeline-content h4 {
+
+    margin: 3px 0 6px;
+
+    font-size: 15px;
+
+    font-weight: 800;
+
+}
+
+
+.timeline-content small {
+
+    color: #94a3b8;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+
+}
+
+
+.success-text {
+
+    color: #059669 !important;
+
+}
+
+
+.warning-text {
+
+    color: #d97706 !important;
+
+}
+
+
+/* =========================================
+   PAYMENT
+========================================= */
+
+.payment-completed,
+.payment-pending,
+.payment-waiting {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+    padding: 17px;
+
+    border-radius: 13px;
+
+}
+
+
+.payment-completed {
+
+    background: #f0fdf4;
+
+    border: 1px solid #bbf7d0;
+
+}
+
+
+.payment-pending {
+
+    background: #fffbeb;
+
+    border: 1px solid #fde68a;
+
+}
+
+
+.payment-waiting {
+
+    background: #f8fafc;
+
+    border: 1px solid #e2e8f0;
+
+}
+
+
+.payment-icon,
+.waiting-icon {
+
+    width: 42px;
+
+    height: 42px;
+
+    min-width: 42px;
+
+    border-radius: 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-weight: 800;
+
+}
+
+
+.payment-completed .payment-icon {
+
+    background: #dcfce7;
+
+    color: #15803d;
+
+}
+
+
+.payment-pending .payment-icon {
+
+    background: #fef3c7;
+
+    color: #b45309;
+
+}
+
+
+.waiting-icon {
+
+    background: #e2e8f0;
+
+}
+
+
+.payment-completed strong,
+.payment-pending strong,
+.payment-waiting strong {
+
+    display: block;
+
+    font-size: 14px;
+
+}
+
+
+.payment-completed p,
+.payment-pending p,
+.payment-waiting p {
+
+    margin: 5px 0;
+
+    color: #64748b;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+}
+
+
+.payment-completed small {
+
+    color: #64748b;
+
+    font-size: 11px;
+
+}
+
+
+.pay-box {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 18px;
+
+    background: #eff6ff;
+
+    border: 1px solid #bfdbfe;
+
+    border-radius: 13px;
+
+}
+
+
+.pay-box strong {
+
+    font-size: 15px;
+
+}
+
+
+.pay-box p {
+
+    margin: 5px 0 0;
+
+    color: #64748b;
+
+    font-size: 12px;
+
+}
+
+
+.pay-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 6px;
+
+    padding: 12px 18px;
+
+    background: #2563eb;
+
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 9px;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    white-space: nowrap;
+
+    transition: .3s ease;
+
+}
+
+
+.pay-btn:hover {
+
+    background: #1d4ed8;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px
+        rgba(37, 99, 235, .25);
+
+}
+
+
+/* =========================================
+   SUMMARY
+========================================= */
+
+.summary-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding: 13px 0;
+
+    border-bottom: 1px solid #edf0f5;
+
+}
+
+
+.summary-row:last-child {
+
+    border-bottom: none;
+
+}
+
+
+.summary-row span {
+
+    color: #718096;
+
+    font-size: 13px;
+
+}
+
+
+.summary-row strong {
+
+    font-size: 14px;
+
+    text-align: right;
+
+}
+
+
+.amount-summary {
+
+    margin-top: 8px;
+
+    padding: 16px;
+
+    background: #eff6ff;
+
+    border-radius: 11px;
+
+    border: none;
+
+}
+
+
+.amount-summary span {
+
+    color: #334155;
+
+    font-weight: 700;
+
+}
+
+
+.amount-summary strong {
+
+    color: #2563eb;
+
+    font-size: 20px;
+
+}
+
+
+/* =========================================
+   CAR INFO
+========================================= */
+
+.info-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding: 10px 0;
+
+    border-bottom: 1px solid #edf0f5;
+
+}
+
+
+.info-row:last-child {
+
+    border-bottom: none;
+
+}
+
+
+.info-row span {
+
+    color: #718096;
+
+    font-size: 13px;
+
+}
+
+
+.info-row strong {
+
+    font-size: 13px;
+
+    text-align: right;
+
+}
+
+
+/* =========================================
+   OWNER
+========================================= */
+
+.owner-info {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+}
+
+
+.owner-avatar {
+
+    width: 46px;
+
+    height: 46px;
+
+    min-width: 46px;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #4f46e5
+        );
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-weight: 800;
+
+}
+
+
+.owner-info strong {
+
+    display: block;
+
+    font-size: 14px;
+
+}
+
+
+.owner-info span {
+
+    display: block;
+
+    margin-top: 4px;
+
+    color: #718096;
+
+    font-size: 12px;
+
+}
+
+
+/* =========================================
+   MESSAGE
+========================================= */
+
+.customer-message {
+
+    margin: 0;
+
+    background: #f8fafc;
+
+    border: 1px solid #edf0f5;
+
+    border-radius: 10px;
+
+    padding: 15px;
+
+    color: #64748b;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+
+}
+
+
+/* =========================================
+   REVIEW
+========================================= */
+
+.review-card {
+
+    background: #fff7ed;
+
+    border: 1px solid #fed7aa;
+
+    border-radius: 16px;
+
+    padding: 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+}
+
+
+.review-content {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+}
+
+
+.review-icon {
+
+    width: 45px;
+
+    height: 45px;
+
+    border-radius: 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #ffedd5;
+
+    color: #f59e0b;
+
+    font-size: 22px;
+
+}
+
+
+.review-card h3 {
+
+    margin: 0 0 4px;
+
+    font-size: 15px;
+
+}
+
+
+.review-card p {
+
+    margin: 0;
+
+    color: #78716c;
+
+    font-size: 13px;
+
+}
+
+
+.review-card a {
+
+    padding: 11px 16px;
+
+    background: #f59e0b;
+
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 8px;
+
+    font-weight: 700;
+
+    font-size: 13px;
+
+    white-space: nowrap;
+
+    transition: .3s ease;
+
+}
+
+
+.review-card a:hover {
+
+    background: #d97706;
+
+    transform: translateY(-2px);
+
+}
+
+
+/* =========================================
+   NO REFUND
+========================================= */
+
+.no-refund-notice {
+
+    display: flex;
+
+    gap: 12px;
+
+    padding: 18px;
+
+    background: #f0fdf4;
+
+    border: 1px solid #bbf7d0;
+
+    border-radius: 14px;
+
+    color: #166534;
+
+}
+
+
+.notice-icon {
+
+    width: 35px;
+
+    height: 35px;
+
+    min-width: 35px;
+
+    border-radius: 50%;
+
+    background: #dcfce7;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-weight: 800;
+
+}
+
+
+.no-refund-notice strong {
+
+    display: block;
+
+    font-size: 14px;
+
+}
+
+
+.no-refund-notice p {
+
+    margin: 5px 0 0;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+    .booking-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .booking-sidebar {
+
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .booking-details-page {
+
+        padding: 25px 12px 50px;
+
+    }
+
+
+    .booking-page-header {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        margin-bottom: 20px;
+
+    }
+
+
+    .booking-page-header h1 {
+
+        font-size: 25px;
+
+    }
+
+
+    .booking-status-badge {
+
+        padding: 8px 14px;
+
+    }
+
+
+    .booking-grid {
+
+        display: block;
+
+    }
+
+
+    .booking-sidebar {
+
+        display: flex;
+
+    }
+
+
+    .car-image-card {
+
+        border-radius: 14px;
+
+    }
+
+
+    .car-image-card img {
+
+        height: 210px;
+
+    }
+
+
+    .booking-card {
+
+        padding: 18px;
+
+        border-radius: 14px;
+
+        margin-bottom: 15px;
+
+    }
+
+
+    .section-heading h2 {
+
+        font-size: 18px;
+
+    }
+
+
+    .timeline-item {
+
+        gap: 12px;
+
+        min-height: 90px;
+
+    }
+
+
+    .circle {
+
+        width: 36px;
+
+        height: 36px;
+
+        min-width: 36px;
+
+        font-size: 12px;
+
+    }
+
+
+    .timeline-item:not(:last-child)::after {
+
+        left: 17px;
+
+        top: 38px;
+
+        height: 62px;
+
+    }
+
+
+    .timeline-content h4 {
+
+        font-size: 14px;
+
+    }
+
+
+    .timeline-content small {
+
+        font-size: 11px;
+
+    }
+
+
+    .pay-box {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+
+    .pay-btn {
+
+        width: 100%;
+
+    }
+
+
+    .review-card {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+    }
+
+
+    .review-card a {
+
+        width: 100%;
+
+        text-align: center;
+
+    }
+
+}
+
+</style>
 
 {% endblock %}
