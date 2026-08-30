@@ -1,210 +1,1523 @@
-.signup-section{
+:root {
+--ds-orange: #ff5a3c;
+--ds-orange-dark: #e84a30;
+--ds-dark: #111827;
+--ds-text: #334155;
+--ds-muted: #64748b;
+--ds-border: #e2e8f0;
+--ds-light: #f8fafc;
+--ds-white: #ffffff;
+}
 
-    min-height:100vh;
+/* =========================================
+SIGNUP SECTION
+========================================= */
 
-    display:flex;
+.ds-signup {
+min-height: 100vh;
+padding: 90px 24px 50px;
+display: flex;
+align-items: center;
+justify-content: center;
+background: #f8fafc;
+}
 
-    justify-content:center;
+/* =========================================
+MAIN CONTAINER
+========================================= */
 
-    align-items:center;
+.ds-signup-container {
+width: min(1050px, 100%);
+display: grid;
+grid-template-columns: 42% 58%;
+overflow: hidden;
+background: var(--ds-white);
+border: 1px solid var(--ds-border);
+border-radius: 24px;
+box-shadow: 0 20px 60px rgba(15, 23, 42, 0.10);
+animation: dsSignupShow 0.7s ease both;
+}
 
-    background:#f5f7fb;
+/* =========================================
+LEFT VISUAL
+========================================= */
 
-    padding:60px 20px;
+.ds-signup-visual {
+position: relative;
+min-height: 650px;
+padding: 42px;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+overflow: hidden;
+color: #ffffff;
+background:
+linear-gradient(
+145deg,
+#ff5a3c,
+#e84a30
+);
+}
+
+/* Background circles */
+
+.ds-signup-visual::before {
+content: "";
+position: absolute;
+width: 300px;
+height: 300px;
+top: -130px;
+right: -120px;
+border-radius: 50%;
+background: rgba(255, 255, 255, 0.10);
+}
+
+.ds-signup-visual::after {
+content: "";
+position: absolute;
+width: 220px;
+height: 220px;
+left: -100px;
+bottom: -90px;
+border-radius: 50%;
+background: rgba(255, 255, 255, 0.08);
+}
+
+/* =========================================
+OVERLAY
+========================================= */
+
+.ds-visual-overlay {
+position: absolute;
+inset: 0;
+background:
+radial-gradient(
+circle at 80% 20%,
+rgba(255, 255, 255, 0.12),
+transparent 30%
+);
+pointer-events: none;
+}
+
+/* =========================================
+BRAND
+========================================= */
+
+.ds-brand {
+position: relative;
+z-index: 2;
+display: flex;
+align-items: center;
+gap: 10px;
+font-size: 20px;
+font-weight: 800;
+letter-spacing: -0.5px;
+}
+
+.ds-brand > span:last-child > span {
+color: #ffe8e2;
+}
+
+.ds-brand-icon {
+width: 38px;
+height: 38px;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 11px;
+background: rgba(255, 255, 255, 0.18);
+font-size: 16px;
+}
+
+/* =========================================
+VISUAL TEXT
+========================================= */
+
+.ds-visual-content {
+position: relative;
+z-index: 2;
+}
+
+.ds-visual-text {
+margin-top: 100px;
+}
+
+.ds-small-label {
+display: inline-block;
+margin-bottom: 16px;
+padding: 6px 10px;
+border: 1px solid rgba(255, 255, 255, 0.25);
+border-radius: 20px;
+background: rgba(255, 255, 255, 0.10);
+font-size: 8px;
+font-weight: 800;
+letter-spacing: 1px;
+}
+
+.ds-visual-text h1 {
+max-width: 350px;
+margin: 0;
+font-size: 42px;
+line-height: 1.08;
+font-weight: 800;
+letter-spacing: -1.5px;
+}
+
+.ds-visual-text h1 span {
+display: block;
+color: #ffe4dd;
+}
+
+.ds-visual-text p {
+max-width: 360px;
+margin: 18px 0 0;
+color: rgba(255, 255, 255, 0.86);
+font-size: 12px;
+line-height: 1.8;
+}
+
+/* =========================================
+TRUST ITEMS
+========================================= */
+
+.ds-trust-items {
+position: relative;
+z-index: 2;
+display: flex;
+flex-direction: column;
+gap: 13px;
+margin-top: 35px;
+}
+
+.ds-trust-items > div {
+display: flex;
+align-items: center;
+gap: 12px;
+}
+
+.ds-trust-items > div > i {
+width: 34px;
+height: 34px;
+display: flex;
+align-items: center;
+justify-content: center;
+flex-shrink: 0;
+border-radius: 9px;
+background: rgba(255, 255, 255, 0.14);
+font-size: 12px;
+}
+
+.ds-trust-items span {
+display: flex;
+flex-direction: column;
+gap: 2px;
+color: rgba(255, 255, 255, 0.75);
+font-size: 9px;
+}
+
+.ds-trust-items strong {
+color: #ffffff;
+font-size: 10px;
+}
+
+/* =========================================
+BADGE
+========================================= */
+
+.ds-visual-badge {
+position: relative;
+z-index: 3;
+display: flex;
+align-items: center;
+gap: 11px;
+padding: 13px;
+border: 1px solid rgba(255, 255, 255, 0.18);
+border-radius: 13px;
+background: rgba(255, 255, 255, 0.12);
+backdrop-filter: blur(10px);
+}
+
+.ds-badge-icon {
+width: 35px;
+height: 35px;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 9px;
+background: #ffffff;
+color: var(--ds-orange);
+}
+
+.ds-visual-badge div:last-child {
+display: flex;
+flex-direction: column;
+gap: 3px;
+}
+
+.ds-visual-badge strong {
+font-size: 10px;
+}
+
+.ds-visual-badge span {
+color: rgba(255, 255, 255, 0.75);
+font-size: 8px;
+}
+
+/* =========================================
+RIGHT FORM
+========================================= */
+
+.ds-signup-form {
+padding: 48px 52px;
+background: #ffffff;
+}
+
+/* =========================================
+FORM HEADER
+========================================= */
+
+.ds-form-header {
+margin-bottom: 28px;
+}
+
+.ds-form-kicker {
+display: inline-block;
+margin-bottom: 9px;
+color: var(--ds-orange);
+font-size: 9px;
+font-weight: 800;
+letter-spacing: 1.2px;
+}
+
+.ds-form-header h2 {
+margin: 0;
+color: var(--ds-dark);
+font-size: 28px;
+line-height: 1.2;
+font-weight: 800;
+letter-spacing: -0.8px;
+}
+
+.ds-form-header h2 span {
+color: var(--ds-orange);
+}
+
+.ds-form-header p {
+margin: 8px 0 0;
+color: var(--ds-muted);
+font-size: 11px;
+line-height: 1.6;
+}
+
+/* =========================================
+FORM
+========================================= */
+
+.ds-signup-form form {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 15px 14px;
+}
+
+/* =========================================
+FORM GROUP
+========================================= */
+
+.ds-form-group {
+min-width: 0;
+}
+
+.ds-form-group:first-child,
+.ds-form-group:nth-child(2),
+.ds-form-group:nth-child(3) {
+grid-column: span 2;
+}
+
+.ds-form-group label {
+display: block;
+margin-bottom: 6px;
+color: var(--ds-text);
+font-size: 10px;
+font-weight: 700;
+}
+
+/* =========================================
+INPUT WRAPPER
+========================================= */
+
+.ds-input-wrapper {
+position: relative;
+}
+
+.ds-input-wrapper > i:first-child {
+position: absolute;
+top: 50%;
+left: 13px;
+z-index: 2;
+transform: translateY(-50%);
+color: #94a3b8;
+font-size: 11px;
+pointer-events: none;
+transition: color 0.25s ease;
+}
+
+/* =========================================
+INPUTS
+========================================= */
+
+.ds-input-wrapper input,
+.ds-input-wrapper select {
+width: 100%;
+height: 43px;
+padding: 0 13px 0 36px;
+outline: none;
+border: 1px solid var(--ds-border);
+border-radius: 9px;
+color: var(--ds-dark);
+background: #f8fafc;
+font-family: inherit;
+font-size: 11px;
+transition:
+border-color 0.25s ease,
+box-shadow 0.25s ease,
+background 0.25s ease;
+}
+
+.ds-input-wrapper select {
+cursor: pointer;
+}
+
+.ds-input-wrapper input::placeholder {
+color: #a0aec0;
+}
+
+.ds-input-wrapper input:focus,
+.ds-input-wrapper select:focus {
+border-color: var(--ds-orange);
+background: #ffffff;
+box-shadow: 0 0 0 3px rgba(255, 90, 60, 0.10);
+}
+
+.ds-input-wrapper:focus-within > i:first-child {
+color: var(--ds-orange);
+}
+
+/* =========================================
+PASSWORD TOGGLE
+========================================= */
+
+.ds-password-toggle {
+position: absolute;
+top: 50%;
+right: 11px;
+width: 28px;
+height: 28px;
+padding: 0;
+display: flex;
+align-items: center;
+justify-content: center;
+transform: translateY(-50%);
+border: none;
+border-radius: 7px;
+color: #94a3b8;
+background: transparent;
+cursor: pointer;
+transition:
+color 0.25s ease,
+background 0.25s ease;
+}
+
+.ds-password-toggle:hover {
+color: var(--ds-orange);
+background: rgba(255, 90, 60, 0.08);
+}
+
+/* Give password fields room for eye button */
+
+.ds-input-wrapper input[type="password"],
+.ds-input-wrapper input[type="text"] {
+padding-right: 45px;
+}
+
+/* =========================================
+ERRORS
+========================================= */
+
+.ds-error {
+margin-top: 5px;
+}
+
+.ds-error .errorlist,
+.ds-form-errors .errorlist {
+margin: 0;
+padding: 0;
+list-style: none;
+color: #dc2626;
+font-size: 9px;
+line-height: 1.5;
+}
+
+.ds-form-errors {
+grid-column: span 2;
+padding: 9px 11px;
+border-radius: 8px;
+background: #fef2f2;
+}
+
+/* =========================================
+SIGNUP BUTTON
+========================================= */
+
+.ds-signup-btn {
+grid-column: span 2;
+width: 100%;
+height: 46px;
+margin-top: 4px;
+padding: 0 18px;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 9px;
+border: none;
+border-radius: 10px;
+color: #ffffff;
+background: var(--ds-orange);
+font-family: inherit;
+font-size: 11px;
+font-weight: 800;
+cursor: pointer;
+box-shadow: 0 10px 22px rgba(255, 90, 60, 0.20);
+transition:
+transform 0.25s ease,
+box-shadow 0.25s ease,
+background 0.25s ease;
+}
+
+.ds-signup-btn i {
+transition: transform 0.25s ease;
+}
+
+.ds-signup-btn:hover {
+background: var(--ds-orange-dark);
+transform: translateY(-2px);
+box-shadow: 0 14px 28px rgba(255, 90, 60, 0.28);
+}
+
+.ds-signup-btn:hover i {
+transform: translateX(4px);
+}
+
+.ds-signup-btn:active {
+transform: translateY(0);
+}
+
+/* =========================================
+LOGIN LINK
+========================================= */
+
+.ds-login-link {
+margin-top: 20px;
+padding-top: 18px;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 5px;
+border-top: 1px solid #eef2f7;
+color: var(--ds-muted);
+font-size: 10px;
+}
+
+.ds-login-link a {
+display: inline-flex;
+align-items: center;
+gap: 5px;
+color: var(--ds-orange);
+font-weight: 800;
+text-decoration: none;
+transition: color 0.25s ease;
+}
+
+.ds-login-link a:hover {
+color: var(--ds-orange-dark);
+}
+
+.ds-login-link a i {
+font-size: 8px;
+transition: transform 0.25s ease;
+}
+
+.ds-login-link a:hover i {
+transform: translateX(3px);
+}
+
+/* =========================================
+SECURE NOTE
+========================================= */
+
+.ds-secure-note {
+margin-top: 13px;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 6px;
+color: #94a3b8;
+font-size: 8px;
+}
+
+.ds-secure-note i {
+color: #16a34a;
+font-size: 9px;
+}
+
+/* =========================================
+ANIMATIONS
+========================================= */
+
+@keyframes dsSignupShow {
+from {
+opacity: 0;
+transform: translateY(25px);
+}
+
+
+to {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 
 }
 
-.signup-container{
+/* =========================================
+TABLET
+========================================= */
 
-    width:1100px;
+@media (max-width: 900px) {
 
-    background:#fff;
 
-    border-radius:20px;
+.ds-signup {
+    padding: 85px 18px 40px;
+}
 
-    overflow:hidden;
+.ds-signup-container {
+    grid-template-columns: 1fr;
+    max-width: 620px;
+}
 
-    display:grid;
+.ds-signup-visual {
+    min-height: 390px;
+    padding: 35px;
+}
 
-    grid-template-columns:1fr 1fr;
+.ds-visual-text {
+    margin-top: 45px;
+}
 
-    box-shadow:0 20px 50px rgba(0,0,0,.1);
+.ds-visual-text h1 {
+    max-width: 500px;
+    font-size: 36px;
+}
+
+.ds-visual-text p {
+    max-width: 500px;
+}
+
+.ds-trust-items {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 15px 25px;
+}
+
+.ds-signup-form {
+    padding: 40px 38px;
+}
+
 
 }
 
-.signup-left{
+/* =========================================
+MOBILE
+========================================= */
 
-    background:linear-gradient(135deg,#ff5a3c,#ff8f6a);
+@media (max-width: 600px) {
 
-    color:#fff;
 
-    display:flex;
+.dssignup {
+    padding: 78px 12px 30px;
+}
 
-    flex-direction:column;
+.ds-signup-container {
+    border-radius: 18px;
+}
 
-    justify-content:center;
+.ds-signup-visual {
+    min-height: 330px;
+    padding: 28px 24px;
+}
 
-    align-items:center;
+.ds-brand {
+    font-size: 18px;
+}
 
-    padding:50px;
+.ds-brand-icon {
+    width: 34px;
+    height: 34px;
+}
 
-    text-align:center;
+.ds-visual-text {
+    margin-top: 35px;
+}
+
+.ds-small-label {
+    font-size: 7px;
+    margin-bottom: 12px;
+}
+
+.ds-visual-text h1 {
+    font-size: 31px;
+}
+
+.ds-visual-text p {
+    margin-top: 12px;
+    font-size: 10px;
+    line-height: 1.7;
+}
+
+.ds-trust-items {
+    display: none;
+}
+
+.ds-visual-badge {
+    padding: 10px;
+}
+
+.ds-signup-form {
+    padding: 32px 20px;
+}
+
+.ds-form-header {
+    margin-bottom: 23px;
+}
+
+.ds-form-header h2 {
+    font-size: 24px;
+}
+
+.ds-form-header p {
+    font-size: 10px;
+}
+
+.ds-signup-form form {
+    grid-template-columns: 1fr;
+    gap: 14px;
+}
+
+.ds-form-group:first-child,
+.ds-form-group:nth-child(2),
+.ds-form-group:nth-child(3),
+.ds-form-errors,
+.ds-signup-btn {
+    grid-column: span 1;
+}
+
+.ds-input-wrapper input,
+.ds-input-wrapper select {
+    height: 45px;
+}
 
 }
 
-.signup-left img{
+/* =========================================
+SMALL MOBILE
+========================================= */
 
-    width:90%;
+@media (max-width: 400px) {
 
-    max-width:350px;
 
-    margin-top:30px;
+.ds-signup {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.ds-signup-visual {
+    min-height: 300px;
+    padding: 25px 19px;
+}
+
+.ds-visual-text h1 {
+    font-size: 28px;
+}
+
+.ds-signup-form {
+    padding: 28px 16px;
+}
+
+.ds-form-header h2 {
+    font-size: 22px;
+}
+
+.ds-login-link {
+    flex-direction: column;
+    gap: 6px;
+}
+
 
 }
 
-.signup-right{
+/* =========================================
+REDUCED MOTION
+========================================= */
 
-    padding:50px;
+@media (prefers-reduced-motion: reduce) {
+
+
+.ds-signup-container,
+.ds-signup-container *,
+.ds-signup-container *::before,
+.ds-signup-container *::after {
+    animation: none !important;
+    transition: none !important;
+}
+
 
 }
 
-.signup-right h2{
 
-    margin-bottom:10px;
+:root {
+--login-orange: #ff5a3c;
+--login-orange-dark: #e84a30;
+--login-dark: #111827;
+--login-text: #334155;
+--login-muted: #64748b;
+--login-border: #e2e8f0;
+--login-light: #f8fafc;
+}
+
+/* =========================================
+LOGIN SECTION
+========================================= */
+
+.ds-login {
+min-height: 100vh;
+padding: 90px 24px 50px;
+display: flex;
+align-items: center;
+justify-content: center;
+background: #f8fafc;
+}
+
+/* =========================================
+MAIN CONTAINER
+========================================= */
+
+.ds-login-container {
+width: min(950px, 100%);
+display: grid;
+grid-template-columns: 42% 58%;
+overflow: hidden;
+border: 1px solid #e2e8f0;
+border-radius: 24px;
+background: #ffffff;
+box-shadow: 0 20px 60px rgba(15, 23, 42, 0.10);
+animation: dsLoginAppear 0.7s ease both;
+}
+
+/* =========================================
+LEFT SIDE
+========================================= */
+
+.ds-login-visual {
+position: relative;
+min-height: 570px;
+padding: 40px;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+overflow: hidden;
+color: #ffffff;
+background:
+linear-gradient(
+145deg,
+#ff5a3c,
+#e84a30
+);
+}
+
+.ds-login-visual::before {
+content: "";
+position: absolute;
+width: 300px;
+height: 300px;
+top: -130px;
+right: -120px;
+border-radius: 50%;
+background: rgba(255, 255, 255, 0.10);
+}
+
+.ds-login-visual::after {
+content: "";
+position: absolute;
+width: 220px;
+height: 220px;
+left: -100px;
+bottom: -90px;
+border-radius: 50%;
+background: rgba(255, 255, 255, 0.08);
+}
+
+/* =========================================
+OVERLAY
+========================================= */
+
+.ds-login-overlay {
+position: absolute;
+inset: 0;
+background:
+radial-gradient(
+circle at 80% 20%,
+rgba(255, 255, 255, 0.12),
+transparent 32%
+);
+pointer-events: none;
+}
+
+/* =========================================
+BRAND
+========================================= */
+
+.ds-login-brand {
+position: relative;
+z-index: 2;
+display: flex;
+align-items: center;
+gap: 10px;
+font-size: 20px;
+font-weight: 800;
+}
+
+.ds-login-brand > span:last-child > span {
+color: #ffe4dd;
+}
+
+.ds-login-brand-icon {
+width: 38px;
+height: 38px;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 10px;
+background: rgba(255, 255, 255, 0.17);
+font-size: 15px;
+}
+
+/* =========================================
+VISUAL CONTENT
+========================================= */
+
+.ds-login-visual-content {
+position: relative;
+z-index: 2;
+margin-top: 60px;
+}
+
+.ds-login-kicker {
+display: inline-block;
+margin-bottom: 14px;
+padding: 6px 10px;
+border: 1px solid rgba(255, 255, 255, 0.25);
+border-radius: 20px;
+background: rgba(255, 255, 255, 0.10);
+font-size: 8px;
+font-weight: 800;
+letter-spacing: 1px;
+}
+
+.ds-login-visual-content h1 {
+max-width: 340px;
+margin: 0;
+font-size: 38px;
+line-height: 1.08;
+font-weight: 800;
+letter-spacing: -1.4px;
+}
+
+.ds-login-visual-content h1 span {
+display: block;
+color: #ffe4dd;
+}
+
+.ds-login-visual-content p {
+max-width: 350px;
+margin: 17px 0 0;
+color: rgba(255, 255, 255, 0.86);
+font-size: 11px;
+line-height: 1.8;
+}
+
+/* =========================================
+FEATURES
+========================================= */
+
+.ds-login-features {
+margin-top: 28px;
+display: flex;
+flex-direction: column;
+gap: 12px;
+}
+
+.ds-login-features > div {
+display: flex;
+align-items: center;
+gap: 11px;
+}
+
+.ds-login-features > div > i {
+width: 33px;
+height: 33px;
+display: flex;
+align-items: center;
+justify-content: center;
+flex-shrink: 0;
+border-radius: 9px;
+background: rgba(255, 255, 255, 0.14);
+font-size: 11px;
+}
+
+.ds-login-features span {
+display: flex;
+flex-direction: column;
+gap: 2px;
+color: rgba(255, 255, 255, 0.72);
+font-size: 8px;
+}
+
+.ds-login-features strong {
+color: #ffffff;
+font-size: 10px;
+}
+
+/* =========================================
+BADGE
+========================================= */
+
+.ds-login-badge {
+position: relative;
+z-index: 2;
+display: flex;
+align-items: center;
+gap: 10px;
+padding: 12px;
+border: 1px solid rgba(255, 255, 255, 0.18);
+border-radius: 12px;
+background: rgba(255, 255, 255, 0.12);
+backdrop-filter: blur(10px);
+}
+
+.ds-login-badge-icon {
+width: 34px;
+height: 34px;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 8px;
+background: #ffffff;
+color: var(--login-orange);
+font-size: 11px;
+}
+
+.ds-login-badge div:last-child {
+display: flex;
+flex-direction: column;
+gap: 2px;
+}
+
+.ds-login-badge strong {
+font-size: 9px;
+}
+
+.ds-login-badge span {
+color: rgba(255, 255, 255, 0.72);
+font-size: 8px;
+}
+
+/* =========================================
+RIGHT SIDE
+========================================= */
+
+.ds-login-form {
+padding: 58px 55px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+}
+
+/* =========================================
+HEADER
+========================================= */
+
+.ds-login-header {
+margin-bottom: 28px;
+}
+
+.ds-login-form-kicker {
+display: inline-block;
+margin-bottom: 9px;
+color: var(--login-orange);
+font-size: 9px;
+font-weight: 800;
+letter-spacing: 1.2px;
+}
+
+.ds-login-header h2 {
+margin: 0;
+color: var(--login-dark);
+font-size: 30px;
+line-height: 1.2;
+font-weight: 800;
+letter-spacing: -1px;
+}
+
+.ds-login-header h2 span {
+color: var(--login-orange);
+}
+
+.ds-login-header p {
+margin: 8px 0 0;
+color: var(--login-muted);
+font-size: 11px;
+line-height: 1.6;
+}
+
+/* =========================================
+MESSAGES
+========================================= */
+
+.ds-login-messages {
+margin-bottom: 18px;
+}
+
+.ds-login-message {
+display: flex;
+align-items: center;
+gap: 8px;
+padding: 10px 12px;
+border: 1px solid #fecaca;
+border-radius: 9px;
+color: #b91c1c;
+background: #fef2f2;
+font-size: 10px;
+}
+
+.ds-login-message i {
+flex-shrink: 0;
+font-size: 11px;
+}
+
+/* =========================================
+FORM
+========================================= */
+
+.ds-login-form form {
+display: flex;
+flex-direction: column;
+gap: 18px;
+}
+
+/* =========================================
+FORM GROUP
+========================================= */
+
+.ds-login-group {
+display: flex;
+flex-direction: column;
+}
+
+.ds-login-group label {
+margin-bottom: 6px;
+color: var(--login-text);
+font-size: 10px;
+font-weight: 700;
+}
+
+.ds-login-label-row {
+display: flex;
+justify-content: space-between;
+}
+
+/* =========================================
+INPUT
+========================================= */
+
+.ds-login-input {
+position: relative;
+}
+
+.ds-login-input > i:first-child {
+position: absolute;
+top: 50%;
+left: 13px;
+z-index: 2;
+transform: translateY(-50%);
+color: #94a3b8;
+font-size: 11px;
+pointer-events: none;
+transition: color 0.25s ease;
+}
+
+.ds-login-input input {
+width: 100%;
+height: 45px;
+padding: 0 13px 0 36px;
+outline: none;
+border: 1px solid var(--login-border);
+border-radius: 9px;
+color: var(--login-dark);
+background: #f8fafc;
+font-family: inherit;
+font-size: 11px;
+transition:
+border-color 0.25s ease,
+box-shadow 0.25s ease,
+background 0.25s ease;
+}
+
+.ds-login-input input::placeholder {
+color: #a0aec0;
+}
+
+.ds-login-input input:focus {
+border-color: var(--login-orange);
+background: #ffffff;
+box-shadow: 0 0 0 3px rgba(255, 90, 60, 0.10);
+}
+
+.ds-login-input:focus-within > i:first-child {
+color: var(--login-orange);
+}
+
+/* =========================================
+PASSWORD TOGGLE
+========================================= */
+
+.ds-login-password-toggle {
+position: absolute;
+top: 50%;
+right: 9px;
+width: 29px;
+height: 29px;
+display: flex;
+align-items: center;
+justify-content: center;
+transform: translateY(-50%);
+border: none;
+border-radius: 7px;
+color: #94a3b8;
+background: transparent;
+cursor: pointer;
+transition:
+color 0.25s ease,
+background 0.25s ease;
+}
+
+.ds-login-password-toggle:hover {
+color: var(--login-orange);
+background: rgba(255, 90, 60, 0.08);
+}
+
+.ds-login-input input[type="password"],
+.ds-login-input input[type="text"] {
+padding-right: 45px;
+}
+
+/* =========================================
+LOGIN BUTTON
+========================================= */
+
+.ds-login-btn {
+width: 100%;
+height: 46px;
+margin-top: 2px;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 9px;
+border: none;
+border-radius: 10px;
+color: #ffffff;
+background: var(--login-orange);
+font-family: inherit;
+font-size: 11px;
+font-weight: 800;
+cursor: pointer;
+box-shadow: 0 10px 22px rgba(255, 90, 60, 0.20);
+transition:
+transform 0.25s ease,
+box-shadow 0.25s ease,
+background 0.25s ease;
+}
+
+.ds-login-btn i {
+transition: transform 0.25s ease;
+}
+
+.ds-login-btn:hover {
+background: var(--login-orange-dark);
+transform: translateY(-2px);
+box-shadow: 0 14px 28px rgba(255, 90, 60, 0.28);
+}
+
+.ds-login-btn:hover i {
+transform: translateX(4px);
+}
+
+.ds-login-btn:active {
+transform: translateY(0);
+}
+
+/* =========================================
+CREATE ACCOUNT
+========================================= */
+
+.ds-create-account {
+margin-top: 22px;
+padding-top: 19px;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 5px;
+border-top: 1px solid #eef2f7;
+color: var(--login-muted);
+font-size: 10px;
+}
+
+.ds-create-account a {
+display: inline-flex;
+align-items: center;
+gap: 5px;
+color: var(--login-orange);
+font-weight: 800;
+text-decoration: none;
+transition: color 0.25s ease;
+}
+
+.ds-create-account a:hover {
+color: var(--login-orange-dark);
+}
+
+.ds-create-account a i {
+font-size: 8px;
+transition: transform 0.25s ease;
+}
+
+.ds-create-account a:hover i {
+transform: translateX(3px);
+}
+
+/* =========================================
+SECURITY NOTE
+========================================= */
+
+.ds-login-secure {
+margin-top: 13px;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 6px;
+color: #94a3b8;
+font-size: 8px;
+}
+
+.ds-login-secure i {
+color: #16a34a;
+font-size: 9px;
+}
+
+/* =========================================
+ANIMATION
+========================================= */
+
+@keyframes dsLoginAppear {
+
+
+from {
+    opacity: 0;
+    transform: translateY(25px);
+}
+
+to {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 
 }
 
-.signup-right p{
+/* =========================================
+TABLET
+========================================= */
 
-    color:#666;
+@media (max-width: 850px) {
 
-    margin-bottom:25px;
+
+.ds-login {
+    padding: 85px 18px 40px;
+}
+
+.ds-login-container {
+    grid-template-columns: 1fr;
+    max-width: 600px;
+}
+
+.ds-login-visual {
+    min-height: 350px;
+    padding: 35px;
+}
+
+.ds-login-visual-content {
+    margin-top: 35px;
+}
+
+.ds-login-visual-content h1 {
+    font-size: 34px;
+}
+
+.ds-login-features {
+    display: none;
+}
+
+.ds-login-form {
+    padding: 42px 40px;
+}
 
 }
 
-.role-selection{
+/* =========================================
+MOBILE
+========================================= */
 
-    display:flex;
+@media (max-width: 600px) {
 
-    gap:20px;
 
-    margin-bottom:25px;
+.ds-login {
+    padding: 78px 12px 30px;
+}
+
+.ds-login-container {
+    border-radius: 18px;
+}
+
+.ds-login-visual {
+    min-height: 285px;
+    padding: 27px 23px;
+}
+
+.ds-login-brand {
+    font-size: 18px;
+}
+
+.ds-login-brand-icon {
+    width: 34px;
+    height: 34px;
+}
+
+.ds-login-visual-content {
+    margin-top: 25px;
+}
+
+.ds-login-kicker {
+    font-size: 7px;
+    margin-bottom: 10px;
+}
+
+.ds-login-visual-content h1 {
+    font-size: 29px;
+}
+
+.ds-login-visual-content p {
+    margin-top: 12px;
+    font-size: 10px;
+    line-height: 1.7;
+}
+
+.ds-login-badge {
+    display: none;
+}
+
+.ds-login-form {
+    padding: 32px 20px;
+}
+
+.ds-login-header {
+    margin-bottom: 23px;
+}
+
+.ds-login-header h2 {
+    font-size: 24px;
+}
+
+.ds-login-header p {
+    font-size: 10px;
+}
+
+.ds-login-form form {
+    gap: 15px;
+}
+
+.ds-login-input input {
+    height: 45px;
+}
 
 }
 
-.role-selection label{
+/* =========================================
+SMALL MOBILE
+========================================= */
 
-    cursor:pointer;
+@media (max-width: 400px) {
+
+
+.ds-login {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.ds-login-visual {
+    min-height: 265px;
+    padding: 24px 19px;
+}
+
+.ds-login-visual-content h1 {
+    font-size: 27px;
+}
+
+.ds-login-form {
+    padding: 28px 16px;
+}
+
+.ds-login-header h2 {
+    font-size: 22px;
+}
+
+.ds-create-account {
+    flex-direction: column;
+    gap: 6px;
+}
 
 }
 
-.form-group{
+/* =========================================
+REDUCED MOTION
+========================================= */
 
-    margin-bottom:18px;
+@media (prefers-reduced-motion: reduce) {
 
+
+.ds-login-container,
+.ds-login-container *,
+.ds-login-container *::before,
+.ds-login-container *::after {
+    animation: none !important;
+    transition: none !important;
 }
-
-.form-group input{
-
-    width:100%;
-
-    padding:14px;
-
-    border:1px solid #ddd;
-
-    border-radius:8px;
-
-    font-size:15px;
-
-}
-
-.signup-btn{
-
-    width:100%;
-
-    padding:15px;
-
-    border:none;
-
-    border-radius:8px;
-
-    background:#ff5a3c;
-
-    color:white;
-
-    font-size:16px;
-
-    cursor:pointer;
-
-    transition:.3s;
-
-}
-
-.signup-btn:hover{
-
-    background:#e0482b;
-
-}
-
-.login-link{
-
-    text-align:center;
-
-    margin-top:20px;
-
-}
-.form-group label{
-
-    display:block;
-
-    margin-bottom:8px;
-
-    font-weight:600;
-
-    color:#333;
-
-}
-
-.form-group input,
-.form-group select{
-
-    width:100%;
-
-    padding:14px;
-
-    border:1px solid #ddd;
-
-    border-radius:10px;
-
-    font-size:15px;
-
-    outline:none;
-
-    transition:.3s;
-
-    box-sizing:border-box;
-
-}
-
-.form-group input:focus,
-.form-group select:focus{
-
-    border-color:#ff5a3c;
-
-    box-shadow:0 0 10px rgba(255,90,60,.2);
-
-}
-
-.errorlist{
-
-    list-style:none;
-
-    padding:0;
-
-    margin-top:5px;
-
-    color:red;
-
-    font-size:13px;
 
 }

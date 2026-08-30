@@ -2,102 +2,385 @@
 {% load static %}
 
 {% block title %}
-Sign Up
+Sign Up | DriveShare
 {% endblock %}
 
 {% block content %}
 
-<section class="signup-section">
+<section class="ds-signup">
 
-    <div class="signup-container">
+<div class="ds-signup-container">
 
-        <div class="signup-left">
+    <!-- LEFT SIDE -->
+    <div class="ds-signup-visual">
 
-            <h1>Welcome to DriveShare</h1>
+        <div class="ds-visual-overlay"></div>
 
-            <p>
+        <div class="ds-visual-content">
 
-                Join India's trusted car rental platform.
+            <div class="ds-brand">
+                <span class="ds-brand-icon">
+                    <i class="fa-solid fa-car"></i>
+                </span>
 
-            </p>
+                <span>Drive<span>Share</span></span>
+            </div>
 
-            <img src="{% static 'images/signup-car1.png' %}" alt="Signup">
+            <div class="ds-visual-text">
+
+                <span class="ds-small-label">
+                    INDIA'S SMARTER CAR RENTAL PLATFORM
+                </span>
+
+                <h1>
+                    Your journey
+                    <span>starts here.</span>
+                </h1>
+
+                <p>
+                    Rent the perfect car for your journey or list your
+                    vehicle and turn it into an earning opportunity.
+                </p>
+
+            </div>
+
+            <div class="ds-trust-items">
+
+                <div>
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>
+                        <strong>Secure</strong>
+                        Verified users
+                    </span>
+                </div>
+
+                <div>
+                    <i class="fa-solid fa-car-side"></i>
+                    <span>
+                        <strong>Flexible</strong>
+                        Wide car selection
+                    </span>
+                </div>
+
+                <div>
+                    <i class="fa-solid fa-star"></i>
+                    <span>
+                        <strong>Trusted</strong>
+                        Rated by customers
+                    </span>
+                </div>
+
+            </div>
 
         </div>
 
-        <div class="signup-right">
+        <div class="ds-visual-badge">
 
-            <h2>Create Your Account</h2>
+            <div class="ds-badge-icon">
+                <i class="fa-solid fa-location-dot"></i>
+            </div>
 
-            <p>Start renting or listing your vehicle.</p>
-
-      <form method="POST" enctype="multipart/form-data">
-
-    {% csrf_token %}
-
-    <div class="form-group">
-        <label>User Type</label>
-        {{ form.user_type }}
-    </div>
-
-    <div class="form-group">
-        <label>Username</label>
-        {{ form.username }}
-        {{ form.username.errors }}
-    </div>
-
-    <div class="form-group">
-        <label>Full Name</label>
-        {{ form.first_name }}
-        {{ form.first_name.errors }}
-    </div>
-
-    <div class="form-group">
-        <label>Email Address</label>
-        {{ form.email }}
-        {{ form.email.errors }}
-    </div>
-
-    <div class="form-group">
-        <label>Phone Number</label>
-        {{ form.phone_number }}
-        {{ form.phone_number.errors }}
-    </div>
-
-    <div class="form-group">
-        <label>Password</label>
-        {{ form.password1 }}
-        {{ form.password1.errors }}
-    </div>
-
-    <div class="form-group">
-        <label>Confirm Password</label>
-        {{ form.password2 }}
-        {{ form.password2.errors }}
-    </div>
-
-    <button type="submit" class="signup-btn">
-        Create Account
-    </button>
-
-</form>
-
-            <div class="login-link">
-
-                Already have an account?
-
-                <a href="{% url 'login' %}">
-
-                    Login
-
-                </a>
-
+            <div>
+                <strong>Ready to explore?</strong>
+                <span>Find your ride today</span>
             </div>
 
         </div>
 
     </div>
 
+
+    <!-- RIGHT SIDE -->
+    <div class="ds-signup-form">
+
+        <div class="ds-form-header">
+
+            <span class="ds-form-kicker">
+                CREATE ACCOUNT
+            </span>
+
+            <h2>
+                Welcome to <span>DriveShare</span>
+            </h2>
+
+            <p>
+                Create your account and start your journey with us.
+            </p>
+
+        </div>
+
+
+        <form method="POST" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+
+            <!-- USER TYPE -->
+
+            <div class="ds-form-group">
+
+                <label for="{{ form.user_type.id_for_label }}">
+                    Account Type
+                </label>
+
+                <div class="ds-input-wrapper">
+                    <i class="fa-solid fa-user-tag"></i>
+
+                    {{ form.user_type }}
+                </div>
+
+                {% if form.user_type.errors %}
+                    <div class="ds-error">
+                        {{ form.user_type.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- USERNAME -->
+
+            <div class="ds-form-group">
+
+                <label for="{{ form.username.id_for_label }}">
+                    Username
+                </label>
+
+                <div class="ds-input-wrapper">
+
+                    <i class="fa-solid fa-user"></i>
+
+                    {{ form.username }}
+
+                </div>
+
+                {% if form.username.errors %}
+                    <div class="ds-error">
+                        {{ form.username.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- FULL NAME -->
+
+            <div class="ds-form-group">
+
+                <label for="{{ form.first_name.id_for_label }}">
+                    Full Name
+                </label>
+
+                <div class="ds-input-wrapper">
+
+                    <i class="fa-solid fa-id-card"></i>
+
+                    {{ form.first_name }}
+
+                </div>
+
+                {% if form.first_name.errors %}
+                    <div class="ds-error">
+                        {{ form.first_name.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="ds-form-group">
+
+                <label for="{{ form.email.id_for_label }}">
+                    Email Address
+                </label>
+
+                <div class="ds-input-wrapper">
+
+                    <i class="fa-solid fa-envelope"></i>
+
+                    {{ form.email }}
+
+                </div>
+
+                {% if form.email.errors %}
+                    <div class="ds-error">
+                        {{ form.email.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- PHONE -->
+
+            <div class="ds-form-group">
+
+                <label for="{{ form.phone_number.id_for_label }}">
+                    Phone Number
+                </label>
+
+                <div class="ds-input-wrapper">
+
+                    <i class="fa-solid fa-phone"></i>
+
+                    {{ form.phone_number }}
+
+                </div>
+
+                {% if form.phone_number.errors %}
+                    <div class="ds-error">
+                        {{ form.phone_number.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="ds-form-group">
+
+                <label for="{{ form.password1.id_for_label }}">
+                    Password
+                </label>
+
+                <div class="ds-input-wrapper">
+
+                    <i class="fa-solid fa-lock"></i>
+
+                    {{ form.password1 }}
+
+                    <button
+                        type="button"
+                        class="ds-password-toggle"
+                        onclick="togglePassword('{{ form.password1.id_for_label }}', this)"
+                        aria-label="Show password">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+
+                </div>
+
+                {% if form.password1.errors %}
+                    <div class="ds-error">
+                        {{ form.password1.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- CONFIRM PASSWORD -->
+
+            <div class="ds-form-group">
+
+                <label for="{{ form.password2.id_for_label }}">
+                    Confirm Password
+                </label>
+
+                <div class="ds-input-wrapper">
+
+                    <i class="fa-solid fa-lock"></i>
+
+                    {{ form.password2 }}
+
+                    <button
+                        type="button"
+                        class="ds-password-toggle"
+                        onclick="togglePassword('{{ form.password2.id_for_label }}', this)"
+                        aria-label="Show password">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+
+                </div>
+
+                {% if form.password2.errors %}
+                    <div class="ds-error">
+                        {{ form.password2.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            {% if form.non_field_errors %}
+
+                <div class="ds-form-errors">
+                    {{ form.non_field_errors }}
+                </div>
+
+            {% endif %}
+
+
+            <!-- BUTTON -->
+
+            <button type="submit" class="ds-signup-btn">
+
+                <span>Create Account</span>
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+            </button>
+
+        </form>
+
+
+        <!-- LOGIN -->
+
+        <div class="ds-login-link">
+
+            <span>Already have an account?</span>
+
+            <a href="{% url 'login' %}">
+                Login
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+        </div>
+
+
+        <div class="ds-secure-note">
+
+            <i class="fa-solid fa-shield-halved"></i>
+
+            Your information is securely protected.
+
+        </div>
+
+    </div>
+
+</div>
+
+
 </section>
+
+<script>
+
+function togglePassword(inputId, button) {
+
+    const input = document.getElementById(inputId);
+
+    const icon = button.querySelector("i");
+
+    if (input.type === "password") {
+
+        input.type = "text";
+
+        icon.classList.remove("fa-eye");
+        icon.classList.add("fa-eye-slash");
+
+    } else {
+
+        input.type = "password";
+
+        icon.classList.remove("fa-eye-slash");
+        icon.classList.add("fa-eye");
+
+    }
+
+}
+
+</script>
 
 {% endblock %}

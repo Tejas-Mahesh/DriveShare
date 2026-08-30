@@ -23,6 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Local .env file.
 # On Render, variables are supplied through Render Environment Variables.
+
 load_dotenv(BASE_DIR / ".env")
 
 
@@ -43,7 +44,10 @@ if not SECRET_KEY:
 # DEBUG
 # ============================================================
 
-DEBUG = os.getenv("DEBUG", "False").lower() == "true"
+DEBUG = os.getenv(
+    "DEBUG",
+    "False"
+).lower() == "true"
 
 
 # ============================================================
@@ -66,7 +70,10 @@ ALLOWED_HOSTS = [
 
 INSTALLED_APPS = [
 
+    # --------------------------------------------------------
     # Django
+    # --------------------------------------------------------
+
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -74,11 +81,17 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
+    # --------------------------------------------------------
     # Third-party
+    # --------------------------------------------------------
+
     "cloudinary",
     "cloudinary_storage",
 
+    # --------------------------------------------------------
     # DriveShare apps
+    # --------------------------------------------------------
+
     "core",
     "accounts",
     "cars",
@@ -125,6 +138,7 @@ ROOT_URLCONF = "DriveShare.urls"
 # ============================================================
 
 TEMPLATES = [
+
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
 
@@ -135,6 +149,7 @@ TEMPLATES = [
         "APP_DIRS": True,
 
         "OPTIONS": {
+
             "context_processors": [
 
                 "django.template.context_processors.request",
@@ -144,6 +159,7 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
 
                 "notifications.context_processors.notification_count",
+
             ],
         },
     },
@@ -161,21 +177,31 @@ WSGI_APPLICATION = "DriveShare.wsgi.application"
 # DATABASE
 # ============================================================
 
-# LOCAL:
+# ------------------------------------------------------------
+# LOCAL
+# ------------------------------------------------------------
 # If DATABASE_URL is not present, SQLite is used.
 #
-# RENDER:
-# DATABASE_URL is provided by Render PostgreSQL.
-# Therefore PostgreSQL will automatically be used.
+# ------------------------------------------------------------
+# RENDER
+# ------------------------------------------------------------
+# If DATABASE_URL is provided by Render,
+# PostgreSQL will automatically be used.
+# ------------------------------------------------------------
 
 DATABASE_URL = os.getenv("DATABASE_URL")
+
 
 if DATABASE_URL:
 
     DATABASES = {
+
         "default": dj_database_url.parse(
+
             DATABASE_URL,
+
             conn_max_age=600,
+
             ssl_require=True,
         )
     }
@@ -183,8 +209,11 @@ if DATABASE_URL:
 else:
 
     DATABASES = {
+
         "default": {
+
             "ENGINE": "django.db.backends.sqlite3",
+
             "NAME": BASE_DIR / "db.sqlite3",
         }
     }
@@ -245,14 +274,19 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
+
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
+
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
+# ------------------------------------------------------------
 # WhiteNoise
+# ------------------------------------------------------------
+
 STATICFILES_STORAGE = (
     "whitenoise.storage.CompressedManifestStaticFilesStorage"
 )
@@ -272,9 +306,18 @@ MEDIA_ROOT = BASE_DIR / "media"
 # ============================================================
 
 cloudinary.config(
-    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
-    api_key=os.getenv("CLOUDINARY_API_KEY"),
-    api_secret=os.getenv("CLOUDINARY_API_SECRET"),
+
+    cloud_name=os.getenv(
+        "CLOUDINARY_CLOUD_NAME"
+    ),
+
+    api_key=os.getenv(
+        "CLOUDINARY_API_KEY"
+    ),
+
+    api_secret=os.getenv(
+        "CLOUDINARY_API_SECRET"
+    ),
 )
 
 
@@ -305,37 +348,13 @@ LOGOUT_REDIRECT_URL = "home"
 # RAZORPAY
 # ============================================================
 
-RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID")
-
-RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET")
-
-
-# ============================================================
-# EMAIL
-# ============================================================
-
-EMAIL_BACKEND = (
-    "django.core.mail.backends.smtp.EmailBackend"
+RAZORPAY_KEY_ID = os.getenv(
+    "RAZORPAY_KEY_ID"
 )
 
-EMAIL_HOST = "smtp.gmail.com"
-
-EMAIL_PORT = 587
-
-EMAIL_USE_TLS = True
-
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
-
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
-
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
-
-# ============================================================
-# RESEND
-# ============================================================
-
-RESEND_API_KEY = os.getenv("RESEND_API_KEY")
+RAZORPAY_KEY_SECRET = os.getenv(
+    "RAZORPAY_KEY_SECRET"
+)
 
 
 # ============================================================
@@ -371,4 +390,6 @@ if not DEBUG:
 # DEFAULT PRIMARY KEY
 # ============================================================
 
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+DEFAULT_AUTO_FIELD = (
+    "django.db.models.BigAutoField"
+)

@@ -3448,3 +3448,1068 @@ grid-template-columns:1fr;
     }
 
 }
+
+/* =========================================================
+DRIVESHARE — PROFESSIONAL CUSTOMER REVIEWS
+========================================================= */
+
+.ds-reviews-section {
+width: 100%;
+padding: 85px 20px;
+background: #ffffff;
+}
+
+.ds-reviews-container {
+width: min(1120px, 100%);
+margin: 0 auto;
+}
+
+/* =========================================================
+HEADING
+========================================================= */
+
+.ds-reviews-heading {
+text-align: left;
+margin-bottom: 38px;
+}
+
+.ds-reviews-label {
+display: inline-block;
+margin-bottom: 9px;
+color: #ff5a3c;
+font-size: 11px;
+font-weight: 800;
+letter-spacing: 1.8px;
+}
+
+.ds-reviews-heading h2 {
+margin: 0 0 10px;
+color: #111827;
+font-size: clamp(30px, 4vw, 42px);
+line-height: 1.15;
+font-weight: 800;
+letter-spacing: -1px;
+}
+
+.ds-reviews-heading p {
+margin: 0;
+color: #6b7280;
+font-size: 14px;
+line-height: 1.7;
+}
+
+/* =========================================================
+REVIEW GRID
+========================================================= */
+
+.ds-reviews-grid {
+display: grid;
+grid-template-columns: repeat(3, minmax(0, 1fr));
+gap: 20px;
+}
+
+/* =========================================================
+REVIEW CARD
+========================================================= */
+
+.ds-review-card {
+position: relative;
+min-width: 0;
+padding: 21px;
+border: 1px solid #e8edf2;
+border-radius: 16px;
+background: #ffffff;
+box-shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
+transition:
+transform 0.3s ease,
+box-shadow 0.3s ease,
+border-color 0.3s ease;
+}
+
+.ds-review-card:hover {
+transform: translateY(-6px);
+border-color: #ffd1c8;
+box-shadow: 0 18px 40px rgba(15, 23, 42, 0.11);
+}
+
+/* Orange top line */
+
+.ds-review-card::before {
+content: "";
+position: absolute;
+top: 0;
+left: 18px;
+right: 18px;
+height: 3px;
+border-radius: 0 0 5px 5px;
+background: #ff5a3c;
+transform: scaleX(0);
+transform-origin: center;
+transition: transform 0.3s ease;
+}
+
+.ds-review-card:hover::before {
+transform: scaleX(1);
+}
+
+/* =========================================================
+HEADER
+========================================================= */
+
+.ds-review-header {
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 10px;
+padding-bottom: 15px;
+border-bottom: 1px solid #eef1f4;
+}
+
+.ds-review-user {
+display: flex;
+align-items: center;
+gap: 10px;
+min-width: 0;
+}
+
+.ds-review-avatar {
+width: 42px;
+height: 42px;
+display: flex;
+align-items: center;
+justify-content: center;
+flex-shrink: 0;
+border-radius: 50%;
+color: #ffffff;
+background: #ff5a3c;
+font-size: 15px;
+font-weight: 800;
+}
+
+.ds-review-user-info {
+min-width: 0;
+}
+
+.ds-review-user-info h3 {
+margin: 0 0 4px;
+overflow: hidden;
+white-space: nowrap;
+text-overflow: ellipsis;
+color: #172033;
+font-size: 13px;
+font-weight: 750;
+}
+
+.ds-review-user-info span {
+display: flex;
+align-items: center;
+gap: 4px;
+color: #16a34a;
+font-size: 8px;
+font-weight: 700;
+}
+
+.ds-review-user-info span i {
+font-size: 8px;
+}
+
+.ds-review-header time {
+flex-shrink: 0;
+color: #9ca3af;
+font-size: 8px;
+}
+
+/* =========================================================
+RATING
+========================================================= */
+
+.ds-review-rating {
+display: flex;
+align-items: center;
+gap: 8px;
+margin: 15px 0;
+}
+
+.ds-review-stars {
+display: flex;
+gap: 2px;
+color: #f59e0b;
+font-size: 10px;
+}
+
+.ds-review-rating strong {
+padding: 4px 7px;
+border-radius: 6px;
+color: #a16207;
+background: #fff7d6;
+font-size: 9px;
+}
+
+/* =========================================================
+CAR
+========================================================= */
+
+.ds-review-car {
+display: flex;
+align-items: center;
+gap: 9px;
+margin-bottom: 15px;
+padding: 9px;
+border: 1px solid #edf0f3;
+border-radius: 10px;
+background: #f8fafc;
+}
+
+.ds-review-car-icon {
+width: 34px;
+height: 34px;
+display: flex;
+align-items: center;
+justify-content: center;
+flex-shrink: 0;
+border-radius: 8px;
+color: #ff5a3c;
+background: #fff0ec;
+font-size: 13px;
+}
+
+.ds-review-car div:last-child {
+min-width: 0;
+}
+
+.ds-review-car span {
+display: block;
+margin-bottom: 3px;
+color: #9ca3af;
+font-size: 7px;
+font-weight: 700;
+letter-spacing: 0.7px;
+}
+
+.ds-review-car strong {
+display: block;
+overflow: hidden;
+white-space: nowrap;
+text-overflow: ellipsis;
+color: #1f2937;
+font-size: 11px;
+}
+
+/* =========================================================
+REVIEW TEXT
+========================================================= */
+
+.ds-review-text {
+position: relative;
+min-height: 75px;
+padding-left: 24px;
+}
+
+.ds-review-text > i {
+position: absolute;
+top: 1px;
+left: 0;
+color: #ffb5a7;
+font-size: 15px;
+}
+
+.ds-review-text p {
+margin: 0;
+color: #4b5563;
+font-size: 11px;
+line-height: 1.8;
+}
+
+/* =========================================================
+FOOTER
+========================================================= */
+
+.ds-review-footer {
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 8px;
+margin-top: 14px;
+padding-top: 12px;
+border-top: 1px solid #eef1f4;
+color: #9ca3af;
+font-size: 8px;
+}
+
+.ds-review-footer span {
+display: flex;
+align-items: center;
+gap: 4px;
+}
+
+.ds-review-footer i {
+color: #ff5a3c;
+}
+
+.ds-review-footer .ds-review-trusted {
+color: #16a34a;
+font-weight: 700;
+}
+
+.ds-review-footer .ds-review-trusted i {
+color: #16a34a;
+}
+
+/* =========================================================
+EMPTY STATE
+========================================================= */
+
+.ds-review-empty {
+grid-column: 1 / -1;
+padding: 55px 25px;
+text-align: center;
+border: 1px dashed #d7dee6;
+border-radius: 16px;
+background: #fafbfc;
+}
+
+.ds-empty-icon {
+width: 55px;
+height: 55px;
+display: flex;
+align-items: center;
+justify-content: center;
+margin: 0 auto 14px;
+border-radius: 50%;
+color: #ff5a3c;
+background: #fff0ec;
+font-size: 20px;
+}
+
+.ds-review-empty h3 {
+margin: 0 0 6px;
+color: #1f2937;
+font-size: 17px;
+}
+
+.ds-review-empty p {
+margin: 0;
+color: #6b7280;
+font-size: 11px;
+}
+
+/* =========================================================
+TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+
+.ds-reviews-section {
+    padding: 70px 25px;
+}
+
+.ds-reviews-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+
+}
+
+/* =========================================================
+MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+
+.ds-reviews-section {
+    padding: 60px 18px;
+}
+
+.ds-reviews-heading {
+    margin-bottom: 30px;
+}
+
+.ds-reviews-heading h2 {
+    font-size: 30px;
+}
+
+.ds-reviews-heading p {
+    font-size: 13px;
+}
+
+.ds-reviews-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+.ds-review-card {
+    padding: 19px;
+}
+
+
+}
+
+/* =========================================================
+SMALL PHONES
+========================================================= */
+
+@media (max-width: 380px) {
+
+
+.ds-reviews-section {
+    padding-left: 14px;
+    padding-right: 14px;
+}
+
+.ds-review-header {
+    align-items: flex-start;
+}
+
+.ds-review-header time {
+    font-size: 7px;
+}
+
+.ds-review-footer {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+
+}
+
+
+
+
+/* =========================================================
+   DRIVESHARE — PROFESSIONAL SIGNUP PAGE
+========================================================= */
+
+:root {
+    --signup-orange: #ff5a3c;
+    --signup-orange-dark: #e8482f;
+    --signup-dark: #111827;
+    --signup-text: #334155;
+    --signup-muted: #64748b;
+    --signup-bg: #f8fafc;
+    --signup-white: #ffffff;
+    --signup-border: #e2e8f0;
+    --signup-shadow: 0 20px 60px rgba(15, 23, 42, 0.10);
+}
+
+/* =========================================================
+   SECTION
+========================================================= */
+
+.signup-section {
+    min-height: 100vh;
+    padding: 100px 20px 60px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle at 10% 20%,
+            rgba(255, 90, 60, 0.08),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #f8fafc,
+            #ffffff
+        );
+}
+
+/* =========================================================
+   MAIN CONTAINER
+========================================================= */
+
+.signup-container {
+    width: min(1050px, 100%);
+
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+
+    overflow: hidden;
+
+    background: var(--signup-white);
+
+    border: 1px solid var(--signup-border);
+    border-radius: 28px;
+
+    box-shadow: var(--signup-shadow);
+
+    animation: signupAppear 0.8s ease both;
+}
+
+/* =========================================================
+   LEFT SIDE
+========================================================= */
+
+.signup-left {
+    position: relative;
+
+    min-height: 650px;
+
+    padding: 55px 45px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    overflow: hidden;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 90, 60, 0.95),
+            rgba(220, 55, 38, 0.95)
+        );
+}
+
+/* Decorative circles */
+
+.signup-left::before {
+    content: "";
+
+    position: absolute;
+
+    width: 280px;
+    height: 280px;
+
+    right: -130px;
+    top: -100px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.10);
+}
+
+.signup-left::after {
+    content: "";
+
+    position: absolute;
+
+    width: 220px;
+    height: 220px;
+
+    left: -100px;
+    bottom: -80px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* =========================================================
+   LEFT CONTENT
+========================================================= */
+
+.signup-left h1 {
+    position: relative;
+    z-index: 2;
+
+    margin: 0 0 15px;
+
+    font-size: clamp(32px, 4vw, 48px);
+
+    line-height: 1.08;
+
+    letter-spacing: -1.5px;
+
+    font-weight: 800;
+}
+
+.signup-left p {
+    position: relative;
+    z-index: 2;
+
+    max-width: 360px;
+
+    margin: 0 0 30px;
+
+    color: rgba(255, 255, 255, 0.88);
+
+    font-size: 14px;
+
+    line-height: 1.8;
+}
+
+/* =========================================================
+   CAR IMAGE
+========================================================= */
+
+.signup-left img {
+    position: relative;
+    z-index: 2;
+
+    width: 100%;
+    max-width: 450px;
+
+    margin: 10px auto 0;
+
+    display: block;
+
+    object-fit: contain;
+
+    filter:
+        drop-shadow(
+            0 25px 30px rgba(0, 0, 0, 0.22)
+        );
+
+    animation:
+        signupCarFloat 4s ease-in-out infinite;
+}
+
+/* =========================================================
+   RIGHT SIDE
+========================================================= */
+
+.signup-right {
+    padding: 50px 55px;
+
+    background: #ffffff;
+}
+
+/* =========================================================
+   HEADING
+========================================================= */
+
+.signup-right h2 {
+    margin: 0 0 8px;
+
+    color: var(--signup-dark);
+
+    font-size: 30px;
+
+    font-weight: 800;
+
+    letter-spacing: -1px;
+}
+
+.signup-right > p {
+    margin: 0 0 30px;
+
+    color: var(--signup-muted);
+
+    font-size: 13px;
+
+    line-height: 1.7;
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.signup-right form {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 18px 16px;
+}
+
+/* =========================================================
+   FORM GROUP
+========================================================= */
+
+.form-group {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+.form-group:nth-child(1),
+.form-group:nth-child(2),
+.form-group:nth-child(3) {
+    grid-column: span 2;
+}
+
+/* =========================================================
+   LABEL
+========================================================= */
+
+.form-group label {
+    color: #334155;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.2px;
+}
+
+/* =========================================================
+   INPUTS / SELECT
+========================================================= */
+
+.form-group input,
+.form-group select {
+    width: 100%;
+
+    height: 48px;
+
+    padding: 0 14px;
+
+    outline: none;
+
+    border: 1px solid #dbe3ec;
+
+    border-radius: 11px;
+
+    color: #1e293b;
+
+    background: #f8fafc;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        background 0.3s ease,
+        transform 0.3s ease;
+}
+
+/* =========================================================
+   FOCUS
+========================================================= */
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--signup-orange);
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 4px rgba(255, 90, 60, 0.10);
+
+    transform: translateY(-1px);
+}
+
+/* =========================================================
+   PLACEHOLDER
+========================================================= */
+
+.form-group input::placeholder {
+    color: #94a3b8;
+}
+
+/* =========================================================
+   DJANGO ERRORS
+========================================================= */
+
+.form-group .errorlist {
+    margin: 0;
+
+    padding: 0;
+
+    list-style: none;
+
+    color: #dc2626;
+
+    font-size: 10px;
+
+    line-height: 1.5;
+}
+
+/* =========================================================
+   PASSWORD HELP TEXT
+========================================================= */
+
+.form-group .helptext {
+    color: #94a3b8;
+
+    font-size: 9px;
+
+    line-height: 1.5;
+}
+
+/* =========================================================
+   SIGNUP BUTTON
+========================================================= */
+
+.signup-btn {
+    grid-column: span 2;
+
+    width: 100%;
+
+    min-height: 51px;
+
+    margin-top: 5px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--signup-orange),
+            var(--signup-orange-dark)
+        );
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.2px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 12px 28px rgba(255, 90, 60, 0.25);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        filter 0.3s ease;
+}
+
+.signup-btn:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 18px 35px rgba(255, 90, 60, 0.35);
+
+    filter: brightness(1.03);
+}
+
+.signup-btn:active {
+    transform: translateY(-1px);
+}
+
+/* =========================================================
+   LOGIN LINK
+========================================================= */
+
+.login-link {
+    margin-top: 23px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #eef2f7;
+
+    text-align: center;
+
+    color: #64748b;
+
+    font-size: 11px;
+}
+
+.login-link a {
+    margin-left: 4px;
+
+    color: var(--signup-orange);
+
+    font-weight: 800;
+
+    text-decoration: none;
+
+    transition:
+        color 0.3s ease;
+}
+
+.login-link a:hover {
+    color: var(--signup-orange-dark);
+
+    text-decoration: underline;
+}
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes signupAppear {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(30px)
+            scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+
+}
+
+@keyframes signupCarFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .signup-container {
+        grid-template-columns: 1fr;
+    }
+
+    .signup-left {
+        min-height: 350px;
+
+        padding: 45px 40px;
+
+        text-align: center;
+    }
+
+    .signup-left p {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .signup-left img {
+        max-width: 350px;
+    }
+
+    .signup-right {
+        padding: 45px 40px;
+    }
+
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .signup-section {
+        padding: 85px 15px 40px;
+    }
+
+    .signup-container {
+        border-radius: 20px;
+    }
+
+    .signup-left {
+        min-height: 300px;
+
+        padding: 38px 25px;
+    }
+
+    .signup-left h1 {
+        font-size: 32px;
+    }
+
+    .signup-left p {
+        font-size: 12px;
+
+        margin-bottom: 15px;
+    }
+
+    .signup-left img {
+        max-width: 280px;
+    }
+
+    .signup-right {
+        padding: 35px 22px;
+    }
+
+    .signup-right h2 {
+        font-size: 25px;
+    }
+
+    .signup-right > p {
+        font-size: 11px;
+
+        margin-bottom: 25px;
+    }
+
+    .signup-right form {
+        grid-template-columns: 1fr;
+
+        gap: 16px;
+    }
+
+    .form-group:nth-child(1),
+    .form-group:nth-child(2),
+    .form-group:nth-child(3) {
+        grid-column: span 1;
+    }
+
+    .signup-btn {
+        grid-column: span 1;
+    }
+
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 400px) {
+
+    .signup-section {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .signup-left {
+        padding: 32px 18px;
+    }
+
+    .signup-left h1 {
+        font-size: 28px;
+    }
+
+    .signup-right {
+        padding: 30px 17px;
+    }
+
+    .signup-right h2 {
+        font-size: 23px;
+    }
+
+    .form-group input,
+    .form-group select {
+        height: 46px;
+
+        font-size: 11px;
+    }
+
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .signup-container,
+    .signup-left img {
+        animation: none !important;
+    }
+
+    .signup-section *,
+    .signup-section *::before,
+    .signup-section *::after {
+        transition-duration: 0.01ms !important;
+    }
+
+}

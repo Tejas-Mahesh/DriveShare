@@ -455,76 +455,127 @@ DriveShare
 </section>
 <!-- Testimonials -->
 
-<section class="recent-reviews">
+<section class="ds-reviews-section">
 
-    <div class="section-title">
+```
+<div class="ds-reviews-container">
 
-        <h2>💬 What Our Customers Say</h2>
-
-        <p>Latest reviews from verified customers.</p>
-
+    <div class="ds-reviews-heading">
+        <span class="ds-reviews-label">CUSTOMER REVIEWS</span>
+        <h2>What Our Customers Say</h2>
+        <p>Real experiences from customers who rented with DriveShare.</p>
     </div>
 
-    <div class="review-grid">
+    <div class="ds-reviews-grid">
 
         {% for review in recent_reviews %}
 
-        <div class="review-card">
+        <article class="ds-review-card">
 
-            <div class="review-top">
+            <div class="ds-review-header">
 
-                <h3>
+                <div class="ds-review-user">
 
-                    {{ review.customer.get_full_name|default:review.customer.username }}
+                    <div class="ds-review-avatar">
+                        {{ review.customer.get_full_name|default:review.customer.username|first|upper }}
+                    </div>
 
-                </h3>
-                <span class="verified-user">
+                    <div class="ds-review-user-info">
+                        <h3>
+                            {{ review.customer.get_full_name|default:review.customer.username }}
+                        </h3>
 
-    ✔ Verified Customer
+                        <span>
+                            <i class="fa-solid fa-circle-check"></i>
+                            Verified Customer
+                        </span>
+                    </div>
 
-</span>
+                </div>
+
+                <time>
+                    {{ review.created_at|date:"d M Y" }}
+                </time>
+
+            </div>
+
+            <div class="ds-review-rating">
+
+                <div class="ds-review-stars">
+                    {% for i in "12345" %}
+                        {% if forloop.counter <= review.rating %}
+                            <i class="fa-solid fa-star"></i>
+                        {% else %}
+                            <i class="fa-regular fa-star"></i>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <strong>{{ review.rating }}/5</strong>
+
+            </div>
+
+            <div class="ds-review-car">
+
+                <div class="ds-review-car-icon">
+                    <i class="fa-solid fa-car"></i>
+                </div>
+
+                <div>
+                    <span>REVIEWED VEHICLE</span>
+                    <strong>{{ review.car.title }}</strong>
+                </div>
+
+            </div>
+
+            <div class="ds-review-text">
+                <i class="fa-solid fa-quote-left"></i>
+
+                <p>
+                    {{ review.review }}
+                </p>
+            </div>
+
+            <div class="ds-review-footer">
 
                 <span>
+                    <i class="fa-solid fa-calendar-days"></i>
+                    {{ review.created_at|date:"d M Y" }}
+                </span>
 
-                    ⭐ {{ review.rating }}/5
-
+                <span class="ds-review-trusted">
+                    <i class="fa-solid fa-shield-check"></i>
+                    Trusted Review
                 </span>
 
             </div>
 
-            <h4>
-
-                🚗 {{ review.car.title }}
-
-            </h4>
-
-            <p>
-
-                "{{ review.review }}"
-
-            </p>
-
-            <small>
-
-                {{ review.created_at|date:"d M Y" }}
-
-            </small>
-
-        </div>
+        </article>
 
         {% empty %}
 
-        <div class="empty-review">
+        <div class="ds-review-empty">
+            <div class="ds-empty-icon">
+                <i class="fa-regular fa-comment-dots"></i>
+            </div>
 
-            <h3>No reviews available yet.</h3>
+            <h3>No reviews yet</h3>
 
+            <p>
+                Customer reviews will appear here once people start sharing their experience.
+            </p>
         </div>
 
         {% endfor %}
 
     </div>
 
+</div>
+```
+
 </section>
+
+
 
 
 

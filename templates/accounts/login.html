@@ -1,83 +1,291 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
-Login
+Login | DriveShare
 {% endblock %}
 
 {% block content %}
 
-<section class="signup-section">
+<section class="ds-login">
 
-    <div class="signup-container">
 
-        <div class="signup-left">
+<div class="ds-login-container">
 
-            <h1>Welcome Back</h1>
+    <!-- LEFT SIDE -->
+    <div class="ds-login-visual">
 
-            <p>Login to continue your journey.</p>
+        <div class="ds-login-overlay"></div>
 
+        <div class="ds-login-brand">
+            <span class="ds-login-brand-icon">
+                <i class="fa-solid fa-car"></i>
+            </span>
+
+            <span>
+                Drive<span>Share</span>
+            </span>
         </div>
 
-        <div class="signup-right">
+        <div class="ds-login-visual-content">
 
-            <h2>Login</h2>
+            <span class="ds-login-kicker">
+                WELCOME BACK
+            </span>
 
-            <p>Access your DriveShare account.</p>
+            <h1>
+                Ready for your
+                <span>next journey?</span>
+            </h1>
 
-            {% if messages %}
-                {% for message in messages %}
-                    <p style="color:red;">{{ message }}</p>
-                {% endfor %}
-            {% endif %}
-
-            <form method="POST">
-
-    {% csrf_token %}
-
-    {% if messages %}
-        {% for message in messages %}
-            <p style="color:red;">
-                {{ message }}
+            <p>
+                Sign in to continue exploring cars, manage your
+                bookings, or list your vehicle on DriveShare.
             </p>
-        {% endfor %}
-    {% endif %}
 
-    <div class="form-group">
+            <div class="ds-login-features">
 
-        <label>Username</label>
+                <div>
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>
+                        <strong>Safe & Secure</strong>
+                        Protected account
+                    </span>
+                </div>
 
-        <input
-            type="text"
-            name="username"
-            required>
+                <div>
+                    <i class="fa-solid fa-car-side"></i>
+                    <span>
+                        <strong>Easy Booking</strong>
+                        Find your perfect ride
+                    </span>
+                </div>
 
-    </div>
+                <div>
+                    <i class="fa-solid fa-bolt"></i>
+                    <span>
+                        <strong>Quick Access</strong>
+                        Get on the road faster
+                    </span>
+                </div>
 
-    <div class="form-group">
+            </div>
 
-        <label>Password</label>
+        </div>
 
-        <input
-            type="password"
-            name="password"
-            required>
+        <div class="ds-login-badge">
 
-    </div>
+            <div class="ds-login-badge-icon">
+                <i class="fa-solid fa-location-dot"></i>
+            </div>
 
-    <button
-        type="submit"
-        class="signup-btn">
-
-        Login
-
-    </button>
-
-</form>
+            <div>
+                <strong>Your journey starts here</strong>
+                <span>Drive smarter with DriveShare</span>
+            </div>
 
         </div>
 
     </div>
+
+
+    <!-- RIGHT SIDE -->
+    <div class="ds-login-form">
+
+        <div class="ds-login-header">
+
+            <span class="ds-login-form-kicker">
+                SIGN IN
+            </span>
+
+            <h2>
+                Welcome <span>Back!</span>
+            </h2>
+
+            <p>
+                Login to access your DriveShare account.
+            </p>
+
+        </div>
+
+
+        <!-- MESSAGES -->
+        {% if messages %}
+
+            <div class="ds-login-messages">
+
+                {% for message in messages %}
+
+                    <div class="ds-login-message">
+
+                        <i class="fa-solid fa-circle-exclamation"></i>
+
+                        <span>{{ message }}</span>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <!-- USERNAME -->
+
+            <div class="ds-login-group">
+
+                <label for="login-username">
+                    Username
+                </label>
+
+                <div class="ds-login-input">
+
+                    <i class="fa-solid fa-user"></i>
+
+                    <input
+                        type="text"
+                        id="login-username"
+                        name="username"
+                        placeholder="Enter your username"
+                        autocomplete="username"
+                        required>
+
+                </div>
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="ds-login-group">
+
+                <div class="ds-login-label-row">
+
+                    <label for="login-password">
+                        Password
+                    </label>
+
+                </div>
+
+                <div class="ds-login-input">
+
+                    <i class="fa-solid fa-lock"></i>
+
+                    <input
+                        type="password"
+                        id="login-password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required>
+
+                    <button
+                        type="button"
+                        class="ds-login-password-toggle"
+                        onclick="toggleLoginPassword()"
+                        aria-label="Show password">
+
+                        <i class="fa-solid fa-eye"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOGIN BUTTON -->
+
+            <button
+                type="submit"
+                class="ds-login-btn">
+
+                <span>Login to Account</span>
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+            </button>
+
+        </form>
+
+
+        <!-- SIGNUP -->
+
+        <div class="ds-create-account">
+
+            <span>
+                Don't have an account?
+            </span>
+
+            <a href="{% url 'signup' %}">
+                Create Account
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+        </div>
+
+
+        <!-- SECURITY NOTE -->
+
+        <div class="ds-login-secure">
+
+            <i class="fa-solid fa-shield-halved"></i>
+
+            <span>
+                Your login information is securely protected.
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
 
 </section>
+
+<script>
+
+function toggleLoginPassword() {
+
+    const input = document.getElementById("login-password");
+    const button = document.querySelector(".ds-login-password-toggle");
+    const icon = button.querySelector("i");
+
+    if (input.type === "password") {
+
+        input.type = "text";
+
+        icon.classList.remove("fa-eye");
+        icon.classList.add("fa-eye-slash");
+
+        button.setAttribute(
+            "aria-label",
+            "Hide password"
+        );
+
+    } else {
+
+        input.type = "password";
+
+        icon.classList.remove("fa-eye-slash");
+        icon.classList.add("fa-eye");
+
+        button.setAttribute(
+            "aria-label",
+            "Show password"
+        );
+
+    }
+
+}
+
+</script>
 
 {% endblock %}

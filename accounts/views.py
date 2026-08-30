@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .email_service import send_signup_email
+
 from .forms import (
     SignUpForm,
     CustomerProfileForm,
@@ -12,15 +12,17 @@ from .forms import (
 
 from .models import CustomerProfile, OwnerProfile
 from .decorators import customer_required, owner_required, admin_required
-from django.core.mail import send_mail
-from django.conf import settings
-# ==========================
-# Signup
-# ==========================
+
+
+# ============================================================
+# SIGNUP
+# ============================================================
 
 def signup(request):
 
+    # If user is already logged in
     if request.user.is_authenticated:
+
         if request.user.is_superuser:
             return redirect("admin_dashboard")
 
@@ -31,25 +33,42 @@ def signup(request):
             return redirect("owner_dashboard")
 
         return redirect("home")
+
+    # Handle signup form
     if request.method == "POST":
 
         form = SignUpForm(request.POST)
 
         if form.is_valid():
 
+            # Create user
             user = form.save()
 
+            # Create customer profile
             if user.user_type == "customer":
-                CustomerProfile.objects.create(user=user)
 
+                CustomerProfile.objects.create(
+                    user=user
+                )
+
+            # Create owner profile
             elif user.user_type == "owner":
-                OwnerProfile.objects.create(user=user)
-            
-            send_signup_email(user)
+
+                OwnerProfile.objects.create(
+                    user=user
+                )
+
+            # ------------------------------------------------
+            # EMAIL REMOVED
+            # ------------------------------------------------
+            # send_signup_email(user)
+            #
+            # No signup email will be sent.
+            # ------------------------------------------------
 
             messages.success(
                 request,
-                "Account created successfully."
+                "Account created successfully. You can now login."
             )
 
             return redirect("login")
@@ -67,12 +86,13 @@ def signup(request):
     )
 
 
-# ==========================
-# Login
-# ==========================
+# ============================================================
+# LOGIN
+# ============================================================
 
 def login_view(request):
 
+    # Already logged in
     if request.user.is_authenticated:
 
         if request.user.is_superuser:
@@ -84,6 +104,9 @@ def login_view(request):
         elif request.user.user_type == "owner":
             return redirect("owner_dashboard")
 
+        return redirect("home")
+
+    # Login
     if request.method == "POST":
 
         username = request.POST.get("username")
@@ -108,14 +131,24 @@ def login_view(request):
             elif user.user_type == "owner":
                 return redirect("owner_dashboard")
 
+            return redirect("home")
+
         else:
-            messages.error(request, "Invalid username or password.")
 
-    return render(request, "accounts/login.html")
+            messages.error(
+                request,
+                "Invalid username or password."
+            )
 
-# ==========================
-# Logout
-# ==========================
+    return render(
+        request,
+        "accounts/login.html"
+    )
+
+
+# ============================================================
+# LOGOUT
+# ============================================================
 
 def logout_view(request):
 
@@ -124,9 +157,9 @@ def logout_view(request):
     return redirect("home")
 
 
-# ==========================
-# Customer Profile
-# ==========================
+# ============================================================
+# CUSTOMER PROFILE
+# ============================================================
 
 @login_required
 @customer_required
@@ -150,8 +183,12 @@ def customer_profile(request):
 
         if form.is_valid() and picture_form.is_valid():
 
-            profile = form.save(commit=False)
+            profile = form.save(
+                commit=False
+            )
+
             profile.profile_completed = True
+
             profile.save()
 
             picture_form.save()
@@ -161,7 +198,9 @@ def customer_profile(request):
                 "Profile updated successfully."
             )
 
-            return redirect("customer_dashboard")
+            return redirect(
+                "customer_dashboard"
+            )
 
     else:
 
@@ -183,9 +222,9 @@ def customer_profile(request):
     )
 
 
-# ==========================
-# Owner Profile
-# ==========================
+# ============================================================
+# OWNER PROFILE
+# ============================================================
 
 @login_required
 @owner_required
@@ -209,8 +248,12 @@ def owner_profile(request):
 
         if form.is_valid() and picture_form.is_valid():
 
-            profile = form.save(commit=False)
+            profile = form.save(
+                commit=False
+            )
+
             profile.profile_completed = True
+
             profile.save()
 
             picture_form.save()
@@ -220,7 +263,9 @@ def owner_profile(request):
                 "Profile updated successfully."
             )
 
-            return redirect("owner_dashboard")
+            return redirect(
+                "owner_dashboard"
+            )
 
     else:
 
