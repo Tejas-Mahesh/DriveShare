@@ -21,8 +21,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ENVIRONMENT VARIABLES
 # ============================================================
 
-# Local .env file.
-# On Render, variables are supplied through Render Environment Variables.
+# Load local .env file.
+# On Render, environment variables are provided by Render.
 
 load_dotenv(BASE_DIR / ".env")
 
@@ -44,10 +44,7 @@ if not SECRET_KEY:
 # DEBUG
 # ============================================================
 
-DEBUG = os.getenv(
-    "DEBUG",
-    "False"
-).lower() == "true"
+DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
 
 # ============================================================
@@ -159,7 +156,6 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
 
                 "notifications.context_processors.notification_count",
-
             ],
         },
     },
@@ -177,17 +173,17 @@ WSGI_APPLICATION = "DriveShare.wsgi.application"
 # DATABASE
 # ============================================================
 
-# ------------------------------------------------------------
-# LOCAL
-# ------------------------------------------------------------
-# If DATABASE_URL is not present, SQLite is used.
-#
-# ------------------------------------------------------------
-# RENDER
-# ------------------------------------------------------------
-# If DATABASE_URL is provided by Render,
-# PostgreSQL will automatically be used.
-# ------------------------------------------------------------
+"""
+LOCAL DEVELOPMENT
+-----------------
+If DATABASE_URL does not exist:
+    SQLite -> db.sqlite3
+
+RENDER / PRODUCTION
+-------------------
+If DATABASE_URL exists:
+    PostgreSQL -> Render PostgreSQL database
+"""
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
@@ -195,13 +191,9 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 if DATABASE_URL:
 
     DATABASES = {
-
         "default": dj_database_url.parse(
-
             DATABASE_URL,
-
             conn_max_age=600,
-
             ssl_require=True,
         )
     }
@@ -209,11 +201,8 @@ if DATABASE_URL:
 else:
 
     DATABASES = {
-
         "default": {
-
             "ENGINE": "django.db.backends.sqlite3",
-
             "NAME": BASE_DIR / "db.sqlite3",
         }
     }
@@ -261,7 +250,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Kolkata"
 
 USE_I18N = True
 
@@ -274,18 +263,16 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
-
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
-# ------------------------------------------------------------
-# WhiteNoise
-# ------------------------------------------------------------
+# ============================================================
+# WHITENOISE
+# ============================================================
 
 STATICFILES_STORAGE = (
     "whitenoise.storage.CompressedManifestStaticFilesStorage"
@@ -348,7 +335,27 @@ LOGOUT_REDIRECT_URL = "home"
 # RAZORPAY
 # ============================================================
 
+RAZORPAY_KEY_ID = os.getenv(
+    "RAZORPAY_KEY_ID"
+)
 
+RAZORPAY_KEY_SECRET = os.getenv(
+    "RAZORPAY_KEY_SECRET"
+)
+
+
+# ============================================================
+# CSRF
+# ============================================================
+
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv(
+        "CSRF_TRUSTED_ORIGINS",
+        ""
+    ).split(",")
+    if origin.strip()
+]
 
 
 # ============================================================

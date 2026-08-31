@@ -3080,3 +3080,962 @@ background:#dc2626;
     }
 
 }
+
+
+/* =========================================================
+   DRIVESHARE - BOOK CAR PAGE
+   Theme: Dark Navy + Cyan Glow
+========================================================= */
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+.booking-section,
+.booking-section * {
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   BOOKING SECTION
+========================================================= */
+
+.booking-section {
+    min-height: calc(100vh - 80px);
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    padding: 70px 20px;
+
+    position: relative;
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(0, 238, 255, 0.12),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 80%,
+            rgba(0, 238, 255, 0.08),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #00101c,
+            #001a2b,
+            #000b14
+        );
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   BACKGROUND GLOW
+========================================================= */
+
+.booking-section::before {
+    content: "";
+
+    position: absolute;
+
+    width: 420px;
+    height: 420px;
+
+    top: -180px;
+    left: -180px;
+
+    border-radius: 50%;
+
+    background: rgba(0, 238, 255, 0.08);
+
+    filter: blur(80px);
+
+    animation: bookingGlow 8s ease-in-out infinite alternate;
+}
+
+
+.booking-section::after {
+    content: "";
+
+    position: absolute;
+
+    width: 350px;
+    height: 350px;
+
+    right: -150px;
+    bottom: -150px;
+
+    border-radius: 50%;
+
+    background: rgba(0, 238, 255, 0.07);
+
+    filter: blur(70px);
+
+    animation: bookingGlow 10s ease-in-out infinite alternate-reverse;
+}
+
+
+@keyframes bookingGlow {
+
+    from {
+        transform: translate(0, 0) scale(1);
+    }
+
+    to {
+        transform: translate(40px, 30px) scale(1.2);
+    }
+}
+
+
+/* =========================================================
+   MAIN CONTAINER
+========================================================= */
+
+.booking-container {
+    width: 100%;
+    max-width: 850px;
+
+    position: relative;
+    z-index: 2;
+
+    padding: 42px;
+
+    border: 1px solid rgba(0, 238, 255, 0.18);
+
+    border-radius: 24px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.07),
+            rgba(255, 255, 255, 0.025)
+        );
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.45),
+        0 0 35px rgba(0, 238, 255, 0.06);
+
+    animation: bookingContainerIn 0.8s ease forwards;
+}
+
+
+@keyframes bookingContainerIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(35px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* =========================================================
+   HEADING
+========================================================= */
+
+.booking-container > h2 {
+    margin: 0 0 8px;
+
+    font-size: 2rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.3px;
+
+    color: #ffffff;
+}
+
+
+.booking-container > h2::after {
+    content: "";
+
+    display: block;
+
+    width: 65px;
+    height: 3px;
+
+    margin-top: 12px;
+
+    border-radius: 10px;
+
+    background: #0ef;
+
+    box-shadow: 0 0 12px rgba(0, 238, 255, 0.8);
+
+    animation: headingLine 2s ease-in-out infinite alternate;
+}
+
+
+@keyframes headingLine {
+
+    from {
+        width: 45px;
+    }
+
+    to {
+        width: 90px;
+    }
+}
+
+
+/* =========================================================
+   PRICE
+========================================================= */
+
+.booking-container > h3 {
+    margin: 18px 0 30px;
+
+    font-size: 1.25rem;
+
+    font-weight: 600;
+
+    color: #0ef;
+
+    text-shadow:
+        0 0 10px rgba(0, 238, 255, 0.35);
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.booking-container form {
+    width: 100%;
+}
+
+
+/* =========================================================
+   DJANGO FORM PARAGRAPHS
+========================================================= */
+
+.booking-container form p {
+    margin: 0 0 22px;
+
+    animation: fieldAppear 0.6s ease both;
+}
+
+
+.booking-container form p:nth-child(2) {
+    animation-delay: 0.08s;
+}
+
+
+.booking-container form p:nth-child(3) {
+    animation-delay: 0.16s;
+}
+
+
+.booking-container form p:nth-child(4) {
+    animation-delay: 0.24s;
+}
+
+
+.booking-container form p:nth-child(5) {
+    animation-delay: 0.32s;
+}
+
+
+@keyframes fieldAppear {
+
+    from {
+        opacity: 0;
+        transform: translateX(-15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+
+/* =========================================================
+   LABELS
+========================================================= */
+
+.booking-container label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 0.92rem;
+
+    font-weight: 600;
+
+    color: #d8faff;
+}
+
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.booking-container input,
+.booking-container select,
+.booking-container textarea {
+    width: 100%;
+
+    padding: 13px 15px;
+
+    border: 1px solid rgba(0, 238, 255, 0.18);
+
+    border-radius: 11px;
+
+    outline: none;
+
+    background: rgba(0, 12, 22, 0.75);
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 0.95rem;
+
+    transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.3s ease,
+        background 0.3s ease;
+}
+
+
+.booking-container input::placeholder,
+.booking-container textarea::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+
+.booking-container input:hover,
+.booking-container select:hover,
+.booking-container textarea:hover {
+    border-color: rgba(0, 238, 255, 0.45);
+
+    background: rgba(0, 18, 31, 0.85);
+}
+
+
+.booking-container input:focus,
+.booking-container select:focus,
+.booking-container textarea:focus {
+    border-color: #0ef;
+
+    background: rgba(0, 20, 34, 0.95);
+
+    box-shadow:
+        0 0 0 3px rgba(0, 238, 255, 0.08),
+        0 0 18px rgba(0, 238, 255, 0.18);
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   DATE INPUT
+========================================================= */
+
+.booking-container input[type="date"] {
+    cursor: pointer;
+}
+
+
+/* Browser date icon */
+
+.booking-container input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+
+    filter: invert(1);
+
+    opacity: 0.8;
+
+    transition: 0.3s ease;
+}
+
+
+.booking-container input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+
+    transform: scale(1.1);
+}
+
+
+/* =========================================================
+   SELECT
+========================================================= */
+
+.booking-container select {
+    cursor: pointer;
+}
+
+
+.booking-container select option {
+    background: #00101c;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   TEXTAREA
+========================================================= */
+
+.booking-container textarea {
+    min-height: 110px;
+
+    resize: vertical;
+}
+
+
+/* =========================================================
+   DJANGO HELP TEXT
+========================================================= */
+
+.booking-container .helptext {
+    display: block;
+
+    margin-top: 6px;
+
+    font-size: 0.78rem;
+
+    color: rgba(255, 255, 255, 0.48);
+}
+
+
+/* =========================================================
+   DJANGO ERROR LIST
+========================================================= */
+
+.booking-container .errorlist {
+    list-style: none;
+
+    margin: 7px 0 0;
+
+    padding: 0;
+
+    color: #ff6b7a;
+
+    font-size: 0.82rem;
+
+    animation: errorShake 0.35s ease;
+}
+
+
+@keyframes errorShake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+
+/* =========================================================
+   BOOKING SUMMARY
+========================================================= */
+
+.booking-summary {
+    position: relative;
+
+    margin-top: 32px;
+
+    padding: 25px;
+
+    border-radius: 18px;
+
+    border: 1px solid rgba(0, 238, 255, 0.16);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(0, 238, 255, 0.07),
+            rgba(0, 12, 22, 0.65)
+        );
+
+    overflow: hidden;
+
+    animation: summaryAppear 0.7s ease both;
+}
+
+
+@keyframes summaryAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+.booking-summary::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -100%;
+
+    width: 100%;
+    height: 1px;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        #0ef,
+        transparent
+    );
+
+    animation: summaryScan 4s linear infinite;
+}
+
+
+@keyframes summaryScan {
+
+    0% {
+        left: -100%;
+    }
+
+    100% {
+        left: 100%;
+    }
+}
+
+
+/* =========================================================
+   SUMMARY HEADING
+========================================================= */
+
+.booking-summary h3 {
+    margin: 0 0 18px;
+
+    font-size: 1.15rem;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   SUMMARY ROW
+========================================================= */
+
+.summary-row {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 20px;
+
+    padding: 14px 0;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+
+    color: rgba(255, 255, 255, 0.68);
+
+    font-size: 0.95rem;
+}
+
+
+.summary-row strong {
+    color: #ffffff;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   TOTAL ROW
+========================================================= */
+
+.summary-row.total {
+    margin-top: 8px;
+
+    padding-top: 20px;
+
+    border-bottom: none;
+}
+
+
+.summary-row.total span:first-child {
+    color: #ffffff;
+
+    font-size: 1rem;
+
+    font-weight: 600;
+}
+
+
+.summary-row.total strong {
+    color: #0ef;
+
+    font-size: 1.35rem;
+
+    text-shadow:
+        0 0 12px rgba(0, 238, 255, 0.35);
+}
+
+
+/* =========================================================
+   TOTAL DAYS ANIMATION
+========================================================= */
+
+#total-days,
+#total-price {
+    transition:
+        color 0.3s ease,
+        transform 0.3s ease;
+}
+
+
+#total-days.updated,
+#total-price.updated {
+    transform: scale(1.08);
+
+    color: #0ef;
+}
+
+
+/* =========================================================
+   BOOKED DATES
+========================================================= */
+
+.booked-dates {
+    margin-top: 28px;
+
+    padding: 25px;
+
+    border-radius: 18px;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    background: rgba(0, 10, 18, 0.55);
+
+    animation: datesAppear 0.8s ease both;
+}
+
+
+@keyframes datesAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+.booked-dates h3 {
+    margin: 0 0 15px;
+
+    color: #ffffff;
+
+    font-size: 1.1rem;
+}
+
+
+.booked-dates ul {
+    margin: 0;
+
+    padding: 0;
+
+    list-style: none;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+
+.booked-dates li {
+    padding: 11px 14px;
+
+    border-left: 3px solid #0ef;
+
+    border-radius: 8px;
+
+    background: rgba(0, 238, 255, 0.05);
+
+    color: rgba(255, 255, 255, 0.72);
+
+    font-size: 0.9rem;
+
+    transition:
+        background 0.3s ease,
+        transform 0.3s ease,
+        border-color 0.3s ease;
+}
+
+
+.booked-dates li:hover {
+    transform: translateX(6px);
+
+    background: rgba(0, 238, 255, 0.09);
+
+    border-color: #0ef;
+
+    color: #ffffff;
+}
+
+
+.booked-dates > p {
+    margin: 0;
+
+    color: rgba(255, 255, 255, 0.5);
+
+    font-size: 0.9rem;
+}
+
+
+/* =========================================================
+   BOOK BUTTON
+========================================================= */
+
+.book-btn {
+    position: relative;
+
+    width: 100%;
+
+    margin-top: 30px;
+
+    padding: 15px 25px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    outline: none;
+
+    cursor: pointer;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0ef,
+            #00bcd4
+        );
+
+    color: #00101c;
+
+    font-family: inherit;
+
+    font-size: 1rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.3px;
+
+    box-shadow:
+        0 8px 25px rgba(0, 238, 255, 0.2);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        filter 0.3s ease;
+}
+
+
+.book-btn::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -120%;
+
+    width: 80%;
+    height: 100%;
+
+    transform: skewX(-25deg);
+
+    background: rgba(255, 255, 255, 0.35);
+
+    transition: left 0.6s ease;
+}
+
+
+.book-btn:hover::before {
+    left: 140%;
+}
+
+
+.book-btn:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 12px 35px rgba(0, 238, 255, 0.35);
+
+    filter: brightness(1.08);
+}
+
+
+.book-btn:active {
+    transform: translateY(-1px) scale(0.99);
+}
+
+
+/* =========================================================
+   BUTTON FOCUS
+========================================================= */
+
+.book-btn:focus-visible {
+    box-shadow:
+        0 0 0 4px rgba(0, 238, 255, 0.15),
+        0 10px 30px rgba(0, 238, 255, 0.3);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .booking-section {
+        padding: 45px 15px;
+    }
+
+    .booking-container {
+        padding: 30px 22px;
+
+        border-radius: 20px;
+    }
+
+    .booking-container > h2 {
+        font-size: 1.65rem;
+    }
+
+    .booking-container > h3 {
+        font-size: 1.1rem;
+    }
+
+    .booking-summary,
+    .booked-dates {
+        padding: 20px;
+    }
+
+    .summary-row {
+        font-size: 0.9rem;
+    }
+
+    .summary-row.total strong {
+        font-size: 1.2rem;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .booking-section {
+        padding: 30px 10px;
+    }
+
+    .booking-container {
+        padding: 25px 16px;
+
+        border-radius: 17px;
+    }
+
+    .booking-container > h2 {
+        font-size: 1.4rem;
+    }
+
+    .booking-container > h3 {
+        margin-bottom: 25px;
+
+        font-size: 1rem;
+    }
+
+    .booking-container input,
+    .booking-container select,
+    .booking-container textarea {
+        padding: 12px;
+
+        font-size: 0.9rem;
+    }
+
+    .booking-summary,
+    .booked-dates {
+        padding: 17px;
+    }
+
+    .summary-row {
+        gap: 10px;
+
+        font-size: 0.85rem;
+    }
+
+    .summary-row.total strong {
+        font-size: 1.1rem;
+    }
+
+    .book-btn {
+        padding: 14px 18px;
+
+        font-size: 0.92rem;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .booking-section::before,
+    .booking-section::after,
+    .booking-container,
+    .booking-container form p,
+    .booking-summary,
+    .booked-dates,
+    .booking-summary::before,
+    .booking-container > h2::after {
+        animation: none;
+    }
+
+    .booking-container input,
+    .booking-container select,
+    .booking-container textarea,
+    .book-btn,
+    .booked-dates li {
+        transition: none;
+    }
+}
