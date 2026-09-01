@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load static %}
 
 {% block title %}
 About DriveShare
@@ -7,48 +6,1195 @@ About DriveShare
 
 {% block content %}
 
-<section class="page-banner">
+<style>
 
-    <div class="container">
+/* =========================================================
+   DRIVESHARE ORANGE THEME
+   ========================================================= */
 
-        <h1>About DriveShare</h1>
+.about-page {
+    --primary: #ff6b00;
+    --primary-light: #ff8c00;
+    --primary-dark: #e65100;
 
-        <p>Your trusted platform for secure and affordable car rentals.</p>
+    --bg: #080808;
+    --bg-light: #111111;
+
+    --card: rgba(255, 107, 0, 0.055);
+    --border: rgba(255, 107, 0, 0.16);
+
+    --text: #ffffff;
+    --muted: #b8b8b8;
+
+    background:
+        radial-gradient(
+            circle at 10% 20%,
+            rgba(255, 107, 0, 0.10),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 70%,
+            rgba(255, 140, 0, 0.07),
+            transparent 30%
+        ),
+        var(--bg);
+
+    color: var(--text);
+
+    overflow: hidden;
+
+    font-family: "Poppins", sans-serif;
+}
+
+.about-page * {
+    box-sizing: border-box;
+}
+
+.about-container {
+    width: min(1180px, 92%);
+    margin: auto;
+}
+
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.about-hero {
+    min-height: 430px;
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(8, 8, 8, 0.97),
+            rgba(8, 8, 8, 0.72)
+        ),
+        url("https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1800&q=85");
+
+    background-size: cover;
+    background-position: center;
+
+    border-bottom: 1px solid rgba(255, 107, 0, 0.18);
+}
+
+
+/* Orange glow */
+
+.about-hero::before {
+    content: "";
+
+    position: absolute;
+
+    width: 330px;
+    height: 330px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 107, 0, 0.14);
+
+    filter: blur(80px);
+
+    top: -120px;
+    left: -100px;
+
+    animation: orangeGlow 6s ease-in-out infinite alternate;
+}
+
+.about-hero::after {
+    content: "";
+
+    position: absolute;
+
+    width: 300px;
+    height: 300px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 140, 0, 0.11);
+
+    filter: blur(80px);
+
+    right: -100px;
+    bottom: -120px;
+
+    animation: orangeGlow 7s ease-in-out infinite alternate-reverse;
+}
+
+
+.hero-content {
+    position: relative;
+
+    z-index: 2;
+
+    max-width: 850px;
+
+    padding: 40px 20px;
+
+    animation: heroAppear 1s ease forwards;
+}
+
+
+.hero-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 9px 18px;
+
+    border: 1px solid rgba(255, 107, 0, 0.45);
+
+    border-radius: 50px;
+
+    background: rgba(255, 107, 0, 0.09);
+
+    color: var(--primary);
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 22px;
+
+    box-shadow:
+        0 0 25px rgba(255, 107, 0, 0.08);
+}
+
+
+.hero-content h1 {
+    margin: 0;
+
+    font-size: clamp(42px, 7vw, 76px);
+
+    line-height: 1.05;
+
+    font-weight: 800;
+
+    letter-spacing: -2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ffffff,
+            #ff6b00,
+            #ffb066,
+            #ffffff
+        );
+
+    background-size: 250% auto;
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    animation: orangeGradient 5s linear infinite;
+}
+
+
+.hero-content p {
+    margin: 24px auto 0;
+
+    max-width: 680px;
+
+    color: #c9c9c9;
+
+    font-size: 17px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   ABOUT
+   ========================================================= */
+
+.about-intro {
+    padding: 100px 0;
+}
+
+
+.about-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 70px;
+
+    align-items: center;
+}
+
+
+.about-image {
+    position: relative;
+
+    border-radius: 28px;
+
+    padding: 9px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 107, 0, 0.45),
+            transparent 65%
+        );
+
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.55),
+        0 0 60px rgba(255, 107, 0, 0.08);
+
+    animation: imageFloat 5s ease-in-out infinite;
+}
+
+
+.about-image img {
+    display: block;
+
+    width: 100%;
+
+    height: 430px;
+
+    object-fit: cover;
+
+    border-radius: 22px;
+}
+
+
+/* Image badge */
+
+.image-badge {
+    position: absolute;
+
+    bottom: 28px;
+    left: 28px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 14px 18px;
+
+    border-radius: 15px;
+
+    background: rgba(10, 10, 10, 0.92);
+
+    border: 1px solid rgba(255, 107, 0, 0.25);
+
+    backdrop-filter: blur(15px);
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.5);
+}
+
+
+.image-badge i {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background: rgba(255, 107, 0, 0.12);
+
+    color: var(--primary);
+}
+
+
+.image-badge strong {
+    display: block;
+
+    font-size: 14px;
+}
+
+
+.image-badge span {
+    display: block;
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+    margin-top: 2px;
+}
+
+
+/* =========================================================
+   ABOUT CONTENT
+   ========================================================= */
+
+.about-content .section-label {
+    color: var(--primary);
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 12px;
+}
+
+
+.about-content h2 {
+    font-size: clamp(32px, 4vw, 48px);
+
+    line-height: 1.15;
+
+    margin: 0 0 25px;
+
+    font-weight: 750;
+}
+
+
+.about-content h2 span {
+    color: var(--primary);
+
+    text-shadow:
+        0 0 25px rgba(255, 107, 0, 0.18);
+}
+
+
+.about-content p {
+    color: var(--muted);
+
+    font-size: 15px;
+
+    line-height: 1.9;
+
+    margin-bottom: 18px;
+}
+
+
+/* =========================================================
+   MINI FEATURES
+   ========================================================= */
+
+.mini-features {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 14px;
+
+    margin-top: 30px;
+}
+
+
+.mini-feature {
+    padding: 18px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    background:
+        rgba(255, 107, 0, 0.035);
+
+    transition: .35s ease;
+}
+
+
+.mini-feature:hover {
+    transform: translateY(-5px);
+
+    border-color: rgba(255, 107, 0, 0.5);
+
+    background:
+        rgba(255, 107, 0, 0.075);
+
+    box-shadow:
+        0 12px 35px rgba(255, 107, 0, 0.07);
+}
+
+
+.mini-feature i {
+    color: var(--primary);
+
+    font-size: 20px;
+
+    margin-bottom: 10px;
+}
+
+
+.mini-feature h4 {
+    margin: 0 0 5px;
+
+    font-size: 14px;
+}
+
+
+.mini-feature p {
+    margin: 0;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   MISSION / VISION / PROMISE
+   ========================================================= */
+
+.info-section {
+    padding: 90px 0;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255, 107, 0, 0.015),
+            rgba(255, 107, 0, 0.035)
+        );
+}
+
+
+.section-heading {
+    text-align: center;
+
+    max-width: 720px;
+
+    margin: 0 auto 50px;
+}
+
+
+.section-heading .label {
+    color: var(--primary);
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+}
+
+
+.section-heading h2 {
+    font-size: clamp(30px, 4vw, 46px);
+    color: #ff8c00;
+    margin: 12px 0;
+
+    font-weight: 750;
+}
+
+
+.section-heading p {
+    color: var(--muted);
+
+    line-height: 1.8;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   INFO CARDS
+   ========================================================= */
+
+.info-cards {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 24px;
+}
+
+
+.info-card {
+    position: relative;
+
+    padding: 35px 30px;
+
+    min-height: 250px;
+
+    border-radius: 22px;
+
+    border: 1px solid var(--border);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 107, 0, 0.065),
+            rgba(255, 255, 255, 0.02)
+        );
+
+    backdrop-filter: blur(12px);
+
+    overflow: hidden;
+
+    transition:
+        transform .4s ease,
+        border-color .4s ease,
+        box-shadow .4s ease;
+}
+
+
+.info-card::before {
+    content: "";
+
+    position: absolute;
+
+    width: 150px;
+    height: 150px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 107, 0, 0.10);
+
+    filter: blur(30px);
+
+    top: -75px;
+    right: -55px;
+
+    transition: .4s ease;
+}
+
+
+.info-card:hover::before {
+    background: rgba(255, 107, 0, 0.18);
+
+    transform: scale(1.2);
+}
+
+
+.info-card:hover {
+    transform: translateY(-10px);
+
+    border-color: rgba(255, 107, 0, 0.45);
+
+    box-shadow:
+        0 25px 60px rgba(0, 0, 0, 0.45),
+        0 0 35px rgba(255, 107, 0, 0.08);
+}
+
+
+.card-icon {
+    width: 60px;
+    height: 60px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 17px;
+
+    background:
+        rgba(255, 107, 0, 0.10);
+
+    border: 1px solid rgba(255, 107, 0, 0.20);
+
+    color: var(--primary);
+
+    font-size: 23px;
+
+    margin-bottom: 25px;
+
+    transition: .35s ease;
+}
+
+
+.info-card:hover .card-icon {
+    transform: rotate(-5deg) scale(1.08);
+
+    background:
+        rgba(255, 107, 0, 0.16);
+
+    box-shadow:
+        0 0 25px rgba(255, 107, 0, 0.15);
+}
+
+
+.info-card h3 {
+    margin: 0 0 12px;
+
+    font-size: 21px;
+}
+
+
+.info-card p {
+    margin: 0;
+
+    color: var(--muted);
+
+    line-height: 1.8;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   STATS
+   ========================================================= */
+
+.stats-section {
+    padding: 75px 0;
+}
+
+
+.stats-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    border: 1px solid var(--border);
+
+    border-radius: 25px;
+
+    overflow: hidden;
+
+    background:
+        rgba(255, 107, 0, 0.035);
+
+    backdrop-filter: blur(12px);
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.3);
+}
+
+
+.stat-card {
+    text-align: center;
+
+    padding: 38px 20px;
+
+    border-right: 1px solid var(--border);
+
+    transition: .35s ease;
+}
+
+
+.stat-card:last-child {
+    border-right: none;
+}
+
+
+.stat-card:hover {
+    background:
+        rgba(255, 107, 0, 0.065);
+}
+
+
+.stat-card h3 {
+    margin: 0;
+
+    font-size: clamp(30px, 4vw, 43px);
+
+    color: var(--primary);
+
+    font-weight: 800;
+
+    text-shadow:
+        0 0 25px rgba(255, 107, 0, 0.15);
+}
+
+
+.stat-card p {
+    margin: 8px 0 0;
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+    letter-spacing: .5px;
+}
+
+
+/* =========================================================
+   WHY CHOOSE
+   ========================================================= */
+
+.why-section {
+    padding: 90px 0;
+}
+
+
+.why-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 18px;
+}
+
+
+.why-card {
+    padding: 30px 20px;
+
+    text-align: center;
+
+    border: 1px solid var(--border);
+
+    border-radius: 20px;
+
+    background:
+        rgba(255, 107, 0, 0.035);
+
+    transition: .35s ease;
+}
+
+
+.why-card:hover {
+    transform: translateY(-8px);
+
+    border-color:
+        rgba(255, 107, 0, 0.45);
+
+    background:
+        rgba(255, 107, 0, 0.065);
+
+    box-shadow:
+        0 20px 45px rgba(0,0,0,.35),
+        0 0 30px rgba(255,107,0,.06);
+}
+
+
+.why-card i {
+    font-size: 28px;
+
+    color: var(--primary);
+
+    margin-bottom: 18px;
+
+    transition: .35s ease;
+}
+
+
+.why-card:hover i {
+    transform: scale(1.15);
+
+    text-shadow:
+        0 0 20px rgba(255,107,0,.35);
+}
+
+
+.why-card h3 {
+    margin: 0;
+    color: #ff8c00;
+    font-size: 16px;
+}
+
+
+.why-card p {
+    color: var(--muted);
+
+    font-size: 12px;
+
+    line-height: 1.6;
+
+    margin: 10px 0 0;
+}
+
+
+/* =========================================================
+   CTA
+   ========================================================= */
+
+.cta-section {
+    padding: 100px 20px;
+
+    text-align: center;
+
+    position: relative;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255, 107, 0, 0.12),
+            transparent 60%
+        );
+}
+
+
+.cta-box {
+    max-width: 850px;
+
+    margin: auto;
+
+    padding: 65px 30px;
+
+    border-radius: 30px;
+
+    border: 1px solid rgba(255, 107, 0, 0.25);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 107, 0, 0.08),
+            rgba(255, 255, 255, 0.025)
+        );
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.45),
+        0 0 50px rgba(255,107,0,.05);
+}
+
+
+.cta-box h2 {
+    margin: 0 0 14px;
+
+    font-size: clamp(32px, 5vw, 52px);
+}
+
+
+.cta-box p {
+    color: var(--muted);
+
+    margin: 0 0 30px;
+
+    font-size: 15px;
+}
+
+
+.cta-button {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    padding: 14px 30px;
+
+    border-radius: 50px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff6b00,
+            #ff8c00
+        );
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-weight: 700;
+
+    font-size: 14px;
+
+    box-shadow:
+        0 0 30px rgba(255, 107, 0, 0.25);
+
+    transition: .3s ease;
+}
+
+
+.cta-button:hover {
+    transform: translateY(-4px) scale(1.03);
+
+    color: #ffffff;
+
+    box-shadow:
+        0 12px 40px rgba(255, 107, 0, 0.35);
+}
+
+
+.cta-button i {
+    transition: .3s ease;
+}
+
+
+.cta-button:hover i {
+    transform: translateX(5px);
+}
+
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
+@keyframes heroAppear {
+
+    from {
+        opacity: 0;
+
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translateY(0);
+    }
+}
+
+
+@keyframes imageFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+
+@keyframes orangeGlow {
+
+    from {
+        transform:
+            translate(0, 0)
+            scale(1);
+    }
+
+    to {
+        transform:
+            translate(35px, 25px)
+            scale(1.2);
+    }
+}
+
+
+@keyframes orangeGradient {
+
+    0% {
+        background-position: 0% center;
+    }
+
+    100% {
+        background-position: 250% center;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 950px) {
+
+    .about-grid {
+        grid-template-columns: 1fr;
+
+        gap: 45px;
+    }
+
+    .about-image {
+        max-width: 700px;
+
+        margin: auto;
+
+        width: 100%;
+    }
+
+    .info-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .why-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stat-card:nth-child(2) {
+        border-right: none;
+    }
+
+    .stat-card:nth-child(1),
+    .stat-card:nth-child(2) {
+        border-bottom: 1px solid var(--border);
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .about-hero {
+        min-height: 360px;
+    }
+
+    .hero-content h1 {
+        letter-spacing: -1px;
+    }
+
+    .hero-content p {
+        font-size: 14px;
+    }
+
+    .about-intro,
+    .info-section,
+    .why-section {
+        padding: 65px 0;
+    }
+
+    .about-image img {
+        height: 300px;
+    }
+
+    .mini-features {
+        grid-template-columns: 1fr;
+    }
+
+    .why-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-card {
+        border-right: none;
+
+        border-bottom: 1px solid var(--border);
+    }
+
+    .stat-card:last-child {
+        border-bottom: none;
+    }
+
+    .cta-section {
+        padding: 65px 15px;
+    }
+
+    .cta-box {
+        padding: 45px 20px;
+    }
+}
+
+</style>
+
+<div class="about-page">
+
+<!-- =====================================================
+     HERO
+====================================================== -->
+
+<section class="about-hero">
+
+    <div class="hero-content">
+
+        <div class="hero-badge">
+            <i class="fas fa-car"></i>
+            ABOUT DRIVESHARE
+        </div>
+
+        <h1>
+            Drive Your Way
+        </h1>
+
+        <p>
+            A smarter way to rent, share and experience cars.
+            DriveShare connects trusted car owners with customers
+            looking for safe, affordable and convenient transportation.
+        </p>
 
     </div>
 
 </section>
 
-<section class="about-section">
 
-    <div class="container">
+
+<!-- =====================================================
+     WHO WE ARE
+====================================================== -->
+
+<section class="about-intro">
+
+    <div class="about-container">
 
         <div class="about-grid">
 
+
             <div class="about-image">
 
-                <img src="{% static 'images/about-car.png' %}" alt="DriveShare">
+                <img
+                    src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=85"
+                    alt="DriveShare luxury car"
+                >
+
+                <div class="image-badge">
+
+                    <i class="fas fa-shield-alt"></i>
+
+                    <div>
+                        <strong>Trusted & Secure</strong>
+                        <span>Built for better journeys</span>
+                    </div>
+
+                </div>
 
             </div>
+
 
             <div class="about-content">
 
-                <h2>Who We Are</h2>
+                <div class="section-label">
+                    Who We Are
+                </div>
+
+                <h2>
+                    More Than Just a
+                    <span>Car Rental</span>
+                    Platform
+                </h2>
 
                 <p>
-
-                    DriveShare is a modern peer-to-peer car rental platform
-                    that connects car owners with customers looking for safe,
-                    affordable, and convenient transportation.
-
+                    DriveShare is a modern peer-to-peer car rental
+                    platform designed to make transportation easier,
+                    safer and more affordable.
                 </p>
 
                 <p>
-
-                    Our goal is to simplify car rentals while helping owners
-                    earn extra income from their unused vehicles.
-
+                    We connect vehicle owners with customers who need
+                    reliable cars for their journeys. Owners can turn
+                    their unused vehicles into an additional source of
+                    income while customers get access to a wide range
+                    of vehicles.
                 </p>
+
+                <div class="mini-features">
+
+                    <div class="mini-feature">
+
+                        <i class="fas fa-user-check"></i>
+
+                        <h4>Verified Community</h4>
+
+                        <p>
+                            Trusted users and verified profiles.
+                        </p>
+
+                    </div>
+
+
+                    <div class="mini-feature">
+
+                        <i class="fas fa-lock"></i>
+
+                        <h4>Secure Experience</h4>
+
+                        <p>
+                            Safe transactions and protected data.
+                        </p>
+
+                    </div>
+
+                </div>
 
             </div>
 
@@ -58,143 +1204,265 @@ About DriveShare
 
 </section>
 
-<section class="mission-section">
 
-    <div class="container">
 
-        <div class="cards">
+<!-- =====================================================
+     MISSION / VISION / PROMISE
+====================================================== -->
+
+<section class="info-section">
+
+    <div class="about-container">
+
+        <div class="section-heading">
+
+            <div class="label">
+                What Drives Us
+            </div>
+
+            <h2>
+                Our Mission, Vision & Promise
+            </h2>
+
+            <p>
+                Everything we build is focused on creating a
+                trustworthy and convenient car-sharing experience.
+            </p>
+
+        </div>
+
+
+        <div class="info-cards">
+
 
             <div class="info-card">
 
-                <i class="fas fa-bullseye"></i>
+                <div class="card-icon">
+                    <i class="fas fa-bullseye"></i>
+                </div>
 
-                <h3>Our Mission</h3>
+                <h3>
+                    Our Mission
+                </h3>
 
                 <p>
-
-                    Make car rentals simple, secure and affordable for everyone.
-
+                    Make car rentals simple, secure and affordable
+                    while creating opportunities for vehicle owners
+                    to earn from their cars.
                 </p>
 
             </div>
 
+
             <div class="info-card">
 
-                <i class="fas fa-eye"></i>
+                <div class="card-icon">
+                    <i class="fas fa-eye"></i>
+                </div>
 
-                <h3>Our Vision</h3>
+                <h3>
+                    Our Vision
+                </h3>
 
                 <p>
-
-                    Become India's most trusted car-sharing platform.
-
+                    Become one of India's most trusted car-sharing
+                    platforms by connecting communities through
+                    convenient and reliable mobility.
                 </p>
 
             </div>
 
+
             <div class="info-card">
 
-                <i class="fas fa-handshake"></i>
+                <div class="card-icon">
+                    <i class="fas fa-handshake"></i>
+                </div>
 
-                <h3>Our Promise</h3>
+                <h3>
+                    Our Promise
+                </h3>
 
                 <p>
-
-                    Verified users, secure payments and quality vehicles.
-
+                    We focus on verified users, secure payments,
+                    quality vehicles and a transparent rental
+                    experience.
                 </p>
 
             </div>
+
 
         </div>
 
     </div>
 
 </section>
+
+
+
+<!-- =====================================================
+     STATS
+====================================================== -->
 
 <section class="stats-section">
 
-    <div class="container">
+    <div class="about-container">
 
         <div class="stats-grid">
 
-            <div class="stat-card">
-
-                <h2>500+</h2>
-
-                <p>Cars Listed</p>
-
-            </div>
 
             <div class="stat-card">
 
-                <h2>1500+</h2>
+                <h3>
+                    500+
+                </h3>
 
-                <p>Happy Customers</p>
+                <p>
+                    Cars Listed
+                </p>
 
             </div>
+
 
             <div class="stat-card">
 
-                <h2>100+</h2>
+                <h3>
+                    1500+
+                </h3>
 
-                <p>Verified Owners</p>
+                <p>
+                    Happy Customers
+                </p>
 
             </div>
+
 
             <div class="stat-card">
 
-                <h2>50+</h2>
+                <h3>
+                    100+
+                </h3>
 
-                <p>Cities Covered</p>
+                <p>
+                    Verified Owners
+                </p>
 
             </div>
+
+
+            <div class="stat-card">
+
+                <h3>
+                    50+
+                </h3>
+
+                <p>
+                    Cities Covered
+                </p>
+
+            </div>
+
 
         </div>
 
     </div>
 
 </section>
+
+
+
+<!-- =====================================================
+     WHY CHOOSE DRIVESHARE
+====================================================== -->
 
 <section class="why-section">
 
-    <div class="container">
+    <div class="about-container">
 
-        <h2>Why Choose DriveShare?</h2>
+        <div class="section-heading">
 
-        <div class="cards">
+            <div class="label">
+                The DriveShare Difference
+            </div>
 
-            <div class="info-card">
+            <h2>
+                Why Choose DriveShare?
+            </h2>
 
-                <i class="fas fa-shield-alt"></i>
+            <p>
+                Designed around trust, convenience and a better
+                experience for both customers and car owners.
+            </p>
 
-                <h3>Verified Users</h3>
+        </div>
+
+
+        <div class="why-grid">
+
+
+            <div class="why-card">
+
+                <i class="fas fa-user-shield"></i>
+
+                <h3>
+                    Verified Users
+                </h3>
+
+                <p>
+                    Identity and document verification helps
+                    create a trustworthy community.
+                </p>
 
             </div>
 
-            <div class="info-card">
 
-                <i class="fas fa-wallet"></i>
+            <div class="why-card">
 
-                <h3>Secure Payments</h3>
+                <i class="fas fa-credit-card"></i>
+
+                <h3>
+                    Secure Payments
+                </h3>
+
+                <p>
+                    Designed to provide a smooth and secure
+                    payment experience.
+                </p>
 
             </div>
 
-            <div class="info-card">
 
-                <i class="fas fa-car"></i>
+            <div class="why-card">
 
-                <h3>Wide Car Selection</h3>
+                <i class="fas fa-car-side"></i>
+
+                <h3>
+                    Wide Car Selection
+                </h3>
+
+                <p>
+                    Discover different vehicles for different
+                    journeys and requirements.
+                </p>
 
             </div>
 
-            <div class="info-card">
+
+            <div class="why-card">
 
                 <i class="fas fa-headset"></i>
 
-                <h3>24/7 Support</h3>
+                <h3>
+                    Customer Support
+                </h3>
+
+                <p>
+                    We aim to make every stage of the rental
+                    experience simple and convenient.
+                </p>
 
             </div>
+
 
         </div>
 
@@ -202,22 +1470,37 @@ About DriveShare
 
 </section>
 
+
+
+<!-- =====================================================
+     CTA
+====================================================== -->
+
 <section class="cta-section">
 
-    <div class="container">
+    <div class="cta-box">
 
-        <h2>Ready to Start?</h2>
+        <h2>
+            Ready to Start Your Journey?
+        </h2>
 
-        <p>Join thousands of happy users today.</p>
+        <p>
+            Join DriveShare and discover a smarter way to
+            rent, share and experience cars.
+        </p>
 
-        <a href="{% url 'signup' %}" class="btn-primary">
-
+        <a
+            href="{% url 'signup' %}"
+            class="cta-button"
+        >
             Get Started
-
+            <i class="fas fa-arrow-right"></i>
         </a>
 
     </div>
 
 </section>
+
+</div>
 
 {% endblock %}

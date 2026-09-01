@@ -187,7 +187,6 @@ If DATABASE_URL exists:
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-
 if DATABASE_URL:
 
     DATABASES = {
@@ -206,7 +205,6 @@ else:
             "NAME": BASE_DIR / "db.sqlite3",
         }
     }
-
 
 # ============================================================
 # PASSWORD VALIDATION
