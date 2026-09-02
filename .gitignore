@@ -20,3 +20,7 @@ venv/
 # IDE
 .vscode/
 .idea/
+transfer_data.json
+db.sqlite3
+reset_sequences.py
+.env
