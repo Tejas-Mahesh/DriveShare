@@ -15,53 +15,66 @@ class Command(BaseCommand):
         password = os.getenv("ADMIN_PASSWORD")
         email = os.getenv("ADMIN_EMAIL", "")
 
+        # --------------------------------------------------
+        # Check environment variables
+        # --------------------------------------------------
+
         if not username:
             self.stdout.write(
                 self.style.WARNING(
-                    "ADMIN_USERNAME is not set. Admin creation skipped."
+                    "ADMIN_USERNAME is not set."
                 )
             )
             return
 
         if not password:
             self.stdout.write(
-                self.style.ERROR(
-                    "ADMIN_PASSWORD is not set. Admin creation skipped."
+                self.style.WARNING(
+                    "ADMIN_PASSWORD is not set."
                 )
             )
             return
 
-        admin, created = User.objects.get_or_create(
-            username=username,
-            defaults={
-                "email": email,
-                "is_staff": True,
-                "is_superuser": True,
-                "is_active": True,
-                "user_type": "customer",
-            },
+        # --------------------------------------------------
+        # Find or create admin
+        # --------------------------------------------------
+
+        user, created = User.objects.get_or_create(
+            username=username
         )
 
-        # Always make sure the account has admin privileges.
-        admin.is_staff = True
-        admin.is_superuser = True
-        admin.is_active = True
+        # --------------------------------------------------
+        # Set admin properties
+        # --------------------------------------------------
+
+        user.is_staff = True
+        user.is_superuser = True
+        user.is_active = True
 
         if email:
-            admin.email = email
+            user.email = email
 
-        # Set/update password from Render environment variable.
-        admin.set_password(password)
+        # Always set password from Render environment
+        user.set_password(password)
 
-        admin.save()
+        # Superuser gets admin privileges regardless
+        # of the normal customer/owner user_type system.
+        user.save()
+
+        # --------------------------------------------------
+        # Message
+        # --------------------------------------------------
 
         if created:
+
             self.stdout.write(
                 self.style.SUCCESS(
                     f"Admin user '{username}' created successfully."
                 )
             )
+
         else:
+
             self.stdout.write(
                 self.style.SUCCESS(
                     f"Admin user '{username}' updated successfully."
