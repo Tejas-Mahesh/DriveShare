@@ -1,33 +1,38 @@
-const hero = document.querySelector(".hero");
+document.addEventListener("DOMContentLoaded", function () {
 
-const images = [
+    const hero = document.querySelector(".hero");
 
-"/static/images/hero1.jpg",
+    // Stop if this page does not contain a hero section
+    if (!hero) {
+        return;
+    }
 
-"/static/images/hero2.jpg",
+    const images = [
+        "/static/images/hero1.jpg",
+        "/static/images/hero2.jpg",
+        "/static/images/hero3.jpg"
+    ];
 
-"/static/images/hero3.jpg",
+    let current = 0;
 
-];
+    function changeBackground() {
 
-let current = 0;
+        hero.style.backgroundImage =
+            `linear-gradient(
+                rgba(0,0,0,.55),
+                rgba(0,0,0,.55)
+            ),
+            url("${images[current]}")`;
 
-function changeBackground(){
+        current++;
 
-hero.style.backgroundImage =
+        if (current >= images.length) {
+            current = 0;
+        }
+    }
 
-`linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),url(${images[current]})`;
+    changeBackground();
 
-current++;
+    setInterval(changeBackground, 4000);
 
-if(current===images.length){
-
-current=0;
-
-}
-
-}
-
-changeBackground();
-
-setInterval(changeBackground,4000);
+});
