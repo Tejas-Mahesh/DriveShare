@@ -1,78 +1,159 @@
 {% load static %}
+
 <nav class="navbar">
 
+    <!-- ==============================
+         LOGO
+    =============================== -->
+
     <div class="logo">
-        <a href="/">DriveShare</a>
+
+        <a href="/">
+            DriveShare
+        </a>
+
     </div>
 
+
+    <!-- ==============================
+         MOBILE MENU
+    =============================== -->
+
     <div class="menu-toggle" id="menu-toggle">
+
         <span></span>
         <span></span>
         <span></span>
+
     </div>
+
+
+    <!-- ==============================
+         NAVIGATION LINKS
+    =============================== -->
 
     <ul class="nav-links" id="nav-links">
 
+
+        <!-- HOME -->
+
         <li>
-            <a href="/" class="{% if request.path == '/' %}active{% endif %}">
+
+            <a
+                href="/"
+                class="{% if request.path == '/' %}active{% endif %}"
+            >
                 Home
             </a>
+
         </li>
+
 
         {% if user.is_authenticated %}
 
-            <!-- ================= SUPER ADMIN ================= -->
+
+            <!-- ==========================================
+                 SUPER ADMIN
+            =========================================== -->
 
             {% if user.is_superuser %}
 
                 <li>
-                    <a href="{% url 'admin_dashboard' %}"class="{% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">
+
+                    <a
+                        href="{% url 'admin_dashboard' %}"
+                        class="{% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}"
+                    >
                         Dashboard
                     </a>
+
                 </li>
 
+
                 <li>
-                    <a href="{% url 'admin_car_list' %}"class="{% if request.resolver_match.url_name == 'admin_car_list' %}active{% endif %}">
+
+                    <a
+                        href="{% url 'admin_car_list' %}"
+                        class="{% if request.resolver_match.url_name == 'admin_car_list' %}active{% endif %}"
+                    >
                         Pending Cars
                     </a>
+
                 </li>
 
+
                 <li>
+
                     <a href="/admin/">
                         Django Admin
                     </a>
-                </li>
-                <li>
-                    <a href="{% url 'revenue_report'  %}" class="{% if request.resolver_match.url_name == 'revenue_report' %}active{% endif %}">
-                     Revenue Report
-                        </a>
+
                 </li>
 
-            <!-- ================= CUSTOMER ================= -->
+
+                <li>
+
+                    <a
+                        href="{% url 'revenue_report' %}"
+                        class="{% if request.resolver_match.url_name == 'revenue_report' %}active{% endif %}"
+                    >
+                        Revenue Report
+                    </a>
+
+                </li>
+
+
+            <!-- ==========================================
+                 CUSTOMER
+            =========================================== -->
 
             {% elif user.user_type == "customer" %}
 
                 <li>
-                    <a href="{% url 'browse_cars' %}" class="{% if request.resolver_match.url_name == 'browse_cars' %}active{% endif %}">
+
+                    <a
+                        href="{% url 'browse_cars' %}"
+                        class="{% if request.resolver_match.url_name == 'browse_cars' %}active{% endif %}"
+                    >
                         Rent Cars
                     </a>
+
                 </li>
-<li>
-    <a href="{% url 'my_bookings' %}"
-       class="{% if request.resolver_match.url_name == 'my_bookings' %}active{% endif %}">
-        My Bookings
-    </a>
-</li>
+
 
                 <li>
-                    <a href="{% url 'customer_dashboard' %}" class="{% if request.resolver_match.url_name == 'customer_dashboard' %}active{% endif %}">
+
+                    <a
+                        href="{% url 'my_bookings' %}"
+                        class="{% if request.resolver_match.url_name == 'my_bookings' %}active{% endif %}"
+                    >
+                        My Bookings
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a
+                        href="{% url 'customer_dashboard' %}"
+                        class="{% if request.resolver_match.url_name == 'customer_dashboard' %}active{% endif %}"
+                    >
                         Dashboard
                     </a>
+
                 </li>
 
+
                 <li>
-                    <a href="{% url 'wishlist' %}"class="{% if request.resolver_match.url_name == 'wishlist' %}active{% endif %}">
+
+                    <a
+                        href="{% url 'wishlist' %}"
+                        class="{% if request.resolver_match.url_name == 'wishlist' %}active{% endif %}"
+                    >
+
                         <i class="fas fa-heart"></i>
+
                         Wishlist
 
                         <span class="wishlist-count">
@@ -80,126 +161,264 @@
                         </span>
 
                     </a>
+
                 </li>
 
-            <!-- ================= OWNER ================= -->
+
+            <!-- ==========================================
+                 OWNER
+            =========================================== -->
 
             {% elif user.user_type == "owner" %}
 
                 <li>
-                    <a href="{% url 'add_car' %}"class="{% if request.resolver_match.url_name == 'add_car' %}active{% endif %}">
+
+                    <a
+                        href="{% url 'add_car' %}"
+                        class="{% if request.resolver_match.url_name == 'add_car' %}active{% endif %}"
+                    >
                         List Your Car
                     </a>
+
                 </li>
 
+
                 <li>
-                    <a href="{% url 'my_cars' %}"class="{% if request.resolver_match.url_name == 'my_cars' %}active{% endif %}">
+
+                    <a
+                        href="{% url 'my_cars' %}"
+                        class="{% if request.resolver_match.url_name == 'my_cars' %}active{% endif %}"
+                    >
                         My Cars
                     </a>
+
                 </li>
 
+
                 <li>
-                    <a href="{% url 'owner_dashboard' %}"class="{% if request.resolver_match.url_name == 'owner_dashboard' %}active{% endif %}">
+
+                    <a
+                        href="{% url 'owner_dashboard' %}"
+                        class="{% if request.resolver_match.url_name == 'owner_dashboard' %}active{% endif %}"
+                    >
                         Dashboard
                     </a>
+
                 </li>
 
+
                 <li>
-                    <a href="{% url 'owner_bookings' %}"class="{% if request.resolver_match.url_name == 'owner_bookings' %}active{% endif %}">
+
+                    <a
+                        href="{% url 'owner_bookings' %}"
+                        class="{% if request.resolver_match.url_name == 'owner_bookings' %}active{% endif %}"
+                    >
                         Booking Requests
                     </a>
+
                 </li>
 
             {% endif %}
 
+
         {% else %}
 
+
+            <!-- ==========================================
+                 GUEST USER
+            =========================================== -->
+
             <li>
-                <a href="{% url 'browse_cars' %}" class="{% if request.resolver_match.url_name == 'browse_cars' %}active{% endif %}">
+
+                <a
+                    href="{% url 'browse_cars' %}"
+                    class="{% if request.resolver_match.url_name == 'browse_cars' %}active{% endif %}"
+                >
                     Rent Car
                 </a>
+
             </li>
 
+
             <li>
-                <a href="{% url 'signup' %}"class="{% if request.resolver_match.url_name == 'add_car' %}active{% endif %}">
+
+                <a
+                    href="{% url 'signup' %}"
+                    class="{% if request.resolver_match.url_name == 'signup' %}active{% endif %}"
+                >
                     List Your Car
                 </a>
+
             </li>
 
+
             <li>
-                <a href="{% url 'about' %}" class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+
+                <a
+                    href="{% url 'about' %}"
+                    class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}"
+                >
                     About
                 </a>
+
             </li>
 
+
             <li>
-                <a href="{% url 'contact' %}"class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+
+                <a
+                    href="{% url 'contact' %}"
+                    class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}"
+                >
                     Contact
                 </a>
+
             </li>
+
 
         {% endif %}
 
     </ul>
 
+
+    <!-- ==============================
+         RIGHT SIDE
+    =============================== -->
+
     <div class="auth-buttons">
+
 
         {% if user.is_authenticated %}
 
-            <div class="theme-toggle">
+
+            <!-- THEME -->
+
+            <div
+                class="theme-toggle"
+                id="themeToggle"
+                role="button"
+                tabindex="0"
+                aria-label="Toggle theme"
+            >
+
                 <i class="fas fa-moon"></i>
+
             </div>
+
+
+            <!-- ==========================================
+                 NOTIFICATIONS
+            =========================================== -->
 
             {% if not user.is_superuser %}
-            <div class="notification-icon">
 
-                <a href="{% url 'notifications' %}">
+                <div class="notification-icon">
 
-                    <i class="fas fa-bell"></i>
+                    <a
+                        href="{% url 'notifications' %}"
+                        aria-label="Notifications"
+                    >
 
-                    {% if notification_count > 0 %}
-                        <span class="notification-badge">
-                            {{ notification_count }}
-                        </span>
-                    {% endif %}
+                        <i class="fas fa-bell"></i>
 
-                </a>
 
-            </div>
+                        {% if notification_count > 0 %}
+
+                            <span class="notification-badge">
+                                {{ notification_count }}
+                            </span>
+
+                        {% endif %}
+
+                    </a>
+
+                </div>
+
             {% endif %}
 
-            <div class="user-profile" id="userProfile">
+
+            <!-- ==========================================
+                 USER PROFILE
+            =========================================== -->
+
+            <div
+                class="user-profile"
+                id="userProfile"
+            >
+
+
+                <!-- PROFILE IMAGE -->
+
                 {% if user.profile_picture %}
-                    <img src="{{ user.profile_picture.url }}" class="nav-profile-img">
+
+                    <img
+                        src="{{ user.profile_picture.url }}"
+                        class="nav-profile-img"
+                        alt="Profile"
+                    >
+
                 {% else %}
-                    <img src="{% static 'images/default-avatar.png' %}" class="nav-profile-img">
+
+                    <img
+                        src="{% static 'images/default-avatar.png' %}"
+                        class="nav-profile-img"
+                        alt="Default Profile"
+                    >
+
                 {% endif %}
 
+
+                <!-- ======================================
+                     VERIFICATION STATUS
+                ======================================= -->
+
                 {% if not user.is_superuser %}
+
+
+                    <!-- CUSTOMER STATUS -->
 
                     {% if user.user_type == "customer" %}
 
                         {% if user.customer_profile.verification_status == "Approved" %}
+
                             <span class="status-dot approved"></span>
+
                         {% elif user.customer_profile.verification_status == "Pending" %}
+
                             <span class="status-dot pending"></span>
+
                         {% else %}
+
                             <span class="status-dot rejected"></span>
+
                         {% endif %}
+
+
+                    <!-- OWNER STATUS -->
 
                     {% elif user.user_type == "owner" %}
 
                         {% if user.owner_profile.verification_status == "Approved" %}
+
                             <span class="status-dot approved"></span>
+
                         {% elif user.owner_profile.verification_status == "Pending" %}
+
                             <span class="status-dot pending"></span>
+
                         {% else %}
+
                             <span class="status-dot rejected"></span>
+
                         {% endif %}
 
                     {% endif %}
 
+
                 {% endif %}
+
+
+                <!-- USER NAME -->
 
                 <span class="user-name">
 
@@ -207,9 +426,20 @@
 
                 </span>
 
-                <div class="profile-dropdown" id="profileDropdown">
 
-                    <!-- SUPER ADMIN -->
+                <!-- ======================================
+                     PROFILE DROPDOWN
+                ======================================= -->
+
+                <div
+                    class="profile-dropdown"
+                    id="profileDropdown"
+                >
+
+
+                    <!-- ==================================
+                         SUPER ADMIN
+                    =================================== -->
 
                     {% if user.is_superuser %}
 
@@ -224,11 +454,15 @@
                         <a href="/admin/">
                             Django Admin
                         </a>
+
                         <a href="{% url 'revenue_report' %}">
                             Revenue Report
                         </a>
 
-                    <!-- CUSTOMER -->
+
+                    <!-- ==================================
+                         CUSTOMER
+                    =================================== -->
 
                     {% elif user.user_type == "customer" %}
 
@@ -248,13 +482,14 @@
                             Payment History
                         </a>
 
-                        
-
                         <a href="{% url 'contact' %}">
                             Contact
                         </a>
 
-                    <!-- OWNER -->
+
+                    <!-- ==================================
+                         OWNER
+                    =================================== -->
 
                     {% elif user.user_type == "owner" %}
 
@@ -280,26 +515,46 @@
 
                     {% endif %}
 
+
+                    <!-- LOGOUT -->
+
                     <a href="{% url 'logout' %}">
                         Logout
                     </a>
+
 
                 </div>
 
             </div>
 
+
         {% else %}
 
-            <a href="{% url 'login' %}" class="login-btn">
+
+            <!-- ==========================================
+                 LOGIN / SIGNUP
+            =========================================== -->
+
+            <a
+                href="{% url 'login' %}"
+                class="login-btn"
+            >
                 Login
             </a>
 
-            <a href="{% url 'signup' %}" class="signup-btn">
+
+            <a
+                href="{% url 'signup' %}"
+                class="signup-btn"
+            >
                 Sign Up
             </a>
 
+
         {% endif %}
 
+
     </div>
+
 
 </nav>

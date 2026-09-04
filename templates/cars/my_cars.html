@@ -6,155 +6,1091 @@ My Cars
 
 {% block content %}
 
-<section class="add-car-section">
+<style>
 
-    <div class="add-car-card">
+/* =========================================================
+   DRIVESHARE - MY CARS PAGE
+   Page-specific CSS only
+   ========================================================= */
 
-        <div class="page-header">
+.my-cars-page {
+    min-height: calc(100vh - 80px);
+    padding: 55px 25px 80px;
+    background:
+        radial-gradient(circle at 10% 20%, rgba(249, 115, 22, 0.08), transparent 30%),
+        radial-gradient(circle at 90% 80%, rgba(249, 115, 22, 0.06), transparent 30%),
+        #00101c;
+    color: #ffffff;
+}
 
-            <h1>🚗 My Cars</h1>
 
-            <p>
-                Manage all the vehicles you've listed on DriveShare.
-            </p>
+/* =========================================================
+   MAIN CONTAINER
+   ========================================================= */
+
+.my-cars-container {
+    width: min(1250px, 100%);
+    margin: auto;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.my-cars-header {
+    position: relative;
+    margin-bottom: 35px;
+    padding: 32px 35px;
+    border-radius: 22px;
+    background: linear-gradient(
+        135deg,
+        rgba(15, 31, 43, 0.96),
+        rgba(7, 22, 33, 0.94)
+    );
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
+    overflow: hidden;
+}
+
+
+.my-cars-header::before {
+    content: "";
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    right: -70px;
+    top: -80px;
+    background: rgba(249, 115, 22, 0.12);
+    border-radius: 50%;
+    filter: blur(5px);
+}
+
+
+.my-cars-header::after {
+    content: "";
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    left: -60px;
+    bottom: -70px;
+    background: rgba(249, 115, 22, 0.07);
+    border-radius: 50%;
+}
+
+
+.header-content {
+    position: relative;
+    z-index: 2;
+}
+
+
+.header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+}
+
+
+.header-title-area {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+
+.car-icon-box {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    box-shadow: 0 10px 30px rgba(249, 115, 22, 0.28);
+    font-size: 27px;
+}
+
+
+.header-title-area h1 {
+    margin: 0;
+    font-size: 31px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+
+.header-title-area p {
+    margin: 7px 0 0;
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   ADD CAR BUTTON
+   ========================================================= */
+
+.add-car-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 13px 21px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    border: none;
+    box-shadow: 0 10px 25px rgba(249, 115, 22, 0.22);
+    transition: all 0.25s ease;
+}
+
+
+.add-car-btn:hover {
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 15px 32px rgba(249, 115, 22, 0.32);
+}
+
+
+/* =========================================================
+   STAT BAR
+   ========================================================= */
+
+.car-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 25px;
+}
+
+
+.stat-card {
+    padding: 21px 23px;
+    border-radius: 17px;
+    background: rgba(10, 28, 41, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(249, 115, 22, 0.3);
+}
+
+
+.stat-label {
+    display: block;
+    margin-bottom: 7px;
+    color: #94a3b8;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    font-weight: 600;
+}
+
+
+.stat-value {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 800;
+}
+
+
+.stat-value.orange {
+    color: #f97316;
+}
+
+
+/* =========================================================
+   CARS CARD
+   ========================================================= */
+
+.cars-card {
+    border-radius: 22px;
+    background: rgba(7, 23, 35, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    box-shadow: 0 20px 55px rgba(0, 0, 0, 0.30);
+    overflow: hidden;
+}
+
+
+.cars-card-header {
+    padding: 23px 27px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+
+.cars-card-header h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 750;
+}
+
+
+.cars-card-header span {
+    color: #64748b;
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.cars-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+
+.cars-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 850px;
+}
+
+
+.cars-table thead {
+    background: rgba(255, 255, 255, 0.025);
+}
+
+
+.cars-table th {
+    padding: 16px 20px;
+    text-align: left;
+    color: #64748b;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+
+.cars-table td {
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.055);
+    color: #dbe4ec;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+
+.car-row {
+    transition: background 0.25s ease;
+}
+
+
+.car-row:hover {
+    background: rgba(249, 115, 22, 0.035);
+}
+
+
+/* =========================================================
+   CAR TITLE
+   ========================================================= */
+
+.car-title {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+
+.car-mini-icon {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: rgba(249, 115, 22, 0.10);
+    border: 1px solid rgba(249, 115, 22, 0.18);
+    color: #f97316;
+    font-size: 18px;
+}
+
+
+.car-name {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+
+.car-id {
+    display: block;
+    margin-top: 3px;
+    color: #64748b;
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   BRAND
+   ========================================================= */
+
+.brand-name {
+    color: #e2e8f0;
+    font-weight: 600;
+}
+
+
+.model-name {
+    display: block;
+    margin-top: 3px;
+    color: #64748b;
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   CITY
+   ========================================================= */
+
+.city {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #cbd5e1;
+}
+
+
+.city i {
+    color: #f97316;
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   PRICE
+   ========================================================= */
+
+.pricea {
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+
+.price-period {
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   STATUS BADGES
+   ========================================================= */
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 12px;
+    border-radius: 30px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+
+.status-badge::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+
+.status-pending {
+    color: #fbbf24;
+    background: rgba(251, 191, 36, 0.09);
+    border: 1px solid rgba(251, 191, 36, 0.16);
+}
+
+
+.status-approved {
+    color: #4ade80;
+    background: rgba(74, 222, 128, 0.08);
+    border: 1px solid rgba(74, 222, 128, 0.15);
+}
+
+
+.status-rejected {
+    color: #f87171;
+    background: rgba(248, 113, 113, 0.08);
+    border: 1px solid rgba(248, 113, 113, 0.15);
+}
+
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 34px;
+    padding: 7px 12px;
+    border-radius: 9px;
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 700;
+    transition: all 0.22s ease;
+}
+
+
+.edit-btn {
+    color: #fb923c;
+    background: rgba(249, 115, 22, 0.08);
+    border: 1px solid rgba(249, 115, 22, 0.17);
+}
+
+
+.edit-btn:hover {
+    color: #ffffff;
+    background: #f97316;
+    border-color: #f97316;
+    transform: translateY(-2px);
+}
+
+
+.delete-btn {
+    color: #f87171;
+    background: rgba(248, 113, 113, 0.07);
+    border: 1px solid rgba(248, 113, 113, 0.14);
+}
+
+
+.delete-btn:hover {
+    color: white;
+    background: #dc2626;
+    border-color: #dc2626;
+    transform: translateY(-2px);
+}
+
+
+.locked-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 34px;
+    padding: 7px 11px;
+    border-radius: 9px;
+    color: #64748b;
+    background: rgba(100, 116, 139, 0.07);
+    border: 1px solid rgba(100, 116, 139, 0.12);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   REJECTION REASON
+   ========================================================= */
+
+.rejection-box {
+    margin-top: 10px;
+    max-width: 260px;
+    padding: 9px 11px;
+    border-radius: 9px;
+    color: #fca5a5;
+    background: rgba(127, 29, 29, 0.16);
+    border-left: 3px solid #ef4444;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+
+.rejection-box strong {
+    color: #f87171;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.empty-state {
+    padding: 80px 25px;
+    text-align: center;
+}
+
+
+.empty-icon {
+    width: 78px;
+    height: 78px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 22px;
+    background: rgba(249, 115, 22, 0.09);
+    border: 1px solid rgba(249, 115, 22, 0.15);
+    color: #f97316;
+    font-size: 31px;
+}
+
+
+.empty-state h3 {
+    margin: 0 0 9px;
+    color: #ffffff;
+    font-size: 20px;
+}
+
+
+.empty-state p {
+    margin: 0 auto 24px;
+    color: #64748b;
+    font-size: 13px;
+}
+
+
+.empty-add-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 11px;
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: 0 10px 25px rgba(249, 115, 22, 0.20);
+    transition: all 0.25s ease;
+}
+
+
+.empty-add-btn:hover {
+    color: white;
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   ANIMATION
+   ========================================================= */
+
+@keyframes pageFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+.my-cars-container {
+    animation: pageFadeIn 0.55s ease forwards;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 850px) {
+
+    .my-cars-page {
+        padding: 35px 15px 60px;
+    }
+
+    .my-cars-header {
+        padding: 25px 20px;
+    }
+
+    .header-top {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .header-title-area h1 {
+        font-size: 25px;
+    }
+
+    .add-car-btn {
+        width: 100%;
+    }
+
+    .car-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .cars-card-header {
+        padding: 20px;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .my-cars-page {
+        padding: 25px 10px 50px;
+    }
+
+    .my-cars-header {
+        border-radius: 17px;
+    }
+
+    .header-title-area {
+        align-items: flex-start;
+    }
+
+    .car-icon-box {
+        width: 50px;
+        height: 50px;
+        border-radius: 14px;
+        font-size: 22px;
+    }
+
+    .header-title-area h1 {
+        font-size: 22px;
+    }
+
+    .header-title-area p {
+        font-size: 12px;
+    }
+
+    .stat-card {
+        padding: 17px;
+    }
+
+    .cars-card {
+        border-radius: 17px;
+    }
+
+}
+
+</style>
+
+
+<section class="my-cars-page">
+
+    <div class="my-cars-container">
+
+        <!-- =================================================
+             HEADER
+             ================================================= -->
+
+        <div class="my-cars-header">
+
+            <div class="header-content">
+
+                <div class="header-top">
+
+                    <div class="header-title-area">
+
+                        <div class="car-icon-box">
+                            <i class="fas fa-car"></i>
+                        </div>
+
+                        <div>
+                            <h1>My Cars</h1>
+
+                            <p>
+                                Manage all the vehicles you've listed on DriveShare.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <a href="{% url 'add_car' %}" class="add-car-btn">
+
+                        <i class="fas fa-plus"></i>
+
+                        Add New Car
+
+                    </a>
+
+                </div>
+
+            </div>
 
         </div>
 
+
         {% if cars %}
 
-            <table class="table">
+            <!-- =================================================
+                 STATISTICS
+                 ================================================= -->
 
-                <thead>
+            <div class="car-stats">
 
-                    <tr>
+                <div class="stat-card">
 
-                        <th>Title</th>
-                        <th>Brand</th>
-                        <th>City</th>
-                        <th>Price / Day</th>
-                        <th>Status</th>
-                        <th>Actions</th>
+                    <span class="stat-label">
+                        Total Vehicles
+                    </span>
 
-                    </tr>
+                    <span class="stat-value">
+                        {{ cars|length }}
+                    </span>
 
-                </thead>
+                </div>
 
-                <tbody>
 
-                    {% for car in cars %}
+                <div class="stat-card">
 
-                    <tr>
+                    <span class="stat-label">
+                        Your Fleet
+                    </span>
 
-                        <td>
-                            {{ car.title }}
-                        </td>
+                    <span class="stat-value orange">
+                        <i class="fas fa-car-side"></i>
+                    </span>
 
-                        <td>
-                            {{ car.brand }} {{ car.model }}
-                        </td>
+                </div>
 
-                        <td>
-                            {{ car.city }}
-                        </td>
 
-                        <td>
-                            ₹{{ car.price_per_day }}
-                        </td>
+                <div class="stat-card">
 
-                        <td>
-                            {{ car.approval_status }}
-                        </td>
+                    <span class="stat-label">
+                        DriveShare
+                    </span>
 
-                        <td>
+                    <span class="stat-value">
+                        Owner
+                    </span>
 
-                            {% if car.approval_status == "Pending" %}
+                </div>
 
-                                <a
-                                    href="{% url 'edit_car' car.id %}"
-                                    class="edit-btn"
-                                >
-                                    Edit
-                                </a>
+            </div>
 
-                                {% if car.can_delete %}
 
-                                    <a
-                                        href="{% url 'delete_car' car.id %}"
-                                        class="delete-btn-small"
-                                    >
-                                        Delete
-                                    </a>
+            <!-- =================================================
+                 CARS TABLE
+                 ================================================= -->
 
-                                {% else %}
+            <div class="cars-card">
 
-                                    <span
-                                        class="approved-text"
-                                        title="This car has booking records"
-                                    >
-                                        Delete Locked
+                <div class="cars-card-header">
+
+                    <h2>
+                        Vehicle Inventory
+                    </h2>
+
+                    <span>
+                        {{ cars|length }} vehicle{{ cars|length|pluralize }}
+                    </span>
+
+                </div>
+
+
+                <div class="cars-table-wrapper">
+
+                    <table class="cars-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Vehicle
+                                </th>
+
+                                <th>
+                                    Brand
+                                </th>
+
+                                <th>
+                                    Location
+                                </th>
+
+                                <th>
+                                    Price
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Actions
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for car in cars %}
+
+                            <tr class="car-row">
+
+                                <!-- VEHICLE -->
+
+                                <td>
+
+                                    <div class="car-title">
+
+                                        <div class="car-mini-icon">
+
+                                            <i class="fas fa-car-side"></i>
+
+                                        </div>
+
+                                        <div>
+
+                                            <div class="car-name">
+                                                {{ car.title }}
+                                            </div>
+
+                                            <span class="car-id">
+                                                Vehicle #{{ car.id }}
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- BRAND -->
+
+                                <td>
+
+                                    <span class="brand-name">
+                                        {{ car.brand }}
                                     </span>
 
-                                {% endif %}
+                                    <span class="model-name">
+                                        {{ car.model }}
+                                    </span>
 
-                            {% else %}
+                                </td>
 
-                                <span class="approved-text">
-                                    Locked
-                                </span>
 
-                                {% if car.can_delete %}
+                                <!-- CITY -->
 
-                                    <a
-                                        href="{% url 'delete_car' car.id %}"
-                                        class="delete-btn-small"
-                                    >
-                                        Delete
-                                    </a>
+                                <td>
 
-                                {% endif %}
+                                    <span class="city">
 
-                            {% endif %}
+                                        <i class="fas fa-location-dot"></i>
 
-                            {% if car.approval_status == "Rejected" %}
+                                        {{ car.city }}
 
-                                <div style="color:red; margin-top:8px;">
+                                    </span>
 
-                                    <strong>Reason:</strong>
+                                </td>
 
-                                    {{ car.rejection_reason }}
 
-                                </div>
+                                <!-- PRICE -->
 
-                            {% endif %}
+                                <td>
 
-                        </td>
+                                    <span class="pricea">
+                                        ₹{{ car.price_per_day }}
+                                    </span>
 
-                    </tr>
+                                    <span class="price-period">
+                                        / day
+                                    </span>
 
-                    {% endfor %}
+                                </td>
 
-                </tbody>
 
-            </table>
+                                <!-- STATUS -->
+
+                                <td>
+
+                                    {% if car.approval_status == "Pending" %}
+
+                                        <span class="status-badge status-pending">
+                                            Pending
+                                        </span>
+
+                                    {% elif car.approval_status == "Approved" %}
+
+                                        <span class="status-badge status-approved">
+                                            Approved
+                                        </span>
+
+                                    {% elif car.approval_status == "Rejected" %}
+
+                                        <span class="status-badge status-rejected">
+                                            Rejected
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="status-badge">
+                                            {{ car.approval_status }}
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- ACTIONS -->
+
+                                <td>
+
+                                    <div class="actions">
+
+                                        {% if car.approval_status == "Pending" %}
+
+                                            <a
+                                                href="{% url 'edit_car' car.id %}"
+                                                class="action-btn edit-btn"
+                                            >
+
+                                                <i class="fas fa-pen"></i>
+
+                                                Edit
+
+                                            </a>
+
+                                        {% else %}
+
+                                            <span
+                                                class="locked-btn"
+                                                title="Approved vehicles cannot be edited"
+                                            >
+
+                                                <i class="fas fa-lock"></i>
+
+                                                Locked
+
+                                            </span>
+
+                                        {% endif %}
+
+
+                                        {% if car.can_delete %}
+
+                                            <a
+                                                href="{% url 'delete_car' car.id %}"
+                                                class="action-btn delete-btn"
+                                            >
+
+                                                <i class="fas fa-trash"></i>
+
+                                                Delete
+
+                                            </a>
+
+                                        {% else %}
+
+                                            <span
+                                                class="locked-btn"
+                                                title="This car has booking records"
+                                            >
+
+                                                <i class="fas fa-lock"></i>
+
+                                                Delete Locked
+
+                                            </span>
+
+                                        {% endif %}
+
+                                    </div>
+
+
+                                    {% if car.approval_status == "Rejected" %}
+
+                                        <div class="rejection-box">
+
+                                            <strong>
+                                                <i class="fas fa-circle-exclamation"></i>
+                                                Rejection Reason
+                                            </strong>
+
+                                            <br>
+
+                                            {{ car.rejection_reason }}
+
+                                        </div>
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
 
         {% else %}
 
-            <div class="empty-state">
+            <!-- =================================================
+                 EMPTY STATE
+                 ================================================= -->
 
-                <i class="fas fa-car-crash"></i>
+            <div class="cars-card">
 
-                <h3>No Cars Listed Yet</h3>
+                <div class="empty-state">
 
-                <p>
-                    Start by adding your first vehicle.
-                </p>
+                    <div class="empty-icon">
 
-                <a
-                    href="{% url 'add_car' %}"
-                    class="submit-car-btn"
-                >
-                    Add Your First Car
-                </a>
+                        <i class="fas fa-car-crash"></i>
+
+                    </div>
+
+                    <h3>
+                        No Cars Listed Yet
+                    </h3>
+
+                    <p>
+                        Start building your fleet by adding your first vehicle to DriveShare.
+                    </p>
+
+                    <a
+                        href="{% url 'add_car' %}"
+                        class="empty-add-btn"
+                    >
+
+                        <i class="fas fa-plus"></i>
+
+                        Add Your First Car
+
+                    </a>
+
+                </div>
 
             </div>
 

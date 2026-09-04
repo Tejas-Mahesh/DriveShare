@@ -6,98 +6,237 @@ My Bookings | DriveShare
 {% endblock %}
 
 {% block content %}
-
 <style>
 
-/* =====================================================
-   MY BOOKINGS PAGE
-===================================================== */
+/* =========================================================
+   DRIVESHARE — MY BOOKINGS
+   DARK NAVY + ORANGE GLOW THEME
+========================================================= */
 
 .my-bookings-page {
     min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+
     background:
-        linear-gradient(135deg, #f8fafc, #eef4ff);
-    padding: 45px 20px 70px;
-    color: #1f2937;
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(249, 115, 22, 0.10),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 90%,
+            rgba(249, 115, 22, 0.07),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #000b14 0%,
+            #00101c 50%,
+            #001a2b 100%
+        );
+
+    padding: 55px 20px 80px;
+    color: #fff7ed;
 }
+
+
+/* =========================================================
+   BACKGROUND GLOW
+========================================================= */
+
+.my-bookings-page::before {
+    content: "";
+    position: absolute;
+
+    width: 420px;
+    height: 420px;
+
+    top: -220px;
+    left: -180px;
+
+    background: rgba(249, 115, 22, 0.09);
+
+    border-radius: 50%;
+    filter: blur(90px);
+
+    pointer-events: none;
+}
+
+.my-bookings-page::after {
+    content: "";
+    position: absolute;
+
+    width: 350px;
+    height: 350px;
+
+    right: -180px;
+    bottom: -180px;
+
+    background: rgba(249, 115, 22, 0.07);
+
+    border-radius: 50%;
+    filter: blur(90px);
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
 
 .my-bookings-container {
     width: 100%;
     max-width: 1250px;
+
     margin: auto;
+
+    position: relative;
+    z-index: 2;
 }
 
 
-/* =====================================================
+/* =========================================================
    PAGE HEADER
-===================================================== */
+========================================================= */
 
 .page-header {
     text-align: center;
-    margin-bottom: 32px;
+    margin-bottom: 38px;
 }
 
 .page-label {
     display: inline-block;
-    margin-bottom: 8px;
-    color: #2563eb;
+
+    margin-bottom: 10px;
+
+    color: #f97316;
+
     font-size: 11px;
     font-weight: 800;
-    letter-spacing: 1.8px;
+
+    letter-spacing: 3px;
+
+    text-shadow:
+        0 0 8px rgba(249, 115, 22, 0.7);
 }
 
 .page-header h1 {
     margin: 0;
-    font-size: 38px;
+
+    color: #ffffff;
+
+    font-size: 40px;
     font-weight: 800;
-    color: #111827;
+
+    letter-spacing: -0.5px;
+
+    text-shadow:
+        0 0 20px rgba(249, 115, 22, 0.15);
+}
+
+.page-header h1 span {
+    color: #f97316;
+
+    text-shadow:
+        0 0 18px rgba(249, 115, 22, 0.45);
 }
 
 .page-header p {
-    margin-top: 9px;
-    color: #6b7280;
+    margin-top: 10px;
+
+    color: #7896a4;
+
     font-size: 15px;
 }
 
 
-/* =====================================================
+/* =========================================================
    FILTER BOX
-===================================================== */
+========================================================= */
 
 .filters {
-    background: rgba(255, 255, 255, 0.96);
-    border: 1px solid #edf1f7;
-    padding: 20px;
-    border-radius: 16px;
-    margin-bottom: 30px;
+    position: relative;
 
     display: flex;
     align-items: center;
+
     gap: 12px;
+
     flex-wrap: wrap;
 
+    padding: 20px;
+
+    margin-bottom: 32px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(7, 29, 43, 0.96),
+            rgba(3, 17, 28, 0.96)
+        );
+
+    border:
+        1px solid rgba(249, 115, 22, 0.16);
+
+    border-radius: 18px;
+
     box-shadow:
-        0 10px 35px rgba(15, 23, 42, 0.07);
+        0 20px 50px rgba(0, 0, 0, 0.35);
+
+    backdrop-filter: blur(15px);
 }
+
+.filters::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 8%;
+    right: 8%;
+
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(249, 115, 22, 0.7),
+            transparent
+        );
+
+    box-shadow:
+        0 0 12px rgba(249, 115, 22, 0.4);
+}
+
+
+/* =========================================================
+   FILTER INPUTS
+========================================================= */
 
 .filters input,
 .filters select {
-
     padding: 13px 15px;
 
-    border: 1px solid #d1d5db;
-    border-radius: 10px;
+    background: #061a27;
 
-    background: white;
+    border:
+        1px solid rgba(249, 115, 22, 0.14);
+
+    border-radius: 11px;
+
+    color: #fff7ed;
 
     font-size: 14px;
-    color: #1f2937;
 
     outline: none;
 
     transition:
         border-color .3s ease,
-        box-shadow .3s ease;
+        box-shadow .3s ease,
+        background .3s ease;
 }
 
 .filters input {
@@ -105,72 +244,117 @@ My Bookings | DriveShare
     min-width: 260px;
 }
 
+.filters select {
+    min-width: 160px;
+}
+
+.filters input::placeholder {
+    color: #5e7b89;
+}
+
 .filters input:focus,
 .filters select:focus {
+    background: #072333;
 
-    border-color: #2563eb;
+    border-color: #f97316;
 
     box-shadow:
-        0 0 0 3px rgba(37, 99, 235, .12);
+        0 0 0 3px rgba(249, 115, 22, 0.08),
+        0 0 20px rgba(249, 115, 22, 0.14);
+}
+
+.filters select option {
+    background: #061a27;
+    color: #ffffff;
 }
 
 
-/* =====================================================
-   BUTTONS
-===================================================== */
+/* =========================================================
+   BUTTON
+========================================================= */
 
 .btn {
-
     display: inline-flex;
+
     align-items: center;
     justify-content: center;
 
     padding: 13px 20px;
 
-    border: none;
-    border-radius: 10px;
+    border:
+        1px solid rgba(249, 115, 22, 0.4);
 
-    background: #2563eb;
-    color: white;
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f97316,
+            #ea580c
+        );
+
+    color: #ffffff;
 
     text-decoration: none;
 
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 800;
 
     cursor: pointer;
 
     transition:
         transform .3s ease,
-        background .3s ease,
-        box-shadow .3s ease;
+        box-shadow .3s ease,
+        background .3s ease;
 }
 
 .btn:hover {
+    transform: translateY(-3px);
 
-    background: #1d4ed8;
-
-    transform: translateY(-2px);
+    background:
+        linear-gradient(
+            135deg,
+            #fb923c,
+            #f97316
+        );
 
     box-shadow:
-        0 8px 20px rgba(37, 99, 235, .22);
+        0 0 20px rgba(249, 115, 22, 0.42),
+        0 8px 25px rgba(249, 115, 22, 0.14);
 }
 
+
+/* =========================================================
+   CLEAR BUTTON
+========================================================= */
+
 .clear-btn {
-    background: #64748b;
+    background: #071c2a;
+
+    color: #8ca8b5;
+
+    border-color:
+        rgba(255, 255, 255, 0.1);
 }
 
 .clear-btn:hover {
-    background: #475569;
+    background: #0a2838;
+
+    color: #fb923c;
+
+    border-color:
+        rgba(249, 115, 22, 0.35);
+
+    box-shadow:
+        0 0 15px rgba(249, 115, 22, 0.12);
 }
 
 
-/* =====================================================
+/* =========================================================
    BOOKING GRID
-===================================================== */
+========================================================= */
 
 .booking-grid {
-
     display: grid;
 
     grid-template-columns:
@@ -180,45 +364,85 @@ My Bookings | DriveShare
 }
 
 
-/* =====================================================
+/* =========================================================
    BOOKING CARD
-===================================================== */
+========================================================= */
 
 .booking-card {
-
-    background: white;
-
-    border-radius: 18px;
-
+    position: relative;
     overflow: hidden;
 
-    border: 1px solid #edf1f7;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(8, 30, 44, 0.98),
+            rgba(3, 17, 28, 0.98)
+        );
+
+    border:
+        1px solid rgba(249, 115, 22, 0.14);
+
+    border-radius: 20px;
 
     box-shadow:
-        0 10px 30px rgba(15, 23, 42, .07);
+        0 18px 45px rgba(0, 0, 0, 0.38);
 
-    animation: fadeUp .6s ease both;
+    animation:
+        fadeUp .6s ease both;
 
     transition:
         transform .35s ease,
+        border-color .35s ease,
         box-shadow .35s ease;
 }
 
-.booking-card:hover {
 
-    transform: translateY(-7px);
+/* =========================================================
+   TOP ORANGE LINE
+========================================================= */
+
+.booking-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 10%;
+    right: 10%;
+
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #f97316,
+            transparent
+        );
 
     box-shadow:
-        0 18px 40px rgba(15, 23, 42, .13);
+        0 0 15px rgba(249, 115, 22, 0.6);
+
+    z-index: 5;
+}
+
+.booking-card:hover {
+    transform: translateY(-8px);
+
+    border-color:
+        rgba(249, 115, 22, 0.45);
+
+    box-shadow:
+        0 25px 55px rgba(0, 0, 0, 0.48),
+        0 0 30px rgba(249, 115, 22, 0.10);
 }
 
 
-/* =====================================================
+/* =========================================================
    CAR IMAGE
-===================================================== */
+========================================================= */
 
 .car-image {
-
     position: relative;
 
     width: 100%;
@@ -229,13 +453,12 @@ My Bookings | DriveShare
     background:
         linear-gradient(
             135deg,
-            #e5e7eb,
-            #f8fafc
+            #061b29,
+            #020f19
         );
 }
 
 .car-image img {
-
     width: 100%;
     height: 100%;
 
@@ -244,20 +467,24 @@ My Bookings | DriveShare
     object-fit: cover;
 
     transition:
-        transform .6s ease;
+        transform .7s ease,
+        filter .5s ease;
 }
 
 .booking-card:hover .car-image img {
-    transform: scale(1.07);
+    transform: scale(1.08);
+
+    filter:
+        brightness(1.06)
+        saturate(1.08);
 }
 
 
-/* =====================================================
+/* =========================================================
    IMAGE OVERLAY
-===================================================== */
+========================================================= */
 
 .car-image::after {
-
     content: "";
 
     position: absolute;
@@ -267,20 +494,50 @@ My Bookings | DriveShare
     background:
         linear-gradient(
             to top,
-            rgba(0,0,0,.20),
-            transparent 45%
+            rgba(0, 8, 15, 0.85),
+            rgba(0, 8, 15, 0.1) 60%,
+            transparent
         );
 
     pointer-events: none;
 }
 
 
-/* =====================================================
+/* =========================================================
+   BOTTOM ORANGE IMAGE LINE
+========================================================= */
+
+.car-image::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #f97316,
+            transparent
+        );
+
+    box-shadow:
+        0 0 15px rgba(249, 115, 22, 0.55);
+
+    z-index: 3;
+}
+
+
+/* =========================================================
    NO IMAGE
-===================================================== */
+========================================================= */
 
 .no-image {
-
     width: 100%;
     height: 100%;
 
@@ -291,38 +548,43 @@ My Bookings | DriveShare
 
     flex-direction: column;
 
-    color: #94a3b8;
+    color: #f97316;
 
     font-size: 55px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(249, 115, 22, 0.09),
+            transparent 65%
+        );
 }
 
 .no-image span {
-
     margin-top: 5px;
+
+    color: #668491;
 
     font-size: 12px;
 
     font-weight: 600;
-
-    color: #64748b;
 }
 
 
-/* =====================================================
+/* =========================================================
    CARD CONTENT
-===================================================== */
+========================================================= */
 
 .card-content {
     padding: 22px;
 }
 
 
-/* =====================================================
-   CARD TITLE
-===================================================== */
+/* =========================================================
+   TITLE
+========================================================= */
 
 .card-title {
-
     display: flex;
 
     justify-content: space-between;
@@ -334,25 +596,22 @@ My Bookings | DriveShare
 }
 
 .card-title h2 {
-
     margin: 0;
 
+    color: #ffffff;
+
     font-size: 21px;
-
     font-weight: 800;
-
-    color: #111827;
 
     line-height: 1.3;
 }
 
 
-/* =====================================================
+/* =========================================================
    STATUS
-===================================================== */
+========================================================= */
 
 .status {
-
     display: inline-flex;
 
     align-items: center;
@@ -363,7 +622,6 @@ My Bookings | DriveShare
     border-radius: 50px;
 
     font-size: 11px;
-
     font-weight: 800;
 
     white-space: nowrap;
@@ -372,62 +630,89 @@ My Bookings | DriveShare
 }
 
 
-/* Pending */
+/* =========================================================
+   PENDING
+========================================================= */
 
 .status.Pending {
+    background:
+        rgba(249, 115, 22, 0.10);
 
-    background: #fff7ed;
-    color: #c2410c;
-    border-color: #fed7aa;
+    color: #fb923c;
+
+    border-color:
+        rgba(249, 115, 22, 0.35);
 }
 
 
-/* Approved */
+/* =========================================================
+   APPROVED
+========================================================= */
 
 .status.Approved {
+    background:
+        rgba(34, 197, 94, 0.10);
 
-    background: #ecfdf5;
-    color: #047857;
-    border-color: #a7f3d0;
+    color: #4ade80;
+
+    border-color:
+        rgba(34, 197, 94, 0.3);
 }
 
 
-/* Rejected */
+/* =========================================================
+   REJECTED
+========================================================= */
 
 .status.Rejected {
+    background:
+        rgba(248, 113, 113, 0.10);
 
-    background: #fef2f2;
-    color: #b91c1c;
-    border-color: #fecaca;
+    color: #f87171;
+
+    border-color:
+        rgba(248, 113, 113, 0.3);
 }
 
 
-/* Cancelled */
+/* =========================================================
+   CANCELLED
+========================================================= */
 
 .status.Cancelled {
+    background:
+        rgba(148, 163, 184, 0.10);
 
-    background: #f1f5f9;
-    color: #475569;
-    border-color: #e2e8f0;
+    color: #94a3b8;
+
+    border-color:
+        rgba(148, 163, 184, 0.2);
 }
 
 
-/* Completed */
+/* =========================================================
+   COMPLETED
+========================================================= */
 
 .status.Completed {
+    background:
+        rgba(249, 115, 22, 0.10);
 
-    background: #eff6ff;
-    color: #1d4ed8;
-    border-color: #bfdbfe;
+    color: #fb923c;
+
+    border-color:
+        rgba(249, 115, 22, 0.3);
+
+    box-shadow:
+        0 0 12px rgba(249, 115, 22, 0.07);
 }
 
 
-/* =====================================================
+/* =========================================================
    BOOKING INFORMATION
-===================================================== */
+========================================================= */
 
 .booking-info {
-
     display: grid;
 
     grid-template-columns: 1fr 1fr;
@@ -436,68 +721,73 @@ My Bookings | DriveShare
 }
 
 .info-item {
-
     padding: 12px;
 
-    background: #f8fafc;
+    background:
+        rgba(0, 12, 21, 0.75);
 
-    border: 1px solid #eef2f7;
+    border:
+        1px solid rgba(249, 115, 22, 0.08);
 
-    border-radius: 10px;
+    border-radius: 11px;
 
     transition:
         background .3s ease,
-        transform .3s ease;
+        border-color .3s ease,
+        transform .3s ease,
+        box-shadow .3s ease;
 }
 
 .info-item:hover {
+    background:
+        rgba(249, 115, 22, 0.045);
 
-    background: #f1f5f9;
+    border-color:
+        rgba(249, 115, 22, 0.22);
 
     transform: translateY(-2px);
+
+    box-shadow:
+        0 0 15px rgba(249, 115, 22, 0.04);
 }
 
 .info-label {
-
     display: block;
 
     margin-bottom: 5px;
 
+    color: #66828f;
+
     font-size: 10px;
-
     font-weight: 700;
-
-    color: #94a3b8;
 
     text-transform: uppercase;
 
-    letter-spacing: .7px;
+    letter-spacing: .8px;
 }
 
 .info-value {
-
     display: block;
+
+    color: #fff1e6;
 
     font-size: 13px;
 
     font-weight: 700;
 
-    color: #1f2937;
-
     word-break: break-word;
 }
 
 
-/* =====================================================
+/* =========================================================
    PRICE
-===================================================== */
+========================================================= */
 
+.pricee,
 .price {
-
     display: flex;
 
     align-items: center;
-
     justify-content: space-between;
 
     gap: 15px;
@@ -506,12 +796,12 @@ My Bookings | DriveShare
 
     padding-top: 16px;
 
-    border-top: 1px solid #e5e7eb;
+    border-top:
+        1px solid rgba(249, 115, 22, 0.12);
 }
 
 .price-label {
-
-    color: #64748b;
+    color: #78929f;
 
     font-size: 13px;
 
@@ -519,20 +809,23 @@ My Bookings | DriveShare
 }
 
 .price-value {
+    color: #f97316;
 
-    color: #2563eb;
-
-    font-size: 21px;
+    font-size: 22px;
 
     font-weight: 800;
+
+    text-shadow:
+        0 0 12px rgba(249, 115, 22, 0.35);
 }
 
 
-/* =====================================================
+/* =========================================================
    DETAILS BUTTON
-===================================================== */
+========================================================= */
 
 .details-btn {
+    position: relative;
 
     display: flex;
 
@@ -545,61 +838,133 @@ My Bookings | DriveShare
 
     padding: 13px;
 
-    background: #111827;
+    background:
+        rgba(249, 115, 22, 0.045);
 
-    color: white;
+    color: #f97316;
+
+    border:
+        1px solid rgba(249, 115, 22, 0.28);
+
+    border-radius: 11px;
 
     text-decoration: none;
 
-    border-radius: 10px;
-
     font-size: 13px;
 
-    font-weight: 700;
+    font-weight: 800;
+
+    overflow: hidden;
 
     transition:
         background .3s ease,
+        border-color .3s ease,
         transform .3s ease,
         box-shadow .3s ease;
 }
 
+.details-btn::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -120%;
+
+    width: 80%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.18),
+            transparent
+        );
+
+    transform: skewX(-20deg);
+
+    transition:
+        left .6s ease;
+}
+
+.details-btn:hover::before {
+    left: 130%;
+}
+
 .details-btn:hover {
+    background:
+        rgba(249, 115, 22, 0.11);
 
-    background: #2563eb;
+    color: #ffffff;
 
-    transform: translateY(-2px);
+    border-color: #f97316;
+
+    transform: translateY(-3px);
 
     box-shadow:
-        0 8px 18px rgba(37, 99, 235, .20);
+        0 0 20px rgba(249, 115, 22, 0.18);
 }
 
 
-/* =====================================================
+/* =========================================================
    EMPTY STATE
-===================================================== */
+========================================================= */
 
 .empty {
+    position: relative;
 
-    background: white;
-
-    border: 1px solid #edf1f7;
-
-    padding: 65px 30px;
-
-    border-radius: 18px;
+    padding: 70px 30px;
 
     text-align: center;
 
+    background:
+        linear-gradient(
+            145deg,
+            rgba(8, 30, 44, 0.98),
+            rgba(3, 17, 28, 0.98)
+        );
+
+    border:
+        1px solid rgba(249, 115, 22, 0.15);
+
+    border-radius: 20px;
+
     box-shadow:
-        0 10px 35px rgba(15, 23, 42, .07);
+        0 20px 50px rgba(0, 0, 0, 0.35);
+
+    overflow: hidden;
+}
+
+.empty::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+
+    left: 10%;
+    right: 10%;
+
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #f97316,
+            transparent
+        );
+
+    box-shadow:
+        0 0 15px rgba(249, 115, 22, 0.45);
 }
 
 .empty-icon {
+    width: 85px;
+    height: 85px;
 
-    width: 80px;
-    height: 80px;
-
-    margin: 0 auto 18px;
+    margin: 0 auto 20px;
 
     display: flex;
 
@@ -608,36 +973,40 @@ My Bookings | DriveShare
 
     border-radius: 50%;
 
-    background: #eff6ff;
+    background:
+        rgba(249, 115, 22, 0.08);
+
+    border:
+        1px solid rgba(249, 115, 22, 0.25);
 
     font-size: 40px;
+
+    box-shadow:
+        0 0 30px rgba(249, 115, 22, 0.10);
 }
 
 .empty h2 {
-
     margin-bottom: 8px;
 
-    font-size: 23px;
+    color: #ffffff;
 
-    color: #111827;
+    font-size: 23px;
 }
 
 .empty p {
-
     margin-bottom: 22px;
 
-    color: #6b7280;
+    color: #78929f;
 
     font-size: 14px;
 }
 
 
-/* =====================================================
+/* =========================================================
    PAGINATION
-===================================================== */
+========================================================= */
 
 .pagination {
-
     display: flex;
 
     align-items: center;
@@ -652,16 +1021,17 @@ My Bookings | DriveShare
 
 .pagination a,
 .pagination span {
-
     padding: 10px 14px;
 
-    background: white;
+    background:
+        rgba(5, 25, 38, 0.9);
 
-    border: 1px solid #e5e7eb;
+    border:
+        1px solid rgba(249, 115, 22, 0.12);
 
     border-radius: 9px;
 
-    color: #2563eb;
+    color: #8ba7b5;
 
     text-decoration: none;
 
@@ -673,52 +1043,92 @@ My Bookings | DriveShare
 }
 
 .pagination a:hover {
+    background:
+        rgba(249, 115, 22, 0.09);
 
-    background: #2563eb;
+    color: #fb923c;
 
-    color: white;
-
-    border-color: #2563eb;
+    border-color:
+        rgba(249, 115, 22, 0.4);
 
     transform: translateY(-2px);
+
+    box-shadow:
+        0 0 15px rgba(249, 115, 22, 0.10);
 }
 
 .pagination .current {
+    background:
+        linear-gradient(
+            135deg,
+            #f97316,
+            #ea580c
+        );
 
-    background: #2563eb;
+    color: #ffffff;
 
-    color: white;
+    border-color: #f97316;
 
-    border-color: #2563eb;
+    box-shadow:
+        0 0 18px rgba(249, 115, 22, 0.3);
 }
 
 
-/* =====================================================
+/* =========================================================
    ANIMATION
-===================================================== */
+========================================================= */
 
 @keyframes fadeUp {
 
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(25px);
     }
 
     to {
         opacity: 1;
         transform: translateY(0);
     }
+
 }
 
 
-/* =====================================================
+/* =========================================================
+   CARD ANIMATION DELAY
+========================================================= */
+
+.booking-card:nth-child(1) {
+    animation-delay: .05s;
+}
+
+.booking-card:nth-child(2) {
+    animation-delay: .10s;
+}
+
+.booking-card:nth-child(3) {
+    animation-delay: .15s;
+}
+
+.booking-card:nth-child(4) {
+    animation-delay: .20s;
+}
+
+.booking-card:nth-child(5) {
+    animation-delay: .25s;
+}
+
+.booking-card:nth-child(6) {
+    animation-delay: .30s;
+}
+
+
+/* =========================================================
    TABLET
-===================================================== */
+========================================================= */
 
 @media (max-width: 850px) {
 
     .booking-grid {
-
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
     }
@@ -726,58 +1136,60 @@ My Bookings | DriveShare
 }
 
 
-/* =====================================================
+/* =========================================================
    MOBILE
-===================================================== */
+========================================================= */
 
 @media (max-width: 700px) {
 
     .my-bookings-page {
-        padding: 30px 12px 50px;
+        padding: 35px 12px 55px;
     }
 
     .page-header h1 {
         font-size: 30px;
     }
 
+    .page-header p {
+        font-size: 14px;
+    }
+
     .filters {
-
         flex-direction: column;
-
         align-items: stretch;
+
+        padding: 16px;
     }
 
     .filters input,
     .filters select,
     .filters button,
     .filters a {
-
         width: 100%;
+
+        min-width: 0;
 
         text-align: center;
     }
 
     .booking-grid {
-
         grid-template-columns: 1fr;
     }
 
     .card-title {
-
         flex-direction: column;
     }
 
     .status {
-
         align-self: flex-start;
     }
 
 }
 
 
-/* =====================================================
+/* =========================================================
    SMALL MOBILE
-===================================================== */
+========================================================= */
 
 @media (max-width: 400px) {
 
@@ -786,19 +1198,28 @@ My Bookings | DriveShare
         padding-right: 10px;
     }
 
-    .booking-info {
+    .page-header h1 {
+        font-size: 27px;
+    }
 
+    .booking-info {
         grid-template-columns: 1fr;
     }
 
     .car-image {
-
         height: 190px;
     }
 
     .card-content {
-
         padding: 18px;
+    }
+
+    .pricee,
+    .price {
+        flex-direction: column;
+        align-items: flex-start;
+
+        gap: 5px;
     }
 
 }
@@ -809,7 +1230,6 @@ My Bookings | DriveShare
 <section class="my-bookings-page">
 
     <div class="my-bookings-container">
-
 
         <!-- =================================================
              PAGE HEADER
@@ -894,10 +1314,7 @@ My Bookings | DriveShare
             </select>
 
 
-            <button
-                type="submit"
-                class="btn"
-            >
+            <button type="submit" class="btn">
                 🔍 Search
             </button>
 
@@ -933,8 +1350,12 @@ My Bookings | DriveShare
 
                             {% if booking.car.images.first %}
 
+                                <!-- IMPORTANT:
+                                     CarImage uses BinaryField,
+                                     so do NOT use .image.url -->
+
                                 <img
-                                    src="{{ booking.car.images.first.image.url }}"
+                                    src="{% url 'car_image' booking.car.images.first.id %}"
                                     alt="{{ booking.car.title }}"
                                     loading="lazy"
                                 >
@@ -980,14 +1401,10 @@ My Bookings | DriveShare
                             </div>
 
 
-                            <!-- =================================
-                                 BOOKING INFORMATION
-                            ================================== -->
+                            <!-- BOOKING INFORMATION -->
 
                             <div class="booking-info">
 
-
-                                <!-- BRAND -->
 
                                 <div class="info-item">
 
@@ -1002,8 +1419,6 @@ My Bookings | DriveShare
                                 </div>
 
 
-                                <!-- MODEL -->
-
                                 <div class="info-item">
 
                                     <span class="info-label">
@@ -1016,8 +1431,6 @@ My Bookings | DriveShare
 
                                 </div>
 
-
-                                <!-- START DATE -->
 
                                 <div class="info-item">
 
@@ -1032,8 +1445,6 @@ My Bookings | DriveShare
                                 </div>
 
 
-                                <!-- END DATE -->
-
                                 <div class="info-item">
 
                                     <span class="info-label">
@@ -1047,8 +1458,6 @@ My Bookings | DriveShare
                                 </div>
 
 
-                                <!-- TOTAL DAYS -->
-
                                 <div class="info-item">
 
                                     <span class="info-label">
@@ -1061,8 +1470,6 @@ My Bookings | DriveShare
 
                                 </div>
 
-
-                                <!-- BOOKING ID -->
 
                                 <div class="info-item">
 
@@ -1079,9 +1486,7 @@ My Bookings | DriveShare
                             </div>
 
 
-                            <!-- =================================
-                                 PRICE
-                            ================================== -->
+                            <!-- PRICE -->
 
                             <div class="pricee">
 
@@ -1096,9 +1501,7 @@ My Bookings | DriveShare
                             </div>
 
 
-                            <!-- =================================
-                                 DETAILS
-                            ================================== -->
+                            <!-- DETAILS -->
 
                             <a
                                 href="{% url 'booking_details' booking.id %}"
@@ -1106,7 +1509,6 @@ My Bookings | DriveShare
                             >
                                 View Booking Details →
                             </a>
-
 
                         </div>
 
@@ -1124,7 +1526,6 @@ My Bookings | DriveShare
             {% if bookings.has_other_pages %}
 
                 <div class="pagination">
-
 
                     {% if bookings.has_previous %}
 
@@ -1161,7 +1562,6 @@ My Bookings | DriveShare
 
                     {% endif %}
 
-
                 </div>
 
             {% endif %}
@@ -1197,9 +1597,7 @@ My Bookings | DriveShare
 
             </div>
 
-
         {% endif %}
-
 
     </div>
 

@@ -1,16 +1,20 @@
 {% extends "base.html" %}
 
+
 {% block title %}
 Review Car
 {% endblock %}
+
 
 {% block content %}
 
 <section class="car-review-page">
 
-    <!-- ==========================================
+
+    <!-- =====================================================
          PAGE HEADER
-    =========================================== -->
+    ====================================================== -->
+
     <div class="car-review-header">
 
         <div class="review-heading">
@@ -20,20 +24,31 @@ Review Car
             </div>
 
             <div>
-                <span>ADMIN • VEHICLE APPROVAL</span>
 
-                <h1>Review Car</h1>
+                <span>
+                    ADMIN • VEHICLE APPROVAL
+                </span>
+
+                <h1>
+                    Review Car
+                </h1>
 
                 <p>
                     Review the submitted vehicle information before approving it.
                 </p>
+
             </div>
 
         </div>
 
+
+        <!-- CURRENT STATUS -->
+
         <div class="approval-status">
 
-            <span>Current Status</span>
+            <span>
+                Current Status
+            </span>
 
             <strong>
                 {{ car.approval_status }}
@@ -44,89 +59,113 @@ Review Car
     </div>
 
 
-    <!-- ==========================================
+
+    <!-- =====================================================
          MAIN LAYOUT
-    =========================================== -->
+    ====================================================== -->
+
     <div class="car-review-layout">
 
 
-        <!-- ======================================
+        <!-- =================================================
              LEFT SIDE
-        ======================================= -->
+        ================================================== -->
+
         <div class="car-review-main">
 
 
-            <!-- CAR IMAGE CARD -->
-            <div class="vehicle-gallery-card">
+            <!-- =================================================
+                 VEHICLE PHOTOS
+            ================================================== -->
+<!-- ==========================================
+     VEHICLE PHOTOS
+=========================================== -->
 
-                <div class="card-heading">
+<div class="vehicle-gallery-card">
 
-                    <div>
-                        <span>VEHICLE PHOTOS</span>
-                        <h2>Uploaded Images</h2>
+    <div class="card-heading">
+
+        <div>
+            <span>VEHICLE PHOTOS</span>
+
+            <h2>
+                Uploaded Images
+            </h2>
+        </div>
+
+        <span class="photo-count">
+            {{ car.images.count }} Photos
+        </span>
+
+    </div>
+
+
+    <div class="vehicle-gallery">
+
+        {% for image in car.images.all %}
+
+            {% if image.image_data %}
+
+                <div class="vehicle-image">
+
+                    <img
+                        src="/cars/image/{{ image.id }}/"
+                        alt="{{ car.title }}"
+                        width="500"
+                    >
+
+                    <div class="image-number">
+                        {{ forloop.counter }}
                     </div>
-
-                    <span class="photo-count">
-                        {{ car.images.count }} Photos
-                    </span>
 
                 </div>
 
+            {% endif %}
 
-                {% if car.images.all %}
+        {% empty %}
 
-                <div class="vehicle-gallery">
+            <div class="no-images">
 
-                    {% for image in car.images.all %}
-
-                    <div class="vehicle-image">
-
-                        <img
-                            src="{{ image.image.url }}"
-                            alt="{{ car.title }}"
-                        >
-
-                        <div class="image-number">
-                            {{ forloop.counter }}
-                        </div>
-
-                    </div>
-
-                    {% empty %}
-
-                    <div class="no-images">
-                        📷
-                        <p>No images uploaded.</p>
-                    </div>
-
-                    {% endfor %}
-
-                </div>
-
-                {% else %}
-
-                <div class="no-images">
+                <div class="no-images-icon">
                     📷
-                    <p>No images uploaded.</p>
                 </div>
 
-                {% endif %}
+                <p>
+                    No images uploaded.
+                </p>
 
             </div>
 
+        {% endfor %}
 
-            <!-- CAR INFORMATION -->
+    </div>
+
+</div>
+
+
+            <!-- =================================================
+                 VEHICLE INFORMATION
+            ================================================== -->
+
             <div class="vehicle-information-card">
+
+
+                <!-- CARD HEADER -->
 
                 <div class="card-heading">
 
                     <div>
-                        <span>VEHICLE INFORMATION</span>
+
+                        <span>
+                            VEHICLE INFORMATION
+                        </span>
 
                         <h2>
                             {{ car.title }}
                         </h2>
+
                     </div>
+
 
                     <div class="vehicle-year">
                         {{ car.year }}
@@ -134,6 +173,11 @@ Review Car
 
                 </div>
 
+
+
+                <!-- =================================================
+                     BASIC INFORMATION
+                ================================================== -->
 
                 <div class="vehicle-basic">
 
@@ -148,8 +192,15 @@ Review Car
                 </div>
 
 
-                <!-- SPECIFICATIONS -->
+
+                <!-- =================================================
+                     SPECIFICATIONS
+                ================================================== -->
+
                 <div class="vehicle-specifications">
+
+
+                    <!-- BRAND -->
 
                     <div class="vehicle-spec">
 
@@ -158,12 +209,22 @@ Review Car
                         </span>
 
                         <div>
-                            <small>Brand</small>
-                            <strong>{{ car.brand }}</strong>
+
+                            <small>
+                                Brand
+                            </small>
+
+                            <strong>
+                                {{ car.brand }}
+                            </strong>
+
                         </div>
 
                     </div>
 
+
+
+                    <!-- MODEL -->
 
                     <div class="vehicle-spec">
 
@@ -172,12 +233,22 @@ Review Car
                         </span>
 
                         <div>
-                            <small>Model</small>
-                            <strong>{{ car.model }}</strong>
+
+                            <small>
+                                Model
+                            </small>
+
+                            <strong>
+                                {{ car.model }}
+                            </strong>
+
                         </div>
 
                     </div>
 
+
+
+                    <!-- YEAR -->
 
                     <div class="vehicle-spec">
 
@@ -186,12 +257,22 @@ Review Car
                         </span>
 
                         <div>
-                            <small>Year</small>
-                            <strong>{{ car.year }}</strong>
+
+                            <small>
+                                Year
+                            </small>
+
+                            <strong>
+                                {{ car.year }}
+                            </strong>
+
                         </div>
 
                     </div>
 
+
+
+                    <!-- COLOR -->
 
                     <div class="vehicle-spec">
 
@@ -200,12 +281,22 @@ Review Car
                         </span>
 
                         <div>
-                            <small>Color</small>
-                            <strong>{{ car.color }}</strong>
+
+                            <small>
+                                Color
+                            </small>
+
+                            <strong>
+                                {{ car.color }}
+                            </strong>
+
                         </div>
 
                     </div>
 
+
+
+                    <!-- SEATS -->
 
                     <div class="vehicle-spec">
 
@@ -214,12 +305,22 @@ Review Car
                         </span>
 
                         <div>
-                            <small>Seats</small>
-                            <strong>{{ car.seats }}</strong>
+
+                            <small>
+                                Seats
+                            </small>
+
+                            <strong>
+                                {{ car.seats }}
+                            </strong>
+
                         </div>
 
                     </div>
 
+
+
+                    <!-- FUEL -->
 
                     <div class="vehicle-spec">
 
@@ -228,12 +329,22 @@ Review Car
                         </span>
 
                         <div>
-                            <small>Fuel Type</small>
-                            <strong>{{ car.fuel_type }}</strong>
+
+                            <small>
+                                Fuel Type
+                            </small>
+
+                            <strong>
+                                {{ car.fuel_type }}
+                            </strong>
+
                         </div>
 
                     </div>
 
+
+
+                    <!-- TRANSMISSION -->
 
                     <div class="vehicle-spec">
 
@@ -242,12 +353,22 @@ Review Car
                         </span>
 
                         <div>
-                            <small>Transmission</small>
-                            <strong>{{ car.transmission }}</strong>
+
+                            <small>
+                                Transmission
+                            </small>
+
+                            <strong>
+                                {{ car.transmission }}
+                            </strong>
+
                         </div>
 
                     </div>
 
+
+
+                    <!-- LOCATION -->
 
                     <div class="vehicle-spec">
 
@@ -256,16 +377,28 @@ Review Car
                         </span>
 
                         <div>
-                            <small>Location</small>
-                            <strong>{{ car.city }}</strong>
+
+                            <small>
+                                Location
+                            </small>
+
+                            <strong>
+                                {{ car.city }}
+                            </strong>
+
                         </div>
 
                     </div>
 
+
                 </div>
 
 
-                <!-- DESCRIPTION -->
+
+                <!-- =================================================
+                     DESCRIPTION
+                ================================================== -->
+
                 <div class="vehicle-description">
 
                     <h3>
@@ -278,25 +411,39 @@ Review Car
 
                 </div>
 
+
             </div>
+
 
         </div>
 
 
-        <!-- ======================================
-             RIGHT SIDE
-        ======================================= -->
+
+        <!-- =====================================================
+             RIGHT SIDEBAR
+        ====================================================== -->
+
         <aside class="car-review-sidebar">
 
 
-            <!-- PRICE CARD -->
+            <!-- =================================================
+                 PRICE CARD
+            ================================================== -->
+
             <div class="price-card">
 
-                <span>RENTAL PRICE</span>
+                <span>
+                    RENTAL PRICE
+                </span>
 
                 <div class="pricee">
+
                     ₹{{ car.price_per_day }}
-                    <small>/ day</small>
+
+                    <small>
+                        / day
+                    </small>
+
                 </div>
 
                 <p>
@@ -306,27 +453,55 @@ Review Car
             </div>
 
 
-            <!-- OWNER CARD -->
+
+            <!-- =================================================
+                 OWNER CARD
+            ================================================== -->
+
             <div class="owner-review-card">
+
 
                 <div class="card-heading">
 
                     <div>
-                        <span>CAR OWNER</span>
-                        <h2>Owner Details</h2>
+
+                        <span>
+                            CAR OWNER
+                        </span>
+
+                        <h2>
+                            Owner Details
+                        </h2>
+
                     </div>
 
+
                     <div class="owner-avatar">
+
                         {{ car.owner.username|first|upper }}
+
                     </div>
 
                 </div>
 
 
+
+                <!-- OWNER NAME -->
+
                 <div class="owner-name">
 
                     <h3>
-                        {{ car.owner.get_full_name|default:car.owner.username }}
+
+                        {% if car.owner.get_full_name %}
+
+                            {{ car.owner.get_full_name }}
+
+                        {% else %}
+
+                            {{ car.owner.username }}
+
+                        {% endif %}
+
                     </h3>
 
                     <span>
@@ -336,46 +511,83 @@ Review Car
                 </div>
 
 
+
+                <!-- OWNER INFORMATION -->
+
                 <div class="owner-info">
 
+
+                    <!-- EMAIL -->
+
                     <div>
-                        <span>📧</span>
+
+                        <span>
+                            📧
+                        </span>
 
                         <div>
-                            <small>Email</small>
+
+                            <small>
+                                Email
+                            </small>
+
                             <strong>
                                 {{ car.owner.email }}
                             </strong>
+
                         </div>
+
                     </div>
 
 
+
+                    <!-- PHONE -->
+
                     <div>
-                        <span>📱</span>
+
+                        <span>
+                            📱
+                        </span>
 
                         <div>
-                            <small>Phone</small>
+
+                            <small>
+                                Phone
+                            </small>
+
                             <strong>
                                 {{ car.owner.phone_number }}
                             </strong>
+
                         </div>
+
                     </div>
 
+
                 </div>
+
 
             </div>
 
 
-            <!-- APPROVAL CARD -->
+
+            <!-- =================================================
+                 APPROVAL CARD
+            ================================================== -->
+
             <div class="approval-card">
 
+
                 <div class="approval-card-header">
+
 
                     <div class="approval-icon">
                         ✓
                     </div>
 
+
                     <div>
+
                         <h3>
                             Approval Decision
                         </h3>
@@ -383,50 +595,84 @@ Review Car
                         <p>
                             Check all information before making your decision.
                         </p>
+
                     </div>
+
 
                 </div>
 
 
+
+                <!-- WARNING -->
+
                 <div class="approval-warning">
 
-                    ⚠️
+                    <span class="warning-icon">
+                        ⚠️
+                    </span>
 
                     <span>
-                        Make sure the vehicle details and uploaded images are
-                        correct before approval.
+
+                        Make sure the vehicle details and uploaded images
+                        are correct before approval.
+
                     </span>
 
                 </div>
 
 
+
+                <!-- =================================================
+                     APPROVAL ACTIONS
+                ================================================== -->
+
                 <div class="approval-actions">
+
+
+                    <!-- APPROVE -->
 
                     <a
                         href="{% url 'approve_car' car.id %}"
                         class="approve-car-btn"
                     >
-                        <span>✓</span>
+
+                        <span>
+                            ✓
+                        </span>
+
                         Approve Car
+
                     </a>
 
+
+
+                    <!-- REJECT -->
 
                     <a
                         href="{% url 'reject_car' car.id %}"
                         class="reject-car-btn"
                     >
-                        <span>×</span>
+
+                        <span>
+                            ×
+                        </span>
+
                         Reject Car
+
                     </a>
 
+
                 </div>
+
 
             </div>
 
 
         </aside>
 
+
     </div>
+
 
 </section>
 

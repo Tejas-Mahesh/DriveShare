@@ -555,4 +555,834 @@ Customer Profile
 
 </section>
 
+<style>
+
+/* =========================================================
+   DRIVESHARE CUSTOMER PROFILE
+   PREMIUM DARK NAVY + ORANGE THEME
+========================================================= */
+
+:root {
+    --ds-bg: #041521;
+    --ds-bg-light: #071d2b;
+    --ds-card: #092536;
+    --ds-card-dark: #061b29;
+
+    --ds-orange: #ff6b00;
+    --ds-orange-light: #ff8533;
+    --ds-orange-dark: #e85d00;
+    --ds-orange-soft: rgba(255, 107, 0, 0.12);
+
+    --ds-white: #ffffff;
+    --ds-text: #f1f5f9;
+    --ds-muted: #94a3b8;
+
+    --ds-green: #22c55e;
+    --ds-green-light: #4ade80;
+
+    --ds-border: rgba(255, 255, 255, 0.08);
+}
+
+
+/* =========================================================
+   MAIN PROFILE SECTION
+========================================================= */
+
+.customer-profile-section {
+    min-height: 100vh;
+
+    padding: 115px 20px 70px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    background:
+        radial-gradient(
+            circle at top left,
+            rgba(255, 107, 0, 0.10),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at bottom right,
+            rgba(255, 107, 0, 0.06),
+            transparent 30%
+        ),
+        var(--ds-bg);
+
+    position: relative;
+}
+
+
+/* =========================================================
+   PROFILE CONTAINER
+========================================================= */
+
+.customer-profile-container {
+    width: 100%;
+
+    max-width: 760px;
+
+    padding: 40px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #092536,
+            #061b29
+        );
+
+    border-radius: 24px;
+
+    border: 1px solid var(--ds-border);
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.40);
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+
+/* Top orange line */
+
+.customer-profile-container::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    height: 4px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--ds-orange-dark),
+            var(--ds-orange),
+            var(--ds-orange-light),
+            var(--ds-orange)
+        );
+}
+
+
+/* Decorative glow */
+
+.customer-profile-container::after {
+    content: "";
+
+    position: absolute;
+
+    width: 220px;
+
+    height: 220px;
+
+    right: -110px;
+
+    top: -110px;
+
+    border-radius: 50%;
+
+    background: var(--ds-orange);
+
+    opacity: 0.06;
+
+    filter: blur(20px);
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   HEADING
+========================================================= */
+
+.customer-profile-container h2 {
+    position: relative;
+
+    z-index: 2;
+
+    margin: 0 0 10px;
+
+    text-align: center;
+
+    color: var(--ds-white);
+
+    font-size: 31px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.4px;
+}
+
+
+.customer-profile-container h2::after {
+    content: "";
+
+    display: block;
+
+    width: 60px;
+
+    height: 4px;
+
+    margin: 12px auto 0;
+
+    border-radius: 20px;
+
+    background: var(--ds-orange);
+
+    box-shadow:
+        0 0 15px rgba(255, 107, 0, 0.35);
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.profile-description {
+    position: relative;
+
+    z-index: 2;
+
+    text-align: center;
+
+    color: var(--ds-muted);
+
+    margin: 18px 0 32px;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   FORM GROUP
+========================================================= */
+
+.form-group {
+    margin-bottom: 22px;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 14px;
+
+    font-weight: 650;
+
+    color: var(--ds-text);
+
+    letter-spacing: 0.2px;
+}
+
+
+/* =========================================================
+   INPUTS + TEXTAREA
+========================================================= */
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 13px 15px;
+
+    border: 1px solid var(--ds-border);
+
+    border-radius: 10px;
+
+    background: #061a27;
+
+    color: var(--ds-white);
+
+    font-size: 14px;
+
+    outline: none;
+
+    transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        background 0.3s ease,
+        transform 0.2s ease;
+}
+
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #64748b;
+}
+
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--ds-orange);
+
+    background: #071e2d;
+
+    box-shadow:
+        0 0 0 3px rgba(255, 107, 0, 0.11),
+        0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+
+.form-group textarea {
+    min-height: 110px;
+
+    resize: vertical;
+}
+
+
+/* =========================================================
+   DATE INPUT
+========================================================= */
+
+.form-group input[type="date"] {
+    color-scheme: dark;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   FILE INPUT
+========================================================= */
+
+.form-group input[type="file"] {
+    padding: 10px;
+
+    background: #061a27;
+
+    border: 1px dashed rgba(255, 107, 0, 0.35);
+
+    cursor: pointer;
+}
+
+
+.form-group input[type="file"]:hover {
+    border-color: var(--ds-orange);
+
+    background: var(--ds-orange-soft);
+}
+
+
+.form-group input[type="file"]::file-selector-button {
+    padding: 9px 15px;
+
+    margin-right: 10px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--ds-orange),
+            var(--ds-orange-dark)
+        );
+
+    color: #ffffff;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+}
+
+
+.form-group input[type="file"]::file-selector-button:hover {
+    background:
+        linear-gradient(
+            135deg,
+            var(--ds-orange-light),
+            var(--ds-orange)
+        );
+}
+
+
+/* =========================================================
+   VERIFIED INFORMATION SECTION
+========================================================= */
+
+.verified-section {
+    margin: 30px 0;
+
+    padding: 24px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.035),
+            rgba(255, 255, 255, 0.015)
+        );
+
+    border: 1px solid var(--ds-border);
+
+    border-radius: 18px;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+
+/* Orange side accent */
+
+.verified-section::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+
+    top: 20px;
+
+    bottom: 20px;
+
+    width: 3px;
+
+    background: var(--ds-orange);
+
+    border-radius: 10px;
+}
+
+
+/* =========================================================
+   VERIFIED TITLE
+========================================================= */
+
+.verified-title {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 22px;
+
+    gap: 15px;
+}
+
+
+.verified-title h3 {
+    margin: 0;
+
+    color: var(--ds-white);
+
+    font-size: 19px;
+
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   VERIFIED BADGE
+========================================================= */
+
+.verified-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 6px 12px;
+
+    border-radius: 30px;
+
+    background: rgba(34, 197, 94, 0.12);
+
+    border: 1px solid rgba(34, 197, 94, 0.28);
+
+    color: var(--ds-green-light);
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   READONLY FIELD
+========================================================= */
+
+.readonly-field {
+    margin-bottom: 20px;
+}
+
+
+.readonly-field:last-child {
+    margin-bottom: 0;
+}
+
+
+.readonly-field label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 13px;
+
+    font-weight: 650;
+
+    color: var(--ds-muted);
+}
+
+
+.readonly-value {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 12px 14px;
+
+    border-radius: 9px;
+
+    background:
+        rgba(0, 0, 0, 0.18);
+
+    border: 1px solid rgba(255, 255, 255, 0.06);
+
+    color: #cbd5e1;
+
+    font-size: 14px;
+
+    min-height: 44px;
+
+    display: flex;
+
+    align-items: center;
+}
+
+
+/* =========================================================
+   DOCUMENT PREVIEW
+========================================================= */
+
+.document-preview {
+    display: block;
+
+    margin-top: 9px;
+
+    max-width: 200px;
+
+    max-height: 130px;
+
+    width: auto;
+
+    height: auto;
+
+    border-radius: 10px;
+
+    border: 1px solid rgba(255, 107, 0, 0.25);
+
+    object-fit: cover;
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.25);
+
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+.document-preview:hover {
+    transform: scale(1.03);
+
+    border-color: var(--ds-orange);
+
+    box-shadow:
+        0 12px 28px rgba(0, 0, 0, 0.35),
+        0 0 20px rgba(255, 107, 0, 0.08);
+}
+
+
+/* =========================================================
+   LOCKED MESSAGE
+========================================================= */
+
+.locked-message {
+    margin-top: 18px;
+
+    padding: 12px 15px;
+
+    border-radius: 10px;
+
+    background:
+        rgba(255, 107, 0, 0.08);
+
+    border: 1px solid rgba(255, 107, 0, 0.18);
+
+    color: #ffad73;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   PROFILE BUTTON
+========================================================= */
+
+.profile-btn {
+    width: 100%;
+
+    height: 53px;
+
+    margin-top: 10px;
+
+    border: none;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--ds-orange),
+            var(--ds-orange-dark)
+        );
+
+    color: #ffffff;
+
+    font-size: 15px;
+
+    font-weight: 750;
+
+    letter-spacing: 0.2px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 25px rgba(255, 107, 0, 0.22);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        background 0.3s ease;
+}
+
+
+.profile-btn:hover {
+    transform: translateY(-3px);
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--ds-orange-light),
+            var(--ds-orange)
+        );
+
+    box-shadow:
+        0 15px 32px rgba(255, 107, 0, 0.35);
+}
+
+
+.profile-btn:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   FORM VALIDATION / ERRORS
+========================================================= */
+
+.form-group .errorlist {
+    margin: 6px 0 0;
+
+    padding: 0;
+
+    list-style: none;
+
+    color: #f87171;
+
+    font-size: 12px;
+}
+
+
+.form-group input:invalid:not(:placeholder-shown) {
+    border-color: rgba(239, 68, 68, 0.5);
+}
+
+
+/* =========================================================
+   RESPONSIVE - TABLET
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .customer-profile-section {
+        padding: 100px 15px 50px;
+
+        align-items: flex-start;
+    }
+
+    .customer-profile-container {
+        padding: 32px 25px;
+
+        border-radius: 21px;
+    }
+
+    .customer-profile-container h2 {
+        font-size: 28px;
+    }
+
+    .verified-section {
+        padding: 21px;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE - MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .customer-profile-section {
+        padding: 90px 12px 40px;
+    }
+
+    .customer-profile-container {
+        padding: 28px 18px;
+
+        border-radius: 18px;
+    }
+
+    .customer-profile-container h2 {
+        font-size: 24px;
+    }
+
+    .profile-description {
+        font-size: 13px;
+
+        margin-bottom: 25px;
+    }
+
+    .form-group {
+        margin-bottom: 19px;
+    }
+
+    .form-group label {
+        font-size: 13px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        padding: 12px 13px;
+
+        font-size: 13px;
+    }
+
+    .verified-section {
+        padding: 20px 17px;
+
+        margin: 25px 0;
+    }
+
+    .verified-title {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 10px;
+    }
+
+    .verified-title h3 {
+        font-size: 17px;
+    }
+
+    .readonly-value {
+        font-size: 13px;
+
+        padding: 11px 12px;
+    }
+
+    .document-preview {
+        max-width: 170px;
+
+        max-height: 110px;
+    }
+
+    .locked-message {
+        font-size: 11px;
+    }
+
+    .profile-btn {
+        height: 50px;
+
+        font-size: 14px;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 400px) {
+
+    .customer-profile-section {
+        padding-left: 8px;
+
+        padding-right: 8px;
+    }
+
+    .customer-profile-container {
+        padding: 25px 15px;
+    }
+
+    .customer-profile-container h2 {
+        font-size: 22px;
+    }
+
+    .verified-section {
+        padding: 18px 14px;
+    }
+
+    .document-preview {
+        max-width: 150px;
+
+        max-height: 100px;
+    }
+
+}
+
+
+/* =========================================================
+   SMOOTH SCROLL
+========================================================= */
+
+.customer-profile-section,
+.customer-profile-container,
+.verified-section {
+    scroll-behavior: smooth;
+}
+
+</style>
+
+
 {% endblock %}

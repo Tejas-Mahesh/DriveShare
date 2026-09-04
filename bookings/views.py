@@ -27,6 +27,9 @@ from reportlab.platypus import (
     Paragraph,
     Spacer,
 )
+from django.db.models import Prefetch
+from django.db.models.functions import Length
+from cars.models import Car, CarImage
 import json
 from notifications.utils import create_notification
 from .models import Booking, Review, Payment, Wallet, WalletTransaction
@@ -395,15 +398,68 @@ from django.db.models import Q
 @owner_required
 def owner_bookings(request):
 
-    bookings = Booking.objects.filter(
-        car__owner=request.user
-    ).select_related(
-        "customer",
-        "car"
-    ).order_by("-booked_at")
+    # ---------------------------------------------------------
+    # VALID CAR IMAGES
+    # ---------------------------------------------------------
 
-    search = request.GET.get("search")
-    status = request.GET.get("status")
+    valid_images = (
+        CarImage.objects
+        .filter(
+            image_data__isnull=False
+        )
+        .annotate(
+            data_length=Length("image_data")
+        )
+        .filter(
+            data_length__gt=0
+        )
+        .exclude(
+            image_name=""
+        )
+        .order_by(
+            "-is_primary",
+            "id"
+        )
+    )
+
+    # ---------------------------------------------------------
+    # BOOKINGS
+    # ---------------------------------------------------------
+
+    bookings = (
+        Booking.objects
+        .filter(
+            car__owner=request.user
+        )
+        .select_related(
+            "customer",
+            "car"
+        )
+        .prefetch_related(
+            Prefetch(
+                "car__images",
+                queryset=valid_images,
+                to_attr="valid_images"
+            )
+        )
+        .order_by(
+            "-booked_at"
+        )
+    )
+
+    # ---------------------------------------------------------
+    # SEARCH
+    # ---------------------------------------------------------
+
+    search = request.GET.get(
+        "search",
+        ""
+    )
+
+    status = request.GET.get(
+        "status",
+        ""
+    )
 
     if search:
 
@@ -423,70 +479,128 @@ def owner_bookings(request):
             booking_status=status
         )
 
-    paginator = Paginator(bookings, 6)
+    # ---------------------------------------------------------
+    # PAGINATION
+    # ---------------------------------------------------------
 
-    page = request.GET.get("page")
+    paginator = Paginator(
+        bookings,
+        6
+    )
 
-    bookings = paginator.get_page(page)
+    page = request.GET.get(
+        "page"
+    )
+
+    bookings = paginator.get_page(
+        page
+    )
+
+    # ---------------------------------------------------------
+    # ANALYTICS
+    # ---------------------------------------------------------
+
     total_bookings = Booking.objects.filter(
-    car__owner=request.user
-).count()
+        car__owner=request.user
+    ).count()
 
     pending_bookings = Booking.objects.filter(
-    car__owner=request.user,
-    booking_status="Pending"
-).count()
+        car__owner=request.user,
+        booking_status="Pending"
+    ).count()
 
     approved_bookings = Booking.objects.filter(
-    car__owner=request.user,
-    booking_status="Approved"
-).count()
+        car__owner=request.user,
+        booking_status="Approved"
+    ).count()
 
     rejected_bookings = Booking.objects.filter(
-    car__owner=request.user,
-    booking_status="Rejected"
-).count()
+        car__owner=request.user,
+        booking_status="Rejected"
+    ).count()
 
     approved_amount = Booking.objects.filter(
-    car__owner=request.user,
-    booking_status="Approved"
-)
+        car__owner=request.user,
+        booking_status="Approved"
+    )
 
     expected_earnings = sum(
-    booking.total_amount
-    for booking in approved_amount
-)
+        booking.total_amount
+        for booking in approved_amount
+    )
+
     payment_pending_count = Booking.objects.filter(
-    car__owner=request.user,
-    booking_status="Approved",
-    payment__payment_status="Pending"
-).count()
+        car__owner=request.user,
+        booking_status="Approved",
+        payment__payment_status="Pending"
+    ).count()
+
+    # ---------------------------------------------------------
+    # RENDER
+    # ---------------------------------------------------------
 
     return render(
-    request,
-    "bookings/owner_bookings.html",
-    {
-        "bookings": bookings,
-        "search": search,
-        "status": status,
+        request,
+        "bookings/owner_bookings.html",
+        {
+            "bookings": bookings,
+            "search": search,
+            "status": status,
 
-        "total_bookings": total_bookings,
-        "pending_bookings": pending_bookings,
-        "approved_bookings": approved_bookings,
-        "rejected_bookings": rejected_bookings,
-        "expected_earnings": expected_earnings,
-    }
-)
+            "total_bookings": total_bookings,
+            "pending_bookings": pending_bookings,
+            "approved_bookings": approved_bookings,
+            "rejected_bookings": rejected_bookings,
+            "expected_earnings": expected_earnings,
+            "payment_pending_count": payment_pending_count,
+        }
+    )
 @login_required
 @owner_required
 def owner_booking_details(request, booking_id):
 
+    # ---------------------------------------------------------
+    # ONLY LOAD CAR IMAGES THAT CONTAIN ACTUAL BINARY DATA
+    # ---------------------------------------------------------
+
+    valid_images = (
+        CarImage.objects
+        .filter(
+            image_data__isnull=False
+        )
+        .annotate(
+            data_length=Length("image_data")
+        )
+        .filter(
+            data_length__gt=0
+        )
+        .exclude(
+            image_name=""
+        )
+        .order_by(
+            "-is_primary",
+            "id"
+        )
+    )
+
+    # ---------------------------------------------------------
+    # GET BOOKING
+    # ---------------------------------------------------------
+
     booking = get_object_or_404(
-        Booking.objects.select_related(
+        Booking.objects
+        .select_related(
             "customer",
             "car",
             "car__owner",
             "payment",
+        )
+        .prefetch_related(
+            Prefetch(
+                "car__images",
+                queryset=valid_images,
+                to_attr="valid_images"
+            )
         ),
         id=booking_id,
         car__owner=request.user,

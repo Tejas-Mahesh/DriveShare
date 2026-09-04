@@ -142,15 +142,25 @@ Booking Requests
 
         <div class="booking-card">
 
-            {% if booking.car.images.first %}
+            {% if booking.car.valid_images %}
 
-                <img src="{{ booking.car.images.first.image.url }}" alt="{{ booking.car.title }}">
+    {% with car_image=booking.car.valid_images.0 %}
 
-            {% else %}
+        <img
+            src="{% url 'car_image' car_image.id %}"
+            alt="{{ booking.car.title }}"
+        >
 
-                <img src="{% static 'images/default-car.jpg' %}" alt="No Image">
+    {% endwith %}
 
-            {% endif %}
+{% else %}
+
+    <img
+        src="{% static 'images/default-car.jpg' %}"
+        alt="No Image"
+    >
+
+{% endif %}
 
             <div class="booking-info">
 

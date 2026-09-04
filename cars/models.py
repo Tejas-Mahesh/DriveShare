@@ -5,7 +5,6 @@ from accounts.models import CustomUser
 class Car(models.Model):
 
     FUEL_TYPES = [
-
         ("Petrol", "Petrol"),
         ("Diesel", "Diesel"),
         ("Electric", "Electric"),
@@ -14,13 +13,11 @@ class Car(models.Model):
     ]
 
     TRANSMISSION_TYPES = [
-
         ("Manual", "Manual"),
         ("Automatic", "Automatic"),
     ]
 
     STATUS_CHOICES = [
-
         ("Pending", "Pending"),
         ("Approved", "Approved"),
         ("Rejected", "Rejected"),
@@ -63,26 +60,36 @@ class Car(models.Model):
 
     description = models.TextField()
 
-    is_available = models.BooleanField(default=True)
+    is_available = models.BooleanField(
+        default=True
+    )
 
     approval_status = models.CharField(
         max_length=20,
         choices=STATUS_CHOICES,
         default="Pending"
     )
+
     rejection_reason = models.TextField(
-    blank=True,
-    null=True
-)
-    
+        blank=True,
+        null=True
+    )
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
 
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(
+        auto_now=True
+    )
 
     def __str__(self):
-       return f"{self.brand} {self.model} ({self.year}) - {self.owner.username}"
-    
+        return (
+            f"{self.brand} {self.model} "
+            f"({self.year}) - {self.owner.username}"
+        )
+
+
 class CarImage(models.Model):
 
     car = models.ForeignKey(
@@ -91,8 +98,28 @@ class CarImage(models.Model):
         related_name="images"
     )
 
-    image = models.ImageField(
-        upload_to="car_images/"
+    # ========================================================
+    # ACTUAL IMAGE DATA
+    # Stored directly inside PostgreSQL
+    # ========================================================
+
+    image_data = models.BinaryField(
+        blank=True,
+        null=True
+    )
+
+    # Original filename
+
+    image_name = models.CharField(
+        max_length=255,
+        blank=True
+    )
+
+    # MIME type
+
+    image_type = models.CharField(
+        max_length=100,
+        default="image/jpeg"
     )
 
     is_primary = models.BooleanField(
@@ -104,8 +131,8 @@ class CarImage(models.Model):
     )
 
     def __str__(self):
-
         return f"{self.car.title} Image"
+
 
 class Wishlist(models.Model):
 
@@ -126,7 +153,13 @@ class Wishlist(models.Model):
     )
 
     class Meta:
-        unique_together = ("customer", "car")
+        unique_together = (
+            "customer",
+            "car",
+        )
 
     def __str__(self):
-        return f"{self.customer.username} - {self.car.title}"
+        return (
+            f"{self.customer.username} - "
+            f"{self.car.title}"
+        )

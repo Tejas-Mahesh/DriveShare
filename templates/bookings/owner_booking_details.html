@@ -61,23 +61,27 @@ Booking Request
 
             <div class="booking-car-panel">
 
-                {% if booking.car.images.first %}
+                {% if booking.car.valid_images %}
 
-                    <img
-                        src="{{ booking.car.images.first.image.url }}"
-                        alt="{{ booking.car.title }}"
-                        class="owner-booking-car-image"
-                    >
+    {% with car_image=booking.car.valid_images.0 %}
 
-                {% else %}
+        <img
+            src="{% url 'car_image' car_image.id %}"
+            alt="{{ booking.car.title }}"
+            class="owner-booking-car-image"
+        >
 
-                    <img
-                        src="{% static 'images/default-car.jpg' %}"
-                        alt="No car image"
-                        class="owner-booking-car-image"
-                    >
+    {% endwith %}
 
-                {% endif %}
+{% else %}
+
+    <img
+        src="{% static 'images/default-car.jpg' %}"
+        alt="No car image"
+        class="owner-booking-car-image"
+    >
+
+{% endif %}
 
 
                 <div class="car-panel-content">

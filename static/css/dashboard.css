@@ -1,783 +1,1362 @@
-.dashboard{
 
-    max-width:1300px;
+/* =========================================================
+   DRIVESHARE CUSTOMER DASHBOARD
+   PREMIUM DARK NAVY + ORANGE THEME
+========================================================= */
+
+:root {
+    --ds-bg: #041521;
+    --ds-bg-light: #071d2b;
+    --ds-card: #092536;
+    --ds-card-hover: #0d2d40;
+
+    --ds-orange: #ff6b00;
+    --ds-orange-light: #ff8533;
+    --ds-orange-dark: #e85d00;
+    --ds-orange-soft: rgba(255, 107, 0, 0.12);
+
+    --ds-white: #ffffff;
+    --ds-text: #f1f5f9;
+    --ds-muted: #94a3b8;
+
+    --ds-green: #22c55e;
+    --ds-yellow: #f59e0b;
+    --ds-red: #ef4444;
+
+    --ds-border: rgba(255, 255, 255, 0.08);
+}
+
+
+/* =========================================================
+   MAIN DASHBOARD
+========================================================= */
+
+.dashboard {
+    max-width: auto;
+    margin-top: 40px;
+    padding: 35px 25px;
+    color: var(--ds-text);
+
+ background:
+        radial-gradient(
+            circle at top left,
+            rgba(255, 107, 0, 0.10),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at bottom right,
+            rgba(255, 107, 0, 0.06),
+            transparent 30%
+        ),
+        var(--ds-bg);
+}
+
+/* =========================================================
+   DASHBOARD HEADER
+========================================================= */
 
-    margin:120px auto 50px;
+.dashboard-header {
+    margin-bottom: 35px;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    padding: 30px;
+    background: linear-gradient(
+        135deg,
+        #092536,
+        #061a27
+    );
+    border: 1px solid var(--ds-border);
+    border-radius: 24px;
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.35);
+    position: relative;
+    overflow: hidden;
+}
 
-    padding:40px;
+.profile-header::before {
+    content: "";
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    right: -80px;
+    top: -100px;
+    background: var(--ds-orange);
+    opacity: 0.08;
+    border-radius: 50%;
+    filter: blur(20px);
+}
 
+.profile-header::after {
+    content: "";
+    position: absolute;
+    width: 160px;
+    height: 160px;
+    left: -80px;
+    bottom: -100px;
+    background: var(--ds-orange);
+    opacity: 0.06;
+    border-radius: 50%;
+    filter: blur(25px);
 }
-.dashboard-header{
+
+.profile-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
 
-    margin-bottom:30px;
+    border: 4px solid var(--ds-orange);
 
+    box-shadow:
+        0 0 0 6px rgba(255, 107, 0, 0.12),
+        0 10px 30px rgba(0, 0, 0, 0.35);
+
+    position: relative;
+    z-index: 2;
 }
 
-.dashboard-header h1{
+.profile-header > div {
+    position: relative;
+    z-index: 2;
+}
 
-    font-size:36px;
+.dashboard-header h1 {
+    margin: 0 0 8px;
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--ds-white);
+    letter-spacing: 0.3px;
+}
 
+.dashboard-header p {
+    margin: 0 0 14px;
+    color: var(--ds-muted);
+    font-size: 15px;
 }
 
-.dashboard-card{
 
-    background:#fff;
+/* =========================================================
+   ROLE BADGE
+========================================================= */
 
-    border-radius:20px;
+.role-badge {
+    display: inline-flex;
+    align-items: center;
 
-    padding:30px;
+    padding: 7px 15px;
+    border-radius: 30px;
 
-    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    background: var(--ds-orange-soft);
+    border: 1px solid rgba(255, 107, 0, 0.35);
 
-    transition:.3s;
+    color: var(--ds-orange-light);
 
-    min-height:180px;
+    font-size: 13px;
+    font-weight: 700;
 
+    box-shadow: 0 5px 15px rgba(255, 107, 0, 0.08);
 }
+
+
+/* =========================================================
+   VERIFICATION BADGES
+========================================================= */
 
-.dashboard-grid{
+.verify {
+    display: inline-flex;
+    align-items: center;
 
-    display:grid;
+    margin-left: 8px;
+    padding: 7px 15px;
 
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    border-radius: 30px;
 
-    gap:25px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.verify.approved {
+    background: rgba(34, 197, 94, 0.12);
+    border: 1px solid rgba(34, 197, 94, 0.25);
+    color: #4ade80;
+}
 
-    margin-top:30px;
+.verify.pending {
+    background: rgba(245, 158, 11, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    color: #fbbf24;
+}
 
+.verify.rejected {
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    color: #f87171;
 }
 
-.dashboard-box{
 
-    background:#fff;
+/* =========================================================
+   STATISTICS
+========================================================= */
 
-    border-radius:18px;
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
 
-    padding:25px;
+    margin: 35px 0;
+}
 
-    min-height:220px;
+.stats-card {
+    position: relative;
 
-    display:flex;
+    background: linear-gradient(
+        145deg,
+        #092536,
+        #061b29
+    );
 
-    flex-direction:column;
+    border: 1px solid var(--ds-border);
+    border-radius: 20px;
 
-    justify-content:space-between;
+    padding: 28px 20px;
 
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    text-align: center;
 
-    transition:all .35s ease;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
 
-    border:2px solid transparent;
+    transition:
+        transform 0.35s ease,
+        border-color 0.35s ease,
+        box-shadow 0.35s ease;
 
+    overflow: hidden;
 }
-.revieww{
-    background:#fff;
 
-    border-radius:18px;
+.stats-card::before {
+    content: "";
 
-    padding:20px;
+    position: absolute;
 
-    min-height:200px;
+    width: 100px;
+    height: 100px;
 
-    display:flex;
+    right: -40px;
+    top: -40px;
 
-    flex-direction:column;
+    border-radius: 50%;
 
-    justify-content:space-between;
+    background: var(--ds-orange);
 
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    opacity: 0.06;
+}
+
+.stats-card:hover {
+    transform: translateY(-8px);
 
-    transition:all .35s ease;
+    border-color: rgba(255, 107, 0, 0.45);
 
-    border:2px solid transparent;
+    box-shadow:
+        0 20px 45px rgba(0, 0, 0, 0.35),
+        0 0 25px rgba(255, 107, 0, 0.08);
 }
-.dashboard-box:hover{
 
-    transform:translateY(-10px);
+.stats-icon {
+    font-size: 38px;
 
-    box-shadow:0 18px 35px rgba(13,110,253,.20);
+    color: var(--ds-orange);
 
-    border-color:#0d6efd;
+    margin-bottom: 15px;
 
+    transition:
+        transform 0.35s ease,
+        color 0.35s ease;
 }
-.dashboard-box h3{
 
-    margin-bottom:12px;
+.stats-card:hover .stats-icon {
+    transform: scale(1.15) rotate(-7deg);
+    color: var(--ds-orange-light);
+}
 
-    color:#222;
+.stats-card h2 {
+    margin: 0 0 8px;
 
-}
+    font-size: 32px;
+    font-weight: 800;
 
-.dashboard-box p{
+    color: var(--ds-white);
+}
 
-    color:#666;
+.stats-card p {
+    margin: 0;
 
-    line-height:1.6;
+    color: var(--ds-muted);
 
+    font-size: 14px;
 }
 
-.dashboard-box:hover{
 
-    transform:translateY(-8px);
+/* =========================================================
+   COMMON DASHBOARD CARD
+========================================================= */
 
+.dashboard-card {
+    background: linear-gradient(
+        145deg,
+        #092536,
+        #061b29
+    );
+
+    border: 1px solid var(--ds-border);
+
+    border-radius: 22px;
+
+    padding: 30px;
+
+    margin-top: 30px;
+
+    min-height: 180px;
+
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.28);
+
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+
+    overflow: hidden;
+}
+
+.dashboard-card:hover {
+    border-color: rgba(255, 107, 0, 0.25);
+
+    box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.35),
+        0 0 25px rgba(255, 107, 0, 0.05);
 }
 
-.dashboard-btn{
+.dashboard-card h2 {
+    color: var(--ds-white);
 
-    display:inline-block;
+    font-size: 26px;
 
-    padding:12px 22px;
+    margin: 0 0 20px;
 
-    background:#0d6efd;
+    font-weight: 750;
 
-    color:#fff;
+    letter-spacing: 0.3px;
+}
 
-    text-decoration:none;
+.dashboard-card h3 {
+    color: var(--ds-text);
 
-    border-radius:8px;
+    font-size: 17px;
 
-    font-weight:600;
+    margin: 25px 0 10px;
+}
 
-    transition:all .3s ease;
+.dashboard-card p {
+    color: var(--ds-muted);
 
+    line-height: 1.7;
 }
-.dashboard-btn:hover{
+
+
+/* =========================================================
+   PROFILE STATUS
+========================================================= */
 
-    background:#ff5a3c;
+.dashboard-card p[style*="green"] {
+    color: #4ade80 !important;
 
-    transform:translateY(-2px);
+    background: rgba(34, 197, 94, 0.08);
 
+    border: 1px solid rgba(34, 197, 94, 0.18);
+
+    padding: 12px 16px;
+
+    border-radius: 12px;
+
+    display: inline-block;
 }
-.dashboard-box{
+
+.dashboard-card p[style*="red"] {
+    color: #f87171 !important;
+
+    background: rgba(239, 68, 68, 0.08);
 
-    cursor:pointer;
+    border: 1px solid rgba(239, 68, 68, 0.18);
 
+    padding: 12px 16px;
+
+    border-radius: 12px;
+
+    display: inline-block;
 }
-.form-control{
+
+
+/* =========================================================
+   STATUS BADGES
+========================================================= */
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
 
-    width:100%;
+    padding: 9px 17px;
 
-    padding:12px;
+    border-radius: 30px;
 
-    margin-top:8px;
+    font-size: 14px;
 
-    margin-bottom:18px;
+    font-weight: 700;
 
-    border:1px solid #ddd;
+    margin-top: 5px;
+}
 
-    border-radius:8px;
+.status-approved {
+    background: rgba(34, 197, 94, 0.12);
 
-    font-size:15px;
+    border: 1px solid rgba(34, 197, 94, 0.3);
 
+    color: #4ade80;
 }
+
+.status-pending {
+    background: rgba(245, 158, 11, 0.12);
 
-progress{
+    border: 1px solid rgba(245, 158, 11, 0.3);
 
-    width:100%;
+    color: #fbbf24;
+}
 
-    height:20px;
+.status-rejected {
+    background: rgba(239, 68, 68, 0.12);
 
-    margin:15px 0;
+    border: 1px solid rgba(239, 68, 68, 0.3);
 
+    color: #f87171;
 }
-.profile-header{
+
+
+/* =========================================================
+   QUICK ACTIONS
+========================================================= */
 
-    display:flex;
+.dashboard-grid {
+    display: grid;
 
-    align-items:center;
+    grid-template-columns:
+        repeat(4, 1fr);
 
-    gap:20px;
+    gap: 22px;
 
+    margin-top: 30px;
 }
 
-.profile-image{
+.dashboard-box {
+    position: relative;
 
-    width:90px;
+    background: linear-gradient(
+        145deg,
+        #092536,
+        #061b29
+    );
 
-    height:90px;
+    border: 1px solid var(--ds-border);
 
-    border-radius:50%;
+    border-radius: 20px;
 
-    object-fit:cover;
+    padding: 27px;
 
-    border:4px solid #0d6efd;
+    min-height: 245px;
 
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.25);
+
+    transition:
+        transform 0.35s ease,
+        border-color 0.35s ease,
+        box-shadow 0.35s ease;
+
+    overflow: hidden;
+
+    cursor: pointer;
 }
-.status-badge{
+
+.dashboard-box::before {
+    content: "";
 
-    display:inline-block;
+    position: absolute;
 
-    padding:8px 16px;
+    width: 140px;
+    height: 140px;
 
-    border-radius:30px;
+    right: -70px;
+    top: -70px;
 
-    color:white;
+    background: var(--ds-orange);
 
-    font-size:14px;
+    opacity: 0.07;
 
-    font-weight:600;
+    border-radius: 50%;
 
-    margin-top:10px;
+    transition: 0.4s ease;
+}
 
+.dashboard-box:hover::before {
+    transform: scale(1.6);
+
+    opacity: 0.1;
 }
 
-.status-approved{
+.dashboard-box:hover {
+    transform: translateY(-10px);
 
-    background:#28a745;
+    border-color: rgba(255, 107, 0, 0.5);
 
+    box-shadow:
+        0 22px 45px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(255, 107, 0, 0.08);
 }
 
-.status-pending{
+.dashboard-box h3 {
+    color: var(--ds-white);
 
-    background:#ffc107;
+    font-size: 20px;
 
-    color:#000;
+    margin: 5px 0 10px;
 
+    position: relative;
+    z-index: 2;
 }
+
+.dashboard-box p {
+    color: var(--ds-muted);
 
-.status-rejected{
+    line-height: 1.6;
 
-    background:#dc3545;
+    font-size: 14px;
 
+    margin-bottom: 20px;
+
+    position: relative;
+    z-index: 2;
 }
-.role-badge{
 
-    display:inline-block;
 
-    margin-top:12px;
+/* =========================================================
+   DASHBOARD ICON
+========================================================= */
 
-    padding:6px 14px;
+.dashboard-icon {
+    font-size: 42px;
 
-    border-radius:20px;
+    color: var(--ds-orange);
 
-    background:#0d6efd;
+    margin-bottom: 10px;
 
-    color:white;
+    transition:
+        transform 0.35s ease,
+        color 0.35s ease;
 
-    font-size:13px;
+    position: relative;
+    z-index: 2;
+}
 
-    font-weight:600;
+.dashboard-box:hover .dashboard-icon {
+    transform:
+        scale(1.15)
+        rotate(-8deg);
 
+    color: var(--ds-orange-light);
 }
 
-.verify{
 
-    display:inline-block;
+/* =========================================================
+   DASHBOARD BUTTON
+========================================================= */
 
-    margin-left:10px;
+.dashboard-btn {
+    display: inline-flex;
 
-    padding:6px 14px;
+    align-items: center;
 
-    border-radius:20px;
+    justify-content: center;
 
-    font-size:13px;
+    width: fit-content;
 
-    font-weight:600;
+    padding: 11px 20px;
 
-}
+    background: linear-gradient(
+        135deg,
+        var(--ds-orange),
+        var(--ds-orange-dark)
+    );
 
-.verify.approved{
+    color: #fff;
 
-    background:#d4edda;
+    text-decoration: none;
 
-    color:#155724;
+    border-radius: 10px;
 
-}
+    font-size: 14px;
+
+    font-weight: 700;
 
-.verify.pending{
+    border: 1px solid rgba(255, 255, 255, 0.08);
 
-    background:#fff3cd;
+    box-shadow:
+        0 8px 20px rgba(255, 107, 0, 0.2);
 
-    color:#856404;
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        background 0.3s ease;
 
+    position: relative;
+    z-index: 3;
 }
 
-.verify.rejected{
+.dashboard-btn:hover {
+    background: linear-gradient(
+        135deg,
+        var(--ds-orange-light),
+        var(--ds-orange)
+    );
 
-    background:#f8d7da;
+    color: #fff;
 
-    color:#721c24;
+    transform: translateY(-3px);
 
+    box-shadow:
+        0 12px 28px rgba(255, 107, 0, 0.35);
 }
-.dashboard-icon{
+
+
+/* =========================================================
+   FORM CONTROLS
+========================================================= */
+
+.form-control {
+    width: 100%;
+
+    padding: 13px 15px;
+
+    margin-top: 8px;
 
-    font-size:42px;
+    margin-bottom: 18px;
 
-    color:#0d6efd;
+    background: #061a27;
 
-    margin-bottom:20px;
+    color: var(--ds-white);
 
-    transition:all .35s ease;
+    border: 1px solid var(--ds-border);
 
+    border-radius: 10px;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
 }
-.dashboard-box:hover .dashboard-icon{
 
-    transform:scale(1.15) rotate(-8deg);
+.form-control:focus {
+    border-color: var(--ds-orange);
 
-    color:#ff5a3c;
+    box-shadow:
+        0 0 0 3px rgba(255, 107, 0, 0.12);
+}
 
+.form-control::placeholder {
+    color: #64748b;
 }
-.stats-grid{
+
 
-    display:grid;
+/* =========================================================
+   PROGRESS
+========================================================= */
 
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+progress {
+    width: 100%;
 
-    gap:20px;
+    height: 20px;
 
-    margin:35px 0;
+    margin: 15px 0;
 
+    accent-color: var(--ds-orange);
 }
 
-.stats-card{
 
-    background:#fff;
+/* =========================================================
+   REVIEW
+========================================================= */
 
-    border-radius:15px;
+.revieww {
+    background: linear-gradient(
+        145deg,
+        #092536,
+        #061b29
+    );
 
-    padding:25px;
+    border: 1px solid var(--ds-border);
 
-    text-align:center;
+    border-radius: 18px;
 
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    padding: 20px;
 
-    transition:.3s;
+    min-height: 200px;
 
-}
+    display: flex;
 
-.stats-card:hover{
+    flex-direction: column;
 
-    transform:translateY(-8px);
+    justify-content: space-between;
 
-    box-shadow:0 18px 35px rgba(0,0,0,.15);
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.25);
 
+    transition: 0.35s ease;
 }
 
-.stats-icon{
+.revieww:hover {
+    transform: translateY(-6px);
 
-    font-size:40px;
+    border-color: rgba(255, 107, 0, 0.3);
+}
 
-    color:#0d6efd;
 
-    margin-bottom:15px;
+/* =========================================================
+   OWNER REPUTATION
+========================================================= */
 
+.owner-reputation {
+    margin-top: 40px;
 }
 
-.stats-card h2{
+.reputation-card {
+    background: linear-gradient(
+        145deg,
+        #092536,
+        #061b29
+    );
 
-    font-size:32px;
+    border: 1px solid var(--ds-border);
 
-    color:#222;
+    border-radius: 22px;
 
-    margin-bottom:10px;
+    padding: 35px;
 
+    text-align: center;
+
+    box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.3);
 }
+
+.reputation-card h1 {
+    color: var(--ds-orange);
+
+    font-size: 45px;
 
-.stats-card p{
+    margin-bottom: 15px;
+}
 
-    color:#666;
+.reputation-card p {
+    color: var(--ds-muted);
 
-    font-size:15px;
+    font-size: 18px;
 
+    margin: 12px 0;
 }
-.dashboard-card,
-.dashboard-box,
-.stats-card{
+
+.top-owner {
+    margin-top: 20px;
+
+    display: inline-block;
+
+    background: rgba(34, 197, 94, 0.12);
+
+    border: 1px solid rgba(34, 197, 94, 0.3);
 
-    border-radius:18px;
+    color: #4ade80;
 
-    overflow:hidden;
+    padding: 10px 22px;
 
-    border:1px solid rgba(0,0,0,.05);
+    border-radius: 30px;
 
+    font-weight: 700;
 }
-.dashboard-header h1,
-section h2{
 
-    letter-spacing:.5px;
 
+/* =========================================================
+   ANALYTICS
+========================================================= */
+
+.analytics-section {
+    margin-top: 65px;
 }
-.owner-reputation{
+
+.analytics-row {
+    display: flex;
 
-    margin-top:40px;
+    gap: 25px;
 
+    margin-bottom: 45px;
 }
 
-.reputation-card{
+.analytics-card {
+    flex: 1;
 
-    background:#fff;
+    background: linear-gradient(
+        145deg,
+        #092536,
+        #061b29
+    );
 
-    border-radius:20px;
+    border-radius: 20px;
 
-    padding:35px;
+    padding: 22px;
 
-    text-align:center;
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.28);
 
-    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    border: 1px solid var(--ds-border);
 
+    transition: 0.3s ease;
 }
 
-.reputation-card h1{
+.analytics-card:hover {
+    transform: translateY(-5px);
+
+    border-color: rgba(255, 107, 0, 0.25);
+
+    box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.35);
+}
 
-    color:#f59e0b;
+.analytics-card h3 {
+    font-size: 22px;
 
-    font-size:45px;
+    margin-bottom: 18px;
 
-    margin-bottom:15px;
+    font-weight: 700;
 
+    color: var(--ds-white);
 }
 
-.reputation-card p{
+.chart-box {
+    position: relative;
 
-    font-size:18px;
+    width: 100%;
 
-    margin:12px 0;
+    height: 280px;
+}
+
+.chart-box canvas {
+    width: 100% !important;
 
+    height: 100% !important;
 }
 
-.top-owner{
+.full-width {
+    width: 100%;
+}
 
-    margin-top:20px;
+.pie-chart {
+    width: 220px;
 
-    display:inline-block;
+    height: 220px;
 
-    background:#16a34a;
+    margin: 0 auto;
+
+    position: relative;
+}
 
-    color:white;
 
-    padding:10px 22px;
+/* =========================================================
+   REFUND REQUESTS
+========================================================= */
 
-    border-radius:30px;
+.refund-section {
+    max-width: 1300px;
 
-    font-weight:bold;
+    margin: 120px auto;
 
+    padding: 25px;
 }
-.dashboard-card h2{
 
-    color:#16a34a;
+.refund-title {
+    font-size: 38px;
 
-    font-size:28px;
+    font-weight: 800;
 
-    margin-top:10px;
+    color: var(--ds-white);
 
-}
-/* ==========================
-      Analytics Dashboard
-========================== */
+    margin-bottom: 35px;
 
-.analytics-section{
-    margin-top:65px;
+    text-align: center;
 }
 
-.analytics-row{
-    display:flex;
-    gap:25px;
-    margin-bottom:45px;
-}
 
-.analytics-card{
-    flex:1;
-    background:#fff;
-    border-radius:18px;
-    padding:22px;
-    box-shadow:0 10px 25px rgba(0,0,0,.08);
-    border:1px solid #ececec;
-    transition:.3s;
-}
+/* =========================================================
+   REFUND TABLE
+========================================================= */
+
+.refund-table {
+    width: 100%;
+
+    border-collapse: collapse;
 
-.analytics-card:hover{
-    transform:translateY(-4px);
-    box-shadow:0 15px 35px rgba(0,0,0,.12);
+    background: #092536;
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.3);
+
+    border: 1px solid var(--ds-border);
 }
+
+.refund-table thead {
+    background: linear-gradient(
+        135deg,
+        var(--ds-orange),
+        var(--ds-orange-dark)
+    );
 
-.analytics-card h3{
-    font-size:22px;
-    margin-bottom:18px;
-    font-weight:700;
-    color:#1e293b;
+    color: #fff;
 }
 
-.chart-box{
-    position:relative;
-    width:100%;
-    height:280px;
+.refund-table th {
+    padding: 18px;
+
+    font-size: 15px;
+
+    text-align: center;
+
+    font-weight: 700;
 }
+
+.refund-table td {
+    padding: 18px;
+
+    text-align: center;
 
-.chart-box canvas{
-    width:100% !important;
-    height:100% !important;
+    border-bottom: 1px solid var(--ds-border);
+
+    font-size: 14px;
+
+    color: var(--ds-muted);
 }
 
-.full-width{
-    width:100%;
+.refund-table tbody tr {
+    transition: 0.3s ease;
 }
 
-.pie-chart{
-    width:220px;
-    height:220px;
-    margin:0 auto;
-    position:relative;
+.refund-table tbody tr:hover {
+    background: rgba(255, 107, 0, 0.05);
 }
-/* Tablet */
+
+
+/* =========================================================
+   REFUND STATUS
+========================================================= */
+
+.status {
+    display: inline-block;
 
-@media (max-width:992px){
+    padding: 7px 18px;
 
-.analytics-row{
-    flex-direction:column;
+    border-radius: 30px;
+
+    color: #fff;
+
+    font-size: 13px;
+
+    font-weight: 700;
 }
+
+.status.pending {
+    background: rgba(245, 158, 11, 0.15);
+
+    color: #fbbf24;
 
-.chart-box{
-    height:240px;
+    border: 1px solid rgba(245, 158, 11, 0.3);
 }
 
-.pie-chart{
-    max-width:350px;
-    height:280px;
+.status.approved {
+    background: rgba(34, 197, 94, 0.15);
+
+    color: #4ade80;
+
+    border: 1px solid rgba(34, 197, 94, 0.3);
 }
 
+.status.rejected {
+    background: rgba(239, 68, 68, 0.15);
+
+    color: #f87171;
+
+    border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
 
-/* Mobile */
+/* =========================================================
+   REFUND ACTION BUTTONS
+========================================================= */
 
-@media (max-width:768px){
+.action-btn {
+    display: inline-block;
 
-.analytics-card{
+    padding: 9px 18px;
 
-    padding:18px;
+    border-radius: 9px;
 
-}
+    text-decoration: none;
 
-.analytics-card h3{
+    color: #fff;
 
-    font-size:19px;
+    font-size: 13px;
 
-}
+    font-weight: 700;
 
-.chart-box{
+    transition: 0.3s ease;
 
-    height:200px;
+    margin: 3px;
+}
 
+.approve-btn {
+    background: #16a34a;
 }
 
-.pie-chart{
+.approve-btn:hover {
+    background: #22c55e;
 
-    max-width:260px;
+    transform: translateY(-2px);
 
-    height:230px;
+    color: #fff;
+}
 
+.reject-btn {
+    background: #dc2626;
 }
+
+.reject-btn:hover {
+    background: #ef4444;
+
+    transform: translateY(-2px);
 
+    color: #fff;
 }
 
 
-/* Small Mobile */
+/* =========================================================
+   NO REFUND
+========================================================= */
 
-@media (max-width:480px){
+.no-refund {
+    background: linear-gradient(
+        145deg,
+        #092536,
+        #061b29
+    );
 
-.analytics-card{
+    padding: 60px;
 
-    padding:15px;
+    text-align: center;
 
-}
+    border-radius: 20px;
+
+    border: 1px solid var(--ds-border);
 
-.analytics-card h3{
+    box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.3);
+}
 
-    font-size:17px;
+.no-refund h3 {
+    color: var(--ds-muted);
 
+    font-size: 20px;
 }
 
-.chart-box{
 
-    height:180px;
+/* =========================================================
+   GLOBAL SECTION HEADINGS
+========================================================= */
 
+.dashboard h1,
+.dashboard h2,
+.dashboard h3 {
+    letter-spacing: 0.3px;
 }
 
-.pie-chart{
 
-    max-width:200px;
+/* =========================================================
+   TABLET
+========================================================= */
 
-    height:200px;
+@media (max-width: 1100px) {
 
-}
+    .stats-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .dashboard-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
 
 }
 
-/* ===========================
-   REFUND REQUESTS PAGE
-=========================== */
 
-.refund-section{
+/* =========================================================
+   TABLET
+========================================================= */
 
-    max-width:1300px;
-    margin:120px auto;
-    padding:20px;
+@media (max-width: 992px) {
 
-}
+    .dashboard {
+        margin-top: 100px;
 
-.refund-title{
+        padding: 25px 20px;
+    }
 
-    font-size:38px;
-    font-weight:700;
-    color:#222;
-    margin-bottom:35px;
-    text-align:center;
+    .analytics-row {
+        flex-direction: column;
+    }
 
-}
+    .chart-box {
+        height: 240px;
+    }
 
-.refund-table{
+    .pie-chart {
+        max-width: 350px;
 
-    width:100%;
-    border-collapse:collapse;
-    background:#fff;
-    border-radius:18px;
-    overflow:hidden;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
+        height: 280px;
+    }
 
 }
 
-.refund-table thead{
 
-    background:#2563eb;
-    color:#fff;
+/* =========================================================
+   MOBILE
+========================================================= */
 
-}
+@media (max-width: 768px) {
 
-.refund-table th{
+    .dashboard {
+        margin-top: 90px;
 
-    padding:18px;
-    font-size:16px;
-    text-align:center;
-    font-weight:600;
+        padding: 20px 15px;
+    }
 
-}
+    .profile-header {
+        padding: 22px;
 
-.refund-table td{
+        gap: 18px;
 
-    padding:18px;
-    text-align:center;
-    border-bottom:1px solid #eee;
-    font-size:15px;
+        align-items: flex-start;
+    }
 
-}
+    .profile-image {
+        width: 75px;
 
-.refund-table tbody tr{
+        height: 75px;
 
-    transition:.3s;
+        border-width: 3px;
+    }
 
-}
+    .dashboard-header h1 {
+        font-size: 27px;
+    }
 
-.refund-table tbody tr:hover{
+    .stats-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
 
-    background:#f8fbff;
+        gap: 15px;
+    }
 
-}
+    .stats-card {
+        padding: 20px 12px;
+    }
 
-/* Status */
+    .stats-icon {
+        font-size: 32px;
+    }
 
-.status{
+    .stats-card h2 {
+        font-size: 27px;
+    }
 
-    padding:7px 18px;
-    border-radius:30px;
-    color:#fff;
-    font-size:14px;
-    font-weight:600;
+    .dashboard-grid {
+        grid-template-columns: 1fr;
 
-}
+        gap: 18px;
+    }
 
-.status.pending{
+    .dashboard-box {
+        min-height: 220px;
+    }
 
-    background:#f59e0b;
+    .dashboard-card {
+        padding: 23px;
+    }
 
-}
+    .analytics-card {
+        padding: 18px;
+    }
 
-.status.approved{
+    .analytics-card h3 {
+        font-size: 19px;
+    }
 
-    background:#22c55e;
+    .chart-box {
+        height: 200px;
+    }
 
-}
+    .pie-chart {
+        max-width: 260px;
 
-.status.rejected{
+        height: 230px;
+    }
 
-    background:#ef4444;
+    .refund-section {
+        padding: 15px;
 
-}
+        margin-top: 100px;
+    }
+
+    .refund-title {
+        font-size: 30px;
+    }
 
-/* Buttons */
+    .refund-table {
+        display: block;
 
-.action-btn{
+        overflow-x: auto;
 
-    display:inline-block;
-    padding:9px 18px;
-    border-radius:8px;
-    text-decoration:none;
-    color:#fff;
-    font-size:14px;
-    font-weight:600;
-    transition:.3s;
-    margin:3px;
+        white-space: nowrap;
+    }
 
 }
 
-.approve-btn{
 
-    background:#22c55e;
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
 
-}
+@media (max-width: 480px) {
 
-.approve-btn:hover{
+    .dashboard {
+        padding: 15px 10px;
+    }
 
-    background:#16a34a;
-    transform:translateY(-2px);
+    .profile-header {
+        flex-direction: column;
 
-}
+        align-items: center;
 
-.reject-btn{
+        text-align: center;
 
-    background:#ef4444;
+        padding: 25px 18px;
+    }
 
-}
+    .dashboard-header h1 {
+        font-size: 24px;
+    }
 
-.reject-btn:hover{
+    .dashboard-header p {
+        font-size: 13px;
+    }
 
-    background:#dc2626;
-    transform:translateY(-2px);
+    .verify {
+        margin-left: 0;
 
-}
+        margin-top: 8px;
+    }
 
-/* Empty */
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
 
-.no-refund{
+        gap: 10px;
+    }
 
-    background:#fff;
-    padding:60px;
-    text-align:center;
-    border-radius:18px;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    .stats-card {
+        padding: 18px 8px;
 
-}
+        border-radius: 15px;
+    }
 
-.no-refund h3{
+    .stats-icon {
+        font-size: 28px;
+    }
 
-    color:#777;
+    .stats-card h2 {
+        font-size: 24px;
+    }
 
-}
+    .stats-card p {
+        font-size: 12px;
+    }
 
-/* Mobile */
+    .dashboard-card {
+        padding: 20px;
 
-@media(max-width:900px){
+        border-radius: 18px;
+    }
 
-.refund-table{
+    .dashboard-card h2 {
+        font-size: 22px;
+    }
 
-    display:block;
-    overflow-x:auto;
+    .dashboard-box {
+        padding: 22px;
 
-}
+        min-height: 210px;
+    }
 
-.refund-title{
+    .dashboard-icon {
+        font-size: 37px;
+    }
 
-    font-size:30px;
+    .dashboard-btn {
+        width: 100%;
 
-}
+        padding: 11px 15px;
+    }
 
+    .chart-box {
+        height: 180px;
+    }
+
+    .pie-chart {
+        max-width: 200px;
+
+        height: 200px;
+    }
+
+    .refund-title {
+        font-size: 25px;
+    }
+
+    .no-refund {
+        padding: 40px 20px;
+    }
+
 }
+

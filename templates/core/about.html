@@ -9,41 +9,47 @@ About DriveShare
 <style>
 
 /* =========================================================
-   DRIVESHARE ORANGE THEME
-   ========================================================= */
+   DRIVESHARE — ABOUT PAGE
+   DARK NAVY + ORANGE PREMIUM THEME
+========================================================= */
 
 .about-page {
-    --primary: #ff6b00;
-    --primary-light: #ff8c00;
-    --primary-dark: #e65100;
+    --ds-bg: #041521;
+    --ds-bg-light: #061b29;
+    --ds-card: #092536;
+    --ds-card-light: #0d3044;
 
-    --bg: #080808;
-    --bg-light: #111111;
+    --ds-orange: #ff6b00;
+    --ds-orange-light: #ff8533;
+    --ds-orange-dark: #e85d00;
+    --ds-orange-soft: rgba(255, 107, 0, 0.10);
 
-    --card: rgba(255, 107, 0, 0.055);
-    --border: rgba(255, 107, 0, 0.16);
+    --ds-white: #ffffff;
+    --ds-text: #f1f5f9;
+    --ds-muted: #94a3b8;
 
-    --text: #ffffff;
-    --muted: #b8b8b8;
+    --ds-border: rgba(255, 255, 255, 0.08);
 
     background:
         radial-gradient(
-            circle at 10% 20%,
-            rgba(255, 107, 0, 0.10),
+            circle at 10% 15%,
+            rgba(255, 107, 0, 0.08),
             transparent 30%
         ),
         radial-gradient(
             circle at 90% 70%,
-            rgba(255, 140, 0, 0.07),
+            rgba(255, 107, 0, 0.06),
             transparent 30%
         ),
-        var(--bg);
+        var(--ds-bg);
 
-    color: var(--text);
+    color: var(--ds-text);
 
     overflow: hidden;
 
     font-family: "Poppins", sans-serif;
+
+    min-height: 100vh;
 }
 
 .about-page * {
@@ -58,10 +64,10 @@ About DriveShare
 
 /* =========================================================
    HERO
-   ========================================================= */
+========================================================= */
 
 .about-hero {
-    min-height: 430px;
+    min-height: 450px;
 
     position: relative;
 
@@ -71,24 +77,47 @@ About DriveShare
 
     text-align: center;
 
+    overflow: hidden;
+
     background:
         linear-gradient(
             135deg,
-            rgba(8, 8, 8, 0.97),
-            rgba(8, 8, 8, 0.72)
+            rgba(4, 21, 33, 0.97),
+            rgba(4, 21, 33, 0.76)
         ),
         url("https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1800&q=85");
 
     background-size: cover;
     background-position: center;
 
-    border-bottom: 1px solid rgba(255, 107, 0, 0.18);
+    border-bottom: 1px solid var(--ds-border);
 }
 
 
-/* Orange glow */
+/* Hero glow */
 
 .about-hero::before {
+    content: "";
+
+    position: absolute;
+
+    width: 360px;
+    height: 360px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 107, 0, 0.13);
+
+    filter: blur(90px);
+
+    top: -140px;
+    left: -120px;
+
+    animation:
+        orangeGlow 6s ease-in-out infinite alternate;
+}
+
+.about-hero::after {
     content: "";
 
     position: absolute;
@@ -98,36 +127,21 @@ About DriveShare
 
     border-radius: 50%;
 
-    background: rgba(255, 107, 0, 0.14);
+    background: rgba(255, 107, 0, 0.10);
 
-    filter: blur(80px);
+    filter: blur(90px);
 
-    top: -120px;
-    left: -100px;
+    right: -110px;
+    bottom: -140px;
 
-    animation: orangeGlow 6s ease-in-out infinite alternate;
+    animation:
+        orangeGlow 7s ease-in-out infinite alternate-reverse;
 }
 
-.about-hero::after {
-    content: "";
 
-    position: absolute;
-
-    width: 300px;
-    height: 300px;
-
-    border-radius: 50%;
-
-    background: rgba(255, 140, 0, 0.11);
-
-    filter: blur(80px);
-
-    right: -100px;
-    bottom: -120px;
-
-    animation: orangeGlow 7s ease-in-out infinite alternate-reverse;
-}
-
+/* =========================================================
+   HERO CONTENT
+========================================================= */
 
 .hero-content {
     position: relative;
@@ -136,9 +150,10 @@ About DriveShare
 
     max-width: 850px;
 
-    padding: 40px 20px;
+    padding: 50px 20px;
 
-    animation: heroAppear 1s ease forwards;
+    animation:
+        heroAppear 0.9s ease forwards;
 }
 
 
@@ -147,35 +162,43 @@ About DriveShare
 
     align-items: center;
 
-    gap: 8px;
+    gap: 9px;
 
     padding: 9px 18px;
 
-    border: 1px solid rgba(255, 107, 0, 0.45);
+    border: 1px solid rgba(255, 107, 0, 0.40);
 
     border-radius: 50px;
 
-    background: rgba(255, 107, 0, 0.09);
+    background:
+        rgba(255, 107, 0, 0.08);
 
-    color: var(--primary);
+    color: var(--ds-orange);
 
-    font-size: 13px;
+    font-size: 12px;
 
-    font-weight: 600;
+    font-weight: 700;
 
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
 
-    margin-bottom: 22px;
+    margin-bottom: 23px;
 
     box-shadow:
         0 0 25px rgba(255, 107, 0, 0.08);
+
+    backdrop-filter: blur(10px);
+}
+
+
+.hero-badge i {
+    font-size: 13px;
 }
 
 
 .hero-content h1 {
     margin: 0;
 
-    font-size: clamp(42px, 7vw, 76px);
+    font-size: clamp(44px, 7vw, 78px);
 
     line-height: 1.05;
 
@@ -188,7 +211,7 @@ About DriveShare
             90deg,
             #ffffff,
             #ff6b00,
-            #ffb066,
+            #ff9b52,
             #ffffff
         );
 
@@ -197,26 +220,27 @@ About DriveShare
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 
-    animation: orangeGradient 5s linear infinite;
+    animation:
+        orangeGradient 5s linear infinite;
 }
 
 
 .hero-content p {
-    margin: 24px auto 0;
+    margin: 25px auto 0;
 
-    max-width: 680px;
+    max-width: 700px;
 
-    color: #c9c9c9;
+    color: #b8c5cf;
 
-    font-size: 17px;
+    font-size: 16px;
 
-    line-height: 1.8;
+    line-height: 1.85;
 }
 
 
 /* =========================================================
-   ABOUT
-   ========================================================= */
+   ABOUT INTRO
+========================================================= */
 
 .about-intro {
     padding: 100px 0;
@@ -234,25 +258,31 @@ About DriveShare
 }
 
 
+/* =========================================================
+   ABOUT IMAGE
+========================================================= */
+
 .about-image {
     position: relative;
 
-    border-radius: 28px;
+    border-radius: 27px;
 
-    padding: 9px;
+    padding: 8px;
 
     background:
         linear-gradient(
             135deg,
             rgba(255, 107, 0, 0.45),
-            transparent 65%
+            rgba(255, 107, 0, 0.04) 55%,
+            transparent 75%
         );
 
     box-shadow:
-        0 30px 80px rgba(0, 0, 0, 0.55),
+        0 30px 80px rgba(0, 0, 0, 0.45),
         0 0 60px rgba(255, 107, 0, 0.08);
 
-    animation: imageFloat 5s ease-in-out infinite;
+    animation:
+        imageFloat 5s ease-in-out infinite;
 }
 
 
@@ -265,7 +295,9 @@ About DriveShare
 
     object-fit: cover;
 
-    border-radius: 22px;
+    border-radius: 21px;
+
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 
@@ -274,8 +306,8 @@ About DriveShare
 .image-badge {
     position: absolute;
 
-    bottom: 28px;
-    left: 28px;
+    bottom: 27px;
+    left: 27px;
 
     display: flex;
 
@@ -287,20 +319,21 @@ About DriveShare
 
     border-radius: 15px;
 
-    background: rgba(10, 10, 10, 0.92);
+    background:
+        rgba(4, 21, 33, 0.94);
 
     border: 1px solid rgba(255, 107, 0, 0.25);
 
     backdrop-filter: blur(15px);
 
     box-shadow:
-        0 15px 40px rgba(0, 0, 0, 0.5);
+        0 15px 40px rgba(0, 0, 0, 0.45);
 }
 
 
 .image-badge i {
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
 
     display: flex;
 
@@ -309,9 +342,12 @@ About DriveShare
 
     border-radius: 12px;
 
-    background: rgba(255, 107, 0, 0.12);
+    background:
+        rgba(255, 107, 0, 0.11);
 
-    color: var(--primary);
+    color: var(--ds-orange);
+
+    border: 1px solid rgba(255, 107, 0, 0.16);
 }
 
 
@@ -319,28 +355,30 @@ About DriveShare
     display: block;
 
     font-size: 14px;
+
+    color: var(--ds-white);
 }
 
 
 .image-badge span {
     display: block;
 
-    color: var(--muted);
+    color: var(--ds-muted);
 
     font-size: 11px;
 
-    margin-top: 2px;
+    margin-top: 3px;
 }
 
 
 /* =========================================================
    ABOUT CONTENT
-   ========================================================= */
+========================================================= */
 
 .about-content .section-label {
-    color: var(--primary);
+    color: var(--ds-orange);
 
-    font-size: 13px;
+    font-size: 12px;
 
     font-weight: 700;
 
@@ -348,7 +386,7 @@ About DriveShare
 
     text-transform: uppercase;
 
-    margin-bottom: 12px;
+    margin-bottom: 13px;
 }
 
 
@@ -360,11 +398,13 @@ About DriveShare
     margin: 0 0 25px;
 
     font-weight: 750;
+
+    color: var(--ds-white);
 }
 
 
 .about-content h2 span {
-    color: var(--primary);
+    color: var(--ds-orange);
 
     text-shadow:
         0 0 25px rgba(255, 107, 0, 0.18);
@@ -372,9 +412,9 @@ About DriveShare
 
 
 .about-content p {
-    color: var(--muted);
+    color: var(--ds-muted);
 
-    font-size: 15px;
+    font-size: 14px;
 
     line-height: 1.9;
 
@@ -384,7 +424,7 @@ About DriveShare
 
 /* =========================================================
    MINI FEATURES
-   ========================================================= */
+========================================================= */
 
 .mini-features {
     display: grid;
@@ -398,34 +438,39 @@ About DriveShare
 
 
 .mini-feature {
-    padding: 18px;
+    padding: 19px;
 
-    border: 1px solid var(--border);
+    border: 1px solid var(--ds-border);
 
     border-radius: 16px;
 
     background:
         rgba(255, 107, 0, 0.035);
 
-    transition: .35s ease;
+    transition:
+        transform 0.35s ease,
+        border-color 0.35s ease,
+        background 0.35s ease,
+        box-shadow 0.35s ease;
 }
 
 
 .mini-feature:hover {
     transform: translateY(-5px);
 
-    border-color: rgba(255, 107, 0, 0.5);
+    border-color:
+        rgba(255, 107, 0, 0.40);
 
     background:
-        rgba(255, 107, 0, 0.075);
+        rgba(255, 107, 0, 0.065);
 
     box-shadow:
-        0 12px 35px rgba(255, 107, 0, 0.07);
+        0 12px 35px rgba(0, 0, 0, 0.25);
 }
 
 
 .mini-feature i {
-    color: var(--primary);
+    color: var(--ds-orange);
 
     font-size: 20px;
 
@@ -437,19 +482,25 @@ About DriveShare
     margin: 0 0 5px;
 
     font-size: 14px;
+
+    color: var(--ds-white);
 }
 
 
 .mini-feature p {
     margin: 0;
 
+    color: var(--ds-muted);
+
     font-size: 12px;
+
+    line-height: 1.6;
 }
 
 
 /* =========================================================
    MISSION / VISION / PROMISE
-   ========================================================= */
+========================================================= */
 
 .info-section {
     padding: 90px 0;
@@ -460,6 +511,9 @@ About DriveShare
             rgba(255, 107, 0, 0.015),
             rgba(255, 107, 0, 0.035)
         );
+
+    border-top: 1px solid rgba(255, 255, 255, 0.025);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.025);
 }
 
 
@@ -473,7 +527,7 @@ About DriveShare
 
 
 .section-heading .label {
-    color: var(--primary);
+    color: var(--ds-orange);
 
     font-size: 12px;
 
@@ -487,7 +541,9 @@ About DriveShare
 
 .section-heading h2 {
     font-size: clamp(30px, 4vw, 46px);
-    color: #ff8c00;
+
+    color: var(--ds-white);
+
     margin: 12px 0;
 
     font-weight: 750;
@@ -495,7 +551,7 @@ About DriveShare
 
 
 .section-heading p {
-    color: var(--muted);
+    color: var(--ds-muted);
 
     line-height: 1.8;
 
@@ -505,7 +561,7 @@ About DriveShare
 
 /* =========================================================
    INFO CARDS
-   ========================================================= */
+========================================================= */
 
 .info-cards {
     display: grid;
@@ -525,13 +581,13 @@ About DriveShare
 
     border-radius: 22px;
 
-    border: 1px solid var(--border);
+    border: 1px solid var(--ds-border);
 
     background:
         linear-gradient(
             145deg,
             rgba(255, 107, 0, 0.065),
-            rgba(255, 255, 255, 0.02)
+            rgba(255, 255, 255, 0.018)
         );
 
     backdrop-filter: blur(12px);
@@ -539,9 +595,9 @@ About DriveShare
     overflow: hidden;
 
     transition:
-        transform .4s ease,
-        border-color .4s ease,
-        box-shadow .4s ease;
+        transform 0.4s ease,
+        border-color 0.4s ease,
+        box-shadow 0.4s ease;
 }
 
 
@@ -550,39 +606,46 @@ About DriveShare
 
     position: absolute;
 
-    width: 150px;
-    height: 150px;
+    width: 160px;
+    height: 160px;
 
     border-radius: 50%;
 
-    background: rgba(255, 107, 0, 0.10);
+    background:
+        rgba(255, 107, 0, 0.08);
 
     filter: blur(30px);
 
-    top: -75px;
-    right: -55px;
+    top: -80px;
+    right: -60px;
 
-    transition: .4s ease;
+    transition: 0.4s ease;
 }
 
 
 .info-card:hover::before {
-    background: rgba(255, 107, 0, 0.18);
+    background:
+        rgba(255, 107, 0, 0.16);
 
     transform: scale(1.2);
 }
 
 
 .info-card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-9px);
 
-    border-color: rgba(255, 107, 0, 0.45);
+    border-color:
+        rgba(255, 107, 0, 0.40);
 
     box-shadow:
-        0 25px 60px rgba(0, 0, 0, 0.45),
-        0 0 35px rgba(255, 107, 0, 0.08);
+        0 25px 60px rgba(0, 0, 0, 0.40),
+        0 0 35px rgba(255, 107, 0, 0.07);
 }
 
+
+/* =========================================================
+   CARD ICON
+========================================================= */
 
 .card-icon {
     width: 60px;
@@ -596,28 +659,30 @@ About DriveShare
     border-radius: 17px;
 
     background:
-        rgba(255, 107, 0, 0.10);
+        rgba(255, 107, 0, 0.09);
 
-    border: 1px solid rgba(255, 107, 0, 0.20);
+    border: 1px solid rgba(255, 107, 0, 0.18);
 
-    color: var(--primary);
+    color: var(--ds-orange);
 
     font-size: 23px;
 
     margin-bottom: 25px;
 
-    transition: .35s ease;
+    transition: 0.35s ease;
 }
 
 
 .info-card:hover .card-icon {
-    transform: rotate(-5deg) scale(1.08);
+    transform:
+        rotate(-5deg)
+        scale(1.08);
 
     background:
-        rgba(255, 107, 0, 0.16);
+        rgba(255, 107, 0, 0.15);
 
     box-shadow:
-        0 0 25px rgba(255, 107, 0, 0.15);
+        0 0 25px rgba(255, 107, 0, 0.13);
 }
 
 
@@ -625,13 +690,15 @@ About DriveShare
     margin: 0 0 12px;
 
     font-size: 21px;
+
+    color: var(--ds-white);
 }
 
 
 .info-card p {
     margin: 0;
 
-    color: var(--muted);
+    color: var(--ds-muted);
 
     line-height: 1.8;
 
@@ -641,7 +708,7 @@ About DriveShare
 
 /* =========================================================
    STATS
-   ========================================================= */
+========================================================= */
 
 .stats-section {
     padding: 75px 0;
@@ -653,7 +720,7 @@ About DriveShare
 
     grid-template-columns: repeat(4, 1fr);
 
-    border: 1px solid var(--border);
+    border: 1px solid var(--ds-border);
 
     border-radius: 25px;
 
@@ -665,7 +732,7 @@ About DriveShare
     backdrop-filter: blur(12px);
 
     box-shadow:
-        0 20px 60px rgba(0,0,0,.3);
+        0 20px 60px rgba(0, 0, 0, 0.28);
 }
 
 
@@ -674,9 +741,9 @@ About DriveShare
 
     padding: 38px 20px;
 
-    border-right: 1px solid var(--border);
+    border-right: 1px solid var(--ds-border);
 
-    transition: .35s ease;
+    transition: 0.35s ease;
 }
 
 
@@ -687,7 +754,7 @@ About DriveShare
 
 .stat-card:hover {
     background:
-        rgba(255, 107, 0, 0.065);
+        rgba(255, 107, 0, 0.055);
 }
 
 
@@ -696,7 +763,7 @@ About DriveShare
 
     font-size: clamp(30px, 4vw, 43px);
 
-    color: var(--primary);
+    color: var(--ds-orange);
 
     font-weight: 800;
 
@@ -708,20 +775,22 @@ About DriveShare
 .stat-card p {
     margin: 8px 0 0;
 
-    color: var(--muted);
+    color: var(--ds-muted);
 
     font-size: 13px;
 
-    letter-spacing: .5px;
+    letter-spacing: 0.5px;
 }
 
 
 /* =========================================================
    WHY CHOOSE
-   ========================================================= */
+========================================================= */
 
 .why-section {
     padding: 90px 0;
+    background:
+        rgba(255, 107, 0, 0.035);
 }
 
 
@@ -739,14 +808,18 @@ About DriveShare
 
     text-align: center;
 
-    border: 1px solid var(--border);
+    border: 1px solid var(--ds-border);
 
     border-radius: 20px;
 
     background:
         rgba(255, 107, 0, 0.035);
 
-    transition: .35s ease;
+    transition:
+        transform 0.35s ease,
+        border-color 0.35s ease,
+        background 0.35s ease,
+        box-shadow 0.35s ease;
 }
 
 
@@ -754,25 +827,25 @@ About DriveShare
     transform: translateY(-8px);
 
     border-color:
-        rgba(255, 107, 0, 0.45);
+        rgba(255, 107, 0, 0.40);
 
     background:
-        rgba(255, 107, 0, 0.065);
+        rgba(255, 107, 0, 0.06);
 
     box-shadow:
-        0 20px 45px rgba(0,0,0,.35),
-        0 0 30px rgba(255,107,0,.06);
+        0 20px 45px rgba(0, 0, 0, 0.35),
+        0 0 30px rgba(255, 107, 0, 0.05);
 }
 
 
 .why-card i {
     font-size: 28px;
 
-    color: var(--primary);
+    color: var(--ds-orange);
 
     margin-bottom: 18px;
 
-    transition: .35s ease;
+    transition: 0.35s ease;
 }
 
 
@@ -780,19 +853,21 @@ About DriveShare
     transform: scale(1.15);
 
     text-shadow:
-        0 0 20px rgba(255,107,0,.35);
+        0 0 20px rgba(255, 107, 0, 0.35);
 }
 
 
 .why-card h3 {
     margin: 0;
-    color: #ff8c00;
+
+    color: var(--ds-white);
+
     font-size: 16px;
 }
 
 
 .why-card p {
-    color: var(--muted);
+    color: var(--ds-muted);
 
     font-size: 12px;
 
@@ -804,7 +879,7 @@ About DriveShare
 
 /* =========================================================
    CTA
-   ========================================================= */
+========================================================= */
 
 .cta-section {
     padding: 100px 20px;
@@ -816,7 +891,7 @@ About DriveShare
     background:
         radial-gradient(
             circle at center,
-            rgba(255, 107, 0, 0.12),
+            rgba(255, 107, 0, 0.10),
             transparent 60%
         );
 }
@@ -831,34 +906,42 @@ About DriveShare
 
     border-radius: 30px;
 
-    border: 1px solid rgba(255, 107, 0, 0.25);
+    border: 1px solid rgba(255, 107, 0, 0.22);
 
     background:
         linear-gradient(
             135deg,
-            rgba(255, 107, 0, 0.08),
-            rgba(255, 255, 255, 0.025)
+            rgba(255, 107, 0, 0.075),
+            rgba(255, 255, 255, 0.018)
         );
 
     box-shadow:
-        0 30px 80px rgba(0,0,0,.45),
-        0 0 50px rgba(255,107,0,.05);
+        0 30px 80px rgba(0, 0, 0, 0.40),
+        0 0 50px rgba(255, 107, 0, 0.05);
+
+    backdrop-filter: blur(12px);
 }
 
 
 .cta-box h2 {
     margin: 0 0 14px;
 
+    color: var(--ds-white);
+
     font-size: clamp(32px, 5vw, 52px);
+
+    font-weight: 800;
 }
 
 
 .cta-box p {
-    color: var(--muted);
+    color: var(--ds-muted);
 
     margin: 0 0 30px;
 
     font-size: 15px;
+
+    line-height: 1.7;
 }
 
 
@@ -878,8 +961,8 @@ About DriveShare
     background:
         linear-gradient(
             135deg,
-            #ff6b00,
-            #ff8c00
+            var(--ds-orange),
+            var(--ds-orange-dark)
         );
 
     color: #ffffff;
@@ -891,24 +974,36 @@ About DriveShare
     font-size: 14px;
 
     box-shadow:
-        0 0 30px rgba(255, 107, 0, 0.25);
+        0 0 30px rgba(255, 107, 0, 0.22);
 
-    transition: .3s ease;
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        background 0.3s ease;
 }
 
 
 .cta-button:hover {
-    transform: translateY(-4px) scale(1.03);
+    transform:
+        translateY(-4px)
+        scale(1.03);
 
     color: #ffffff;
 
+    background:
+        linear-gradient(
+            135deg,
+            var(--ds-orange-light),
+            var(--ds-orange)
+        );
+
     box-shadow:
-        0 12px 40px rgba(255, 107, 0, 0.35);
+        0 12px 40px rgba(255, 107, 0, 0.32);
 }
 
 
 .cta-button i {
-    transition: .3s ease;
+    transition: 0.3s ease;
 }
 
 
@@ -919,7 +1014,7 @@ About DriveShare
 
 /* =========================================================
    ANIMATIONS
-   ========================================================= */
+========================================================= */
 
 @keyframes heroAppear {
 
@@ -979,23 +1074,23 @@ About DriveShare
 
 
 /* =========================================================
-   RESPONSIVE
-   ========================================================= */
+   TABLET
+========================================================= */
 
 @media (max-width: 950px) {
 
     .about-grid {
         grid-template-columns: 1fr;
 
-        gap: 45px;
+        gap: 50px;
     }
 
     .about-image {
-        max-width: 700px;
-
-        margin: auto;
+        max-width: 720px;
 
         width: 100%;
+
+        margin: auto;
     }
 
     .info-cards {
@@ -1016,15 +1111,23 @@ About DriveShare
 
     .stat-card:nth-child(1),
     .stat-card:nth-child(2) {
-        border-bottom: 1px solid var(--border);
+        border-bottom: 1px solid var(--ds-border);
     }
 }
 
 
+/* =========================================================
+   MOBILE
+========================================================= */
+
 @media (max-width: 600px) {
 
     .about-hero {
-        min-height: 360px;
+        min-height: 370px;
+    }
+
+    .hero-content {
+        padding: 40px 15px;
     }
 
     .hero-content h1 {
@@ -1033,6 +1136,8 @@ About DriveShare
 
     .hero-content p {
         font-size: 14px;
+
+        line-height: 1.7;
     }
 
     .about-intro,
@@ -1043,6 +1148,14 @@ About DriveShare
 
     .about-image img {
         height: 300px;
+    }
+
+    .image-badge {
+        left: 20px;
+
+        bottom: 20px;
+
+        padding: 12px 14px;
     }
 
     .mini-features {
@@ -1060,7 +1173,7 @@ About DriveShare
     .stat-card {
         border-right: none;
 
-        border-bottom: 1px solid var(--border);
+        border-bottom: 1px solid var(--ds-border);
     }
 
     .stat-card:last-child {
@@ -1073,10 +1186,52 @@ About DriveShare
 
     .cta-box {
         padding: 45px 20px;
+
+        border-radius: 22px;
     }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 400px) {
+
+    .hero-content h1 {
+        font-size: 34px;
+    }
+
+    .hero-badge {
+        font-size: 10px;
+
+        padding: 8px 14px;
+    }
+
+    .about-image img {
+        height: 260px;
+    }
+
+    .image-badge {
+        left: 15px;
+
+        bottom: 15px;
+    }
+
+    .image-badge i {
+        width: 36px;
+        height: 36px;
+    }
+
+    .cta-box {
+        padding: 38px 16px;
+    }
+
 }
 
 </style>
+
 
 <div class="about-page">
 

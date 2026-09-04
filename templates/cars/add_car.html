@@ -19,18 +19,30 @@ Add Car
     </div>
 
 
-    <!-- IMPORTANT: form starts here -->
-    <form method="POST" enctype="multipart/form-data">
+    <!-- ==============================
+         ADD CAR FORM
+    =============================== -->
+
+    <form
+        method="POST"
+        enctype="multipart/form-data"
+        id="addCarForm"
+    >
 
         {% csrf_token %}
 
 
-        <!-- Display validation errors -->
+        <!-- ==============================
+             FORM ERRORS
+        =============================== -->
+
         {% if form.errors %}
 
             <div class="form-errors">
 
-                <strong>Please correct the following errors:</strong>
+                <strong>
+                    Please correct the following errors:
+                </strong>
 
                 {{ form.non_field_errors }}
 
@@ -39,7 +51,10 @@ Add Car
                     {% for error in field.errors %}
 
                         <p>
-                            <strong>{{ field.label }}:</strong>
+                            <strong>
+                                {{ field.label }}:
+                            </strong>
+
                             {{ error }}
                         </p>
 
@@ -52,93 +67,137 @@ Add Car
         {% endif %}
 
 
+        <!-- ==============================
+             CAR INFORMATION
+        =============================== -->
+
         <div class="form-grid">
 
 
+            <!-- Car Title -->
+
             <div class="form-group">
 
-                <label>Car Title</label>
+                <label for="{{ form.title.id_for_label }}">
+                    Car Title
+                </label>
 
                 {{ form.title }}
 
             </div>
 
 
+            <!-- Brand -->
+
             <div class="form-group">
 
-                <label>Brand</label>
+                <label for="{{ form.brand.id_for_label }}">
+                    Brand
+                </label>
 
                 {{ form.brand }}
 
             </div>
 
 
+            <!-- Model -->
+
             <div class="form-group">
 
-                <label>Model</label>
+                <label for="{{ form.model.id_for_label }}">
+                    Model
+                </label>
 
                 {{ form.model }}
 
             </div>
 
 
+            <!-- Year -->
+
             <div class="form-group">
 
-                <label>Year</label>
+                <label for="{{ form.year.id_for_label }}">
+                    Year
+                </label>
 
                 {{ form.year }}
 
             </div>
 
 
+            <!-- Color -->
+
             <div class="form-group">
 
-                <label>Color</label>
+                <label for="{{ form.color.id_for_label }}">
+                    Color
+                </label>
 
                 {{ form.color }}
 
             </div>
 
 
+            <!-- Seats -->
+
             <div class="form-group">
 
-                <label>Seats</label>
+                <label for="{{ form.seats.id_for_label }}">
+                    Seats
+                </label>
 
                 {{ form.seats }}
 
             </div>
 
 
+            <!-- Fuel Type -->
+
             <div class="form-group">
 
-                <label>Fuel Type</label>
+                <label for="{{ form.fuel_type.id_for_label }}">
+                    Fuel Type
+                </label>
 
                 {{ form.fuel_type }}
 
             </div>
 
 
+            <!-- Transmission -->
+
             <div class="form-group">
 
-                <label>Transmission</label>
+                <label for="{{ form.transmission.id_for_label }}">
+                    Transmission
+                </label>
 
                 {{ form.transmission }}
 
             </div>
 
 
+            <!-- Price -->
+
             <div class="form-group">
 
-                <label>Price Per Day (₹)</label>
+                <label for="{{ form.price_per_day.id_for_label }}">
+                    Price Per Day (₹)
+                </label>
 
                 {{ form.price_per_day }}
 
             </div>
 
 
+            <!-- City -->
+
             <div class="form-group">
 
-                <label>City</label>
+                <label for="{{ form.city.id_for_label }}">
+                    City
+                </label>
 
                 {{ form.city }}
 
@@ -148,48 +207,72 @@ Add Car
         </div>
 
 
-        <!-- Description -->
+        <!-- ==============================
+             DESCRIPTION
+        =============================== -->
 
         <div class="form-group">
 
-            <label>Description</label>
+            <label for="{{ form.description.id_for_label }}">
+                Description
+            </label>
 
             {{ form.description }}
 
         </div>
 
 
-        <!-- Car Images -->
+        <!-- ==============================
+             CAR IMAGES
+        =============================== -->
 
         <div class="form-group">
 
-            <label>Car Images</label>
+            <label for="carImages">
+                Car Images
+            </label>
 
             <input
                 type="file"
+                id="carImages"
                 name="images"
                 multiple
                 class="form-control"
-                accept="image/*"
+                accept="image/jpeg,image/png,image/webp,image/jpg"
             >
 
             <p class="upload-note">
                 Select multiple images by holding
-                <strong>Ctrl</strong> (Windows) or
-                <strong>Cmd</strong> (Mac).
+                <strong>Ctrl</strong> on Windows or
+                <strong>Cmd</strong> on Mac.
             </p>
 
             <p class="upload-note">
                 Upload clear images from different angles
-                (front, rear, side, interior).
+                such as front, rear, side and interior.
             </p>
 
         </div>
 
 
-        <!-- Submit -->
+        <!-- ==============================
+             IMAGE PREVIEW
+        =============================== -->
 
-        <button type="submit" class="submit-btn">
+        <div
+            id="imagePreview"
+            class="image-preview"
+        ></div>
+
+
+        <!-- ==============================
+             SUBMIT BUTTON
+        =============================== -->
+
+        <button
+            type="submit"
+            class="submit-btn"
+        >
 
             <i class="fas fa-car"></i>
 
@@ -201,5 +284,846 @@ Add Car
     </form>
 
 </div>
+
+
+<!-- ==============================
+     IMAGE PREVIEW JAVASCRIPT
+=============================== -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const imageInput = document.getElementById("carImages");
+    const imagePreview = document.getElementById("imagePreview");
+
+    if (!imageInput || !imagePreview) {
+        return;
+    }
+
+
+    imageInput.addEventListener("change", function () {
+
+        imagePreview.innerHTML = "";
+
+
+        const files = Array.from(this.files);
+
+
+        files.forEach(function (file) {
+
+            if (!file.type.startsWith("image/")) {
+                return;
+            }
+
+
+            const reader = new FileReader();
+
+
+            reader.onload = function (event) {
+
+                const wrapper = document.createElement("div");
+
+                wrapper.className = "preview-image-wrapper";
+
+
+                const img = document.createElement("img");
+
+                img.src = event.target.result;
+
+                img.alt = file.name;
+
+                img.className = "preview-image";
+
+
+                wrapper.appendChild(img);
+
+                imagePreview.appendChild(wrapper);
+
+            };
+
+
+            reader.readAsDataURL(file);
+
+        });
+
+    });
+
+});
+
+</script>
+
+<style>
+
+/* =========================================================
+   DRIVESHARE - ADD CAR PAGE
+   Page-specific CSS
+   ========================================================= */
+
+.add-car-card {
+    width: min(1100px, 92%);
+    margin: 50px auto 80px;
+    padding: 40px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(10, 30, 44, 0.97),
+            rgba(4, 19, 30, 0.97)
+        );
+
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 24px;
+
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.35);
+
+    color: #ffffff;
+
+    position: relative;
+    overflow: hidden;
+
+    animation: addCarFade 0.6s ease forwards;
+}
+
+
+/* =========================================================
+   DECORATIVE BACKGROUND
+   ========================================================= */
+
+.add-car-card::before {
+    content: "";
+
+    position: absolute;
+
+    width: 300px;
+    height: 300px;
+
+    right: -150px;
+    top: -150px;
+
+    background: rgba(249, 115, 22, 0.09);
+
+    border-radius: 50%;
+
+    filter: blur(5px);
+
+    pointer-events: none;
+}
+
+
+.add-car-card::after {
+    content: "";
+
+    position: absolute;
+
+    width: 220px;
+    height: 220px;
+
+    left: -130px;
+    bottom: -120px;
+
+    background: rgba(249, 115, 22, 0.05);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+   ========================================================= */
+
+.page-header {
+    position: relative;
+    z-index: 2;
+
+    text-align: center;
+
+    margin-bottom: 38px;
+}
+
+
+.page-header h1 {
+    margin: 0 0 12px;
+
+    font-size: clamp(30px, 4vw, 42px);
+
+    font-weight: 800;
+
+    letter-spacing: -0.8px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #fed7aa,
+            #f97316
+        );
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+
+.page-header p {
+    max-width: 650px;
+
+    margin: auto;
+
+    color: #94a3b8;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+#addCarForm {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* =========================================================
+   FORM GRID
+   ========================================================= */
+
+.form-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 22px;
+
+    margin-bottom: 24px;
+}
+
+
+/* =========================================================
+   FORM GROUP
+   ========================================================= */
+
+.form-group {
+    margin-bottom: 22px;
+}
+
+
+.form-grid .form-group {
+    margin-bottom: 0;
+}
+
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #e2e8f0;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.2px;
+}
+
+
+.form-group label::after {
+    content: "";
+}
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+.form-group input,
+.form-group select,
+.form-group textarea,
+.form-control {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 13px 15px;
+
+    border-radius: 11px;
+
+    border: 1px solid rgba(255, 255, 255, 0.09);
+
+    outline: none;
+
+    background:
+        rgba(1, 14, 24, 0.75);
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+}
+
+
+.form-group input:hover,
+.form-group select:hover,
+.form-group textarea:hover,
+.form-control:hover {
+    border-color:
+        rgba(249, 115, 22, 0.25);
+}
+
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus,
+.form-control:focus {
+    border-color: #f97316;
+
+    background:
+        rgba(3, 20, 31, 0.95);
+
+    box-shadow:
+        0 0 0 3px rgba(249, 115, 22, 0.09);
+}
+
+
+/* =========================================================
+   PLACEHOLDER
+   ========================================================= */
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #475569;
+}
+
+
+/* =========================================================
+   SELECT
+   ========================================================= */
+
+.form-group select {
+    cursor: pointer;
+
+    appearance: auto;
+}
+
+
+/* =========================================================
+   TEXTAREA
+   ========================================================= */
+
+.form-group textarea {
+    min-height: 140px;
+
+    resize: vertical;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+   ========================================================= */
+
+.form-group:has(textarea) {
+    margin-top: 3px;
+}
+
+
+/* =========================================================
+   NUMBER INPUT
+   ========================================================= */
+
+.form-group input[type="number"] {
+    appearance: textfield;
+}
+
+
+/* =========================================================
+   FILE UPLOAD
+   ========================================================= */
+
+#carImages {
+    padding: 10px;
+
+    cursor: pointer;
+
+    border: 1px dashed rgba(249, 115, 22, 0.35);
+
+    background:
+        rgba(249, 115, 22, 0.035);
+}
+
+
+#carImages:hover {
+    border-color: #f97316;
+
+    background:
+        rgba(249, 115, 22, 0.06);
+}
+
+
+#carImages::file-selector-button {
+    margin-right: 12px;
+
+    padding: 9px 15px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f97316,
+            #ea580c
+        );
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.25s;
+}
+
+
+#carImages::file-selector-button:hover {
+    background: #ea580c;
+}
+
+
+/* =========================================================
+   UPLOAD NOTES
+   ========================================================= */
+
+.upload-note {
+    margin: 7px 0 0;
+
+    color: #64748b;
+
+    font-size: 11px;
+
+    line-height: 1.5;
+}
+
+
+.upload-note strong {
+    color: #fb923c;
+}
+
+
+/* =========================================================
+   IMAGE PREVIEW
+   ========================================================= */
+
+.image-preview {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fill, minmax(150px, 1fr));
+
+    gap: 15px;
+
+    margin: 10px 0 28px;
+}
+
+
+.preview-image-wrapper {
+    position: relative;
+
+    height: 130px;
+
+    overflow: hidden;
+
+    border-radius: 14px;
+
+    background: #061925;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.08);
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.25);
+
+    animation: previewAppear 0.35s ease forwards;
+}
+
+
+.preview-image-wrapper::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(0, 0, 0, 0.25),
+            transparent
+        );
+
+    pointer-events: none;
+}
+
+
+.preview-image {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    transition:
+        transform 0.4s ease;
+}
+
+
+.preview-image-wrapper:hover .preview-image {
+    transform: scale(1.07);
+}
+
+
+/* =========================================================
+   FORM ERRORS
+   ========================================================= */
+
+.form-errors {
+    position: relative;
+    z-index: 2;
+
+    margin-bottom: 28px;
+
+    padding: 17px 19px;
+
+    border-radius: 13px;
+
+    background:
+        rgba(127, 29, 29, 0.15);
+
+    border:
+        1px solid rgba(248, 113, 113, 0.22);
+
+    border-left:
+        4px solid #ef4444;
+
+    color: #fca5a5;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+.form-errors strong:first-child {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #f87171;
+}
+
+
+.form-errors p {
+    margin: 5px 0;
+}
+
+
+.form-errors p strong {
+    color: #fca5a5;
+}
+
+
+/* =========================================================
+   SUBMIT BUTTON
+   ========================================================= */
+
+.submit-btn {
+    position: relative;
+
+    width: 100%;
+
+    min-height: 53px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f97316,
+            #ea580c
+        );
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.2px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 12px 30px rgba(249, 115, 22, 0.22);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        filter 0.25s ease;
+
+    overflow: hidden;
+}
+
+
+.submit-btn::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -100%;
+
+    width: 60%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.18),
+            transparent
+        );
+
+    transform: skewX(-20deg);
+
+    transition: left 0.6s ease;
+}
+
+
+.submit-btn:hover::before {
+    left: 130%;
+}
+
+
+.submit-btn:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 18px 40px rgba(249, 115, 22, 0.32);
+
+    filter: brightness(1.05);
+}
+
+
+.submit-btn:active {
+    transform: translateY(-1px);
+}
+
+
+.submit-btn i {
+    margin-right: 8px;
+}
+
+
+/* =========================================================
+   INPUT VALIDATION
+   ========================================================= */
+
+.form-group input:invalid:not(:placeholder-shown),
+.form-group textarea:invalid:not(:placeholder-shown) {
+    /* Browser handles validation.
+       No aggressive red border here. */
+}
+
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
+@keyframes addCarFade {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+
+}
+
+
+@keyframes previewAppear {
+
+    from {
+        opacity: 0;
+
+        transform:
+            scale(0.92)
+            translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            scale(1)
+            translateY(0);
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 800px) {
+
+    .add-car-card {
+        width: 92%;
+
+        padding: 30px 25px;
+
+        margin-top: 35px;
+    }
+
+
+    .form-grid {
+        grid-template-columns: 1fr;
+
+        gap: 0;
+    }
+
+
+    .form-grid .form-group {
+        margin-bottom: 20px;
+    }
+
+
+    .image-preview {
+        grid-template-columns:
+            repeat(
+                auto-fill,
+                minmax(130px, 1fr)
+            );
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 550px) {
+
+    .add-car-card {
+        width: calc(100% - 20px);
+
+        padding: 25px 17px;
+
+        border-radius: 18px;
+
+        margin:
+            25px auto
+            50px;
+    }
+
+
+    .page-header {
+        margin-bottom: 28px;
+    }
+
+
+    .page-header h1 {
+        font-size: 28px;
+    }
+
+
+    .page-header p {
+        font-size: 12px;
+    }
+
+
+    .form-group label {
+        font-size: 11px;
+    }
+
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea,
+    .form-control {
+        padding: 12px;
+
+        font-size: 12px;
+    }
+
+
+    #carImages {
+        font-size: 11px;
+    }
+
+
+    #carImages::file-selector-button {
+        padding: 8px 11px;
+
+        font-size: 10px;
+    }
+
+
+    .image-preview {
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 10px;
+    }
+
+
+    .preview-image-wrapper {
+        height: 115px;
+    }
+
+
+    .submit-btn {
+        min-height: 50px;
+
+        font-size: 12px;
+    }
+
+}
+
+</style>
 
 {% endblock %}

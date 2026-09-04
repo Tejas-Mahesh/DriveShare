@@ -1,7 +1,14 @@
+
 /* =========================================================
    DRIVESHARE - BROWSE CARS
-   Theme: White + DriveShare Orange
-   ========================================================= */
+   PREMIUM ORANGE + NAVY DESIGN
+   CLEAR SECTION DIVISIONS
+   FULLY RESPONSIVE
+========================================================= */
+
+/* =========================================================
+   ROOT VARIABLES
+========================================================= */
 
 :root {
     --orange: #ff6b00;
@@ -9,147 +16,359 @@
     --orange-dark: #e85d00;
     --orange-soft: #fff3e8;
 
-    --page-bg: #f5f6f8;
+    --navy: #000b14;
+    --navy-light: #001a2b;
+    --navy-card: #062033;
+
+    --page-bg: #f4f6f9;
     --white: #ffffff;
 
-    --text: #1a1a1a;
+    --text: #222222;
     --text-dark: #111111;
-    --text-muted: #707070;
-    --border: #e8e8e8;
+    --text-muted: #666666;
+    --text-light: #eeeeee;
+
+    --border: #e3e6ea;
+    --border-orange: rgba(255, 107, 0, 0.25);
 
     --radius: 18px;
-    --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+
+    --shadow:
+        0 8px 30px rgba(0, 0, 0, 0.10);
+
+    --orange-shadow:
+        0 12px 30px rgba(255, 107, 0, 0.20);
+
     --transition: 0.3s ease;
 }
 
 
 /* =========================================================
-   MAIN BROWSE SECTION
-   ========================================================= */
+   GLOBAL RESET
+========================================================= */
+
+.browse-section *,
+.browse-section *::before,
+.browse-section *::after {
+    box-sizing: border-box;
+}
 
 .browse-section {
+    position: relative;
     width: 100%;
     min-height: 100vh;
 
     padding: 120px 5% 70px;
 
+    overflow: hidden;
+
     background:
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(255, 107, 0, 0.14),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 90% 85%,
+            rgba(0, 123, 255, 0.10),
+            transparent 30%
+        ),
         linear-gradient(
-            180deg,
-            #f8f9fa 0%,
-            #f3f4f6 100%
+            135deg,
+            #000810 0%,
+            #00121f 50%,
+            #002039 100%
         );
 
     color: var(--text);
-
     font-family: inherit;
 }
 
 
 /* =========================================================
+   BACKGROUND DECORATION
+========================================================= */
+
+.browse-section::before {
+    content: "";
+
+    position: absolute;
+
+    width: 400px;
+    height: 400px;
+
+    top: -200px;
+    left: -180px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 107, 0, 0.12);
+
+    filter: blur(90px);
+
+    pointer-events: none;
+
+    animation:
+        orangeFloat 8s ease-in-out infinite;
+}
+
+.browse-section::after {
+    content: "";
+
+    position: absolute;
+
+    width: 350px;
+    height: 350px;
+
+    right: -160px;
+    bottom: -150px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 107, 0, 0.09);
+
+    filter: blur(90px);
+
+    pointer-events: none;
+
+    animation:
+        orangeFloatReverse 10s ease-in-out infinite;
+}
+
+
+/* =========================================================
+   BACKGROUND ANIMATIONS
+========================================================= */
+
+@keyframes orangeFloat {
+
+    0%,
+    100% {
+        transform:
+            translate(0, 0)
+            scale(1);
+    }
+
+    50% {
+        transform:
+            translate(35px, 25px)
+            scale(1.12);
+    }
+}
+
+@keyframes orangeFloatReverse {
+
+    0%,
+    100% {
+        transform:
+            translate(0, 0)
+            scale(1);
+    }
+
+    50% {
+        transform:
+            translate(-30px, -25px)
+            scale(1.1);
+    }
+}
+
+
+/* =========================================================
    BROWSE HEADER
-   ========================================================= */
+========================================================= */
 
 .browse-header {
+    position: relative;
+    z-index: 2;
+
     max-width: 1000px;
 
     margin: 0 auto 35px;
 
-    padding: 35px 30px;
+    padding: 38px 30px;
 
     text-align: center;
 
-    background: var(--white);
+    background:
+        linear-gradient(
+            145deg,
+            #071d2d,
+            #041521
+        );
 
-    border: 1px solid var(--border);
+    border:
+        1px solid rgba(255, 255, 255, 0.12);
 
-    border-top: 4px solid var(--orange);
+    border-top:
+        4px solid var(--orange);
 
-    border-radius: var(--radius);
+    border-radius:
+        var(--radius);
 
-    box-shadow: var(--shadow);
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.25);
 
-    animation: headerReveal 0.7s ease forwards;
+    animation:
+        headerReveal 0.8s ease forwards;
 }
 
+.browse-header::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 15%;
+    right: 15%;
+
+    height: 2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--orange),
+            transparent
+        );
+
+    opacity: 0.9;
+}
 
 .browse-header h1 {
-    margin: 0 0 10px;
+    margin: 0 0 12px;
 
     color: var(--orange);
 
-    font-size: clamp(34px, 5vw, 52px);
+    font-size:
+        clamp(34px, 5vw, 52px);
 
     font-weight: 800;
 
     line-height: 1.1;
 
     letter-spacing: -1px;
-}
 
+    text-shadow:
+        0 4px 20px rgba(255, 107, 0, 0.25);
+
+    animation:
+        titleReveal 0.9s ease 0.15s both;
+}
 
 .browse-header p {
     margin: 0;
 
-    color: var(--text-muted);
+    color: #d5dce2;
 
     font-size: 15px;
 
-    line-height: 1.6;
+    line-height: 1.7;
+
+    animation:
+        fadeIn 0.8s ease 0.3s both;
 }
 
+
+/* =========================================================
+   HEADER ANIMATIONS
+========================================================= */
 
 @keyframes headerReveal {
 
     from {
         opacity: 0;
-        transform: translateY(25px);
+
+        transform:
+            translateY(30px)
+            scale(0.98);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0);
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+@keyframes titleReveal {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
     }
 }
 
 
 /* =========================================================
-   SEARCH BOX
-   ========================================================= */
-
-/* =========================================================
-   DRIVESHARE - PROFESSIONAL SEARCH BAR
-   ========================================================= */
+   SEARCH SECTION
+========================================================= */
 
 .search-box {
-    width: min(850px, calc(100% - 30px));
+    position: relative;
+    z-index: 2;
 
-    margin: 0 auto 30px;
+    width:
+        min(900px, calc(100% - 30px));
 
-    padding: 7px;
+    margin:
+        0 auto 32px;
 
-    background: rgba(255, 255, 255, 0.97);
+    padding: 10px;
 
-    border: 1px solid rgba(255, 255, 255, 0.9);
+    background:
+        #ffffff;
 
-    border-radius: 15px;
+    border:
+        1px solid #e2e6ea;
+
+    border-radius:
+        16px;
 
     box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.10);
+        0 15px 40px rgba(0, 0, 0, 0.18);
 
     transition:
         box-shadow 0.3s ease,
         transform 0.3s ease;
 }
 
-
 .search-box:hover {
+    transform:
+        translateY(-3px);
+
     box-shadow:
-        0 14px 35px rgba(0, 0, 0, 0.14);
+        0 20px 50px rgba(0, 0, 0, 0.22),
+        0 5px 25px rgba(255, 107, 0, 0.12);
 }
 
 
-/* Search form */
+/* =========================================================
+   SEARCH FORM
+========================================================= */
 
 .search-box form {
     display: flex;
@@ -158,36 +377,46 @@
 
     width: 100%;
 
-    gap: 7px;
+    gap: 10px;
 }
 
 
-/* Search input */
+/* =========================================================
+   SEARCH INPUT
+========================================================= */
 
 .search-box input {
     flex: 1;
 
     width: 100%;
+    height: 50px;
 
-    height: 48px;
+    padding:
+        0 18px;
 
-    padding: 0 17px;
+    color:
+        #222222;
 
-    color: #222222;
+    background:
+        #f8fafc;
 
-    background: #f8f8f8;
+    border:
+        1px solid #dfe3e7;
 
-    border: 1px solid #e3e3e3;
+    border-radius:
+        10px;
 
-    border-radius: 10px;
+    outline:
+        none;
 
-    outline: none;
+    font-family:
+        inherit;
 
-    font-family: inherit;
+    font-size:
+        14px;
 
-    font-size: 14px;
-
-    font-weight: 500;
+    font-weight:
+        500;
 
     transition:
         border-color 0.25s ease,
@@ -195,27 +424,37 @@
         box-shadow 0.25s ease;
 }
 
-
 .search-box input::placeholder {
-    color: #999999;
+    color:
+        #8a8f94;
 
-    opacity: 1;
+    opacity:
+        1;
 }
-
 
 .search-box input:focus {
-    background: #ffffff;
+    color:
+        #222222;
 
-    border-color: #ff6b00;
+    background:
+        #ffffff;
+
+    border-color:
+        var(--orange);
 
     box-shadow:
-        0 0 0 3px rgba(255, 107, 0, 0.08);
+        0 0 0 3px
+        rgba(255, 107, 0, 0.10);
 }
 
 
-/* Search button */
+/* =========================================================
+   SEARCH BUTTON
+========================================================= */
 
 .search-box button {
+    position: relative;
+
     display: flex;
 
     align-items: center;
@@ -223,232 +462,17 @@
 
     flex-shrink: 0;
 
-    width: 125px;
+    width:
+        135px;
 
-    height: 48px;
+    height:
+        50px;
 
-    padding: 0 18px;
+    padding:
+        0 18px;
 
-    color: #ffffff;
-
-    background: #ff6b00;
-
-    border: none;
-
-    border-radius: 20px;
-
-    font-family: inherit;
-
-    font-size: 14px;
-
-    font-weight: 700;
-
-    cursor: pointer;
-
-    transition:
-        background 0.25s ease,
-        transform 0.25s ease,
-        box-shadow 0.25s ease;
-}
-
-
-.search-box button:hover {
-    background: #e85d00;
-
-    transform: translateY(-1px);
-
-    box-shadow:
-        0 7px 18px rgba(255, 107, 0, 0.25);
-}
-
-
-.search-box button:active {
-    transform: translateY(0);
-}
-
-
-/* Search icon */
-
-.search-box button i {
-    margin-right: 7px;
-
-    font-size: 13px;
-}
-
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media (max-width: 600px) {
-
-    .search-box {
-        width: calc(100% - 20px);
-
-        padding: 6px;
-
-        border-radius: 13px;
-    }
-
-
-    .search-box form {
-        gap: 6px;
-    }
-
-
-    .search-box input {
-        height: 44px;
-
-        padding: 0 13px;
-
-        font-size: 13px;
-    }
-
-
-    .search-box button {
-        width: 105px;
-
-        height: 44px;
-
-        padding: 0 12px;
-
-        font-size: 13px;
-    }
-
-
-    .search-box button i {
-        margin-right: 5px;
-    }
-}
-
-
-/* =========================================================
-   VERY SMALL MOBILE
-   ========================================================= */
-
-@media (max-width: 400px) {
-
-    .search-box {
-        width: calc(100% - 16px);
-    }
-
-
-    .search-box button {
-        width: 92px;
-
-        padding: 0 8px;
-    }
-
-
-    .search-box button i {
-        display: none;
-    }
-}
-/* =========================================================
-   FILTER BOX
-   ========================================================= */
-
-.filter-box {
-    width: 100%;
-
-    max-width: 1300px;
-
-    margin: 0 auto 30px;
-
-    padding: 22px;
-
-    background: var(--white);
-
-    border: 1px solid var(--border);
-
-    border-radius: var(--radius);
-
-    box-shadow: var(--shadow);
-}
-
-
-.filter-box form {
-    display: grid;
-
-    grid-template-columns:
-        repeat(4, minmax(140px, 1fr));
-
-    gap: 12px;
-}
-
-
-/* =========================================================
-   FILTER INPUTS
-   ========================================================= */
-
-.filter-box input,
-.filter-box select {
-    width: 100%;
-
-    height: 46px;
-
-    padding: 0 14px;
-
-    color: var(--text);
-
-    background: #fafafa;
-
-    border: 1px solid #e2e2e2;
-
-    outline: none;
-
-    border-radius: 10px;
-
-    font-family: inherit;
-
-    font-size: 13px;
-
-    transition:
-        border-color var(--transition),
-        background var(--transition),
-        box-shadow var(--transition);
-}
-
-
-.filter-box input::placeholder {
-    color: #999999;
-}
-
-
-.filter-box select {
-    cursor: pointer;
-}
-
-
-.filter-box input:focus,
-.filter-box select:focus {
-    background: #ffffff;
-
-    border-color: var(--orange);
-
-    box-shadow:
-        0 0 0 3px
-        rgba(255, 107, 0, 0.08);
-}
-
-
-.filter-box select option {
-    color: #222222;
-
-    background: #ffffff;
-}
-
-
-/* =========================================================
-   FILTER BUTTON
-   ========================================================= */
-
-.filter-box button {
-    height: 46px;
-
-    padding: 0 18px;
-
-    color: #ffffff;
+    color:
+        #ffffff;
 
     background:
         linear-gradient(
@@ -457,19 +481,318 @@
             var(--orange-dark)
         );
 
-    border: none;
+    border:
+        none;
 
-    border-radius: 10px;
+    border-radius:
+        10px;
 
-    font-family: inherit;
+    font-family:
+        inherit;
 
-    font-size: 13px;
+    font-size:
+        14px;
 
-    font-weight: 700;
+    font-weight:
+        700;
 
-    cursor: pointer;
+    cursor:
+        pointer;
 
-    white-space: nowrap;
+    overflow:
+        hidden;
+
+    transition:
+        background 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.search-box button::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -120%;
+
+    width: 90%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.35),
+            transparent
+        );
+
+    transform:
+        skewX(-20deg);
+
+    transition:
+        left 0.6s ease;
+}
+
+.search-box button:hover::before {
+    left:
+        130%;
+}
+
+.search-box button:hover {
+    background:
+        linear-gradient(
+            135deg,
+            var(--orange-light),
+            var(--orange)
+        );
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 10px 25px
+        rgba(255, 107, 0, 0.35);
+}
+
+.search-box button:active {
+    transform:
+        translateY(0);
+}
+
+.search-box button i {
+    margin-right:
+        7px;
+
+    font-size:
+        13px;
+}
+
+
+/* =========================================================
+   FILTER BOX
+========================================================= */
+
+.filter-box {
+    position: relative;
+    z-index: 2;
+
+    width: 100%;
+    max-width: 1300px;
+
+    margin:
+        0 auto 30px;
+
+    padding:
+        25px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #fffaf5,
+            #fff3e8
+        );
+
+    border:
+        1px solid rgba(255, 107, 0, 0.20);
+
+    border-top:
+        4px solid var(--orange);
+
+    border-radius:
+        var(--radius);
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.18);
+
+    animation:
+        filterReveal 0.8s ease 0.15s both;
+}
+
+.filter-box::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+
+    left: 10%;
+    right: 10%;
+
+    height: 2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--orange),
+            transparent
+        );
+
+    opacity:
+        0.8;
+}
+
+@keyframes filterReveal {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+/* =========================================================
+   FILTER FORM
+========================================================= */
+
+.filter-box form {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(140px, 1fr));
+
+    gap:
+        14px;
+}
+
+
+/* =========================================================
+   FILTER INPUTS
+========================================================= */
+
+.filter-box input,
+.filter-box select {
+    width: 100%;
+
+    height:
+        48px;
+
+    padding:
+        0 14px;
+
+    color:
+        #222222;
+
+    background:
+        #ffffff;
+
+    border:
+        1px solid #d9dde2;
+
+    outline:
+        none;
+
+    border-radius:
+        10px;
+
+    font-family:
+        inherit;
+
+    font-size:
+        13px;
+
+    font-weight:
+        500;
+
+    transition:
+        border-color var(--transition),
+        background var(--transition),
+        box-shadow var(--transition),
+        transform var(--transition);
+}
+
+.filter-box input::placeholder {
+    color:
+        #888888;
+}
+
+.filter-box select {
+    cursor:
+        pointer;
+}
+
+.filter-box input:hover,
+.filter-box select:hover {
+    border-color:
+        rgba(255, 107, 0, 0.45);
+}
+
+.filter-box input:focus,
+.filter-box select:focus {
+    background:
+        #ffffff;
+
+    border-color:
+        var(--orange);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(255, 107, 0, 0.10);
+
+    transform:
+        translateY(-1px);
+}
+
+.filter-box select option {
+    color:
+        #222222;
+
+    background:
+        #ffffff;
+}
+
+
+/* =========================================================
+   FILTER BUTTON
+========================================================= */
+
+.filter-box button {
+    height:
+        48px;
+
+    padding:
+        0 18px;
+
+    color:
+        #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--orange),
+            var(--orange-dark)
+        );
+
+    border:
+        none;
+
+    border-radius:
+        10px;
+
+    font-family:
+        inherit;
+
+    font-size:
+        13px;
+
+    font-weight:
+        700;
+
+    cursor:
+        pointer;
+
+    white-space:
+        nowrap;
 
     transition:
         transform var(--transition),
@@ -477,9 +800,9 @@
         background var(--transition);
 }
 
-
 .filter-box button:hover {
-    transform: translateY(-2px);
+    transform:
+        translateY(-2px);
 
     background:
         linear-gradient(
@@ -490,39 +813,694 @@
 
     box-shadow:
         0 10px 22px
-        rgba(255, 107, 0, 0.22);
+        rgba(255, 107, 0, 0.28);
 }
 
 
 /* =========================================================
    CLEAR FILTER
-   ========================================================= */
+========================================================= */
 
 .clear-filter {
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
-    justify-content: center;
+    align-items:
+        center;
 
-    height: 46px;
+    justify-content:
+        center;
 
-    padding: 0 16px;
+    height:
+        48px;
 
-    color: var(--orange);
+    padding:
+        0 16px;
 
-    background: var(--orange-soft);
+    color:
+        var(--orange);
 
-    border: 1px solid rgba(255, 107, 0, 0.2);
+    background:
+        #ffffff;
 
-    border-radius: 10px;
+    border:
+        1px solid
+        rgba(255, 107, 0, 0.30);
 
-    text-decoration: none;
+    border-radius:
+        10px;
 
-    font-size: 13px;
+    text-decoration:
+        none;
 
-    font-weight: 700;
+    font-size:
+        13px;
 
-    white-space: nowrap;
+    font-weight:
+        700;
+
+    white-space:
+        nowrap;
+
+    transition:
+        color var(--transition),
+        background var(--transition),
+        border-color var(--transition),
+        transform var(--transition),
+        box-shadow var(--transition);
+}
+
+.clear-filter:hover {
+    color:
+        #ffffff;
+
+    background:
+        var(--orange);
+
+    border-color:
+        var(--orange);
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 8px 20px
+        rgba(255, 107, 0, 0.25);
+}
+
+
+/* =========================================================
+   RESULTS COUNT
+========================================================= */
+
+.results-count {
+    position:
+        relative;
+
+    z-index:
+        2;
+
+    width:
+        100%;
+
+    max-width:
+        1300px;
+
+    margin:
+        0 auto 22px;
+
+    padding:
+        18px 22px;
+
+    background:
+        #041521;
+
+    border:
+        1px solid #e2e6ea;
+
+    border-left:
+        5px solid var(--orange);
+
+    border-radius:
+        14px;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.14);
+
+    animation:
+        countReveal 0.7s ease both;
+}
+
+.results-count h3 {
+    margin:
+        0;
+
+    color:#ff6b00;
+
+    font-size:
+        18px;
+
+    font-weight:
+        700;
+}
+
+.results-count h3 span {
+    color:
+        var(--orange);
+}
+
+@keyframes countReveal {
+
+    from {
+        opacity:
+            0;
+
+        transform:
+            translateX(-15px);
+    }
+
+    to {
+        opacity:
+            1;
+
+        transform:
+            translateX(0);
+    }
+}
+
+
+/* =========================================================
+   CAR GRID
+========================================================= */
+
+.car-grid {
+    position:
+        relative;
+
+    z-index:
+        2;
+
+    width:
+        100%;
+
+    max-width:
+        1300px;
+
+    margin:
+        0 auto;
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap:
+        25px;
+    
+}
+
+
+/* =========================================================
+   CAR CARD
+========================================================= */
+
+.car-card {
+    position:
+        relative;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    min-width:
+        0;
+
+    overflow:
+        hidden;
+
+    background:
+    #041521;
+
+    border:
+        1px solid #e2e6ea;
+
+    border-radius:
+        20px;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.14);
+
+    opacity:
+        0;
+
+    animation:
+        cardReveal 0.7s ease forwards;
+
+    transition:
+        transform 0.4s ease,
+        box-shadow 0.4s ease,
+        border-color 0.4s ease;
+}
+
+@keyframes cardReveal {
+
+    from {
+        opacity:
+            0;
+
+        transform:
+            translateY(35px)
+            scale(0.97);
+    }
+
+    to {
+        opacity:
+            1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+/* =========================================================
+   CARD ANIMATION DELAYS
+========================================================= */
+
+.car-card:nth-child(1) {
+    animation-delay:
+        .05s;
+}
+
+.car-card:nth-child(2) {
+    animation-delay:
+        .12s;
+}
+
+.car-card:nth-child(3) {
+    animation-delay:
+        .19s;
+}
+
+.car-card:nth-child(4) {
+    animation-delay:
+        .26s;
+}
+
+.car-card:nth-child(5) {
+    animation-delay:
+        .33s;
+}
+
+.car-card:nth-child(6) {
+    animation-delay:
+        .40s;
+}
+
+.car-card:nth-child(7) {
+    animation-delay:
+        .47s;
+}
+
+.car-card:nth-child(8) {
+    animation-delay:
+        .54s;
+}
+
+.car-card:nth-child(9) {
+    animation-delay:
+        .61s;
+}
+
+
+/* =========================================================
+   CARD HOVER
+========================================================= */
+
+.car-card:hover {
+    transform:
+        translateY(-9px);
+
+    border-color:
+        rgba(255, 107, 0, 0.45);
+
+    box-shadow:
+        0 25px 50px rgba(0, 0, 0, 0.18),
+        0 8px 30px rgba(255, 107, 0, 0.12);
+}
+
+
+/* =========================================================
+   CARD ORANGE TOP LINE
+========================================================= */
+
+.car-card::before {
+    content:
+        "";
+
+    position:
+        absolute;
+
+    top:
+        0;
+
+    left:
+        15%;
+
+    right:
+        15%;
+
+    height:
+        3px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--orange),
+            transparent
+        );
+
+    opacity:
+        0;
+
+    z-index:
+        6;
+
+    transition:
+        opacity .3s ease;
+}
+
+.car-card:hover::before {
+    opacity:
+        1;
+}
+
+
+/* =========================================================
+   CAR IMAGE
+========================================================= */
+
+.car-image {
+    position:
+        relative;
+
+    width:
+        100%;
+
+    height:
+        235px;
+
+    overflow:
+        hidden;
+
+    background:
+        #eeeeee;
+}
+
+.car-image::after {
+    content:
+        "";
+
+    position:
+        absolute;
+
+    inset:
+        0;
+
+    pointer-events:
+        none;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(0, 0, 0, 0.32),
+            transparent 45%
+        );
+
+    z-index:
+        1;
+}
+
+.car-image img {
+    display:
+        block;
+
+    width:
+        100%;
+
+    height:
+        100%;
+
+    object-fit:
+        cover;
+
+    transition:
+        transform 0.7s ease,
+        filter 0.5s ease;
+}
+
+.car-card:hover .car-image img {
+    transform:
+        scale(1.08);
+
+    filter:
+        brightness(1.04)
+        saturate(1.08);
+}
+
+
+/* =========================================================
+   IMAGE ORANGE LINE
+========================================================= */
+
+.car-image::before {
+    content:
+        "";
+
+    position:
+        absolute;
+
+    left:
+        0;
+
+    right:
+        0;
+
+    bottom:
+        0;
+
+    height:
+        4px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--orange),
+            transparent
+        );
+
+    box-shadow:
+        0 0 12px
+        rgba(255, 107, 0, 0.45);
+
+    z-index:
+        3;
+}
+
+
+/* =========================================================
+   WISHLIST BUTTON
+========================================================= */
+
+.wishlist-btn {
+    position:
+        absolute;
+
+    top:
+        15px;
+
+    right:
+        15px;
+
+    z-index:
+        5;
+
+    width:
+        43px;
+
+    height:
+        43px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    color:
+        var(--orange);
+
+    background:
+        rgba(255, 255, 255, 0.97);
+
+    border:
+        none;
+
+    border-radius:
+        50%;
+
+    text-decoration:
+        none;
+
+    font-size:
+        17px;
+
+    box-shadow:
+        0 5px 18px rgba(0, 0, 0, 0.20);
+
+    transition:
+        transform var(--transition),
+        color var(--transition),
+        background var(--transition),
+        box-shadow var(--transition);
+}
+
+.wishlist-btn:hover {
+    color:
+        #ffffff;
+
+    background:
+        var(--orange);
+
+    transform:
+        scale(1.14)
+        rotate(5deg);
+
+    box-shadow:
+        0 8px 24px
+        rgba(255, 107, 0, 0.35);
+}
+
+
+/* =========================================================
+   CAR INFO
+========================================================= */
+
+.car-info {
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    flex:
+        1;
+
+    padding:
+        22px;
+}
+
+.car-info h3 {
+    margin:
+        0 0 7px;
+
+    overflow:
+        hidden;
+
+    
+
+    color:#ff6b00;
+
+    font-size:
+        21px;
+
+    font-weight:
+        800;
+
+    line-height:
+        1.3;
+
+    text-overflow:
+        ellipsis;
+
+    white-space:
+        nowrap;
+}
+
+.car-info > p {
+    margin:
+        0 0 12px;
+
+    color:
+        var(--text-muted);
+
+    font-size:
+        13px;
+
+    line-height:
+        1.5;
+}
+
+
+/* =========================================================
+   RATING
+========================================================= */
+
+.card-rating {
+    margin-bottom:
+        10px;
+
+    color:
+        #e58a00;
+
+    font-size:
+        13px;
+
+    font-weight:
+        600;
+
+    line-height:
+        1.5;
+}
+
+
+/* =========================================================
+   CAR TAGS
+========================================================= */
+
+.car-tags {
+    display:
+        flex;
+
+    flex-wrap:
+        wrap;
+
+    gap:
+        7px;
+
+    margin:
+        3px 0 16px;
+}
+
+.car-tags span {
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    min-height:
+        28px;
+
+    padding:
+        5px 10px;
+
+    color:
+        #555555;
+
+    background:
+        #f6f7f8;
+
+    border:
+        1px solid #e2e5e8;
+
+    border-radius:
+        8px;
+
+    font-size:
+        11px;
+
+    font-weight:
+        600;
 
     transition:
         color var(--transition),
@@ -531,419 +1509,124 @@
         transform var(--transition);
 }
 
-
-.clear-filter:hover {
-    color: #ffffff;
-
-    background: var(--orange);
-
-    border-color: var(--orange);
-
-    transform: translateY(-2px);
-}
-
-
-/* =========================================================
-   RESULTS COUNT
-   ========================================================= */
-
-.results-count {
-    width: 100%;
-
-    max-width: 1300px;
-
-    margin: 0 auto 20px;
-
-    padding: 18px 22px;
-
-    background: var(--white);
-
-    border: 1px solid var(--border);
-
-    border-left: 4px solid var(--orange);
-
-    border-radius: 14px;
-
-    box-shadow:
-        0 5px 20px rgba(0, 0, 0, 0.05);
-}
-
-
-.results-count h3 {
-    margin: 0;
-
-    color: var(--text-dark);
-
-    font-size: 18px;
-
-    font-weight: 700;
-}
-
-
-/* =========================================================
-   CAR GRID
-   ========================================================= */
-
-.car-grid {
-    width: 100%;
-
-    max-width: 1300px;
-
-    margin: 0 auto;
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(3, minmax(0, 1fr));
-
-    gap: 25px;
-}
-
-
-/* =========================================================
-   CAR CARD
-   ========================================================= */
-
-.car-card {
-    position: relative;
-
-    display: flex;
-
-    flex-direction: column;
-
-    min-width: 0;
-
-    overflow: hidden;
-
-    background: var(--white);
-
-    border: 1px solid var(--border);
-
-    border-radius: 20px;
-
-    box-shadow:
-        0 8px 28px rgba(0, 0, 0, 0.07);
-
-    transition:
-        transform 0.4s ease,
-        box-shadow 0.4s ease,
-        border-color 0.4s ease;
-}
-
-
-.car-card:hover {
-    transform: translateY(-8px);
-
-    border-color:
-        rgba(255, 107, 0, 0.35);
-
-    box-shadow:
-        0 18px 45px rgba(0, 0, 0, 0.12),
-        0 5px 20px rgba(255, 107, 0, 0.08);
-}
-
-
-/* =========================================================
-   CAR IMAGE
-   ========================================================= */
-
-.car-image {
-    position: relative;
-
-    width: 100%;
-
-    height: 235px;
-
-    overflow: hidden;
-
-    background: #eeeeee;
-}
-
-
-.car-image::after {
-    content: "";
-
-    position: absolute;
-
-    inset: 0;
-
-    pointer-events: none;
+.car-tags span:hover {
+    color:
+        var(--orange);
 
     background:
-        linear-gradient(
-            to top,
-            rgba(0, 0, 0, 0.28),
-            transparent 45%
-        );
-
-    z-index: 1;
-}
-
-
-.car-image img {
-    display: block;
-
-    width: 100%;
-    height: 100%;
-
-    object-fit: cover;
-
-    transition:
-        transform 0.6s ease;
-}
-
-
-.car-card:hover .car-image img {
-    transform: scale(1.07);
-}
-
-
-/* =========================================================
-   WISHLIST BUTTON
-   ========================================================= */
-
-.wishlist-btn {
-    position: absolute;
-
-    top: 15px;
-    right: 15px;
-
-    z-index: 5;
-
-    width: 43px;
-    height: 43px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    color: var(--orange);
-
-    background: #ffffff;
-
-    border: none;
-
-    border-radius: 50%;
-
-    text-decoration: none;
-
-    font-size: 17px;
-
-    box-shadow:
-        0 5px 18px rgba(0, 0, 0, 0.15);
-
-    transition:
-        transform var(--transition),
-        color var(--transition),
-        background var(--transition),
-        box-shadow var(--transition);
-}
-
-
-.wishlist-btn:hover {
-    color: #ffffff;
-
-    background: var(--orange);
-
-    transform: scale(1.12);
-
-    box-shadow:
-        0 8px 22px
-        rgba(255, 107, 0, 0.3);
-}
-
-
-/* =========================================================
-   CAR INFO
-   ========================================================= */
-
-.car-info {
-    display: flex;
-
-    flex-direction: column;
-
-    flex: 1;
-
-    padding: 22px;
-}
-
-
-.car-info h3 {
-    margin: 0 0 7px;
-
-    overflow: hidden;
-
-    color: var(--text-dark);
-
-    font-size: 21px;
-
-    font-weight: 800;
-
-    line-height: 1.3;
-
-    text-overflow: ellipsis;
-
-    white-space: nowrap;
-}
-
-
-.car-info > p {
-    margin: 0 0 12px;
-
-    color: var(--text-muted);
-
-    font-size: 13px;
-
-    line-height: 1.5;
-}
-
-
-/* =========================================================
-   RATING
-   ========================================================= */
-
-.card-rating {
-    margin-bottom: 10px;
-
-    color: #e58a00;
-
-    font-size: 13px;
-
-    font-weight: 600;
-
-    line-height: 1.5;
-}
-
-
-/* =========================================================
-   CAR TAGS
-   ========================================================= */
-
-.car-tags {
-    display: flex;
-
-    flex-wrap: wrap;
-
-    gap: 7px;
-
-    margin: 3px 0 16px;
-}
-
-
-.car-tags span {
-    display: inline-flex;
-
-    align-items: center;
-
-    min-height: 28px;
-
-    padding: 5px 10px;
-
-    color: #555555;
-
-    background: #f7f7f7;
-
-    border: 1px solid #e5e5e5;
-
-    border-radius: 8px;
-
-    font-size: 11px;
-
-    font-weight: 600;
-
-    transition:
-        color var(--transition),
-        background var(--transition),
-        border-color var(--transition);
-}
-
-
-.car-tags span:hover {
-    color: var(--orange);
-
-    background: var(--orange-soft);
+        var(--orange-soft);
 
     border-color:
-        rgba(255, 107, 0, 0.25);
+        rgba(255, 107, 0, 0.30);
+
+    transform:
+        translateY(-2px);
 }
 
 
 /* =========================================================
    PRICE
-   ========================================================= */
+========================================================= */
 
 .car-info h2 {
-    margin: 3px 0 10px;
+    margin:
+        3px 0 10px;
 
-    color: var(--orange);
+    color:
+        var(--orange);
 
-    font-size: 24px;
+    font-size:
+        24px;
 
-    font-weight: 800;
+    font-weight:
+        800;
 
-    line-height: 1.2;
+    line-height:
+        1.2;
+
+    text-shadow:
+        0 2px 10px
+        rgba(255, 107, 0, 0.10);
 }
 
 
 /* =========================================================
    CITY
-   ========================================================= */
+========================================================= */
 
 .car-info p.city {
-    margin: 0 0 8px;
+    margin:
+        0 0 8px;
 
-    color: #777777;
+    color:
+        #777777;
 
-    font-size: 12px;
+    font-size:
+        12px;
 }
 
 
 /* =========================================================
    OWNER
-   ========================================================= */
+========================================================= */
 
 .owner-rating {
-    margin-top: 0;
+    margin-top:
+        0;
 
-    margin-bottom: 18px !important;
+    margin-bottom:
+        18px !important;
 
-    color: #777777 !important;
+    color:
+        #777777 !important;
 
-    font-size: 12px !important;
+    font-size:
+        12px !important;
 }
 
-
 .owner-rating strong {
-    color: #333333;
+    color:
+        #333333;
 
-    font-weight: 700;
+    font-weight:
+        700;
 }
 
 
 /* =========================================================
    BOOK CAR BUTTON
-   ========================================================= */
+========================================================= */
 
 .view-btn {
-    position: relative;
+    position:
+        relative;
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
-    justify-content: center;
+    align-items:
+        center;
 
-    width: 100%;
+    justify-content:
+        center;
 
-    min-height: 46px;
+    width:
+        100%;
 
-    margin-top: auto;
+    min-height:
+        46px;
 
-    padding: 12px 18px;
+    margin-top:
+        auto;
 
-    overflow: hidden;
+    padding:
+        12px 18px;
 
-    color: #ffffff;
+    overflow:
+        hidden;
+
+    color:
+        #ffffff;
 
     background:
         linear-gradient(
@@ -952,251 +1635,417 @@
             var(--orange-dark)
         );
 
-    border: none;
+    border:
+        none;
 
-    border-radius: 10px;
+    border-radius:
+        10px;
 
-    text-decoration: none;
+    text-decoration:
+        none;
 
-    font-size: 13px;
+    font-size:
+        13px;
 
-    font-weight: 700;
+    font-weight:
+        700;
 
     transition:
         transform var(--transition),
-        box-shadow var(--transition);
+        box-shadow var(--transition),
+        background var(--transition);
 }
 
-
 .view-btn::before {
-    content: "";
+    content:
+        "";
 
-    position: absolute;
+    position:
+        absolute;
 
-    top: 0;
-    left: -120%;
+    top:
+        0;
 
-    width: 100%;
-    height: 100%;
+    left:
+        -120%;
+
+    width:
+        100%;
+
+    height:
+        100%;
 
     background:
         linear-gradient(
             90deg,
             transparent,
-            rgba(255, 255, 255, 0.25),
+            rgba(255, 255, 255, 0.30),
             transparent
         );
 
-    transition:
-        left 0.6s ease;
-}
+    transform:
+        skewX(-20deg);
 
+    transition:
+        left .6s ease;
+}
 
 .view-btn:hover::before {
-    left: 120%;
+    left:
+        120%;
 }
 
-
 .view-btn:hover {
-    color: #ffffff;
+    color:
+        #ffffff;
 
-    transform: translateY(-2px);
+    transform:
+        translateY(-3px);
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--orange-light),
+            var(--orange)
+        );
 
     box-shadow:
-        0 10px 25px
-        rgba(255, 107, 0, 0.28);
+        0 12px 28px
+        rgba(255, 107, 0, 0.32);
 }
 
 
 /* =========================================================
    EMPTY STATE
-   ========================================================= */
+========================================================= */
 
 .empty-state {
-    width: min(700px, 100%);
+    position:
+        relative;
 
-    margin: 50px auto 0;
+    width:
+        min(700px, 100%);
 
-    padding: 60px 30px;
+    margin:
+        50px auto 0;
 
-    text-align: center;
+    padding:
+        60px 30px;
 
-    background: var(--white);
+    text-align:
+        center;
 
-    border: 1px solid var(--border);
+    background:
+        #ffffff;
 
-    border-top: 4px solid var(--orange);
+    border:
+        1px solid #e1e5e9;
 
-    border-radius: 20px;
+    border-top:
+        4px solid var(--orange);
 
-    box-shadow: var(--shadow);
+    border-radius:
+        20px;
 
-    animation: emptyReveal 0.7s ease forwards;
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.14);
+
+    overflow:
+        hidden;
+
+    animation:
+        emptyReveal .8s ease forwards;
 }
 
+.empty-state::before {
+    content:
+        "";
+
+    position:
+        absolute;
+
+    top:
+        0;
+
+    left:
+        15%;
+
+    right:
+        15%;
+
+    height:
+        2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--orange),
+            transparent
+        );
+}
 
 .empty-state > i {
-    display: block;
+    display:
+        block;
 
-    margin-bottom: 20px;
+    margin-bottom:
+        20px;
 
-    color: var(--orange);
+    color:
+        var(--orange);
 
-    font-size: 55px;
+    font-size:
+        55px;
+
+    animation:
+        carBounce 2s ease-in-out infinite;
 }
-
 
 .empty-state h2 {
-    margin: 0 0 10px;
+    margin:
+        0 0 10px;
 
-    color: var(--text-dark);
+    color:
+        var(--text-dark);
 
-    font-size: 27px;
+    font-size:
+        27px;
 }
-
 
 .empty-state p {
-    max-width: 450px;
+    max-width:
+        450px;
 
-    margin: 0 auto 25px;
+    margin:
+        0 auto 25px;
 
-    color: var(--text-muted);
+    color:
+        var(--text-muted);
 
-    font-size: 14px;
+    font-size:
+        14px;
 
-    line-height: 1.6;
+    line-height:
+        1.6;
 }
-
 
 .empty-state .view-btn {
-    width: auto;
+    width:
+        auto;
 
-    max-width: 220px;
+    max-width:
+        220px;
 
-    margin: 0 auto;
+    margin:
+        0 auto;
 }
 
+
+/* =========================================================
+   EMPTY ANIMATIONS
+========================================================= */
 
 @keyframes emptyReveal {
 
     from {
-        opacity: 0;
-        transform: translateY(25px);
+        opacity:
+            0;
+
+        transform:
+            translateY(25px)
+            scale(.98);
     }
 
     to {
-        opacity: 1;
-        transform: translateY(0);
+        opacity:
+            1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+@keyframes carBounce {
+
+    0%,
+    100% {
+        transform:
+            translateY(0);
+    }
+
+    50% {
+        transform:
+            translateY(-8px);
     }
 }
 
 
 /* =========================================================
    PAGINATION
-   ========================================================= */
+========================================================= */
 
 .pagination {
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
-    justify-content: center;
+    align-items:
+        center;
 
-    flex-wrap: wrap;
+    justify-content:
+        center;
 
-    gap: 10px;
+    flex-wrap:
+        wrap;
 
-    margin: 40px auto 0;
+    gap:
+        10px;
 
-    padding: 18px;
+    margin:
+        40px auto 0;
 
-    background: var(--white);
+    padding:
+        18px;
 
-    border: 1px solid var(--border);
+    background:
+        #ffffff;
 
-    border-radius: 15px;
+    border:
+        1px solid #e1e5e9;
+
+    border-radius:
+        15px;
 
     box-shadow:
-        0 5px 20px rgba(0, 0, 0, 0.05);
-}
+        0 8px 25px rgba(0, 0, 0, 0.13);
 
+    animation:
+        paginationReveal .8s ease both;
+}
 
 .pagination a,
 .pagination span {
-    display: inline-flex;
+    display:
+        inline-flex;
 
-    align-items: center;
-    justify-content: center;
+    align-items:
+        center;
 
-    min-height: 42px;
+    justify-content:
+        center;
 
-    padding: 9px 16px;
+    min-height:
+        42px;
 
-    border-radius: 9px;
+    padding:
+        9px 16px;
 
-    font-size: 13px;
+    border-radius:
+        9px;
 
-    text-decoration: none;
+    font-size:
+        13px;
+
+    text-decoration:
+        none;
 }
 
-
 .pagination a {
-    color: var(--orange);
+    color:
+        var(--orange);
 
-    background: var(--orange-soft);
+    background:
+        var(--orange-soft);
 
     border:
-        1px solid rgba(255, 107, 0, 0.2);
+        1px solid
+        rgba(255, 107, 0, 0.25);
 
-    font-weight: 700;
+    font-weight:
+        700;
 
     transition:
         color var(--transition),
         background var(--transition),
-        transform var(--transition);
+        transform var(--transition),
+        box-shadow var(--transition);
 }
-
 
 .pagination a:hover {
-    color: #ffffff;
+    color:
+        #ffffff;
 
-    background: var(--orange);
+    background:
+        var(--orange);
 
-    transform: translateY(-2px);
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 7px 18px
+        rgba(255, 107, 0, 0.25);
 }
 
-
 .pagination span {
-    color: #777777;
+    color:
+        #777777;
 
-    background: #fafafa;
+    background:
+        #f6f7f8;
 
-    border: 1px solid #eeeeee;
+    border:
+        1px solid #e5e7e9;
+}
+
+@keyframes paginationReveal {
+
+    from {
+        opacity:
+            0;
+
+        transform:
+            translateY(15px);
+    }
+
+    to {
+        opacity:
+            1;
+
+        transform:
+            translateY(0);
+    }
 }
 
 
 /* =========================================================
-   FOCUS
-   ========================================================= */
+   FOCUS ACCESSIBILITY
+========================================================= */
 
 .browse-section button:focus-visible,
 .browse-section input:focus-visible,
 .browse-section select:focus-visible,
 .browse-section a:focus-visible {
-    outline: 2px solid var(--orange);
+    outline:
+        2px solid var(--orange);
 
-    outline-offset: 3px;
+    outline-offset:
+        3px;
 }
 
 
 /* =========================================================
-   TABLET
-   ========================================================= */
+   TABLET - 1100px
+========================================================= */
 
 @media (max-width: 1100px) {
 
     .browse-section {
-        padding-left: 4%;
-        padding-right: 4%;
+        padding-left:
+            4%;
+
+        padding-right:
+            4%;
     }
 
     .car-grid {
@@ -1206,40 +2055,46 @@
 
     .filter-box form {
         grid-template-columns:
-            repeat(3, minmax(0, 1fr));
+            repeat(3, minmax(140px, 1fr));
     }
 }
 
 
 /* =========================================================
-   SMALL TABLET
-   ========================================================= */
+   SMALL TABLET - 800px
+========================================================= */
 
 @media (max-width: 800px) {
 
     .browse-section {
-        padding-top: 105px;
+        padding-top:
+            105px;
     }
 
     .browse-header {
-        padding: 30px 20px;
+        padding:
+            30px 20px;
     }
 
     .browse-header h1 {
-        font-size: 38px;
+        font-size:
+            38px;
     }
 
     .search-box form {
-        flex-direction: column;
+        flex-direction:
+            column;
     }
 
     .search-box input,
     .search-box button {
-        width: 100%;
+        width:
+            100%;
     }
 
     .filter-box {
-        padding: 17px;
+        padding:
+            20px;
     }
 
     .filter-box form {
@@ -1250,8 +2105,8 @@
 
 
 /* =========================================================
-   MOBILE
-   ========================================================= */
+   MOBILE - 600px
+========================================================= */
 
 @media (max-width: 600px) {
 
@@ -1261,61 +2116,113 @@
     }
 
     .browse-header {
-        padding: 27px 18px;
+        padding:
+            27px 18px;
 
-        margin-bottom: 20px;
+        margin-bottom:
+            20px;
     }
 
     .browse-header h1 {
-        font-size: 32px;
+        font-size:
+            32px;
     }
 
     .browse-header p {
-        font-size: 13px;
+        font-size:
+            13px;
+    }
+
+    .search-box {
+        width:
+            calc(100% - 10px);
+
+        padding:
+            8px;
+    }
+
+    .search-box form {
+        gap:
+            8px;
+    }
+
+    .search-box input,
+    .search-box button {
+        height:
+            48px;
+    }
+
+    .filter-box {
+        padding:
+            17px;
     }
 
     .filter-box form {
-        grid-template-columns: 1fr;
+        grid-template-columns:
+            1fr;
     }
 
     .filter-box input,
     .filter-box select,
     .filter-box button,
     .clear-filter {
-        width: 100%;
+        width:
+            100%;
     }
 
     .results-count {
-        padding: 15px 18px;
+        padding:
+            15px 18px;
     }
 
     .results-count h3 {
-        font-size: 16px;
+        font-size:
+            16px;
     }
 
     .car-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns:
+            1fr;
 
-        gap: 20px;
+        gap:
+            20px;
     }
 
     .car-image {
-        height: 220px;
+        height:
+            220px;
     }
 
     .car-info {
-        padding: 20px;
+        padding:
+            20px;
     }
 
     .car-info h3 {
-        font-size: 20px;
+        font-size:
+            20px;
+    }
+
+    .car-info h2 {
+        font-size:
+            23px;
+    }
+
+    .empty-state {
+        padding:
+            45px 20px;
+    }
+
+    .pagination {
+        margin-top:
+            30px;
     }
 }
 
 
 /* =========================================================
-   SMALL MOBILE
-   ========================================================= */
+   SMALL MOBILE - 400px
+========================================================= */
 
 @media (max-width: 400px) {
 
@@ -1325,71 +2232,161 @@
     }
 
     .browse-header h1 {
-        font-size: 29px;
+        font-size:
+            29px;
+    }
+
+    .browse-header p {
+        font-size:
+            12px;
     }
 
     .search-box {
-        padding: 7px;
+        width:
+            calc(100% - 4px);
+    }
+
+    .search-box button {
+        height:
+            45px;
     }
 
     .filter-box {
-        padding: 14px;
+        padding:
+            14px;
     }
 
     .car-card {
-        border-radius: 16px;
+        border-radius:
+            16px;
     }
 
     .car-image {
-        height: 200px;
+        height:
+            200px;
     }
 
     .car-info {
-        padding: 17px;
+        padding:
+            17px;
     }
 
     .car-info h3 {
-        font-size: 18px;
+        font-size:
+            18px;
     }
 
     .car-info h2 {
-        font-size: 21px;
+        font-size:
+            21px;
     }
 
     .wishlist-btn {
-        width: 38px;
-        height: 38px;
+        width:
+            38px;
 
-        top: 12px;
-        right: 12px;
+        height:
+            38px;
+
+        top:
+            12px;
+
+        right:
+            12px;
     }
 
     .pagination {
-        padding: 12px;
+        padding:
+            12px;
 
-        gap: 7px;
+        gap:
+            7px;
     }
 
     .pagination a,
     .pagination span {
-        padding: 8px 11px;
+        padding:
+            8px 11px;
 
-        font-size: 11px;
+        font-size:
+            11px;
+    }
+}
+
+
+/* =========================================================
+   EXTRA SMALL DEVICES
+========================================================= */
+
+@media (max-width: 320px) {
+
+    .browse-section {
+        padding-left:
+            8px;
+
+        padding-right:
+            8px;
+    }
+
+    .browse-header {
+        padding:
+            24px 14px;
+    }
+
+    .browse-header h1 {
+        font-size:
+            26px;
+    }
+
+    .browse-header p {
+        font-size:
+            11px;
+    }
+
+    .car-image {
+        height:
+            180px;
+    }
+
+    .car-info {
+        padding:
+            15px;
+    }
+
+    .car-info h3 {
+        font-size:
+            17px;
+    }
+
+    .car-info h2 {
+        font-size:
+            20px;
+    }
+
+    .car-tags span {
+        font-size:
+            10px;
+
+        padding:
+            4px 8px;
     }
 }
 
 
 /* =========================================================
    REDUCED MOTION
-   ========================================================= */
+========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
 
     .browse-section *,
     .browse-section *::before,
     .browse-section *::after {
-        animation: none !important;
+        animation:
+            none !important;
 
-        transition: none !important;
+        transition:
+            none !important;
     }
 }
+

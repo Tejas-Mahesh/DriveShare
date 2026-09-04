@@ -17,6 +17,7 @@ My Wishlist
 
     </div>
 
+
     {% if wishlist_items %}
 
     <div class="car-grid">
@@ -27,39 +28,71 @@ My Wishlist
 
         <div class="car-card">
 
+            <!-- CAR IMAGE -->
+
             <div class="car-image">
 
-                {% if car.images.first %}
-                    <img src="{{ car.images.first.image.url }}">
-                {% else %}
-                    <img src="{% static 'images/default-car.jpg' %}">
-                {% endif %}
+                {% with car_image=car.images.first %}
+
+                    {% if car_image and car_image.image_data %}
+
+                        <img
+                            src="{% url 'car_image' car_image.id %}"
+                            alt="{{ car.title }}"
+                            loading="lazy"
+                        >
+
+                    {% else %}
+
+                        <img
+                            src="{% static 'images/default-car.jpg' %}"
+                            alt="{{ car.title }}"
+                            loading="lazy"
+                        >
+
+                    {% endif %}
+
+                {% endwith %}
 
             </div>
 
+
+            <!-- CAR INFORMATION -->
+
             <div class="car-info">
 
-                <h3>{{ car.title }}</h3>
+                <h3>
+                    {{ car.title }}
+                </h3>
 
-                <p>{{ car.brand }} {{ car.model }}</p>
+                <p>
+                    {{ car.brand }} {{ car.model }}
+                </p>
 
-                <h2>₹{{ car.price_per_day }}/day</h2>
+                <h2>
+                    ₹{{ car.price_per_day }}/day
+                </h2>
 
-                <p>📍 {{ car.city }}</p>
+                <p>
+                    📍 {{ car.city }}
+                </p>
+
 
                 <div class="card-buttons">
 
-                    <a href="{% url 'car_details' car.id %}" class="view-btn">
-
+                    <a
+                        href="{% url 'car_details' car.id %}"
+                        class="view-btn"
+                    >
                         View Details
-
                     </a>
 
-                    <a href="{% url 'toggle_wishlist' car.id %}"
-                       class="remove-btn">
 
+                    <a
+                        href="{% url 'toggle_wishlist' car.id %}"
+                        class="remove-btn"
+                    >
                         Remove
-
                     </a>
 
                 </div>
@@ -74,24 +107,26 @@ My Wishlist
 
     </div>
 
+
     {% else %}
 
     <div class="empty-state">
 
         <i class="fas fa-heart-broken"></i>
 
-        <h2>No Favourite Cars</h2>
+        <h2>
+            No Favourite Cars
+        </h2>
 
         <p>
-
             Start exploring and save the cars you love.
-
         </p>
 
-        <a href="{% url 'browse_cars' %}" class="view-btn">
-
+        <a
+            href="{% url 'browse_cars' %}"
+            class="view-btn"
+        >
             Browse Cars
-
         </a>
 
     </div>

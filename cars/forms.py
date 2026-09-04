@@ -1,11 +1,10 @@
 from django import forms
-from .models import Car,CarImage
+from .models import Car
 
 
 class CarForm(forms.ModelForm):
 
     class Meta:
-
         model = Car
 
         exclude = (
@@ -71,56 +70,34 @@ class CarForm(forms.ModelForm):
                 "rows": 5,
                 "placeholder": "Describe your car..."
             }),
-
         }
+
     def clean_year(self):
         year = self.cleaned_data["year"]
 
         if year < 2010 or year > 2035:
             raise forms.ValidationError(
-            "Please enter a valid manufacturing year."
-        )
+                "Please enter a valid manufacturing year."
+            )
 
         return year
-
 
     def clean_price_per_day(self):
         price = self.cleaned_data["price_per_day"]
 
         if price <= 0:
             raise forms.ValidationError(
-            "Price must be greater than zero."
-        )
+                "Price must be greater than zero."
+            )
 
         return price
 
-
     def clean_seats(self):
-
         seats = self.cleaned_data["seats"]
 
         if seats < 2 or seats > 10:
-
             raise forms.ValidationError(
                 "Seats must be between 2 and 10."
             )
 
         return seats
-
-
-
-
-class CarImageForm(forms.ModelForm):
-
-    class Meta:
-        model = CarImage
-        fields = ["image"]
-
-        widgets = {
-            "image": forms.FileInput(
-                attrs={
-                    "class": "form-control",
-                    "accept": "image/*",
-                }
-            )
-        }
