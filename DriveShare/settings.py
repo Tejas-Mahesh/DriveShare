@@ -7,6 +7,7 @@ import os
 
 from dotenv import load_dotenv
 import dj_database_url
+import cloudinary
 
 
 # ============================================================
@@ -63,10 +64,7 @@ ALLOWED_HOSTS = [
 
 INSTALLED_APPS = [
 
-    # --------------------------------------------------------
     # Django
-    # --------------------------------------------------------
-
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -74,10 +72,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
-    # --------------------------------------------------------
-    # DriveShare apps
-    # --------------------------------------------------------
+    # Cloudinary
+    "cloudinary",
+    "cloudinary_storage",
 
+    # DriveShare
     "core",
     "accounts",
     "cars",
@@ -95,7 +94,7 @@ MIDDLEWARE = [
 
     "django.middleware.security.SecurityMiddleware",
 
-    # WhiteNoise for static files
+    # WhiteNoise
     "whitenoise.middleware.WhiteNoiseMiddleware",
 
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -135,7 +134,6 @@ TEMPLATES = [
         "APP_DIRS": True,
 
         "OPTIONS": {
-
             "context_processors": [
 
                 "django.template.context_processors.request",
@@ -162,47 +160,26 @@ WSGI_APPLICATION = "DriveShare.wsgi.application"
 # DATABASE
 # ============================================================
 
-"""
-LOCAL DEVELOPMENT
------------------
-
-If DATABASE_URL does not exist:
-    SQLite -> db.sqlite3
-
-
-RENDER / PRODUCTION
--------------------
-
-If DATABASE_URL exists:
-    PostgreSQL -> Render PostgreSQL
-"""
-
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 
 if DATABASE_URL:
 
     DATABASES = {
-
         "default": dj_database_url.parse(
             DATABASE_URL,
             conn_max_age=600,
             ssl_require=True,
         )
-
     }
 
 else:
 
     DATABASES = {
-
         "default": {
-
             "ENGINE": "django.db.backends.sqlite3",
-
             "NAME": BASE_DIR / "db.sqlite3",
         }
-
     }
 
 
@@ -269,29 +246,31 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
 # ============================================================
-# STATIC FILE STORAGE
-# ============================================================
-
-# ============================================================
-# FILE / STATIC FILE STORAGE
+# STORAGE
 # ============================================================
 
 STORAGES = {
 
-    # Normal uploaded files
-    # Example: CustomUser.profile_picture
+    # User uploaded files
+    # Profile pictures
+    # Aadhaar images
+    # Driving license images
+    # Car images
+    # Payment screenshots
     "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-
-    # Static files
-    "staticfiles": {
         "BACKEND": (
-            "whitenoise.storage."
-            "CompressedManifestStaticFilesStorage"
+            "cloudinary_storage.storage."
+            "MediaCloudinaryStorage"
         ),
     },
 
+    # CSS / JS / static images
+    "staticfiles": {
+        "BACKEND": (
+            "whitenoise.storage."
+            "CompressedStaticFilesStorage"
+        ),
+    },
 }
 
 
@@ -299,13 +278,31 @@ STORAGES = {
 # MEDIA
 # ============================================================
 
-# These are retained for Django compatibility.
-# Car images themselves will be stored in PostgreSQL
-# using CarImage.image_data.
-
 MEDIA_URL = "/media/"
 
 MEDIA_ROOT = BASE_DIR / "media"
+
+
+# ============================================================
+# CLOUDINARY
+# ============================================================
+
+cloudinary.config(
+
+    cloud_name=os.getenv(
+        "CLOUDINARY_CLOUD_NAME"
+    ),
+
+    api_key=os.getenv(
+        "CLOUDINARY_API_KEY"
+    ),
+
+    api_secret=os.getenv(
+        "CLOUDINARY_API_SECRET"
+    ),
+
+    secure=True,
+)
 
 
 # ============================================================
@@ -353,7 +350,6 @@ CSRF_TRUSTED_ORIGINS = [
     ).split(",")
 
     if origin.strip()
-
 ]
 
 
@@ -379,8 +375,6 @@ if not DEBUG:
 
     CSRF_COOKIE_SECURE = True
 
-    SECURE_BROWSER_XSS_FILTER = True
-
     SECURE_CONTENT_TYPE_NOSNIFF = True
 
     X_FRAME_OPTIONS = "DENY"
@@ -394,11 +388,14 @@ DEFAULT_AUTO_FIELD = (
     "django.db.models.BigAutoField"
 )
 
+
 # ============================================================
 # EMAIL
 # ============================================================
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_BACKEND = (
+    "django.core.mail.backends.smtp.EmailBackend"
+)
 
 EMAIL_HOST = "smtp.gmail.com"
 
@@ -406,9 +403,13 @@ EMAIL_PORT = 587
 
 EMAIL_USE_TLS = True
 
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_USER = os.getenv(
+    "EMAIL_HOST_USER"
+)
 
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_HOST_PASSWORD = os.getenv(
+    "EMAIL_HOST_PASSWORD"
+)
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
