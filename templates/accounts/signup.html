@@ -382,5 +382,1010 @@ function togglePassword(inputId, button) {
 }
 
 </script>
+<style>
+
+/* =========================================================
+   DRIVESHARE SIGNUP
+   DARK NAVY + ORANGE THEME
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+.ds-signup {
+    min-height: 100vh;
+    width: 100%;
+    padding: 35px;
+
+    background:
+        radial-gradient(
+            circle at top left,
+            rgba(255, 107, 0, 0.10),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at bottom right,
+            rgba(255, 107, 0, 0.06),
+            transparent 30%
+        ),
+        #041521;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* =========================================================
+   MAIN CONTAINER
+   ========================================================= */
+
+.ds-signup-container {
+    width: 1150px;
+    max-width: 100%;
+    min-height: 720px;
+
+    display: grid;
+    grid-template-columns: 46% 54%;
+
+    background: #ffffff;
+
+    border: 1px solid rgba(255, 107, 0, 0.15);
+
+    border-radius: 24px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.45),
+        0 0 40px rgba(255, 107, 0, 0.05);
+
+    animation: signupAppear 0.8s ease;
+}
+
+
+/* =========================================================
+   LEFT SIDE
+   ========================================================= */
+
+.ds-signup-visual {
+    position: relative;
+
+    min-height: 720px;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(4, 21, 33, 0.96),
+            rgba(6, 29, 44, 0.92)
+        ),
+        url("https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=85");
+
+    background-size: cover;
+    background-position: center;
+
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    padding: 48px;
+}
+
+
+/* Orange glow */
+
+.ds-signup-visual::before {
+    content: "";
+
+    position: absolute;
+
+    width: 350px;
+    height: 350px;
+
+    top: -160px;
+    left: -160px;
+
+    background: rgba(255, 107, 0, 0.14);
+
+    border-radius: 50%;
+
+    filter: blur(70px);
+
+    z-index: 1;
+}
+
+
+/* =========================================================
+   OVERLAY
+   ========================================================= */
+
+.ds-visual-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(4, 21, 33, 0.96),
+            rgba(4, 21, 33, 0.76)
+        );
+
+    z-index: 1;
+}
+
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+.ds-visual-content {
+    position: relative;
+
+    z-index: 2;
+}
+
+
+/* =========================================================
+   BRAND
+   ========================================================= */
+
+.ds-brand {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    color: #ffffff;
+
+    font-size: 25px;
+
+    font-weight: 800;
+
+    letter-spacing: -0.5px;
+}
+
+
+.ds-brand > span:last-child span {
+    color: #ff6b00;
+}
+
+
+/* Brand icon */
+
+.ds-brand-icon {
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff6b00,
+            #ff8a2b
+        );
+
+    color: #ffffff;
+
+    box-shadow:
+        0 10px 30px rgba(255, 107, 0, 0.30);
+
+    font-size: 19px;
+}
+
+
+/* =========================================================
+   VISUAL TEXT
+   ========================================================= */
+
+.ds-visual-text {
+    margin-top: 125px;
+
+    max-width: 500px;
+}
+
+
+.ds-small-label {
+    display: inline-block;
+
+    padding: 8px 14px;
+
+    border: 1px solid rgba(255, 107, 0, 0.35);
+
+    border-radius: 30px;
+
+    background: rgba(255, 107, 0, 0.08);
+
+    color: #ff8a3d;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+}
+
+
+.ds-visual-text h1 {
+    margin: 22px 0 18px;
+
+    color: #ffffff;
+
+    font-size: 53px;
+
+    line-height: 1.08;
+
+    font-weight: 800;
+
+    letter-spacing: -1.8px;
+}
+
+
+.ds-visual-text h1 span {
+    display: block;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff6b00,
+            #ff9a52
+        );
+
+    -webkit-background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+}
+
+
+.ds-visual-text p {
+    max-width: 450px;
+
+    margin: 0;
+
+    color: #a9bac5;
+
+    font-size: 15px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   TRUST ITEMS
+   ========================================================= */
+
+.ds-trust-items {
+    position: relative;
+
+    z-index: 2;
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 12px;
+
+    margin-top: 45px;
+}
+
+
+.ds-trust-items > div {
+    min-height: 92px;
+
+    padding: 18px 15px;
+
+    border-radius: 15px;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    background: rgba(255, 255, 255, 0.045);
+
+    backdrop-filter: blur(12px);
+
+    transition: 0.3s ease;
+}
+
+
+.ds-trust-items > div:hover {
+    transform: translateY(-5px);
+
+    border-color: rgba(255, 107, 0, 0.35);
+
+    background: rgba(255, 107, 0, 0.07);
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.20);
+}
+
+
+.ds-trust-items i {
+    display: block;
+
+    margin-bottom: 9px;
+
+    color: #ff6b00;
+
+    font-size: 18px;
+}
+
+
+.ds-trust-items span {
+    display: flex;
+
+    flex-direction: column;
+
+    color: #8397a3;
+
+    font-size: 11px;
+
+    line-height: 1.5;
+}
+
+
+.ds-trust-items strong {
+    color: #ffffff;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   BADGE
+   ========================================================= */
+
+.ds-visual-badge {
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    width: fit-content;
+
+    padding: 13px 18px;
+
+    border-radius: 15px;
+
+    background: rgba(255, 255, 255, 0.06);
+
+    border: 1px solid rgba(255, 255, 255, 0.09);
+
+    backdrop-filter: blur(12px);
+
+    animation: badgeFloat 4s ease-in-out infinite;
+}
+
+
+.ds-badge-icon {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 12px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff6b00,
+            #ff8a2b
+        );
+
+    color: white;
+
+    box-shadow:
+        0 8px 20px rgba(255, 107, 0, 0.25);
+}
+
+
+.ds-visual-badge strong,
+.ds-visual-badge span {
+    display: block;
+}
+
+
+.ds-visual-badge strong {
+    color: #ffffff;
+
+    font-size: 13px;
+}
+
+
+.ds-visual-badge span {
+    margin-top: 3px;
+
+    color: #8799a4;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   RIGHT FORM
+   ========================================================= */
+
+.ds-signup-form {
+    padding: 55px 65px;
+
+    background: #ffffff;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+}
+
+
+/* =========================================================
+   FORM HEADER
+   ========================================================= */
+
+.ds-form-header {
+    margin-bottom: 28px;
+}
+
+
+.ds-form-kicker {
+    color: #ff6b00;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.8px;
+}
+
+
+.ds-form-header h2 {
+    margin: 8px 0 8px;
+
+    color: #041521;
+
+    font-size: 31px;
+
+    line-height: 1.2;
+
+    letter-spacing: -0.8px;
+}
+
+
+.ds-form-header h2 span {
+    color: #ff6b00;
+}
+
+
+.ds-form-header p {
+    margin: 0;
+
+    color: #657681;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   FORM GROUP
+   ========================================================= */
+
+.ds-form-group {
+    margin-bottom: 17px;
+}
+
+
+.ds-form-group label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #243743;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   INPUT WRAPPER
+   ========================================================= */
+
+.ds-input-wrapper {
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+}
+
+
+.ds-input-wrapper > i:first-child {
+    position: absolute;
+
+    left: 15px;
+
+    z-index: 2;
+
+    color: #8b9aa3;
+
+    font-size: 14px;
+
+    transition: 0.25s ease;
+}
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+.ds-input-wrapper input,
+.ds-input-wrapper select {
+    width: 100%;
+
+    height: 47px;
+
+    padding: 0 44px;
+
+    border: 1px solid #dce4e8;
+
+    border-radius: 11px;
+
+    outline: none;
+
+    background: #f7f9fa;
+
+    color: #041521;
+
+    font-size: 13px;
+
+    font-family: inherit;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+}
+
+
+.ds-input-wrapper input::placeholder {
+    color: #a4b0b7;
+}
+
+
+.ds-input-wrapper input:focus,
+.ds-input-wrapper select:focus {
+    border-color: #ff6b00;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 4px rgba(255, 107, 0, 0.09);
+}
+
+
+.ds-input-wrapper:focus-within > i:first-child {
+    color: #ff6b00;
+}
+
+
+/* Select */
+
+.ds-input-wrapper select {
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   PASSWORD TOGGLE
+   ========================================================= */
+
+.ds-password-toggle {
+    position: absolute;
+
+    right: 7px;
+
+    width: 34px;
+    height: 34px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: transparent;
+
+    color: #8b9aa3;
+
+    cursor: pointer;
+
+    transition: 0.25s ease;
+}
+
+
+.ds-password-toggle:hover {
+    background: rgba(255, 107, 0, 0.08);
+
+    color: #ff6b00;
+}
+
+
+/* =========================================================
+   ERRORS
+   ========================================================= */
+
+.ds-error {
+    margin-top: 6px;
+
+    color: #dc2626;
+
+    font-size: 11px;
+
+    line-height: 1.4;
+}
+
+
+.ds-form-errors {
+    margin: 10px 0 15px;
+
+    padding: 12px 14px;
+
+    border-radius: 10px;
+
+    border-left: 4px solid #dc2626;
+
+    background: #fef2f2;
+
+    color: #b91c1c;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   BUTTON
+   ========================================================= */
+
+.ds-signup-btn {
+    position: relative;
+
+    width: 100%;
+
+    height: 50px;
+
+    margin-top: 7px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    overflow: hidden;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff6b00,
+            #ff8528
+        );
+
+    color: #ffffff;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    box-shadow:
+        0 10px 25px rgba(255, 107, 0, 0.25);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.ds-signup-btn:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 15px 35px rgba(255, 107, 0, 0.35);
+}
+
+
+.ds-signup-btn:active {
+    transform: translateY(0);
+}
+
+
+.ds-signup-btn i {
+    transition: 0.25s ease;
+}
+
+
+.ds-signup-btn:hover i {
+    transform: translateX(5px);
+}
+
+
+/* =========================================================
+   LOGIN
+   ========================================================= */
+
+.ds-login-link {
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-top: 21px;
+
+    font-size: 12px;
+}
+
+
+.ds-login-link span {
+    color: #657681;
+}
+
+
+.ds-login-link a {
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    color: #ff6b00;
+
+    text-decoration: none;
+
+    font-weight: 700;
+
+    transition: 0.25s ease;
+}
+
+
+.ds-login-link a:hover {
+    color: #e85d00;
+}
+
+
+.ds-login-link a i {
+    font-size: 10px;
+
+    transition: 0.25s ease;
+}
+
+
+.ds-login-link a:hover i {
+    transform: translateX(3px);
+}
+
+
+/* =========================================================
+   SECURITY
+   ========================================================= */
+
+.ds-secure-note {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    margin-top: 20px;
+
+    padding-top: 17px;
+
+    border-top: 1px solid #edf1f3;
+
+    color: #91a0a8;
+
+    font-size: 10px;
+}
+
+
+.ds-secure-note i {
+    color: #22c55e;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
+@keyframes signupAppear {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(25px)
+            scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+@keyframes badgeFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 950px) {
+
+    .ds-signup {
+        padding: 20px;
+    }
+
+    .ds-signup-container {
+        grid-template-columns: 1fr;
+
+        max-width: 650px;
+    }
+
+    .ds-signup-visual {
+        min-height: 420px;
+
+        padding: 38px;
+    }
+
+    .ds-visual-text {
+        margin-top: 70px;
+    }
+
+    .ds-visual-text h1 {
+        font-size: 42px;
+    }
+
+    .ds-trust-items {
+        margin-top: 30px;
+    }
+
+    .ds-signup-form {
+        padding: 45px 50px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .ds-signup {
+        padding: 0;
+    }
+
+    .ds-signup-container {
+        width: 100%;
+
+        min-height: 100vh;
+
+        border-radius: 0;
+
+        box-shadow: none;
+    }
+
+    .ds-signup-visual {
+        min-height: 390px;
+
+        padding: 30px 25px;
+    }
+
+    .ds-brand {
+        font-size: 21px;
+    }
+
+    .ds-brand-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .ds-visual-text {
+        margin-top: 55px;
+    }
+
+    .ds-small-label {
+        font-size: 9px;
+
+        letter-spacing: 1px;
+    }
+
+    .ds-visual-text h1 {
+        margin-top: 17px;
+
+        font-size: 36px;
+    }
+
+    .ds-visual-text p {
+        font-size: 13px;
+
+        line-height: 1.7;
+    }
+
+    .ds-trust-items {
+        display: none;
+    }
+
+    .ds-visual-badge {
+        padding: 10px 14px;
+    }
+
+    .ds-badge-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .ds-signup-form {
+        padding: 35px 25px;
+    }
+
+    .ds-form-header h2 {
+        font-size: 26px;
+    }
+
+    .ds-form-header p {
+        font-size: 13px;
+    }
+
+    .ds-input-wrapper input,
+    .ds-input-wrapper select {
+        height: 46px;
+    }
+}
+
+</style>
 
 {% endblock %}

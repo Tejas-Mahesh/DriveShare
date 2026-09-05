@@ -71,9 +71,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
-    # Cloudinary
-    "cloudinary",
-    "cloudinary_storage",
 
     # DriveShare
     "core",
@@ -248,6 +245,10 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 # STORAGE
 # ============================================================
 
+# ============================================================
+# STORAGE
+# ============================================================
+
 STORAGES = {
 
     # User uploaded files
@@ -257,10 +258,7 @@ STORAGES = {
     # Car images
     # Payment screenshots
     "default": {
-        "BACKEND": (
-            "cloudinary_storage.storage."
-            "MediaCloudinaryStorage"
-        ),
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
 
     # CSS / JS / static images
@@ -272,6 +270,13 @@ STORAGES = {
     },
 }
 
+
+# ============================================================
+# MEDIA
+# ============================================================
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 # ============================================================
 # MEDIA
@@ -306,17 +311,6 @@ LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
 
 
-# ============================================================
-# RAZORPAY
-# ============================================================
-
-RAZORPAY_KEY_ID = os.getenv(
-    "RAZORPAY_KEY_ID"
-)
-
-RAZORPAY_KEY_SECRET = os.getenv(
-    "RAZORPAY_KEY_SECRET"
-)
 
 
 # ============================================================

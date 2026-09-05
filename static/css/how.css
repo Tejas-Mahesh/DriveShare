@@ -2,8 +2,18 @@
 
     padding:100px 8%;
 
-    background:rgb(15, 28, 40);
-
+ background:
+        radial-gradient(
+            circle at top left,
+            rgba(255, 107, 0, 0.10),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at bottom right,
+            rgba(255, 107, 0, 0.06),
+            transparent 30%
+        ),
+        #041521;
 }
 
 .steps-container{
